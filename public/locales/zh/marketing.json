@@ -1,0 +1,60 @@
+{
+  "hero": {
+    "title": "下一代平台",
+    "subtitle": "为更好的商业",
+    "cta": "立即开始"
+  },
+  "features": {
+    "title": "主要功能",
+    "subtitle": "支持您的业务的功能",
+    "feature1": {
+      "title": "简单操作",
+      "description": "直观界面，轻松上手"
+    },
+    "feature2": {
+      "title": "高级分析",
+      "description": "支持基于数据的决策"
+    },
+    "feature3": {
+      "title": "安全性",
+      "description": "提供最高级别的安全保障"
+    }
+  },
+  "blog": "博客",
+  "blogSubtitle": "平台新闻与更新",
+  "documentation": "文档",
+  "documentationSubtitle": "平台使用方法与教程",
+  "faq": "常见问题",
+  "faqSubtitle": "平台相关常见问题",
+  "pricing": "价格",
+  "pricingSubtitle": "价格方案与支付方式",
+  "backToBlog": "返回博客",
+  "noPosts": "未找到文章",
+  "blogPaginationNext": "下一页",
+  "blogPaginationPrevious": "上一页",
+  "readMore": "阅读全文",
+  "contactFaq": "如有疑问，请联系我们",
+  "contact": "联系我们",
+  "about": "公司简介",
+  "product": "产品信息",
+  "legal": "法律信息",
+  "termsOfService": "服务条款",
+  "termsOfServiceDescription": "服务条款与条件",
+  "cookiePolicy": "Cookie政策",
+  "cookiePolicyDescription": "Cookie政策及使用方法",
+  "privacyPolicy": "隐私政策",
+  "privacyPolicyDescription": "隐私政策及您的数据处理",
+  "contactDescription": "如有问题或反馈，请通过此处联系我们",
+  "contactHeading": "发送消息",
+  "contactSubheading": "我们会尽快回复您",
+  "contactName": "姓名",
+  "contactEmail": "电子邮件地址",
+  "contactMessage": "消息",
+  "sendMessage": "发送消息",
+  "contactSuccess": "消息已成功发送",
+  "contactError": "发送消息时发生错误",
+  "contactSuccessDescription": "我们已收到您的消息，会尽快回复您",
+  "contactErrorDescription": "发送消息时发生错误，请稍后再试",
+  "footerDescription": "支持业务增长的下一代平台",
+  "copyright": "© {{year}} {{product}}. All rights reserved."
+}

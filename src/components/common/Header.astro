@@ -1,0 +1,57 @@
+---
+import { Container } from './container';
+import { Navigation } from './Navigation';
+import { ThemeToggle } from './ThemeToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { MobileSidebar } from './MobileSidebar';
+
+const currentPath = Astro.url.pathname;
+const currentLocale = Astro.currentLocale || 'ja';
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60"
+>
+  <Container className="flex h-16 items-center py-0 px-4">
+    <div class="mr-8">
+      <a href="/" class="text-xl font-bold"> Saedgewell </a>
+    </div>
+
+    <div class="flex flex-1 items-center justify-end space-x-4">
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex md:items-center md:space-x-4">
+        <Navigation client:load currentPath={currentPath} />
+        <ThemeToggle client:load />
+        <LanguageSwitcher client:load currentLocale={currentLocale} />
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          お問い合わせ
+        </a>
+      </div>
+
+      <!-- Mobile Sidebar -->
+      <MobileSidebar
+        client:load
+        currentPath={currentPath}
+        currentLocale={currentLocale}
+      />
+    </div>
+  </Container>
+</header>
+
+<style>
+  header {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+</style>

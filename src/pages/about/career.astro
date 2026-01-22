@@ -1,0 +1,22 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { BasicHero } from '@/components/common';
+import { CareerHighlights } from '@/components/about/career/career-highlights';
+import { CareerTimeline } from '@/components/about/career/career-timeline';
+import { Education } from '@/components/about/career/education';
+---
+
+<PageLayout
+  title="Career | Saedgewell"
+  description="これまでのキャリアと実績"
+>
+  <BasicHero
+    title="経歴詳細"
+    description="エンジニアとしての経歴と実績についてご紹介します。"
+    client:load
+  />
+
+  <CareerHighlights client:load />
+  <CareerTimeline client:load />
+  <Education client:load />
+</PageLayout>

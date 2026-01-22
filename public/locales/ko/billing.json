@@ -1,0 +1,141 @@
+{
+  "title": "청구",
+  "subscription": "구독",
+  "currentPlan": "현재 플랜",
+  "billingCycle": "청구 주기",
+  "nextBilling": "다음 청구일",
+  "paymentMethod": "결제 수단",
+  "addPaymentMethod": "결제 수단 추가",
+  "updatePaymentMethod": "결제 수단 업데이트",
+  "billingHistory": "청구 내역",
+  "invoices": "청구서",
+  "downloadInvoice": "청구서 다운로드",
+  "changePlan": "플랜 변경",
+  "cancelSubscription": "구독 취소",
+  "reactivateSubscription": "구독 재개",
+  "plans": {
+    "free": "무료 플랜",
+    "pro": "프로 플랜",
+    "enterprise": "엔터프라이즈"
+  },
+  "paymentMethodAdded": "결제 수단이 추가되었습니다",
+  "paymentMethodError": "결제 수단 추가에 실패했습니다",
+  "subscriptionUpdated": "구독이 업데이트되었습니다",
+  "subscriptionError": "구독 업데이트에 실패했습니다",
+  "subscriptionTabSubheading": "구독 및 청구 관리",
+  "planCardTitle": "이용 중인 플랜",
+  "planCardDescription": "현재 플랜의 상세 정보입니다. 플랜 변경이나 구독 취소는 언제든지 가능합니다.",
+  "planRenewal": "{{interval}}마다 {{price}}로 갱신",
+  "planDetails": "플랜 상세",
+  "checkout": "결제 진행",
+  "trialEndsOn": "트라이얼 종료일",
+  "billingPortalCardButton": "청구 포털로",
+  "billingPortalCardTitle": "청구 상세 관리",
+  "billingPortalCardDescription": "청구 포털에서 구독 및 청구를 관리할 수 있습니다. 플랜 갱신, 취소, 청구서 다운로드가 가능합니다.",
+  "cancelAtPeriodEndDescription": "구독은 {{- endDate}}에 취소될 예정입니다.",
+  "renewAtPeriodEndDescription": "구독은 {{- endDate}}에 갱신될 예정입니다.",
+  "noPermissionsAlertHeading": "청구 설정을 변경할 권한이 없습니다",
+  "noPermissionsAlertBody": "계정의 청구 설정을 변경하려면 계정 소유자에게 문의하세요.",
+  "checkoutSuccessTitle": "완료되었습니다!",
+  "checkoutSuccessDescription": "가입해 주셔서 감사합니다. 구독 처리가 완료되었습니다! 확인 이메일을 {{ customerEmail }}로 보냈습니다.",
+  "checkoutSuccessBackButton": "앱으로 이동",
+  "cannotManageBillingAlertTitle": "청구 관리 불가",
+  "cannotManageBillingAlertDescription": "청구를 관리할 권한이 없습니다. 계정 소유자에게 문의하세요.",
+  "manageTeamPlan": "팀 플랜 관리",
+  "manageTeamPlanDescription": "팀의 니즈에 맞는 플랜을 선택하세요. 업그레이드나 다운그레이드는 언제든지 가능합니다.",
+  "basePlan": "기본 플랜",
+  "billingInterval": {
+    "label": "청구 주기 선택",
+    "month": "월별 청구",
+    "year": "연별 청구"
+  },
+  "perMonth": "월별",
+  "custom": "커스텀 플랜",
+  "lifetime": "라이프타임",
+  "trialPeriod": "{{period}}일 트라이얼",
+  "perPeriod": "{{period}}마다",
+  "redirectingToPayment": "결제 페이지로 이동 중입니다. 잠시만 기다려 주세요...",
+  "proceedToPayment": "결제 진행",
+  "startTrial": "트라이얼 시작",
+  "perTeamMember": "멤버 1인당",
+  "perUnit": "{{unit}} 사용량당",
+  "teamMembers": "팀 멤버",
+  "includedUpTo": "플랜에 {{unit}}이(가) {{upTo}}까지 포함됩니다",
+  "fromPreviousTierUpTo": "다음 {{upTo}}{{unit}}까지의 {{unit}}당",
+  "andAbove": "{{previousTier}}{{unit}} 이상",
+  "forEveryUnit": "{{unit}}마다",
+  "setupFee": "설정비 {{setupFee}} 추가",
+  "perUnitIncluded": "({{included}} 포함)",
+  "featuresLabel": "기능",
+  "detailsLabel": "상세",
+  "planPickerLabel": "플랜 선택",
+  "planCardLabel": "플랜 관리",
+  "planPickerAlertErrorTitle": "결제 요청 오류",
+  "planPickerAlertErrorDescription": "결제 요청 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.",
+  "subscriptionCancelled": "구독이 취소되었습니다",
+  "cancelSubscriptionDate": "구독은 기간 종료 시 취소됩니다",
+  "noPlanChosen": "플랜을 선택하세요",
+  "noIntervalPlanChosen": "청구 주기를 선택하세요",
+  "status": {
+    "free": {
+      "badge": "무료 플랜",
+      "heading": "현재 무료 플랜을 이용 중입니다",
+      "description": "무료 플랜을 이용 중입니다. 언제든지 유료 플랜으로 업그레이드할 수 있습니다."
+    },
+    "active": {
+      "badge": "활성",
+      "heading": "구독이 활성 상태입니다",
+      "description": "구독이 활성 상태입니다. 고객 포털에서 구독 및 청구를 관리할 수 있습니다."
+    },
+    "trialing": {
+      "badge": "트라이얼",
+      "heading": "트라이얼 중입니다",
+      "description": "트라이얼 기간 동안 플랜의 혜택을 누릴 수 있습니다"
+    },
+    "past_due": {
+      "badge": "연체",
+      "heading": "청구서가 연체되었습니다",
+      "description": "청구서가 연체되었습니다. 결제 수단을 업데이트하세요."
+    },
+    "canceled": {
+      "badge": "취소됨",
+      "heading": "구독이 취소되었습니다",
+      "description": "구독이 취소되었으며, 청구 기간 종료 시 종료될 예정입니다."
+    },
+    "unpaid": {
+      "badge": "미납",
+      "heading": "청구서가 미납 상태입니다",
+      "description": "청구서가 미납 상태입니다. 결제 수단을 업데이트하세요."
+    },
+    "incomplete": {
+      "badge": "불완전",
+      "heading": "결제 대기 중입니다",
+      "description": "결제 처리를 대기 중입니다. 잠시만 기다려 주세요."
+    },
+    "incomplete_expired": {
+      "badge": "만료됨",
+      "heading": "결제가 만료되었습니다",
+      "description": "결제가 만료되었습니다. 결제 수단을 업데이트하세요."
+    },
+    "paused": {
+      "badge": "일시 중지",
+      "heading": "구독이 일시 중지되었습니다",
+      "description": "구독이 일시 중지되었습니다. 언제든지 재개할 수 있습니다."
+    },
+    "succeeded": {
+      "badge": "성공",
+      "heading": "결제가 완료되었습니다",
+      "description": "결제가 완료되었습니다. 가입해 주셔서 감사합니다!"
+    },
+    "pending": {
+      "badge": "보류 중",
+      "heading": "결제가 보류 중입니다",
+      "description": "결제가 보류 중입니다. 잠시만 기다려 주세요."
+    },
+    "failed": {
+      "badge": "실패",
+      "heading": "결제에 실패했습니다",
+      "description": "결제에 실패했습니다. 결제 수단을 업데이트하세요."
+    }
+  }
+}

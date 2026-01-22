@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  lang?: string;
+}
+
+const {
+  title,
+  description = 'プロダクトエンジニア 菅井瑛正のポートフォリオサイトです。',
+  image = '/images/og-image.png',
+  lang = 'ja',
+} = Astro.props;
+
+const siteUrl = 'https://saedgewell.net';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+---
+
+<!doctype html>
+<html lang={lang} class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta
+      name="keywords"
+      content="プロダクトエンジニア,Web開発,Next.js,React,TypeScript,ポートフォリオ"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, siteUrl)} />
+    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : lang} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, siteUrl)} />
+
+    <!-- Fonts: Inter & Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme initialization script -->
+    <script is:inline>
+      (function () {
+        const theme = localStorage.getItem('theme') || 'system';
+        const systemDark = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        ).matches;
+        const isDark = theme === 'dark' || (theme === 'system' && systemDark);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.classList.toggle('light', !isDark);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-background text-foreground antialiased">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+
+  body {
+    font-family:
+      'Inter',
+      'Noto Sans JP',
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

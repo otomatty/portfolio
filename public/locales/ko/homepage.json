@@ -1,0 +1,171 @@
+{
+  "hero": {
+    "title": {
+      "part1": "최소한의 리소스로",
+      "highlight": "최대의 가치",
+      "part2": "를 창출합니다"
+    },
+    "subtitle": "제품 엔지니어로서 당신의 비전을 현실로 만들어 드립니다",
+    "cta": {
+      "viewWorks": "작품 보기"
+    }
+  },
+  "introduction": {
+    "title": "소개",
+    "subtitle": "저의 프로필과 성과",
+    "profile": {
+      "name": "Akimasa Sugai",
+      "description": "프론트엔드부터 백엔드, 인프라까지 폭넓은 기술 스택을 활용하여 비즈니스 성장에 기여하는 솔루션을 제공합니다.",
+      "cta": "상세 프로필"
+    },
+    "metrics": {
+      "developmentExperience": {
+        "title": "개발 경험",
+        "unit": "년",
+        "cta": "경험 보기"
+      },
+      "projectCount": {
+        "title": "프로젝트 성과",
+        "unit": "건",
+        "cta": "성과 보기"
+      },
+      "articleCount": {
+        "title": "기술 문서",
+        "unit": "편",
+        "cta": "문서 읽기"
+      },
+      "personalProjectCount": {
+        "title": "개인 프로젝트",
+        "unit": "개",
+        "cta": "성과 보기"
+      }
+    },
+    "cards": {
+      "github": {
+        "title": "GitHub",
+        "cta": "저장소 보기"
+      },
+      "interests": {
+        "title": "관심사・가치관",
+        "description": "관심사와 가치관",
+        "cta": "더 알아보기"
+      },
+      "blog": {
+        "title": "블로그",
+        "description": "기술 블로그와 인사이트",
+        "cta": "블로그 읽기"
+      },
+      "contact": {
+        "title": "연락처",
+        "description": "연락하기",
+        "cta": "문의하기"
+      },
+      "skills": {
+        "title": "기술",
+        "description": "현대 기술 스택을 활용한 개발 경험",
+        "cta": "기술 상세"
+      }
+    }
+  },
+  "achievements": {
+    "scrollText": "성과 일부를 소개합니다",
+    "description": "표시된 성과를 클릭하면 상세 정보를 볼 수 있습니다"
+  },
+  "footer": {
+    "sections": {
+      "about": {
+        "title": "소개",
+        "items": {
+          "introduction": "자기소개",
+          "career": "경력",
+          "skills": "기술"
+        }
+      },
+      "works": {
+        "title": "작품",
+        "items": {
+          "company": "기업 프로젝트",
+          "freelance": "프리랜서",
+          "personal": "개인 프로젝트"
+        }
+      },
+      "blog": {
+        "title": "블로그",
+        "items": {
+          "latest": "최신 글",
+          "categories": "카테고리",
+          "archives": "아카이브"
+        }
+      },
+      "contact": {
+        "title": "연락",
+        "items": {
+          "inquiry": "문의하기",
+          "estimate": "견적 문의",
+          "faq": "자주 묻는 질문"
+        }
+      }
+    },
+    "social": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "mail": "이메일"
+    },
+    "legal": {
+      "privacy": "개인정보 정책",
+      "terms": "이용 약관"
+    },
+    "copyright": "모든 권리 보유."
+  },
+  "cta": {
+    "title": "연락",
+    "subtitle": "연락 및 견적",
+    "contact": {
+      "title": "연락하기",
+      "description": "궁금한 점이나 상담이 있으시면 언제든지 연락해 주세요.",
+      "cta": "메시지 보내기"
+    },
+    "estimate": {
+      "title": "견적 문의",
+      "description": "프로젝트의 상세한 견적을 받아보세요.",
+      "cta": "견적 요청"
+    },
+    "availability": {
+      "title": "가용성",
+      "schedule": {
+        "monday": "월요일",
+        "tuesday": "화요일",
+        "wednesday": "수요일",
+        "thursday": "목요일",
+        "friday": "금요일",
+        "saturday": "토요일",
+        "sunday": "일요일"
+      },
+      "status": {
+        "available": "이용 가능",
+        "consultation": "상담",
+        "unavailable": "이용 불가"
+      }
+    },
+    "contact_info": {
+      "email": "이메일",
+      "phone": "전화",
+      "meeting": "미팅 일정"
+    }
+  },
+  "additionalAchievements": {
+    "title": "기타 실적",
+    "subtitle": "추가 실적 목록",
+    "categories": {
+      "company": "기업 프로젝트",
+      "freelance": "프리랜서",
+      "personal": "개인 개발"
+    },
+    "categoryPlaceholder": "카테고리",
+    "all": "전체",
+    "searchPlaceholder": "프로젝트 검색...",
+    "notFound": "조건에 맞는 실적을 찾을 수 없습니다",
+    "viewAll": "모든 실적 보기"
+  }
+}

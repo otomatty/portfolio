@@ -1,0 +1,141 @@
+{
+  "title": "账单",
+  "subscription": "订阅",
+  "currentPlan": "当前方案",
+  "billingCycle": "账单周期",
+  "nextBilling": "下次账单日",
+  "paymentMethod": "支付方式",
+  "addPaymentMethod": "添加支付方式",
+  "updatePaymentMethod": "更新支付方式",
+  "billingHistory": "账单历史",
+  "invoices": "发票",
+  "downloadInvoice": "下载发票",
+  "changePlan": "更改方案",
+  "cancelSubscription": "取消订阅",
+  "reactivateSubscription": "重新激活订阅",
+  "plans": {
+    "free": "免费方案",
+    "pro": "专业方案",
+    "enterprise": "企业版"
+  },
+  "paymentMethodAdded": "已添加支付方式",
+  "paymentMethodError": "添加支付方式失败",
+  "subscriptionUpdated": "订阅已更新",
+  "subscriptionError": "订阅更新失败",
+  "subscriptionTabSubheading": "订阅与账单管理",
+  "planCardTitle": "当前使用的方案",
+  "planCardDescription": "当前方案详情。可随时更改方案或取消订阅。",
+  "planRenewal": "每{{interval}}续费{{price}}",
+  "planDetails": "方案详情",
+  "checkout": "前往结算",
+  "trialEndsOn": "试用期结束日",
+  "billingPortalCardButton": "前往账单中心",
+  "billingPortalCardTitle": "账单详情管理",
+  "billingPortalCardDescription": "可在账单中心管理订阅和账单。可更改方案、取消订阅、下载发票等。",
+  "cancelAtPeriodEndDescription": "订阅将于{{- endDate}}取消。",
+  "renewAtPeriodEndDescription": "订阅将于{{- endDate}}续费。",
+  "noPermissionsAlertHeading": "无权限更改账单设置",
+  "noPermissionsAlertBody": "如需更改账单设置，请联系账户所有者。",
+  "checkoutSuccessTitle": "已完成！",
+  "checkoutSuccessDescription": "感谢您的注册。订阅已处理完成！确认邮件已发送至{{ customerEmail }}。",
+  "checkoutSuccessBackButton": "前往应用",
+  "cannotManageBillingAlertTitle": "无法管理账单",
+  "cannotManageBillingAlertDescription": "无权限管理账单。请联系账户所有者。",
+  "manageTeamPlan": "管理团队方案",
+  "manageTeamPlanDescription": "请选择适合团队需求的方案。可随时升级或降级。",
+  "basePlan": "基础方案",
+  "billingInterval": {
+    "label": "选择账单周期",
+    "month": "按月计费",
+    "year": "按年计费"
+  },
+  "perMonth": "每月",
+  "custom": "自定义方案",
+  "lifetime": "终身",
+  "trialPeriod": "{{period}}天试用",
+  "perPeriod": "每{{period}}",
+  "redirectingToPayment": "正在跳转到支付页面，请稍候...",
+  "proceedToPayment": "前往支付",
+  "startTrial": "开始试用",
+  "perTeamMember": "每位成员",
+  "perUnit": "每{{unit}}用量",
+  "teamMembers": "团队成员",
+  "includedUpTo": "方案包含{{upTo}}{{unit}}",
+  "fromPreviousTierUpTo": "下一级{{upTo}}{{unit}}内每{{unit}}",
+  "andAbove": "{{previousTier}}{{unit}}及以上",
+  "forEveryUnit": "每{{unit}}",
+  "setupFee": "加收设置费{{setupFee}}",
+  "perUnitIncluded": "（含{{included}}）",
+  "featuresLabel": "功能",
+  "detailsLabel": "详情",
+  "planPickerLabel": "选择方案",
+  "planCardLabel": "管理方案",
+  "planPickerAlertErrorTitle": "结算请求错误",
+  "planPickerAlertErrorDescription": "结算请求时发生错误，请稍后再试。",
+  "subscriptionCancelled": "订阅已取消",
+  "cancelSubscriptionDate": "订阅将在周期结束时取消",
+  "noPlanChosen": "请选择方案",
+  "noIntervalPlanChosen": "请选择账单周期",
+  "status": {
+    "free": {
+      "badge": "免费方案",
+      "heading": "当前为免费方案",
+      "description": "当前为免费方案。可随时升级为付费方案。"
+    },
+    "active": {
+      "badge": "激活",
+      "heading": "订阅已激活",
+      "description": "订阅已激活。可在客户中心管理订阅和账单。"
+    },
+    "trialing": {
+      "badge": "试用",
+      "heading": "试用中",
+      "description": "试用期间可享受方案全部权益"
+    },
+    "past_due": {
+      "badge": "逾期",
+      "heading": "账单已逾期",
+      "description": "账单已逾期。请更新支付方式。"
+    },
+    "canceled": {
+      "badge": "已取消",
+      "heading": "订阅已取消",
+      "description": "订阅已取消，将在账单周期结束时终止。"
+    },
+    "unpaid": {
+      "badge": "未支付",
+      "heading": "账单未支付",
+      "description": "账单未支付。请更新支付方式。"
+    },
+    "incomplete": {
+      "badge": "未完成",
+      "heading": "等待支付",
+      "description": "正在等待支付处理，请稍候。"
+    },
+    "incomplete_expired": {
+      "badge": "已过期",
+      "heading": "支付已过期",
+      "description": "支付已过期。请更新支付方式。"
+    },
+    "paused": {
+      "badge": "已暂停",
+      "heading": "订阅已暂停",
+      "description": "订阅已暂停，可随时恢复。"
+    },
+    "succeeded": {
+      "badge": "成功",
+      "heading": "支付已完成",
+      "description": "支付已完成。感谢您的注册！"
+    },
+    "pending": {
+      "badge": "待处理",
+      "heading": "支付待处理",
+      "description": "支付待处理，请稍候。"
+    },
+    "failed": {
+      "badge": "失败",
+      "heading": "支付失败",
+      "description": "支付失败。请更新支付方式。"
+    }
+  }
+}

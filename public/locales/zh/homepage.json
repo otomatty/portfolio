@@ -1,0 +1,171 @@
+{
+  "hero": {
+    "title": {
+      "part1": "用最少的资源创造",
+      "highlight": "最大的价值",
+      "part2": ""
+    },
+    "subtitle": "作为产品工程师，将您的愿景变为现实",
+    "cta": {
+      "viewWorks": "查看作品"
+    }
+  },
+  "introduction": {
+    "title": "关于我",
+    "subtitle": "我的简介和成就",
+    "profile": {
+      "name": "Akimasa Sugai",
+      "description": "利用从前端到后端、基础设施等广泛的技术栈，提供有助于业务增长的解决方案。",
+      "cta": "详细简介"
+    },
+    "metrics": {
+      "developmentExperience": {
+        "title": "开发经验",
+        "unit": "年",
+        "cta": "查看经验"
+      },
+      "projectCount": {
+        "title": "项目成果",
+        "unit": "个",
+        "cta": "查看成果"
+      },
+      "articleCount": {
+        "title": "技术文章",
+        "unit": "篇",
+        "cta": "阅读文章"
+      },
+      "personalProjectCount": {
+        "title": "个人项目",
+        "unit": "个",
+        "cta": "查看成果"
+      }
+    },
+    "cards": {
+      "github": {
+        "title": "GitHub",
+        "cta": "查看仓库"
+      },
+      "interests": {
+        "title": "兴趣・价值观",
+        "description": "兴趣与价值观",
+        "cta": "了解更多"
+      },
+      "blog": {
+        "title": "博客",
+        "description": "技术博客和见解",
+        "cta": "阅读博客"
+      },
+      "contact": {
+        "title": "联系方式",
+        "description": "联系我们",
+        "cta": "联系我"
+      },
+      "skills": {
+        "title": "技能",
+        "description": "使用现代技术栈的开发经验",
+        "cta": "技能详情"
+      }
+    }
+  },
+  "achievements": {
+    "scrollText": "为您介绍部分成果",
+    "description": "点击显示的成果可查看详情"
+  },
+  "additionalAchievements": {
+    "title": "其他成就",
+    "subtitle": "附加成就列表",
+    "categories": {
+      "company": "企业项目",
+      "freelance": "自由职业",
+      "personal": "个人开发"
+    },
+    "categoryPlaceholder": "类别",
+    "all": "全部",
+    "searchPlaceholder": "搜索项目...",
+    "notFound": "未找到符合条件的成就",
+    "viewAll": "查看所有成就"
+  },
+  "footer": {
+    "sections": {
+      "about": {
+        "title": "关于",
+        "items": {
+          "introduction": "自我介绍",
+          "career": "职业经历",
+          "skills": "技能"
+        }
+      },
+      "works": {
+        "title": "作品",
+        "items": {
+          "company": "企业项目",
+          "freelance": "自由职业",
+          "personal": "个人项目"
+        }
+      },
+      "blog": {
+        "title": "博客",
+        "items": {
+          "latest": "最新文章",
+          "categories": "分类",
+          "archives": "归档"
+        }
+      },
+      "contact": {
+        "title": "联系",
+        "items": {
+          "inquiry": "联系我们",
+          "estimate": "获取报价",
+          "faq": "常见问题"
+        }
+      }
+    },
+    "social": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "mail": "邮箱"
+    },
+    "legal": {
+      "privacy": "隐私政策",
+      "terms": "使用条款"
+    },
+    "copyright": "版权所有。"
+  },
+  "cta": {
+    "title": "联系",
+    "subtitle": "联系与报价",
+    "contact": {
+      "title": "联系我",
+      "description": "如有任何疑问或咨询，请随时联系我。",
+      "cta": "发送消息"
+    },
+    "estimate": {
+      "title": "获取报价",
+      "description": "获取项目的详细报价。",
+      "cta": "申请报价"
+    },
+    "availability": {
+      "title": "可用性",
+      "schedule": {
+        "monday": "周一",
+        "tuesday": "周二",
+        "wednesday": "周三",
+        "thursday": "周四",
+        "friday": "周五",
+        "saturday": "周六",
+        "sunday": "周日"
+      },
+      "status": {
+        "available": "可用",
+        "consultation": "咨询",
+        "unavailable": "不可用"
+      }
+    },
+    "contact_info": {
+      "email": "邮箱",
+      "phone": "电话",
+      "meeting": "会议安排"
+    }
+  }
+}

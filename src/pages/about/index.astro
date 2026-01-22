@@ -1,0 +1,59 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { getFeaturedWorks } from '@/data/works';
+import { getGithubCalendarContributions } from '@/lib/github';
+import type { ContributionDay } from '@/types/github';
+import { AboutHero } from '@/components/about/about-hero';
+import { AboutHeader } from '@/components/about/about-header';
+import { Career } from '@/components/about/career';
+import { Values } from '@/components/about/values';
+import { TechStack } from '@/components/about/tech-stack';
+import { Certifications } from '@/components/about/certifications';
+import { Interests } from '@/components/about/interests';
+import { Featured } from '@/components/about/featured';
+import { GithubContributions } from '@/components/about/github-contributions';
+
+const featuredWorks = getFeaturedWorks();
+const githubUsername = import.meta.env.GITHUB_USERNAME;
+const githubToken = import.meta.env.GITHUB_TOKEN;
+
+let contributions: ContributionDay[] = [];
+let showContributions = false;
+
+if (githubUsername && githubToken) {
+  try {
+    contributions = await getGithubCalendarContributions(
+      githubUsername,
+      githubToken
+    );
+    showContributions = true;
+  } catch (error) {
+    console.error('Failed to fetch GitHub contributions:', error);
+  }
+}
+---
+
+<PageLayout
+  title="About Me | Saedgewell"
+  description="プロダクトエンジニアとして、モダンな技術を活用したWeb開発に携わっています。"
+>
+  <main>
+    <AboutHero client:load />
+    <AboutHeader client:load />
+    <Career client:load />
+    <Values client:load />
+    <TechStack client:load />
+    <Certifications client:load />
+    <Interests client:load />
+    {featuredWorks.length > 0 && (
+      <Featured works={featuredWorks} client:load />
+    )}
+    {showContributions && (
+      <section class="py-12">
+        <div class="container mx-auto px-4">
+          <GithubContributions contributions={contributions} client:load />
+        </div>
+      </section>
+    )}
+  </main>
+</PageLayout>

@@ -1,0 +1,20 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { BasicHero } from '@/components/common';
+import InterestsList from '@/components/about/interests/interests-list';
+import Aspirations from '@/components/about/interests/aspirations';
+---
+
+<PageLayout
+  title="Interests | Saedgewell"
+  description="興味・関心のある技術や分野"
+>
+  <BasicHero
+    title="興味関心"
+    description="私の技術的な興味関心や、その他の分野への興味についてご紹介します。"
+    client:load
+  />
+
+  <InterestsList client:load />
+  <Aspirations client:load />
+</PageLayout>

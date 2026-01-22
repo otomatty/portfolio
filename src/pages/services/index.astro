@@ -1,0 +1,116 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Container, BasicHero, SectionTitle } from '@/components/common';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { services, processes } from '@/data/services';
+---
+
+<PageLayout
+  title="Services | Saedgewell"
+  description="フリーランスエンジニアとして、Webアプリケーション開発のサービスを提供しています。"
+>
+  <BasicHero
+    title="Services"
+    subtitle="フリーランスエンジニアとして、Webアプリケーション開発のサービスを提供しています。"
+    client:load
+  />
+
+  <Container className="py-12 space-y-16">
+    <!-- Services Grid -->
+    <section>
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((service) => (
+          <Card className="h-full flex flex-col">
+            <CardHeader>
+              <CardTitle>{service.title}</CardTitle>
+              <p class="text-2xl font-bold text-primary">{service.price}</p>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <p class="text-muted-foreground mb-4">{service.description}</p>
+              <div class="space-y-4 flex-1">
+                <div>
+                  <h4 class="font-medium mb-2">主な内容</h4>
+                  <ul class="space-y-1">
+                    {service.features.map((feature) => (
+                      <li class="text-sm text-muted-foreground flex items-center gap-2">
+                        <span class="text-primary">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-medium mb-2">使用技術</h4>
+                  <div class="flex flex-wrap gap-1">
+                    {service.technologies.map((tech) => (
+                      <Badge variant="outline" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+
+    <!-- Process Overview -->
+    <section class="py-12 -mx-4 px-4 bg-secondary/5 rounded-lg">
+      <SectionTitle
+        title="開発プロセス"
+        subtitle="プロジェクトの進め方"
+        client:load
+      />
+      <div class="grid gap-4 md:grid-cols-5">
+        {processes.map((process) => (
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg">
+              {process.step}
+            </div>
+            <h4 class="font-medium mb-1 text-sm">{process.title}</h4>
+            <p class="text-xs text-muted-foreground">{process.duration}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8 text-center">
+        <a
+          href="/services/process"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
+        >
+          プロセス詳細を見る
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="text-center py-8">
+      <h2 class="text-2xl font-bold mb-4">お問い合わせ</h2>
+      <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
+        サービスについてのご質問やお見積りのご依頼など、お気軽にお問い合わせください。
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a
+          href="/services/pricing"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
+        >
+          料金プランを見る
+        </a>
+        <a
+          href="/services/faq"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
+        >
+          よくある質問
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          お問い合わせ
+        </a>
+      </div>
+    </section>
+  </Container>
+</PageLayout>

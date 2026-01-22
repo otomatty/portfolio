@@ -1,17 +1,31 @@
 ---
+import PageLayout from '@/layouts/PageLayout.astro';
+import {
+  ClientGearBackground,
+  Hero,
+  Introduction,
+  Achievements,
+  AdditionalAchievements,
+  CTASection,
+} from '@/components/home';
+import { getFeaturedWorks, getAllWorks, getHomeMetrics } from '@/data';
 
+const metrics = getHomeMetrics();
+const featuredWorks = getFeaturedWorks();
+const publishedWorks = getAllWorks();
+const limitedPublishedWorks = publishedWorks.slice(0, 6);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<PageLayout
+  title="Saedgewell | 菅井 瑛正"
+  description="菅井瑛正のホームページです"
+>
+  <div class="min-h-screen">
+    <ClientGearBackground client:load />
+    <Hero client:load />
+    <Introduction metrics={metrics} client:load />
+    <Achievements works={featuredWorks} client:load />
+    <AdditionalAchievements works={limitedPublishedWorks} client:load />
+    <CTASection client:load />
+  </div>
+</PageLayout>

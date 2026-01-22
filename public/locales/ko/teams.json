@@ -1,0 +1,26 @@
+{
+  "title": "팀",
+  "members": "멤버",
+  "settings": "팀 설정",
+  "inviteMembers": "멤버 초대",
+  "removeMember": "멤버 삭제",
+  "leaveTeam": "팀 나가기",
+  "deleteTeam": "팀 삭제",
+  "createTeam": "팀 생성",
+  "teamName": "팀 이름",
+  "teamDescription": "팀 설명",
+  "role": "역할",
+  "roles": {
+    "owner": "오너",
+    "admin": "관리자",
+    "member": "멤버"
+  },
+  "invitationSent": "초대를 보냈습니다",
+  "invitationError": "초대 전송에 실패했습니다",
+  "memberRemoved": "멤버를 삭제했습니다",
+  "memberRemoveError": "멤버 삭제에 실패했습니다",
+  "teamCreated": "팀을 생성했습니다",
+  "teamCreateError": "팀 생성에 실패했습니다",
+  "teamDeleted": "팀을 삭제했습니다",
+  "teamDeleteError": "팀 삭제에 실패했습니다"
+}

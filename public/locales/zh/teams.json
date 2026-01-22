@@ -1,0 +1,26 @@
+{
+  "title": "团队",
+  "members": "成员",
+  "settings": "团队设置",
+  "inviteMembers": "邀请成员",
+  "removeMember": "移除成员",
+  "leaveTeam": "退出团队",
+  "deleteTeam": "删除团队",
+  "createTeam": "创建团队",
+  "teamName": "团队名称",
+  "teamDescription": "团队描述",
+  "role": "角色",
+  "roles": {
+    "owner": "所有者",
+    "admin": "管理员",
+    "member": "成员"
+  },
+  "invitationSent": "邀请已发送",
+  "invitationError": "邀请发送失败",
+  "memberRemoved": "成员已移除",
+  "memberRemoveError": "移除成员失败",
+  "teamCreated": "团队已创建",
+  "teamCreateError": "创建团队失败",
+  "teamDeleted": "团队已删除",
+  "teamDeleteError": "删除团队失败"
+}
