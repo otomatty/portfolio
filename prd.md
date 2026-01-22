@@ -14,7 +14,7 @@
 | Phase 1: 基盤構築 | ✅ 完了 | 100% |
 | Phase 2: コアページ実装 | ✅ 完了 | 100% |
 | Phase 3: 詳細・補助ページ | ✅ 完了 | 100% |
-| Phase 4: 最適化・品質保証 | 🟡 進行中 | 20% |
+| Phase 4: 最適化・品質保証 | 🟡 進行中 | 40% |
 
 ---
 
@@ -27,6 +27,8 @@
 - Contact ページを静的表示として移行
 - Privacy Policy / Terms ページを追加
 - Works 詳細ページに Astro Image を適用し、主要画像のCLS対策を追加
+- SEO メタタグ/OGP/JSON-LD を共通レイアウトに追加
+- robots.txt を追加
 
 ---
 
@@ -768,7 +770,7 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 
 ### Phase 4: 最適化・品質保証
 - [x] 画像最適化
-- [ ] SEO 対応（メタタグ、OGP、JSON-LD）
+- [x] SEO 対応（メタタグ、OGP、JSON-LD）
 - [ ] パフォーマンス測定
 - [ ] デプロイ設定
 

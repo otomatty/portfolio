@@ -1,8 +1,8 @@
 {
-  "name": "Super Next App",
-  "short_name": "Super Next App",
-  "theme_color": "#fff",
-  "background_color": "#fff",
+  "name": "Saedgewell Portfolio",
+  "short_name": "Saedgewell",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

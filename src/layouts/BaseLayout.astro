@@ -4,31 +4,104 @@ interface Props {
   description?: string;
   image?: string;
   lang?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
+
+const siteUrl = 'https://saedgewell.net';
+const siteName = 'Saedgewell';
+const authorName = '菅井 瑛正';
+const defaultDescription =
+  'プロダクトエンジニア 菅井瑛正のポートフォリオサイトです。';
+const defaultImage = '/images/akimasapf.png';
 
 const {
   title,
-  description = 'プロダクトエンジニア 菅井瑛正のポートフォリオサイトです。',
-  image = '/images/og-image.png',
-  lang = 'ja',
+  description = defaultDescription,
+  image = defaultImage,
+  lang = Astro.currentLocale ?? 'ja',
+  noindex = false,
+  jsonLd,
 } = Astro.props;
 
-const siteUrl = 'https://saedgewell.net';
-const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+
+const localeMap = {
+  ja: 'ja-JP',
+  en: 'en-US',
+  zh: 'zh-CN',
+  ko: 'ko-KR',
+} as const;
+const ogLocaleMap = {
+  ja: 'ja_JP',
+  en: 'en_US',
+  zh: 'zh_CN',
+  ko: 'ko_KR',
+} as const;
+const langKey = lang.split('-')[0];
+const languageTag =
+  localeMap[langKey as keyof typeof localeMap] ?? lang;
+const ogLocale =
+  ogLocaleMap[langKey as keyof typeof ogLocaleMap] ??
+  lang.replace('-', '_');
+
+const personId = `${siteUrl}/#person`;
+const websiteId = `${siteUrl}/#website`;
+const defaultJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': websiteId,
+    name: siteName,
+    url: siteUrl,
+    description,
+    inLanguage: languageTag,
+    publisher: {
+      '@id': personId,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': personId,
+    name: authorName,
+    alternateName: 'Akimasa Sugai',
+    jobTitle: 'プロダクトエンジニア',
+    url: siteUrl,
+    image: imageUrl,
+    sameAs: [
+      'https://github.com/saedgewell',
+      'https://twitter.com/saedgewell',
+      'https://linkedin.com/in/saedgewell',
+    ],
+  },
+];
+const structuredData = Array.isArray(jsonLd)
+  ? [...defaultJsonLd, ...jsonLd]
+  : jsonLd
+  ? [...defaultJsonLd, jsonLd]
+  : defaultJsonLd;
 ---
 
 <!doctype html>
-<html lang={lang} class="light">
+<html lang={languageTag} class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon/icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/images/favicon/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={authorName} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonicalURL} />
     <meta
       name="keywords"
@@ -38,17 +111,22 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, siteUrl)} />
-    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : lang} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:locale" content={ogLocale} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:site" content="@saedgewell" />
+    <meta name="twitter:creator" content="@saedgewell" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, siteUrl)} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="theme-color" content="#0f172a" />
 
     <!-- Fonts: Inter & Noto Sans JP -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,6 +147,10 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         document.documentElement.classList.toggle('dark', isDark);
         document.documentElement.classList.toggle('light', !isDark);
       })();
+    </script>
+
+    <script type="application/ld+json">
+      {JSON.stringify(structuredData)}
     </script>
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
