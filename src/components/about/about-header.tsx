@@ -19,8 +19,12 @@ export const AboutHeader = () => {
               <img
                 src="/images/akimasapf.webp"
                 alt="Profile"
+                width={256}
+                height={256}
                 className="h-full w-full object-cover rounded-full border-solid border-primary/20"
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">

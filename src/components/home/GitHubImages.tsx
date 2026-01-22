@@ -23,6 +23,8 @@ export const GitHubImages = () => {
           key={`light-${index}`}
           src={src}
           alt={`GitHub Profile ${index + 1}`}
+          width={640}
+          height={400}
           className={cn(
             'object-contain transition-all absolute scale-90 block dark:hidden',
             'transform-gpu perspective-[2000px]',
@@ -52,6 +54,8 @@ export const GitHubImages = () => {
           key={`dark-${index}`}
           src={src}
           alt={`GitHub Profile ${index + 1}`}
+          width={640}
+          height={400}
           className={cn(
             'object-contain transition-all absolute scale-90 hidden dark:block',
             'transform-gpu perspective-[2000px]',

@@ -4,107 +4,106 @@ export interface TechStack {
   color: string;
 }
 
-const ICON_BASE = 'https://saedgewell.net/icons';
 
 export const techStacks = {
   outer: [
     {
       name: 'Next.js',
-      icon: `${ICON_BASE}/next-js.svg`,
+      icon: `./public/icons/next-js.svg`,
       color: 'dark:invert',
     },
     {
       name: 'React',
-      icon: `${ICON_BASE}/react.svg`,
+      icon: `./public/icons/react.svg`,
       color: 'text-[#61DAFB]',
     },
     {
       name: 'TypeScript',
-      icon: `${ICON_BASE}/typescript.svg`,
+      icon: `./public/icons/typescript.svg`,
       color: 'text-[#3178C6]',
     },
     {
       name: 'Tailwind',
-      icon: `${ICON_BASE}/tailwind-css-2.svg`,
+      icon: `./public/icons/tailwind-css-2.svg`,
       color: 'text-[#38BDF8]',
     },
     {
       name: 'Hono',
-      icon: `${ICON_BASE}/hono.svg`,
+      icon: `./public/icons/hono.svg`,
       color: 'text-[#E36002]',
     },
     {
       name: 'Tauri',
-      icon: `${ICON_BASE}/tauri.svg`,
+      icon: `./public/icons/tauri.svg`,
       color: 'text-[#FFC131]',
     },
     {
       name: 'Motion',
-      icon: `${ICON_BASE}/motion/motion-logo-light.svg`,
+      icon: `./public/icons/motion/motion-logo-light.svg`,
       color: 'text-[#00E5FF]',
     },
     {
       name: 'Jotai',
-      icon: `${ICON_BASE}/jotai.png`,
+      icon: `./public/icons/jotai.png`,
       color: 'dark:invert',
     },
     {
       name: 'Storybook',
-      icon: `${ICON_BASE}/storybook.svg`,
+      icon: `./public/icons/storybook.svg`,
       color: 'dark:invert',
     },
   ],
   middle: [
     {
       name: 'Supabase',
-      icon: `${ICON_BASE}/supabase/supabase-logo-icon.svg`,
+      icon: `./public/icons/supabase/supabase-logo-icon.svg`,
       color: 'text-[#3ECF8E]',
     },
     {
       name: 'GCP',
-      icon: `${ICON_BASE}/google-cloud.svg`,
+      icon: `./public/icons/google-cloud.svg`,
       color: 'text-[#4285F4]',
     },
     {
       name: 'Vite',
-      icon: `${ICON_BASE}/vite.svg`,
+        icon: `./public/icons/vite.svg`,
       color: 'text-[#646CFF]',
     },
     {
       name: 'Bun',
-      icon: `${ICON_BASE}/bun/logo.svg`,
+      icon: `./public/icons/bun/logo.svg`,
       color: 'text-[#FBF0DF]',
     },
     {
       name: 'shadcn/ui',
-      icon: `${ICON_BASE}/shadcn.svg`,
+      icon: `./public/icons/shadcn.svg`,
       color: 'dark:invert',
     },
   ],
   inner: [
     {
       name: 'JavaScript',
-      icon: `${ICON_BASE}/js/javascript-large.svg`,
+      icon: `./public/icons/js/javascript-large.svg`,
       color: 'text-[#F7DF1E]',
     },
     {
       name: 'CSS',
-      icon: `${ICON_BASE}/css/css.svg`,
+      icon: `./public/icons/css/css.svg`,
       color: 'text-[#1572B6]',
     },
     {
       name: 'ChatGPT',
-      icon: `${ICON_BASE}/chatgpt.svg`,
+      icon: `./public/icons/chatgpt.svg`,
       color: 'text-[#00A67E]',
     },
     {
       name: 'Gemini',
-      icon: `${ICON_BASE}/gemini.svg`,
+      icon: `./public/icons/gemini.svg`,
       color: 'text-[#8E75B2]',
     },
     {
       name: 'Markdown',
-      icon: `${ICON_BASE}/markdown.svg`,
+      icon: `./public/icons/markdown.svg`,
       color: 'dark:invert',
     },
   ],

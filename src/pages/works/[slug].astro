@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { BackLink, Container } from '@/components/common';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ExternalLink, Github } from 'lucide-react';
+import { getAllWorks } from '@/data/works';
+import type { Work } from '@/types/works';
+
+export function getStaticPaths() {
+  return getAllWorks().map((work) => ({
+    params: { slug: work.slug },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props as { work: Work };
+
+const FALLBACK_THUMBNAIL = '/images/works/default-thumbnail.webp';
+
+const categoryLabels: Record<Work['category'], string> = {
+  company: '会社案件',
+  freelance: 'フリーランス',
+  personal: '個人開発',
+};
+
+const formatDate = (value?: string) => (value ? value.slice(0, 10) : '-');
+const pageTitle = work ? `${work.title} | Saedgewell` : 'Work | Saedgewell';
+const pageDescription = work?.description ?? '実績の詳細をご紹介します。';
+---
+
+<PageLayout title={pageTitle} description={pageDescription}>
+  <Container className="py-12 space-y-12">
+    <div class="space-y-4">
+      <BackLink href="/works" label="実績一覧に戻る" client:load />
+      <div class="space-y-2">
+        <p class="text-sm font-medium text-primary">
+          {categoryLabels[work.category]}
+        </p>
+        <h1 class="text-3xl font-semibold tracking-tight md:text-4xl">
+          {work.title}
+        </h1>
+        <p class="max-w-3xl text-muted-foreground leading-relaxed">
+          {work.description}
+        </p>
+      </div>
+      {work.technologies.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {work.technologies.map((tech) => (
+            <Badge key={tech} variant="secondary" className="font-normal">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <section class="grid gap-8 lg:grid-cols-[2fr,1fr]">
+      <div class="space-y-8">
+        <div class="overflow-hidden rounded-xl border bg-card">
+          <Image
+            src={work.thumbnail || FALLBACK_THUMBNAIL}
+            alt={work.title}
+            width={1200}
+            height={675}
+            sizes="(min-width: 1024px) 66vw, 100vw"
+            class="h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
+
+        <div class="space-y-3">
+          <h2 class="text-xl font-semibold">概要</h2>
+          <p class="text-muted-foreground leading-relaxed">
+            {work.description}
+          </p>
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <Card>
+          <CardContent className="space-y-4 pt-6">
+            <div class="space-y-1">
+              <p class="text-xs text-muted-foreground">カテゴリ</p>
+              <p class="text-sm font-medium">{categoryLabels[work.category]}</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xs text-muted-foreground">公開日</p>
+              <p class="text-sm font-medium">{formatDate(work.created_at)}</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xs text-muted-foreground">更新日</p>
+              <p class="text-sm font-medium">{formatDate(work.updated_at)}</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {(work.github_url || work.website_url) && (
+          <Card>
+            <CardContent className="space-y-3 pt-6">
+              <p class="text-sm font-semibold">関連リンク</p>
+              <div class="flex flex-col gap-2">
+                {work.github_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start gap-2"
+                    asChild
+                  >
+                    <a
+                      href={work.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Github className="h-4 w-4" />
+                      ソースコード
+                    </a>
+                  </Button>
+                )}
+                {work.website_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start gap-2"
+                    asChild
+                  >
+                    <a
+                      href={work.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      サイトを見る
+                    </a>
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </aside>
+    </section>
+  </Container>
+</PageLayout>

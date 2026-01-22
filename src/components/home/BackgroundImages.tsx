@@ -52,6 +52,8 @@ export const BackgroundImages = ({
             <img
               src={work.thumbnail || FALLBACK_THUMBNAIL}
               alt={work.title}
+              width={1920}
+              height={1080}
               className="object-cover rounded-lg w-full h-full"
               loading={index === 0 ? 'eager' : 'lazy'}
               decoding="async"

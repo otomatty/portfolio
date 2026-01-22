@@ -24,6 +24,8 @@ export const WorkCard = ({ work }: WorkCardProps) => {
               <img
                 src={work.thumbnail || FALLBACK_THUMBNAIL}
                 alt={work.title}
+                width={1200}
+                height={675}
                 className="object-cover transition-transform duration-300 group-hover:scale-110 w-full h-full"
                 loading="lazy"
                 decoding="async"

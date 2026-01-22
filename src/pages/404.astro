@@ -1,0 +1,39 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Container } from '@/components/common';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+---
+
+<PageLayout
+  title="ページが見つかりません | Saedgewell"
+  description="お探しのページは存在しないか、移動した可能性があります。"
+>
+  <Container className="py-24">
+    <section class="flex min-h-[60vh] items-center justify-center">
+      <div class="flex flex-col items-center gap-10 text-center">
+        <div class="text-8xl font-extrabold tracking-tight sm:text-9xl">
+          404
+        </div>
+
+        <div class="space-y-6">
+          <div class="space-y-3">
+            <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
+              ページが見つかりません
+            </h1>
+            <p class="text-muted-foreground">
+              お探しのページは存在しないか、移動した可能性があります。
+            </p>
+          </div>
+
+          <Button asChild variant="outline" size="lg">
+            <a href="/">
+              <ArrowLeft className="h-4 w-4" />
+              ホームに戻る
+            </a>
+          </Button>
+        </div>
+      </div>
+    </section>
+  </Container>
+</PageLayout>

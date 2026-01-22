@@ -48,9 +48,12 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
           <img
             src={PROFILE_IMAGE}
             alt="Profile"
+            width={900}
+            height={1200}
             className="object-contain object-bottom-right grayscale transition-all duration-300 group-hover:scale-105 absolute z-30 w-full h-full"
             loading="eager"
             decoding="async"
+            fetchPriority="high"
           />
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-background/80 to-transparent" />
           <FlickeringGrid

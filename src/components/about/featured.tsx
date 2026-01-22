@@ -156,8 +156,11 @@ export const Featured = ({ works }: FeaturedProps) => {
                     <img
                       src={work.thumbnail || defaultThumbnail}
                       alt={work.title}
+                      width={1200}
+                      height={675}
                       className="object-cover rounded-t-lg h-full w-full"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <CardContent className="p-6">

@@ -55,8 +55,8 @@ export const homepageCopy = {
     description: '表示されている実績をクリックすると詳細を見ることができます',
   },
   additionalAchievements: {
-    title: 'その他の実績',
-    subtitle: '追加の実績一覧',
+    title: 'Works',
+    subtitle: 'これまでの成果物をご紹介します。',
     categories: {
       company: '企業案件',
       freelance: 'フリーランス',

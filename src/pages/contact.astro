@@ -1,0 +1,144 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Container, BasicHero } from '@/components/common';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Mail, MessageCircle } from 'lucide-react';
+---
+
+<PageLayout
+  title="お問い合わせ | Saedgewell"
+  description="ご相談・ご質問はこちらからお気軽にご連絡ください。"
+>
+  <BasicHero
+    title="お問い合わせ"
+    description="ご相談・ご質問はこちらからお気軽にご連絡ください。"
+    pattern="dots"
+    size="lg"
+    client:load
+  />
+
+  <Container className="py-12 space-y-12">
+    <section class="grid gap-6 md:grid-cols-2">
+      <Card className="h-full">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Mail className="h-5 w-5 text-primary" />
+            メールでのご連絡
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p class="text-muted-foreground">
+            ご相談内容・ご希望のスケジュールなどをお送りください。通常、1〜2営業日
+            以内にご返信いたします。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <Badge variant="outline">返信目安: 1〜2営業日</Badge>
+            <Badge variant="outline">日本語対応</Badge>
+          </div>
+          <Button asChild>
+            <a href="mailto:contact@saedgewell.com">メールを送る</a>
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="h-full">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-primary" />
+            SNSでのご連絡
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p class="text-muted-foreground">
+            SNSのダイレクトメッセージからもご連絡いただけます。
+          </p>
+          <div class="flex flex-col gap-3">
+            <a
+              class="text-sm font-medium text-primary hover:underline"
+              href="https://github.com/saedgewell"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub: @saedgewell
+            </a>
+            <a
+              class="text-sm font-medium text-primary hover:underline"
+              href="https://twitter.com/saedgewell"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              X (Twitter): @saedgewell
+            </a>
+            <a
+              class="text-sm font-medium text-primary hover:underline"
+              href="https://linkedin.com/in/saedgewell"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn: saedgewell
+            </a>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+
+    <section class="rounded-lg border bg-secondary/5 p-6 md:p-8">
+      <h2 class="text-xl font-semibold">ご相談の流れ</h2>
+      <ol class="mt-6 space-y-4">
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+            1
+          </span>
+          <div>
+            <p class="font-medium">ご相談内容の共有</p>
+            <p class="text-sm text-muted-foreground">
+              課題、目的、スケジュール感をお知らせください。
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+            2
+          </span>
+          <div>
+            <p class="font-medium">ヒアリング・整理</p>
+            <p class="text-sm text-muted-foreground">
+              目的や要件を整理し、最適な進め方を検討します。
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+            3
+          </span>
+          <div>
+            <p class="font-medium">ご提案・次のアクション</p>
+            <p class="text-sm text-muted-foreground">
+              お見積りやスケジュールなど、具体的な提案をご連絡します。
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="rounded-lg border p-6 md:p-8">
+      <h2 class="text-xl font-semibold">ご相談内容の例</h2>
+      <p class="mt-3 text-muted-foreground">
+        下記のようなご相談に対応しています。
+      </p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <Badge variant="outline">Webアプリ開発</Badge>
+        <Badge variant="outline">プロトタイプ設計</Badge>
+        <Badge variant="outline">UI/UX改善</Badge>
+        <Badge variant="outline">技術選定の相談</Badge>
+        <Badge variant="outline">既存システム改善</Badge>
+      </div>
+    </section>
+
+    <p class="text-sm text-muted-foreground">
+      現在はフォーム送信を準備中のため、メールまたはSNSでご連絡ください。
+    </p>
+  </Container>
+</PageLayout>

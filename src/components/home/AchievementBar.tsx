@@ -81,6 +81,8 @@ export const AchievementBar = ({
         <img
           src={work.thumbnail || FALLBACK_THUMBNAIL}
           alt={work.title}
+          width={1920}
+          height={1080}
           className={`object-cover w-full h-full transition-all duration-500 ${
             isExpanded && currentIndex === index
               ? 'object-contain'

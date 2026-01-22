@@ -13,8 +13,8 @@
 |----------|----------|------|
 | Phase 1: 基盤構築 | ✅ 完了 | 100% |
 | Phase 2: コアページ実装 | ✅ 完了 | 100% |
-| Phase 3: 詳細・補助ページ | ⚪ 未着手 | 0% |
-| Phase 4: 最適化・品質保証 | ⚪ 未着手 | 0% |
+| Phase 3: 詳細・補助ページ | ✅ 完了 | 100% |
+| Phase 4: 最適化・品質保証 | 🟡 進行中 | 20% |
 
 ---
 
@@ -23,6 +23,10 @@
 - Works ページを Next.js 版の構成に合わせて再実装（Hero/フィルター/カード）
 - Works 用コンポーネント（`WorksHero`, `WorksFilter`, `WorkCard`）を追加
 - `/works/company`, `/works/freelance`, `/works/personal` の初期カテゴリフィルターを適用
+- `/works/[slug]` の実績詳細ページを追加（静的生成）
+- Contact ページを静的表示として移行
+- Privacy Policy / Terms ページを追加
+- Works 詳細ページに Astro Image を適用し、主要画像のCLS対策を追加
 
 ---
 
@@ -192,20 +196,21 @@ portfolio/
 │   │   │   ├── career.astro         # ✅ キャリア
 │   │   │   ├── skills.astro         # ✅ スキル
 │   │   │   └── interests.astro      # ✅ 興味・関心
-│   │   ├── works/                   # ✅ 作成済み（4ページ）
+│   │   ├── works/                   # ✅ 作成済み（5ページ）
 │   │   │   ├── index.astro          # ✅ Works トップ
 │   │   │   ├── company.astro        # ✅ 会社案件
 │   │   │   ├── freelance.astro      # ✅ フリーランス
-│   │   │   └── personal.astro       # ✅ 個人開発
+│   │   │   ├── personal.astro       # ✅ 個人開発
+│   │   │   └── [slug].astro         # ✅ 実績詳細
 │   │   ├── services/                # ✅ 作成済み（4ページ）
 │   │   │   ├── index.astro          # ✅ Services トップ
 │   │   │   ├── process.astro        # ✅ 開発プロセス
 │   │   │   ├── pricing.astro        # ✅ 料金
 │   │   │   └── faq.astro            # ✅ FAQ
-│   │   ├── contact.astro            # 📌 未作成
-│   │   ├── privacy-policy.astro     # 📌 未作成
-│   │   ├── terms.astro              # 📌 未作成
-│   │   └── 404.astro                # 📌 未作成
+│   │   ├── contact.astro            # ✅ 作成済み
+│   │   ├── privacy-policy.astro     # ✅ 作成済み
+│   │   ├── terms.astro              # ✅ 作成済み
+│   │   └── 404.astro                # ✅ 作成済み
 │   ├── layouts/                     # ✅ 作成済み（共通レイアウト）
 │   │   ├── BaseLayout.astro         # ✅ 作成済み
 │   │   └── PageLayout.astro         # ✅ 作成済み
@@ -449,9 +454,9 @@ import LanguageSwitcher from './LanguageSwitcher.tsx';
 
 | タスク | 詳細 |
 |--------|------|
-| 作品詳細ページ | `[slug].astro` 動的生成 |
-| 静的ページ | Contact, Privacy Policy, Terms |
-| 404 ページ | カスタムエラーページ |
+| 作品詳細ページ | `[slug].astro` 動的生成（✅） |
+| 静的ページ | Contact, Privacy Policy, Terms（✅） |
+| 404 ページ | カスタムエラーページ（✅） |
 
 ### Phase 4: 最適化・品質保証（1週間）
 
@@ -459,7 +464,7 @@ import LanguageSwitcher from './LanguageSwitcher.tsx';
 
 | タスク | 詳細 |
 |--------|------|
-| 画像最適化 | Astro Image コンポーネント適用 |
+| 画像最適化 | Astro Image コンポーネント適用（✅） |
 | SEO 対応 | メタタグ、OGP、JSON-LD 確認 |
 | パフォーマンス測定 | Lighthouse スコア確認・改善 |
 | デプロイ設定 | Vercel/Netlify 設定 |
@@ -755,14 +760,14 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 - [x] FAQAccordionコンポーネント
 
 ### Phase 3: 詳細・補助ページ
-- [ ] 作品詳細ページ（[slug].astro）
-- [ ] Contact ページ
-- [ ] Privacy Policy ページ
-- [ ] Terms ページ
-- [ ] 404 ページ
+- [x] 作品詳細ページ（[slug].astro）
+- [x] Contact ページ
+- [x] Privacy Policy ページ
+- [x] Terms ページ
+- [x] 404 ページ
 
 ### Phase 4: 最適化・品質保証
-- [ ] 画像最適化
+- [x] 画像最適化
 - [ ] SEO 対応（メタタグ、OGP、JSON-LD）
 - [ ] パフォーマンス測定
 - [ ] デプロイ設定
