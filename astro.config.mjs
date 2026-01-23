@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://saedgewell.net',
+  site: 'https://saedgewell.com',
   output: 'static',
   integrations: [
     react(),

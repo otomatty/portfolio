@@ -142,7 +142,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://saedgewell.net',
+  site: 'https://saedgewell.com',
   output: 'static',
   integrations: [
     react(),
@@ -507,7 +507,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://saedgewell.net',
+  site: 'https://saedgewell.com',
   output: 'static',
   integrations: [
     react(),

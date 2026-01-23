@@ -110,7 +110,7 @@ export const works: Work[] = [
     thumbnail: '/images/works/saedgewell.webp',
     technologies: ['TypeScript', 'MDX', 'PLpgSQL', 'Go', 'CSS'],
     github_url: 'https://github.com/otomatty/saedgewell-v2',
-    website_url: 'https://saedgewell.net',
+    website_url: 'https://saedgewell.com',
     created_at: '2025-11-24T12:31:34Z',
     updated_at: '2026-01-01T16:02:50Z',
   },
