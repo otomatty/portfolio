@@ -7,9 +7,10 @@ interface AnimatedIndicatorProps {
 }
 
 export const AnimatedIndicator = ({ isActive }: AnimatedIndicatorProps) => {
+  const easing = [0.4, 0, 0.2, 1] as const;
   const transition = {
     duration: 0.6,
-    ease: [0.4, 0, 0.2, 1],
+    ease: easing,
   };
 
   const indicatorVariants = {
@@ -44,7 +45,7 @@ export const AnimatedIndicator = ({ isActive }: AnimatedIndicatorProps) => {
       transition: {
         repeat: Number.POSITIVE_INFINITY,
         duration: 2,
-        ease: 'easeOut',
+        ease: 'easeOut' as const,
         repeatDelay: 0.2,
       },
     },

@@ -51,6 +51,10 @@ export const ScrollTextAnimation = ({
   }, [lastScrollY]);
 
   useEffect(() => {
+    const target = containerRef.current;
+    if (!target) {
+      return undefined;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting && !shouldAnimate) {
@@ -63,14 +67,10 @@ export const ScrollTextAnimation = ({
       }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    observer.observe(target);
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
+      observer.unobserve(target);
     };
   }, [shouldAnimate]);
 

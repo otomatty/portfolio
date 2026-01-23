@@ -20,6 +20,7 @@ export const SectionTitle = ({
   className,
   align = 'left',
 }: SectionTitleProps) => {
+  const easing = [0.32, 0.72, 0, 1] as const;
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -27,7 +28,7 @@ export const SectionTitle = ({
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.32, 0.72, 0, 1],
+        ease: easing,
         staggerChildren: 0.2,
       },
     },
@@ -40,7 +41,7 @@ export const SectionTitle = ({
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.32, 0.72, 0, 1],
+        ease: easing,
       },
     },
   };

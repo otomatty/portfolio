@@ -127,17 +127,17 @@ export const Particles: React.FC<ParticlesProps> = ({
       }
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- one-time setup for canvas/RAF
 
   useEffect(() => {
     onMouseMove();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- manual sync on mount
 
   useEffect(() => {
     if (refresh) {
       initCanvas();
     }
-  }, [refresh]);
+  }, [refresh]); // eslint-disable-line react-hooks/exhaustive-deps -- re-init handled via refresh flag
 
   const initCanvas = () => {
     resizeCanvas();

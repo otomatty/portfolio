@@ -204,7 +204,6 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
             title={homepageCopy.introduction.title}
             subtitle={homepageCopy.introduction.subtitle}
             className="mb-8 md:mb-16"
-            client:load
           />
           <motion.div
             initial={{ opacity: 0 }}

@@ -180,20 +180,19 @@ const structuredData = Array.isArray(jsonLd)
     <script type="application/ld+json">
       {JSON.stringify(structuredData)}
     </script>
+    <style is:global>
+      @import '../styles/global.css';
+
+      body {
+        font-family: var(--font-sans);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
     <slot />
   </body>
 </html>
-
-<style is:global>
-  @import '../styles/global.css';
-
-  body {
-    font-family: var(--font-sans);
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-</style>

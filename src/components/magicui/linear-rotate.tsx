@@ -1,12 +1,13 @@
 import { motion } from 'motion/react';
 
 export const LinearRotate = () => {
+  const linearEase = 'linear' as const;
   const spinnerVariants = {
     animate: {
       rotate: -360,
       transition: {
         duration: 10,
-        ease: 'linear',
+        ease: linearEase,
         repeat: Number.POSITIVE_INFINITY,
         repeatType: 'loop' as const,
         repeatDelay: 0,
