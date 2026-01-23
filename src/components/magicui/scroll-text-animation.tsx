@@ -133,16 +133,6 @@ export const ScrollTextAnimation = ({
               aria-label={`Animated text: ${text}`}
               role="img"
             >
-              <defs>
-                <style type="text/css">
-                  {`
-										@font-face {
-											font-family: 'SVGFont';
-											src: local('Inter');
-										}
-									`}
-                </style>
-              </defs>
               <AnimatePresence mode="wait">
                 <motion.text
                   key={`text-${shouldAnimate}`}
@@ -152,7 +142,7 @@ export const ScrollTextAnimation = ({
                   textAnchor="middle"
                   fill="currentColor"
                   style={{
-                    fontFamily: 'SVGFont, Inter, sans-serif',
+                    fontFamily: 'var(--font-sans)',
                     fontSize: `${initialFontSize}px`,
                     fontWeight: 'bold',
                   }}

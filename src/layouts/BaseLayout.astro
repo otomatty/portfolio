@@ -128,13 +128,41 @@ const structuredData = Array.isArray(jsonLd)
     <meta name="twitter:image" content={imageUrl} />
     <meta name="theme-color" content="#0f172a" />
 
-    <!-- Fonts: Inter & Noto Sans JP -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts (self-hosted) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
+    {langKey === 'ja' && (
+      <link
+        rel="preload"
+        href="/fonts/noto-sans-jp.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
+    {langKey === 'zh' && (
+      <link
+        rel="preload"
+        href="/fonts/noto-sans-sc.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
+    {langKey === 'ko' && (
+      <link
+        rel="preload"
+        href="/fonts/noto-sans-kr.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
 
     <!-- Theme initialization script -->
     <script is:inline>
@@ -162,15 +190,7 @@ const structuredData = Array.isArray(jsonLd)
   @import '../styles/global.css';
 
   body {
-    font-family:
-      'Inter',
-      'Noto Sans JP',
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      sans-serif;
+    font-family: var(--font-sans);
   }
 
   html {
