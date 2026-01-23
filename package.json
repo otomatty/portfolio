@@ -9,7 +9,7 @@
     "astro": "astro",
     "lint": "eslint .",
     "typecheck": "astro check",
-    "lhci": "lhci autorun"
+    "lhci": "node ./scripts/lhci.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

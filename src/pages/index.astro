@@ -2,12 +2,12 @@
 import PageLayout from '@/layouts/PageLayout.astro';
 import {
   ClientGearBackground,
-  Hero,
   Introduction,
   Achievements,
   AdditionalAchievements,
   CTASection,
 } from '@/components/home';
+import Hero from '@/components/home/Hero.astro';
 import { getFeaturedWorks, getAllWorks, getHomeMetrics } from '@/data';
 
 const metrics = getHomeMetrics();
@@ -21,11 +21,11 @@ const limitedPublishedWorks = publishedWorks.slice(0, 6);
   description="菅井瑛正のホームページです"
 >
   <div class="min-h-screen">
-    <ClientGearBackground client:load />
-    <Hero client:load />
-    <Introduction metrics={metrics} client:load />
-    <Achievements works={featuredWorks} client:load />
-    <AdditionalAchievements works={limitedPublishedWorks} client:load />
-    <CTASection client:load />
+    <ClientGearBackground client:only="react" />
+    <Hero />
+    <Introduction metrics={metrics} client:visible />
+    <Achievements works={featuredWorks} client:visible />
+    <AdditionalAchievements works={limitedPublishedWorks} client:visible />
+    <CTASection client:visible />
   </div>
 </PageLayout>

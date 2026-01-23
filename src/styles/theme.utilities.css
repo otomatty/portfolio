@@ -86,6 +86,15 @@
     background-size: 400% 400%;
     animation: aurora-gradient 6s ease-in-out infinite;
   }
+
+  .aurora-gradient-static {
+    display: inline-block;
+    background-image: linear-gradient(to right, #3b82f6, #a855f7, #ec4899);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 400% 400%;
+  }
 }
 
 @keyframes aurora-gradient {

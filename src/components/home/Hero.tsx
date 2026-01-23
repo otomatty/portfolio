@@ -23,16 +23,11 @@ export const Hero = () => {
       </motion.div>
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center gap-8 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
+        <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">
             {homepageCopy.hero.title.part1}
             <br />
-            <span className="aurora-gradient">
+            <span className="aurora-gradient-static">
               {homepageCopy.hero.title.highlight}
             </span>
             {homepageCopy.hero.title.part2}
@@ -40,7 +35,7 @@ export const Hero = () => {
           <p className="text-xl md:text-2xl mb-8 text-foreground/80">
             {homepageCopy.hero.subtitle}
           </p>
-        </motion.div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
