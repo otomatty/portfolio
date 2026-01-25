@@ -60,10 +60,6 @@ export const OrbitAnimation = ({
 
   return (
     <div className={cn('relative w-full h-full orbit-container p-2', className)}>
-      {process.env.NODE_ENV === 'development' && (
-        <div className="absolute left-1/2 top-1/2 w-1 h-1 bg-red-500 z-50" />
-      )}
-
       {points.map((pos, index) => (
         <motion.div
           key={index}

@@ -265,7 +265,6 @@ portfolio/
 │   │       ├── magic-card.tsx
 │   │       ├── neon-gradient-card.tsx
 │   │       ├── scroll-text-animation.tsx
-│   │       ├── gear-background.tsx
 │   │       ├── orbit-animation.tsx
 │   │       ├── orbiting-circles.tsx
 │   │       ├── number-ticker.tsx

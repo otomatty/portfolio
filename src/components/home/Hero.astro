@@ -1,6 +1,6 @@
 ---
 import { LinearRotate } from '@/components/magicui/linear-rotate';
-import { ThemeToggle } from '@/components/common';
+import { ThemeSwitch } from '@/components/common/ThemeSwitch';
 import { homepageCopy } from '@/data/homepage';
 ---
 
@@ -14,7 +14,7 @@ import { homepageCopy } from '@/data/homepage';
       <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">
         {homepageCopy.hero.title.part1}
         <br />
-        <span class="aurora-gradient-static">
+        <span class="aurora-gradient">
           {homepageCopy.hero.title.highlight}
         </span>
         {homepageCopy.hero.title.part2}
@@ -25,7 +25,7 @@ import { homepageCopy } from '@/data/homepage';
     </div>
 
     <div>
-      <ThemeToggle client:load />
+      <ThemeSwitch client:load />
     </div>
   </div>
 </section>

@@ -91,8 +91,8 @@ export const ScrollTextAnimation = ({
 
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.1, 0.2, 0.5, 0.7, 0.8],
-    [0, 0.5, 1, 1, 0.5, 0],
+    [0, 0.1, 0.2, 0.55, 0.7, 0.95],
+    [0, 0.5, 1, 1, 1, 0],
     {
       ease: easeInExpo,
     }

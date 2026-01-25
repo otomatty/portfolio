@@ -1,7 +1,6 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
 import {
-  ClientGearBackground,
   Introduction,
   Achievements,
   AdditionalAchievements,
@@ -21,7 +20,6 @@ const limitedPublishedWorks = publishedWorks.slice(0, 6);
   description="菅井瑛正のホームページです"
 >
   <div class="min-h-screen">
-    <ClientGearBackground client:only="react" />
     <Hero />
     <Introduction metrics={metrics} client:visible />
     <Achievements works={featuredWorks} client:visible />

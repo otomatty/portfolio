@@ -43,14 +43,6 @@
     animation: aurora-gradient 6s ease-in-out infinite;
   }
 
-  .animate-spin-clockwise {
-    animation: spin 20s linear infinite;
-  }
-
-  .animate-spin-counterclockwise {
-    animation: spin-reverse 20s linear infinite;
-  }
-
   .noise-texture {
     position: relative;
     isolation: isolate;

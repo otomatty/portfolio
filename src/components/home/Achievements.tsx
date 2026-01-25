@@ -23,11 +23,11 @@ interface AchievementsProps {
 }
 
 export const Achievements = ({ works }: AchievementsProps) => {
-  const FADE_IN_START = 0.15;
-  const FADE_IN_COMPLETE = 0.25;
-  const ANIMATION_DURATION = 0.6;
+  const FADE_IN_START = 0.36;
+  const FADE_IN_COMPLETE = 0.44;
   const FADE_OUT_START = 0.85;
   const FADE_OUT_COMPLETE = 0.95;
+  const ANIMATION_DURATION = FADE_OUT_START - FADE_IN_COMPLETE;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -166,7 +166,7 @@ export const Achievements = ({ works }: AchievementsProps) => {
 
   return (
     <section ref={containerRef} className="relative h-[1500vh]">
-      <div className="h-[400vh]">
+      <div className="h-[600vh]">
         <ScrollTextAnimation
           text={homepageCopy.achievements.scrollText}
           initialFontSize={48}
