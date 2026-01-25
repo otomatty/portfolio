@@ -11,7 +11,7 @@ interface BentoGridProps extends ComponentPropsWithoutRef<'div'> {
 }
 
 interface BentoCardProps extends ComponentPropsWithoutRef<'div'> {
-  name: string;
+  name: ReactNode;
   className: string;
   background: ReactNode;
   Icon: React.ElementType;
@@ -45,7 +45,6 @@ const BentoCard = ({
   ...props
 }: BentoCardProps) => (
   <Card
-    key={name}
     className={cn(
       'group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl',
       className
@@ -69,7 +68,7 @@ const BentoCard = ({
         </a>
       </Button>
     </div>
-    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:backdrop-blur-xs dark:group-hover:bg-neutral-800/10 z-10" />
+    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/3 group-hover:backdrop-blur-xs dark:group-hover:bg-neutral-800/10 z-10" />
     <div className="absolute inset-0 bg-linear-to-t from-background/95 via-background/95 to-transparent z-5" />
   </Card>
 );

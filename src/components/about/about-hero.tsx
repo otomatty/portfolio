@@ -1,6 +1,7 @@
 'use client';
 
 import { BasicHero } from '@/components/common';
+import { profile } from '@/data/profile';
 import { Button } from '@/components/ui/button';
 import { Github, Twitter } from 'lucide-react';
 
@@ -8,7 +9,7 @@ export const AboutHero = () => {
   return (
     <BasicHero
       title="About Me"
-      description="プロダクトエンジニアとして、モダンな技術を活用したWeb開発に携わっています。"
+      description={profile.headline}
       pattern="dots"
       size="lg"
       align="left"
@@ -20,7 +21,7 @@ export const AboutHero = () => {
         <div className="flex gap-2">
           <Button variant="outline" size="icon" asChild>
             <a
-              href="https://github.com/saedgewell"
+              href={profile.socials.github}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -30,7 +31,7 @@ export const AboutHero = () => {
           </Button>
           <Button variant="outline" size="icon" asChild>
             <a
-              href="https://twitter.com/saedgewell"
+              href={profile.socials.twitter}
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -4,3 +4,4 @@ export * from './metrics';
 export * from './tech-stack';
 export * from './homepage';
 export * from './skills';
+export * from './profile';

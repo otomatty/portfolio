@@ -21,6 +21,7 @@ import { ShippoPattern } from '@/components/magicui/shippo-pattern';
 import { cn } from '@/lib/utils';
 import type { Metric } from '@/types/metrics';
 import { homepageCopy } from '@/data/homepage';
+import { profile } from '@/data/profile';
 import { GitHubImages } from './GitHubImages';
 import { NumberDisplay } from './NumberDisplay';
 import { TechStackGrid } from './TechStackGrid';
@@ -29,7 +30,7 @@ interface IntroductionProps {
   metrics: Metric[];
 }
 
-const PROFILE_IMAGE = '/images/profile.webp';
+const PROFILE_IMAGE = profile.images.profile;
 
 export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
   const developmentExperience =
@@ -39,12 +40,22 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
   const personalProjectCount =
     metrics.find((m) => m.type === 'personal_project_count')?.value ?? 0;
 
+  const profileName = (
+    <span className="leading-tight">
+      <span className="block">{profile.name.ja}</span>
+      <span className="block text-base md:text-lg text-foreground/70 font-medium">
+        {profile.name.en}
+      </span>
+    </span>
+  );
+
   const cards = [
     {
-      name: homepageCopy.introduction.profile.name,
+      id: 'profile',
+      name: profileName,
       className: 'col-span-12 row-span-2 lg:col-span-8',
       background: (
-        <div className="relative w-full h-full min-h-[300px] md:min-h-[400px]">
+        <div className="relative w-full h-full min-h-75 md:min-h-100">
           <img
             src={PROFILE_IMAGE}
             alt="Profile"
@@ -75,16 +86,17 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
         </div>
       ),
       Icon: User,
-      description: homepageCopy.introduction.profile.description,
+      description: profile.bioShort,
       href: '/about',
       cta: homepageCopy.introduction.profile.cta,
     },
     {
+      id: 'experience',
       name: homepageCopy.introduction.metrics.developmentExperience.title,
       className:
         'col-span-6 md:col-start-1 md:col-span-3 lg:col-start-9 lg:col-span-2',
       background: (
-        <div className="relative w-full h-full min-h-[150px]">
+        <div className="relative w-full h-full min-h-37.5">
           <NumberDisplay
             value={developmentExperience}
             unit={homepageCopy.introduction.metrics.developmentExperience.unit}
@@ -103,11 +115,12 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
       cta: homepageCopy.introduction.metrics.developmentExperience.cta,
     },
     {
+      id: 'project-count',
       name: homepageCopy.introduction.metrics.projectCount.title,
       className:
         'col-span-6 md:col-start-4 md:col-span-3 lg:col-start-11 lg:col-span-2',
       background: (
-        <div className="relative w-full h-full min-h-[150px]">
+        <div className="relative w-full h-full min-h-37.5">
           <NumberDisplay
             value={projectCount}
             unit={homepageCopy.introduction.metrics.projectCount.unit}
@@ -124,10 +137,11 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
       cta: homepageCopy.introduction.metrics.projectCount.cta,
     },
     {
+      id: 'interests',
       name: homepageCopy.introduction.cards.interests.title,
       className: 'col-span-6 md:col-span-3 lg:col-start-9 lg:col-span-2',
       background: (
-        <div className="relative w-full h-full min-h-[150px]">
+        <div className="relative w-full h-full min-h-37.5">
           <SeigaihaPattern
             color="#987D00"
             backgroundColor="hsl(var(--background))"
@@ -142,11 +156,12 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
       cta: homepageCopy.introduction.cards.interests.cta,
     },
     {
+      id: 'personal-projects',
       name: homepageCopy.introduction.metrics.personalProjectCount.title,
       className:
         'col-span-6 md:col-start-10 md:col-span-3 lg:col-start-11 lg:col-span-2',
       background: (
-        <div className="relative w-full h-full min-h-[150px]">
+        <div className="relative w-full h-full min-h-37.5">
           <NumberDisplay
             value={personalProjectCount}
             unit={homepageCopy.introduction.metrics.personalProjectCount.unit}
@@ -163,11 +178,12 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
       cta: homepageCopy.introduction.metrics.personalProjectCount.cta,
     },
     {
+      id: 'github',
       name: homepageCopy.introduction.cards.github.title,
       className:
         'col-span-12 row-span-2 md:col-start-1 md:col-span-6 md:row-span-2 lg:col-span-6 lg:row-span-2',
       background: (
-        <div className="relative w-full h-full min-h-[300px] group">
+        <div className="relative w-full h-full min-h-75 group">
           <div className="absolute inset-0 flex items-center justify-center">
             <GitHubImages />
           </div>
@@ -180,11 +196,12 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
       cta: homepageCopy.introduction.cards.github.cta,
     },
     {
+      id: 'tech-stack',
       name: homepageCopy.introduction.cards.techStack.title,
       className:
         'col-span-12 row-span-2 md:col-start-7 md:row-start-4 md:col-span-6 md:row-span-2 lg:row-start-3',
       background: (
-        <div className="relative w-full h-full min-h-[300px]">
+        <div className="relative w-full h-full min-h-75">
           <TechStackGrid />
           <Particles />
         </div>
@@ -213,7 +230,7 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
           >
             <BentoGrid>
               {cards.map((card) => (
-                <MagicBentoCard key={card.name} {...card} />
+                <MagicBentoCard key={card.id} {...card} />
               ))}
             </BentoGrid>
           </motion.div>

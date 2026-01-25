@@ -1,4 +1,6 @@
 ---
+import { profile } from '@/data/profile';
+
 interface Props {
   title: string;
   description?: string;
@@ -10,7 +12,7 @@ interface Props {
 
 const siteUrl = 'https://saedgewell.com';
 const siteName = 'Saedgewell';
-const authorName = '菅井 瑛正';
+const authorName = profile.name.ja;
 const defaultDescription =
   'プロダクトエンジニア 菅井瑛正のポートフォリオサイトです。';
 const defaultImage = '/images/akimasapf.png';
@@ -66,14 +68,14 @@ const defaultJsonLd = [
     '@type': 'Person',
     '@id': personId,
     name: authorName,
-    alternateName: 'Akimasa Sugai',
+    alternateName: profile.name.en,
     jobTitle: 'プロダクトエンジニア',
     url: siteUrl,
     image: imageUrl,
     sameAs: [
-      'https://github.com/saedgewell',
-      'https://twitter.com/saedgewell',
-      'https://linkedin.com/in/saedgewell',
+      profile.socials.github,
+      profile.socials.twitter,
+      profile.socials.linkedin,
     ],
   },
 ];

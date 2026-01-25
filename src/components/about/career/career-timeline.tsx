@@ -5,137 +5,14 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Building2, Code2, GraduationCap, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
+import { careerEntries, type CareerEntry } from '@/data/profile';
 
-interface CareerProject {
-  title: string;
-  description: string;
-  slug?: string;
-  technologies?: string[];
-}
-
-interface CareerEntry {
-  id: number;
-  period: string;
-  title: string;
-  company?: string;
-  description: string;
-  icon: typeof Building2;
-  type: 'work' | 'freelance' | 'education';
-  projects?: CareerProject[];
-  achievements?: string[];
-}
-
-const careerEntries: CareerEntry[] = [
-  {
-    id: 1,
-    period: '2025年7月 - 現在',
-    title: 'Web アプリケーション開発エンジニア',
-    company: '株式会社アーシャルデザイン',
-    description:
-      'Web アプリケーション開発エンジニアとして参画。モダンな技術スタックを活用した開発に従事。',
-    icon: Building2,
-    type: 'work',
-    achievements: [
-      'フロントエンド・バックエンド両面での開発',
-      'AI 駆動開発手法の導入推進',
-    ],
-  },
-  {
-    id: 2,
-    period: '2020年12月 - 現在',
-    title: '受託開発・個人開発',
-    company: 'フリーランス',
-    description:
-      'TypeScript と Next.js を主軸としたモダンな Web 技術を活用し、業務システムや Web アプリの開発を担当。',
-    icon: Code2,
-    type: 'freelance',
-    projects: [
-      {
-        title: '印刷会社向け ERP 開発',
-        description:
-          'AI 駆動開発により要件定義から 1 週間で 35 ページ + CMS 機能を実装',
-        slug: 'erp-system',
-        technologies: ['Next.js', 'TypeScript', 'Supabase'],
-      },
-      {
-        title: '香典帳アプリ開発',
-        description:
-          '葬儀会社 2 社とギフトショップとの共同開発。満足度調査で 93% が「とても使いやすかった」と評価',
-        slug: 'condolence-app',
-        technologies: ['React Native', 'Supabase'],
-      },
-      {
-        title: '建設会社業務システム開発',
-        description:
-          '案件進捗・請求管理・勤怠管理システムの構築。Excel からの脱却と業務効率化を実現',
-        slug: 'construction-management',
-        technologies: ['Next.js', 'PostgreSQL'],
-      },
-      {
-        title: '菓子製造会社流通管理システム保守',
-        description:
-          '20 箇所の拠点間流通システムの改善。注文時間を 5 分から 1 分に短縮',
-        slug: 'confectionery-distribution',
-        technologies: ['PHP', 'MySQL'],
-      },
-      {
-        title: '学習塾 CMS・勤務記録システム開発',
-        description: '勤怠管理の業務時間を月 20 時間から 1 時間未満に削減',
-        slug: 'school-cms',
-        technologies: ['Next.js', 'Supabase'],
-      },
-    ],
-    achievements: [
-      '多様な業界の業務システム開発経験',
-      'クライアントの業務効率を大幅に改善',
-      'AI 駆動開発による高速デリバリー',
-    ],
-  },
-  {
-    id: 3,
-    period: '2024年9月 - 2025年2月',
-    title: 'DX 推進支援事業 ファシリテーター',
-    company: '地元企業向け',
-    description:
-      '地元企業向けの DX 推進支援事業にファシリテーターとして参画。企業の業務改善を支援。',
-    icon: Rocket,
-    type: 'work',
-    achievements: [
-      '企業内業務時間最大 70% 短縮',
-      '受講満足度 4.8/5',
-      '複数企業への DX 導入支援',
-    ],
-  },
-  {
-    id: 4,
-    period: '2020年11月 - 2024年4月',
-    title: '塾講師・プログラミング講師',
-    company: '学習塾',
-    description:
-      '延べ 300 名以上の指導実績。小学生から高校生まで幅広い年齢層を対象に指導。',
-    icon: GraduationCap,
-    type: 'education',
-    achievements: [
-      '小学生ロボット相撲全国大会で指導チームが 1-3 位入賞',
-      '延べ 100 名以上の受験生を指導',
-      '志望校合格率 80% 以上',
-    ],
-  },
-  {
-    id: 5,
-    period: '2016年8月 - 2020年3月',
-    title: '家庭教師',
-    company: '個人',
-    description:
-      '小学生から高校生まで個別指導。生徒一人ひとりに合わせた指導を実施。',
-    icon: GraduationCap,
-    type: 'education',
-    achievements: [
-      '受験生の 70% 以上が第 1 志望校合格',
-      '学習習慣の定着を重視した指導',
-    ],
-  },
-];
+const iconMap: Record<CareerEntry['iconKey'], typeof Building2> = {
+  building: Building2,
+  code: Code2,
+  graduation: GraduationCap,
+  rocket: Rocket,
+};
 
 const getTypeColor = (type: CareerEntry['type']) => {
   switch (type) {
@@ -185,7 +62,10 @@ export const CareerTimeline = () => {
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <div className="p-2 rounded-lg bg-primary/10 shrink-0">
-                          <entry.icon className="h-5 w-5 text-primary" />
+                          {(() => {
+                            const Icon = iconMap[entry.iconKey];
+                            return <Icon className="h-5 w-5 text-primary" />;
+                          })()}
                         </div>
                         <div className="flex-1">
                           <div className="text-sm text-muted-foreground mb-1">
