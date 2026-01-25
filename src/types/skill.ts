@@ -1,14 +1,28 @@
-export type SkillCategory =
-  | 'Language'
-  | 'Framework/Library'
-  | 'Database'
-  | 'Cloud'
-  | 'Infra/Tool'
-  | 'Methodology'
-  | 'Design'
-  | 'Other';
+export interface SkillCategory {
+  id: string;
+  label: string;
+  description?: string;
+}
 
-export interface RelatedLink {
+export interface SkillRole {
+  id: string;
+  label: string;
+  description?: string;
+  tasks?: string[];
+}
+
+export interface SkillTag {
+  id: string;
+  label: string;
+}
+
+export interface SkillProject {
+  name: string;
+  url: string;
+  description?: string;
+}
+
+export interface SkillLink {
   type:
     | 'project'
     | 'repository'
@@ -21,36 +35,52 @@ export interface RelatedLink {
   url: string;
 }
 
-export interface SkillEvent {
-  date: string;
-  type:
-    | 'learning_start'
-    | 'project'
-    | 'repository'
-    | 'article'
-    | 'certificate'
-    | 'slides'
-    | 'contribution'
-    | 'other';
-  description: string;
-}
-
-export interface Skill {
+export interface SkillRecord {
   id: string;
   name: string;
-  category: SkillCategory;
+  categoryIds: string[];
+  roleIds: string[];
+  tagIds?: string[];
   startDate?: string;
-  projectCount?: number;
-  repositoryCount?: number;
-  articleCount?: number;
-  certificates?: string[];
-  icon?: string;
-  description?: string;
+  summary?: string;
+  scope?: string[];
   strengths?: string[];
-  relatedLinks?: RelatedLink[];
-  mainVersions?: string[];
-  proficiency?: string;
+  useCases?: string[];
+  projects?: SkillProject[];
+  links?: SkillLink[];
   learning?: string[];
   interests?: string[];
-  events?: SkillEvent[];
+}
+
+export interface SkillSummaryItem {
+  id: string;
+  label: string;
+  description: string;
+  experience: string | null;
+}
+
+export interface SkillCapability {
+  id: string;
+  title: string;
+  description: string;
+  tasks: string[];
+  technologies: string[];
+}
+
+export interface SkillStackItem {
+  id: string;
+  name: string;
+  scope: string[];
+}
+
+export interface SkillStackGroup {
+  id: string;
+  label: string;
+  description: string;
+  skills: SkillStackItem[];
+}
+
+export interface SkillDevelopmentItem {
+  name: string;
+  relatedSkill?: string;
 }

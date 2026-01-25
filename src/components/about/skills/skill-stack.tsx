@@ -3,84 +3,14 @@
 import { Container, SectionTitle } from '@/components/common';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Crown, Star, TrendingUp } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
-import { skillsData } from '@/data/skills';
-import type { Skill } from '@/types/skill';
-
-type ProficiencyLevel = 'expert' | 'advanced' | 'intermediate';
-
-const categorizeByProficiency = (
-  skills: Skill[]
-): Record<ProficiencyLevel, Skill[]> => {
-  const result: Record<ProficiencyLevel, Skill[]> = {
-    expert: [],
-    advanced: [],
-    intermediate: [],
-  };
-
-  for (const skill of skills) {
-    const proficiency = skill.proficiency?.toLowerCase() || '';
-
-    if (
-      proficiency.includes('advanced') ||
-      proficiency.includes('エキスパート')
-    ) {
-      result.expert.push(skill);
-    } else if (
-      proficiency.includes('intermediate') ||
-      proficiency.includes('上級')
-    ) {
-      result.advanced.push(skill);
-    } else {
-      result.intermediate.push(skill);
-    }
-  }
-
-  return result;
-};
-
-const levelConfig: Record<
-  ProficiencyLevel,
-  {
-    label: string;
-    description: string;
-    icon: typeof Crown;
-    badgeVariant: 'default' | 'secondary' | 'outline';
-  }
-> = {
-  expert: {
-    label: 'エキスパート',
-    description:
-      '業務の中心技術として日常的に使用。深い知識を持ち、チームをリードできる。',
-    icon: Crown,
-    badgeVariant: 'default',
-  },
-  advanced: {
-    label: '上級',
-    description:
-      '実務で問題なく使用可能。複雑な実装やトラブルシューティングに対応できる。',
-    icon: Star,
-    badgeVariant: 'secondary',
-  },
-  intermediate: {
-    label: '中級',
-    description: '基本的な実装が可能。学習を継続しながら実務に活用。',
-    icon: TrendingUp,
-    badgeVariant: 'outline',
-  },
-};
+import { getSkillStackGroups } from '@/lib/skills/selectors';
 
 export const SkillStack = () => {
   const skillGroups = useMemo(() => {
-    const categorized = categorizeByProficiency(skillsData);
-
-    return (Object.keys(levelConfig) as ProficiencyLevel[]).map((level) => ({
-      level,
-      ...levelConfig[level],
-      skills: categorized[level],
-    }));
+    return getSkillStackGroups();
   }, []);
 
   return (
@@ -88,13 +18,13 @@ export const SkillStack = () => {
       <Container className="py-0">
         <SectionTitle
           title="技術スタック詳細"
-          subtitle="習熟度別に整理した技術一覧です。"
+          subtitle="カテゴリ別に主な対応範囲を整理しています。"
         />
 
         <div className="space-y-8">
           {skillGroups.map((group, groupIndex) => (
             <motion.div
-              key={group.level}
+              key={group.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: groupIndex * 0.1 }}
@@ -104,7 +34,7 @@ export const SkillStack = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 rounded-lg bg-primary/10">
-                      <group.icon className="h-5 w-5 text-primary" />
+                      <Layers className="h-5 w-5 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold">{group.label}</h3>
@@ -114,15 +44,30 @@ export const SkillStack = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-3">
                     {group.skills.map((skill) => (
-                      <Badge
-                        key={skill.id}
-                        variant={group.badgeVariant}
-                        className="text-sm py-1 px-3"
-                      >
-                        {skill.name}
-                      </Badge>
+                      <div key={skill.id} className="flex flex-col gap-2">
+                        <Badge variant="secondary" className="w-fit">
+                          {skill.name}
+                        </Badge>
+                        {skill.scope.length > 0 ? (
+                          <div className="flex flex-wrap gap-2">
+                            {skill.scope.map((scope) => (
+                              <Badge
+                                key={`${skill.id}-${scope}`}
+                                variant="outline"
+                                className="text-xs"
+                              >
+                                {scope}
+                              </Badge>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            対応範囲の情報がありません
+                          </p>
+                        )}
+                      </div>
                     ))}
                     {group.skills.length === 0 && (
                       <p className="text-sm text-muted-foreground italic">

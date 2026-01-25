@@ -6,61 +6,20 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Rocket, Target } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
-import { skillsData } from '@/data/skills';
-
-interface DevelopmentItem {
-  name: string;
-  relatedSkill?: string;
-}
-
-const extractLearningItems = (): DevelopmentItem[] => {
-  const items: DevelopmentItem[] = [];
-  const seen = new Set<string>();
-
-  for (const skill of skillsData) {
-    if (skill.learning) {
-      for (const item of skill.learning) {
-        if (!seen.has(item)) {
-          seen.add(item);
-          items.push({ name: item, relatedSkill: skill.name });
-        }
-      }
-    }
-  }
-
-  return items.slice(0, 6);
-};
-
-const extractInterestItems = (): DevelopmentItem[] => {
-  const items: DevelopmentItem[] = [];
-  const seen = new Set<string>();
-
-  for (const skill of skillsData) {
-    if (skill.interests) {
-      for (const item of skill.interests) {
-        if (!seen.has(item)) {
-          seen.add(item);
-          items.push({ name: item, relatedSkill: skill.name });
-        }
-      }
-    }
-  }
-
-  return items.slice(0, 6);
-};
+import { getSkillDevelopmentItems } from '@/lib/skills/selectors';
 
 const developmentCategories = [
   {
     icon: Rocket,
     title: '現在学習中',
     description: '積極的に学習・習得を進めている技術',
-    getItems: extractLearningItems,
+    getItems: () => getSkillDevelopmentItems().learning,
   },
   {
     icon: Target,
     title: '今後習得予定',
     description: '将来的に習得したい技術・分野',
-    getItems: extractInterestItems,
+    getItems: () => getSkillDevelopmentItems().interests,
   },
 ];
 

@@ -4,77 +4,20 @@ import { Container, SectionTitle } from '@/components/common';
 import { Cloud, Database, Layout, Server } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
-import { skillsData } from '@/data/skills';
-import { calculateExperiencePeriod } from '@/lib/dateUtils';
+import { getSkillSummary } from '@/lib/skills/selectors';
 
-const getCategoryExperience = (categories: string[]) => {
-  const categorySkills = skillsData.filter((skill) =>
-    categories.includes(skill.category)
-  );
-
-  if (categorySkills.length === 0) return null;
-
-  const earliestDate = categorySkills.reduce(
-    (earliest, skill) => {
-      if (!skill.startDate) return earliest;
-      if (!earliest) return skill.startDate;
-      return skill.startDate < earliest ? skill.startDate : earliest;
-    },
-    null as string | null
-  );
-
-  if (!earliestDate) return null;
-
-  return calculateExperiencePeriod(earliestDate);
+const summaryIcons = {
+  frontend: Layout,
+  backend: Server,
+  database: Database,
+  cloud: Cloud,
 };
-
-const getCategoryProficiency = (categories: string[]) => {
-  const categorySkills = skillsData.filter((skill) =>
-    categories.includes(skill.category)
-  );
-
-  const advancedCount = categorySkills.filter((skill) =>
-    skill.proficiency?.includes('Advanced')
-  ).length;
-
-  if (advancedCount >= 2) return 'エキスパート';
-  if (advancedCount >= 1) return '上級';
-  return '中級';
-};
-
-const summaryItems = [
-  {
-    icon: Layout,
-    label: 'フロントエンド',
-    categories: ['Framework/Library'],
-    description: 'React/Next.js を中心とした開発',
-  },
-  {
-    icon: Server,
-    label: 'バックエンド',
-    categories: ['Language', 'Framework/Library'],
-    description: 'Node.js/Python/Go による API 開発',
-  },
-  {
-    icon: Database,
-    label: 'データベース',
-    categories: ['Database'],
-    description: 'PostgreSQL/Supabase 等の設計・運用',
-  },
-  {
-    icon: Cloud,
-    label: 'クラウド・インフラ',
-    categories: ['Cloud', 'Infra/Tool'],
-    description: 'AWS/GCP/Docker でのインフラ構築',
-  },
-];
 
 export const SkillSummary = () => {
   const summaryData = useMemo(() => {
-    return summaryItems.map((item) => ({
+    return getSkillSummary().map((item) => ({
       ...item,
-      experience: getCategoryExperience(item.categories),
-      proficiency: getCategoryProficiency(item.categories),
+      icon: summaryIcons[item.id as keyof typeof summaryIcons] ?? Layout,
     }));
   }, []);
 
