@@ -10,7 +10,6 @@ import { Values } from '@/components/about/values';
 import { TechStack } from '@/components/about/tech-stack';
 import { Certifications } from '@/components/about/certifications';
 import { Interests } from '@/components/about/interests';
-import { Featured } from '@/components/about/featured';
 import { GithubContributions } from '@/components/about/github-contributions';
 
 const featuredWorks = getFeaturedWorks();
@@ -45,9 +44,6 @@ if (githubUsername && githubToken) {
     <TechStack client:load />
     <Certifications client:load />
     <Interests client:load />
-    {featuredWorks.length > 0 && (
-      <Featured works={featuredWorks} client:load />
-    )}
     {showContributions && (
       <section class="py-12">
         <div class="container mx-auto px-4">

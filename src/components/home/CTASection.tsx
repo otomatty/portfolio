@@ -57,11 +57,11 @@ export const CTASection = ({
   phoneNumber = '080-9068-9306',
 }: CTASectionProps) => {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-12 md:py-20 overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-b from-background to-muted/30" />
       <div className="absolute inset-0 opacity-5 bg-[radial-gradient(hsl(var(--foreground)/0.2)_1px,transparent_1px)] [background-size:24px_24px]" />
 
-      <Container className="relative py-0">
+      <Container className="relative py-0 overflow-x-hidden">
         <SectionTitle
           title={homepageCopy.cta.title}
           subtitle={homepageCopy.cta.subtitle}
@@ -79,17 +79,17 @@ export const CTASection = ({
           >
             <div className="absolute -inset-1 bg-linear-to-r from-primary to-primary-foreground rounded-2xl blur-sm opacity-25 transition-all group-hover:opacity-40" />
             <Card className="relative h-full bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/75 transition-all duration-300 group-hover:scale-[1.02]">
-              <CardContent className="p-8">
-                <div className="flex flex-col gap-6">
+              <CardContent className="p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col gap-4 sm:gap-6">
                   <div className="flex items-center gap-3 text-primary">
                     <div className="p-2 rounded-lg bg-primary/10">
                       <MessageSquare className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xl font-semibold tracking-tight">
+                    <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                       {homepageCopy.cta.contact.title}
                     </h3>
                   </div>
-                  <p className="text-muted-foreground text-pretty whitespace-pre-line">
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty whitespace-pre-line">
                     {homepageCopy.cta.contact.description}
                   </p>
                   <Button asChild size="lg" className="w-full">
@@ -105,21 +105,21 @@ export const CTASection = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="relative group"
+            className="relative group overflow-hidden"
           >
             <div className="absolute -inset-1 bg-linear-to-r from-primary to-primary-foreground rounded-2xl blur-sm opacity-25 transition-all group-hover:opacity-40" />
             <Card className="relative h-full bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/75 transition-all duration-300 group-hover:scale-[1.02]">
-              <CardContent className="p-8">
-                <div className="flex flex-col gap-6">
+              <CardContent className="p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col gap-4 sm:gap-6">
                   <div className="flex items-center gap-3 text-primary">
                     <div className="p-2 rounded-lg bg-primary/10">
                       <FileText className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xl font-semibold tracking-tight">
+                    <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                       {homepageCopy.cta.estimate.title}
                     </h3>
                   </div>
-                  <p className="text-muted-foreground text-pretty whitespace-pre-line">
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty whitespace-pre-line">
                     {homepageCopy.cta.estimate.description}
                   </p>
                   <Button asChild size="lg" className="w-full">
@@ -135,147 +135,147 @@ export const CTASection = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className="lg:col-span-2"
+            className="lg:col-span-2 overflow-hidden"
           >
             <Card className="bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/75 overflow-hidden">
-              <CardContent className="p-8">
-                <div className="flex items-end gap-8 flex-col lg:flex-row">
-                  <div className="space-y-6 flex-1 h-full w-full">
+              <CardContent className="p-4 sm:p-6 md:p-8">
+                <div className="flex items-stretch gap-6 md:gap-8 flex-col lg:flex-row">
+                  <div className="space-y-4 sm:space-y-6 flex-1 h-full w-full min-w-0">
                     <div className="flex items-center gap-3 text-foreground">
                       <div className="p-2 rounded-lg bg-muted">
                         <Calendar className="w-5 h-5" />
                       </div>
-                      <h3 className="text-xl font-semibold tracking-tight">
+                      <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                         {homepageCopy.cta.availability.title}
                       </h3>
                     </div>
                     <div className="overflow-x-auto rounded-lg border bg-card/50">
-                      <table className="w-full text-sm">
+                      <table className="w-full text-xs sm:text-sm min-w-[480px]">
                         <thead>
                           <tr className="border-b bg-muted/50">
-                            <th className="px-3 py-3 text-left font-medium">
+                            <th className="px-2 sm:px-3 py-2 sm:py-3 text-left font-medium whitespace-nowrap">
                               {homepageCopy.cta.availability.timeSlot}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.monday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.tuesday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.wednesday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.thursday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.friday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.saturday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.sunday}
                             </th>
-                            <th className="px-3 py-3 text-center font-medium">
+                            <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-center font-medium">
                               {homepageCopy.cta.availability.days.holiday}
                             </th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr className="border-b">
-                            <td className="px-3 py-3 font-medium">9:00 - 12:00</td>
-                            <td className="px-3 py-3">
+                            <td className="px-2 sm:px-3 py-2 sm:py-3 font-medium whitespace-nowrap">9:00 - 12:00</td>
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
                           </tr>
                           <tr className="border-b">
-                            <td className="px-3 py-3 font-medium">13:00 - 19:00</td>
-                            <td className="px-3 py-3">
+                            <td className="px-2 sm:px-3 py-2 sm:py-3 font-medium whitespace-nowrap">13:00 - 19:00</td>
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="×" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
                           </tr>
                           <tr>
-                            <td className="px-3 py-3 font-medium">20:00 - 22:00</td>
-                            <td className="px-3 py-3">
+                            <td className="px-2 sm:px-3 py-2 sm:py-3 font-medium whitespace-nowrap">20:00 - 22:00</td>
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="○" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="○" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="○" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="○" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="○" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-1.5 sm:px-3 py-2 sm:py-3">
                               <AvailabilityIndicator status="△" />
                             </td>
                           </tr>
                         </tbody>
                       </table>
-                      <div className="flex gap-6 p-4 text-sm text-muted-foreground bg-muted/30">
-                        <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap gap-3 sm:gap-6 p-3 sm:p-4 text-xs sm:text-sm text-muted-foreground bg-muted/30">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <AvailabilityIndicator status="○" />
                           <span>{homepageCopy.cta.availability.status.available}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <AvailabilityIndicator status="△" />
                           <span>{homepageCopy.cta.availability.status.consultation}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <AvailabilityIndicator status="×" />
                           <span>{homepageCopy.cta.availability.status.unavailable}</span>
                         </div>
@@ -283,13 +283,13 @@ export const CTASection = ({
                     </div>
                   </div>
 
-                  <div className="space-y-8 flex-1 w-full">
-                    <div className="space-y-4">
+                  <div className="space-y-6 sm:space-y-8 flex-1 w-full">
+                    <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-center gap-3 text-foreground">
                         <div className="p-2 rounded-lg bg-muted">
                           <Mail className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-semibold tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                           {homepageCopy.cta.availability.email}
                         </h3>
                       </div>
@@ -297,18 +297,18 @@ export const CTASection = ({
                         href={`mailto:${email}`}
                         className="group/link inline-flex items-center gap-2 text-primary hover:text-primary/90 transition-colors"
                       >
-                        <span className="text-lg">{email}</span>
+                        <span className="text-base sm:text-lg break-all">{email}</span>
                         <span className="text-primary/70 group-hover/link:translate-x-0.5 transition-transform">
                           →
                         </span>
                       </a>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-center gap-3 text-foreground">
                         <div className="p-2 rounded-lg bg-muted">
                           <Phone className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-semibold tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                           {homepageCopy.cta.availability.phone}
                         </h3>
                       </div>
@@ -316,18 +316,18 @@ export const CTASection = ({
                         href={`tel:${phoneNumber}`}
                         className="group/link inline-flex items-center gap-2 text-primary hover:text-primary/90 transition-colors"
                       >
-                        <span className="text-lg">{phoneNumber}</span>
+                        <span className="text-base sm:text-lg">{phoneNumber}</span>
                         <span className="text-primary/70 group-hover/link:translate-x-0.5 transition-transform">
                           →
                         </span>
                       </a>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-center gap-3 text-foreground">
                         <div className="p-2 rounded-lg bg-muted">
                           <CalendarClock className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-semibold tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
                           {homepageCopy.cta.availability.meetingSchedule}
                         </h3>
                       </div>

@@ -7,48 +7,13 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { Separator } from '@/components/ui/separator';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent,SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { navigationItems } from '@/data/navigation';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
-
-const navigationItems = [
-  {
-    title: 'About',
-    href: '/about',
-  },
-  {
-    title: 'Works',
-    href: '/works',
-  },
-  {
-    title: 'Services',
-    items: [
-      {
-        title: 'サービス一覧',
-        href: '/services',
-      },
-      {
-        title: '開発プロセス',
-        href: '/services/process',
-      },
-      {
-        title: '料金',
-        href: '/services/pricing',
-      },
-      {
-        title: 'FAQ',
-        href: '/services/faq',
-      },
-    ],
-  },
-  {
-    title: 'Contact',
-    href: '/contact',
-  },
-] as const;
 
 interface MobileSidebarProps {
   currentPath?: string;
@@ -57,7 +22,14 @@ interface MobileSidebarProps {
 
 export function MobileSidebar({ currentPath = '/', currentLocale = 'ja' }: MobileSidebarProps) {
   const [open, setOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+
+  const toggleExpanded = (title: string) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -68,19 +40,23 @@ export function MobileSidebar({ currentPath = '/', currentLocale = 'ja' }: Mobil
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <SheetTitle>メニュー</SheetTitle>
+        <SheetHeader>
+          <SheetTitle>メニュー</SheetTitle>
+        </SheetHeader>
 
         <nav className="flex flex-col gap-1 p-4">
           {navigationItems.map((item) => {
-            if ('items' in item) {
+            if (item.items) {
               const isActive = item.items.some(
                 (subItem) => subItem.href === currentPath
               );
+              const isExpanded = expandedItems[item.title] ?? false;
+
               return (
                 <Collapsible
                   key={item.title}
-                  open={servicesOpen}
-                  onOpenChange={setServicesOpen}
+                  open={isExpanded}
+                  onOpenChange={() => toggleExpanded(item.title)}
                 >
                   <CollapsibleTrigger asChild>
                     <Button
@@ -95,31 +71,36 @@ export function MobileSidebar({ currentPath = '/', currentLocale = 'ja' }: Mobil
                       {item.title}
                       <ChevronDown
                         className={cn('h-4 w-4 transition-transform', {
-                          'rotate-180': servicesOpen,
+                          'rotate-180': isExpanded,
                         })}
                       />
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-1 px-4">
-                    {item.items.map((subItem) => (
-                      <a
-                        key={subItem.title}
-                        href={subItem.href}
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          'block px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
-                          {
-                            'bg-accent': currentPath === subItem.href,
-                          }
-                        )}
-                      >
-                        {subItem.title}
-                      </a>
-                    ))}
+                    {item.items.map((subItem) => {
+                      const Icon = subItem.icon;
+                      return (
+                        <a
+                          key={subItem.href}
+                          href={subItem.href}
+                          onClick={() => setOpen(false)}
+                          className={cn(
+                            'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
+                            {
+                              'bg-accent': currentPath === subItem.href,
+                            }
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span>{subItem.title}</span>
+                        </a>
+                      );
+                    })}
                   </CollapsibleContent>
                 </Collapsible>
               );
             }
+
             return (
               <a
                 key={item.title}

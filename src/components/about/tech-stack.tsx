@@ -4,63 +4,22 @@ import { SectionTitle, Container } from '@/components/common';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Database, Layout, Server, Cloud, GitBranch } from 'lucide-react';
+import { getTechStacks } from '@/lib/skills/selectors';
+import { ArrowRight, Database, Layout, Server, Cloud, GitBranch, type LucideIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
-const techStacks = [
-  {
-    category: 'フロントエンド',
-    icon: Layout,
-    technologies: [
-      'React',
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Framer Motion',
-      'shadcn/ui',
-      'Jotai',
-    ],
-  },
-  {
-    category: 'バックエンド',
-    icon: Server,
-    technologies: [
-      'Node.js',
-      'Supabase',
-      'Hono',
-      'tRPC',
-    ],
-  },
-  {
-    category: 'データベース',
-    icon: Database,
-    technologies: [
-      'PostgreSQL',
-      'Prisma',
-      'Drizzle',
-    ],
-  },
-  {
-    category: 'クラウド・インフラ',
-    icon: Cloud,
-    technologies: [
-      'AWS',
-      'Vercel',
-      'Cloudflare',
-      'Docker',
-    ],
-  },
-  {
-    category: 'CI/CD・ツール',
-    icon: GitBranch,
-    technologies: [
-      'GitHub Actions',
-      'Git',
-      'Storybook',
-      'Vitest',
-    ],
-  },
-];
+const categoryIcons: Record<string, LucideIcon> = {
+  'フロントエンド': Layout,
+  'バックエンド': Server,
+  'データベース': Database,
+  'クラウド・インフラ': Cloud,
+  'CI/CD・ツール': GitBranch,
+};
+
+const techStacks = getTechStacks().map((stack) => ({
+  ...stack,
+  icon: categoryIcons[stack.category] || Layout,
+}));
 
 export const TechStack = () => {
   return (

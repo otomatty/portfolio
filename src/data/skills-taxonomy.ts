@@ -46,8 +46,8 @@ export const skillCategoryGroups: SkillCategoryGroup[] = [
   {
     id: 'other',
     label: 'その他',
-    description: 'デザイン・マネジメント等',
-    categoryIds: ['design', 'management'],
+    description: 'デザイン・マネジメント・AIツール等',
+    categoryIds: ['design', 'management', 'ai-tools'],
   },
 ];
 
@@ -184,6 +184,12 @@ export const skillCategories: SkillCategory[] = [
     label: 'マネジメント',
     description: 'プロジェクト管理',
   },
+  {
+    id: 'ai-tools',
+    groupId: 'other',
+    label: 'AIツール',
+    description: 'AI支援開発ツール・エージェント',
+  },
 ];
 
 export const skillRoles: SkillRole[] = [
@@ -220,6 +226,17 @@ export const skillRoles: SkillRole[] = [
       '監視・ログの設計',
     ],
   },
+  {
+    id: 'design',
+    label: 'UI/UXデザイン',
+    description: 'ユーザー体験を重視したデザインと設計。',
+    tasks: [
+      'Figma を使った UI デザイン',
+      'プロトタイピングとユーザーテスト',
+      'デザインシステムの構築・運用',
+      'アクセシビリティを考慮した設計',
+    ],
+  },
 ];
 
 export const skillTags: SkillTag[] = [
@@ -237,4 +254,7 @@ export const skillTags: SkillTag[] = [
   { id: 'cloud', label: 'Cloud' },
   { id: 'serverless', label: 'Serverless' },
   { id: 'container', label: 'Container' },
+  { id: 'ai', label: 'AI' },
+  { id: 'agent', label: 'Agent' },
+  { id: 'consulting', label: 'Consulting' },
 ];

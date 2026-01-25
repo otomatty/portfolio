@@ -62,8 +62,6 @@ export const profile = {
   },
   socials: {
     github: 'https://github.com/otomatty',
-    twitter: 'https://twitter.com/saedgewell',
-    linkedin: 'https://linkedin.com/in/saedgewell',
   },
   freelanceStartDate: '2020-12-01',
 } as const;
@@ -89,7 +87,7 @@ export const careerEntries: CareerEntry[] = [
     title: '受託開発・個人開発',
     company: 'フリーランス',
     description:
-      'TypeScript と Next.js を主軸としたモダンな Web 技術を活用し、業務システムや Web アプリの開発を担当。',
+      'TypeScript と Next.js を主軸としたモダンな Web 技術を活用し、業務システムや Web アプリの開発を担当。フリーランス専業1年目(2024年度)で12案件以上を受注。',
     iconKey: 'code',
     type: 'freelance',
     projects: [

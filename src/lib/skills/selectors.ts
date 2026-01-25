@@ -141,3 +141,111 @@ export const getSkillDevelopmentItems = () => {
     interests: extractUniqueItems('interests'),
   };
 };
+
+/**
+ * Tech Stack（技術スタック一覧）
+ * About ページの技術スタックカード用
+ */
+export interface TechStackCategory {
+  category: string;
+  technologies: string[];
+}
+
+export const getTechStacks = (): TechStackCategory[] => {
+  const categoryMapping = [
+    {
+      category: 'フロントエンド',
+      categoryIds: ['language', 'frontend-framework', 'frontend-styling', 'frontend-state', 'frontend-ui', 'frontend-animation'],
+    },
+    {
+      category: 'バックエンド',
+      categoryIds: ['backend-runtime', 'backend-baas', 'backend-api'],
+    },
+    {
+      category: 'データベース',
+      categoryIds: ['database', 'orm'],
+    },
+    {
+      category: 'クラウド・インフラ',
+      categoryIds: ['cloud', 'container'],
+    },
+    {
+      category: 'CI/CD・ツール',
+      categoryIds: ['cicd', 'frontend-testing', 'frontend-tooling'],
+    },
+  ];
+
+  return categoryMapping.map((mapping) => {
+    const technologies = skills
+      .filter((skill) =>
+        skill.categoryIds.some((catId) => mapping.categoryIds.includes(catId))
+      )
+      .filter((skill) => skill.startDate) // 開始日があるスキルのみ（実務経験あり）
+      .sort((a, b) => {
+        // 開始日が古い（経験が長い）順にソート
+        if (!a.startDate || !b.startDate) return 0;
+        return a.startDate < b.startDate ? -1 : 1;
+      })
+      .map((skill) => skill.name);
+
+    return {
+      category: mapping.category,
+      technologies,
+    };
+  }).filter((stack) => stack.technologies.length > 0);
+};
+
+/**
+ * スキル開発の方向性（目標ベース）
+ */
+export interface SkillDevelopmentGoal {
+  id: string;
+  title: string;
+  description: string;
+  learningItems: string[];
+  relatedSkills: string[];
+}
+
+export const getSkillDevelopmentGoals = (): SkillDevelopmentGoal[] => {
+  return [
+    {
+      id: 'rust-development',
+      title: 'Rustを使用したアプリケーション開発',
+      description:
+        '高パフォーマンス・安全性を重視したRust製アプリケーションの開発スキルを習得',
+      learningItems: [
+        'Leptosによるフルスタック開発',
+        'Axumを使ったバックエンドAPI',
+        'Tauriでのデスクトップアプリ',
+        'WebAssemblyの活用',
+      ],
+      relatedSkills: ['Rust', 'Tauri', 'WebAssembly'],
+    },
+    {
+      id: 'serverless-fullstack',
+      title: 'サーバーレスフルスタック開発',
+      description:
+        'エッジコンピューティングとBaaSを活用した、スケーラブルなフルスタックアプリケーション構築',
+      learningItems: [
+        'Supabase Edge Functions',
+        'Cloudflare Workers × Hono',
+        'Vercel AI SDK',
+        'エッジデータベース（D1, Turso）',
+      ],
+      relatedSkills: ['Supabase', 'Cloudflare', 'Vercel', 'Hono'],
+    },
+    {
+      id: 'product-management',
+      title: 'プロダクトマネージャーへの成長',
+      description:
+        '技術とビジネスを橋渡しし、プロダクトの価値を最大化するPMスキルの習得',
+      learningItems: [
+        'プロダクトマネジメント基礎',
+        'ユーザーリサーチ手法',
+        'データ駆動意思決定',
+        'プロダクト戦略立案',
+      ],
+      relatedSkills: ['プロジェクト管理', 'UIデザイン', 'Figma'],
+    },
+  ];
+};

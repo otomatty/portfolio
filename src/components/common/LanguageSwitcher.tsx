@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const languages = [
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
-  { code: 'ko', label: '한국어', flag: '🇰🇷' },
+  { code: 'ja', label: '日本語', flag: '🇯🇵', enabled: true },
+  { code: 'en', label: 'English', flag: '🇺🇸', enabled: false },
+  { code: 'zh', label: '中文', flag: '🇨🇳', enabled: false },
+  { code: 'ko', label: '한국어', flag: '🇰🇷', enabled: false },
 ];
 
 interface LanguageSwitcherProps {
@@ -76,11 +76,15 @@ export function LanguageSwitcher({ currentLocale = 'ja' }: LanguageSwitcherProps
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            onClick={() => handleLanguageChange(language.code)}
+            onClick={() => language.enabled && handleLanguageChange(language.code)}
+            disabled={!language.enabled}
             className="flex items-center gap-2 cursor-pointer"
           >
             <span className="text-base">{language.flag}</span>
             <span className="flex-1">{language.label}</span>
+            {!language.enabled && (
+              <span className="text-xs text-muted-foreground">準備中</span>
+            )}
             {currentLocale === language.code && (
               <Check className="h-4 w-4 text-primary" />
             )}
