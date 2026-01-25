@@ -288,4 +288,108 @@ export const frontendCoreSkills: SkillRecord[] = [
     learning: ['View Transitions API', 'Server Islands'],
     interests: ['Astro DB', 'Astro Actions'],
   },
+  // フロントエンドフレームワーク - Remix
+  {
+    id: 'remix',
+    name: 'Remix',
+    categoryIds: ['frontend-framework'],
+    roleIds: ['frontend', 'backend'],
+    tagIds: ['ssr', 'performance'],
+    startDate: '2023-01-01',
+    summary: 'Web標準を重視したフルスタックフレームワーク。フォームやデータロードに強み。',
+    scope: [
+      'SSR/SSG',
+      'ネストルーティング',
+      'フォーム処理',
+      'データローディング',
+    ],
+    strengths: [
+      'Web標準に沿った設計',
+      'プログレッシブエンハンスメント',
+      'ネストルートによる効率的なデータ取得',
+    ],
+    useCases: [
+      'フォーム中心のWebアプリ',
+      'SEO重視のサイト構築',
+    ],
+    learning: ['Remix v2', 'React Router v7'],
+    interests: ['Edge Functions', 'Cloudflare Workers連携'],
+  },
+  // フロントエンドフレームワーク - SolidJS
+  {
+    id: 'solidjs',
+    name: 'SolidJS',
+    categoryIds: ['frontend-framework'],
+    roleIds: ['frontend'],
+    tagIds: ['ui', 'performance'],
+    startDate: '2023-01-01',
+    summary: 'Reactライクな構文で高パフォーマンスを実現するリアクティブフレームワーク。',
+    scope: [
+      'リアクティブUI構築',
+      'シグナルベース状態管理',
+      'コンポーネント設計',
+    ],
+    strengths: [
+      '仮想DOMなしの高速レンダリング',
+      'Reactに似た学習曲線',
+      '細粒度リアクティビティ',
+    ],
+    useCases: [
+      '高パフォーマンスが必要なUI',
+      'リアルタイムアプリケーション',
+    ],
+    learning: ['SolidStart', 'Solid Router'],
+    interests: ['SolidJS エコシステム'],
+  },
+  // フロントエンドフレームワーク - Vue.js
+  {
+    id: 'vue',
+    name: 'Vue.js',
+    categoryIds: ['frontend-framework'],
+    roleIds: ['frontend'],
+    tagIds: ['ui', 'state'],
+    startDate: '2025-01-01',
+    summary: 'Composition APIを中心に学習中。段階的に採用可能なプログレッシブフレームワーク。',
+    scope: [
+      'Composition API',
+      'コンポーネント設計',
+      'リアクティブシステム',
+    ],
+    strengths: [
+      '学習のしやすさ',
+      'Reactとの比較による理解',
+    ],
+    useCases: [
+      '学習・検証目的のプロジェクト',
+    ],
+    learning: ['Composition API', 'Pinia', 'Nuxt.js'],
+    interests: ['Vue 3エコシステム', 'Nuxt 3'],
+  },
+  // デスクトップフレームワーク - Tauri
+  {
+    id: 'tauri',
+    name: 'Tauri',
+    categoryIds: ['frontend-framework'],
+    roleIds: ['frontend'],
+    tagIds: ['performance', 'desktop'],
+    startDate: '2023-01-01',
+    summary: 'Rustベースの軽量デスクトップアプリフレームワーク。Web技術でクロスプラットフォーム開発。',
+    scope: [
+      'デスクトップアプリ開発',
+      'クロスプラットフォーム',
+      'Rust連携',
+      'システムAPI呼び出し',
+    ],
+    strengths: [
+      'Electronより軽量なバイナリ',
+      'Rustによるバックエンド処理',
+      'セキュリティ重視の設計',
+    ],
+    useCases: [
+      '軽量デスクトップアプリ開発',
+      'Web技術を活かしたネイティブアプリ',
+    ],
+    learning: ['Tauri 2.0', 'プラグイン開発'],
+    interests: ['モバイル対応', 'Tauri Mobile'],
+  },
 ];

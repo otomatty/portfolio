@@ -6,6 +6,23 @@
 
 ---
 
+## 目次
+
+1. [データ構造](#1-データ構造)
+2. [スキルインタビュー質問リスト](#2-スキルインタビュー質問リスト)
+3. [設定チェックリスト](#3-設定チェックリスト)
+4. [設定例（React）](#4-設定例react)
+5. [整備対象スキル一覧](#5-整備対象スキル一覧)
+6. [追加予定のスキル](#6-追加予定のスキル)
+7. [作業ログ](#7-作業ログ)
+8. [セマンティックHTML対応](#8-セマンティックhtml対応)
+9. [実装済みの改善（2026-01-25）](#9-実装済みの改善2026-01-25)
+10. [次のアクション](#10-次のアクション)
+11. [インタビュー質問テンプレート](#11-インタビュー質問テンプレート)
+12. [関連ファイル](#12-関連ファイル更新版)
+
+---
+
 ## 1. データ構造
 
 ### 1.1 スキルレコード（SkillRecord）
@@ -16,10 +33,11 @@
 interface SkillRecord {
   id: string;              // 一意のID（例: 'react', 'typescript'）
   name: string;            // 表示名（例: 'React', 'TypeScript'）
-  categoryIds: string[];   // 所属カテゴリ（例: ['frontend', 'backend']）
+  categoryIds: string[];   // 所属カテゴリ（例: ['frontend-framework']）
   roleIds: string[];       // 対応する役割（例: ['frontend']）
   tagIds?: string[];       // タグ（例: ['ui', 'state']）
   startDate?: string;      // 開始日（YYYY-MM-DD）
+  icon?: string;           // アイコンパス（例: '/icons/react.svg'）★追加
   summary?: string;        // 概要説明（1〜2文）
   scope?: string[];        // 主な対応範囲（3〜6項目）
   strengths?: string[];    // 強み（3〜5項目）
@@ -51,15 +69,71 @@ interface SkillLink {
 }
 ```
 
-### 1.4 Taxonomy（辞書）
+### 1.4 カテゴリ構造（Taxonomy）
 
 スキルの分類は `src/data/skills-taxonomy.ts` で定義します。
 
-| 辞書 | 説明 | 例 |
-|------|------|-----|
-| `skillCategories` | スキルのカテゴリ | frontend, backend, database, cloud, infra |
-| `skillRoles` | 対応可能な役割 | frontend, backend, infra |
-| `skillTags` | 細分類タグ | ui, state, performance, api |
+#### 大カテゴリグループ（SkillCategoryGroup）
+
+```typescript
+interface SkillCategoryGroup {
+  id: string;
+  label: string;
+  description?: string;
+  categoryIds: string[];
+}
+```
+
+| ID | ラベル | 説明 |
+|----|--------|------|
+| `frontend` | フロントエンド | UI/UX開発に関連する技術 |
+| `backend` | バックエンド | サーバーサイド・データ処理 |
+| `infra` | インフラ・DevOps | インフラ・運用 |
+| `other` | その他 | デザイン・マネジメント等 |
+
+#### サブカテゴリ（SkillCategory）
+
+| カテゴリID | グループ | ラベル |
+|-----------|----------|--------|
+| `language` | frontend | プログラミング言語 |
+| `frontend-framework` | frontend | フレームワーク |
+| `frontend-styling` | frontend | スタイリング |
+| `frontend-state` | frontend | 状態管理 |
+| `frontend-ui` | frontend | UIライブラリ |
+| `frontend-animation` | frontend | アニメーション |
+| `frontend-form` | frontend | フォーム |
+| `frontend-testing` | frontend | テスト |
+| `frontend-tooling` | frontend | 開発ツール |
+| `backend-runtime` | backend | ランタイム |
+| `backend-baas` | backend | BaaS |
+| `backend-api` | backend | APIフレームワーク |
+| `database` | backend | データベース |
+| `orm` | backend | ORM |
+| `cloud` | infra | クラウド |
+| `container` | infra | コンテナ |
+| `cicd` | infra | CI/CD |
+| `monitoring` | infra | 監視 |
+| `design` | other | デザイン |
+| `management` | other | マネジメント |
+
+#### 役割（SkillRole）
+
+| ID | ラベル | 説明 |
+|----|--------|------|
+| `frontend` | フロントエンド | UI/UX開発を担当 |
+| `backend` | バックエンド | サーバーサイド開発を担当 |
+| `infra` | インフラ | インフラ構築・運用を担当 |
+
+#### タグ（SkillTag）
+
+| ID | ラベル | 色 |
+|----|--------|-----|
+| `ui` | UI | 青 |
+| `state` | 状態管理 | 緑 |
+| `performance` | パフォーマンス | オレンジ |
+| `api` | API | 紫 |
+| `testing` | テスト | 黄 |
+| `styling` | スタイリング | ピンク |
 
 ---
 
@@ -79,6 +153,7 @@ interface SkillLink {
 | **学習中** | 現在学習しているトピックは？ | 1〜3件 |
 | **関心** | 今後習得したい関連技術は？ | 1〜3件 |
 | **リンク** | 記事/登壇/リポジトリなど | 任意 |
+| **アイコン** | 技術のアイコンパス | `/icons/xxx.svg` |
 
 ### 2.2 調査の進め方
 
@@ -94,9 +169,15 @@ interface SkillLink {
    例: React と TypeScript は同時期 → 両方 `2022-08-01`
 
 4. **カテゴリ/ロールの割り当て**  
-   - フロントエンド技術 → `categoryIds: ['frontend']`
-   - バックエンド技術 → `categoryIds: ['backend']`
-   - フルスタック技術 → `categoryIds: ['frontend', 'backend']`
+   - プログラミング言語 → `categoryIds: ['language']`
+   - フロントエンドフレームワーク → `categoryIds: ['frontend-framework']`
+   - UIライブラリ → `categoryIds: ['frontend-ui']`
+   - 状態管理 → `categoryIds: ['frontend-state']`
+   - バックエンドランタイム → `categoryIds: ['backend-runtime']`
+   - データベース → `categoryIds: ['database']`
+   - BaaS → `categoryIds: ['backend-baas']`
+   - コンテナ → `categoryIds: ['container']`
+   - CI/CD → `categoryIds: ['cicd']`
 
 ---
 
@@ -154,10 +235,11 @@ interface SkillLink {
 {
   id: 'react',
   name: 'React',
-  categoryIds: ['frontend'],
+  categoryIds: ['frontend-framework'],  // ★新カテゴリID
   roleIds: ['frontend'],
   tagIds: ['ui', 'state', 'performance'],
   startDate: '2022-08-01',
+  icon: '/icons/react.svg',  // ★追加
   summary: 'コンポーネント設計と状態管理を中心に、UIの設計・実装から改善まで担当。',
   scope: [
     'UI設計',
@@ -214,9 +296,10 @@ interface SkillLink {
 
 - [ ] `id` は一意か？
 - [ ] `name` は正式名称か？
-- [ ] `categoryIds` は適切か？
+- [ ] `categoryIds` は適切か？（新カテゴリID使用）
 - [ ] `roleIds` は適切か？
 - [ ] `startDate` は YYYY-MM-DD 形式か？
+- [ ] `icon` はパスが設定されているか？（任意）
 - [ ] `scope` は 3〜6 項目あるか？
 - [ ] `strengths` は 3〜5 項目あるか？
 - [ ] `useCases` は 3〜5 項目あるか？
@@ -343,151 +426,284 @@ interface SkillLink {
 
 ---
 
-## 9. UI改善提案
+## 9. 実装済みの改善（2026-01-25）
 
-### 9.1 現状の課題
+### 9.1 カテゴリ構造の再設計
 
-現在のスキル表示UIには以下の問題があります：
+以下の大カテゴリ + サブカテゴリ構造を実装しました。
 
-1. **テキストのみの表現**: スキルがテキストリストで表示されており、量が増えると視認性が低下
-2. **分類の不明確さ**: UIライブラリと状態管理ライブラリの区別がつきにくい
-3. **スキル間の関係性が見えない**: どのスキルが関連しているか把握しづらい
-4. **習熟度の表現不足**: どのスキルに強みがあるか一目でわからない
+#### 大カテゴリ（SkillCategoryGroup）
 
-### 9.2 改善案
+| ID | ラベル | 色 | 説明 |
+|----|--------|-----|------|
+| `frontend` | フロントエンド | 青 | UI/UX開発に関連する技術 |
+| `backend` | バックエンド | 緑 | サーバーサイド・データ処理に関連する技術 |
+| `infra` | インフラ・DevOps | オレンジ | インフラ・運用に関連する技術 |
+| `other` | その他 | 紫 | デザイン・マネジメント等 |
 
-#### 9.2.1 タグによる視覚的分類
+#### サブカテゴリ（SkillCategory）
 
-`tagIds` を活用してスキルを視覚的に分類表示：
+**フロントエンド:**
+- `language` - プログラミング言語
+- `frontend-framework` - フレームワーク
+- `frontend-styling` - スタイリング
+- `frontend-state` - 状態管理
+- `frontend-ui` - UIライブラリ
+- `frontend-animation` - アニメーション
+- `frontend-form` - フォーム
+- `frontend-testing` - テスト
+- `frontend-tooling` - 開発ツール
 
-| タグ | 色（例） | 対象スキル例 |
-|------|----------|--------------|
-| `ui` | 青 | React, shadcn/ui, MUI |
-| `state` | 緑 | Jotai, Zustand |
-| `styling` | 紫 | Tailwind, styled-components |
-| `form` | オレンジ | React Hook Form, Zod |
-| `animation` | ピンク | Framer Motion, GSAP |
-| `testing` | 黄 | Vitest, Jest |
-| `tooling` | グレー | Storybook, ESLint |
+**バックエンド:**
+- `backend-runtime` - ランタイム
+- `backend-baas` - BaaS
+- `backend-api` - APIフレームワーク
+- `database` - データベース
+- `orm` - ORM
 
-**実装案:**
-```tsx
-// タグに応じたバッジカラーを表示
-<Badge variant={getTagVariant(skill.tagIds[0])}>
-  {skill.name}
-</Badge>
-```
+**インフラ・DevOps:**
+- `cloud` - クラウド
+- `container` - コンテナ
+- `cicd` - CI/CD
+- `monitoring` - 監視
 
-#### 9.2.2 カテゴリ拡張
+**その他:**
+- `design` - デザイン
+- `management` - マネジメント
 
-現在のカテゴリに加えて、新しいカテゴリを追加：
+### 9.2 型定義の更新
 
-```typescript
-// skills-taxonomy.ts への追加案
-export const skillCategories = [
-  // 既存
-  { id: 'frontend', name: 'フロントエンド', icon: 'Monitor' },
-  { id: 'backend', name: 'バックエンド', icon: 'Server' },
-  { id: 'database', name: 'データベース', icon: 'Database' },
-  { id: 'cloud', name: 'クラウド', icon: 'Cloud' },
-  { id: 'infra', name: 'インフラ', icon: 'Settings' },
-  // 新規追加
-  { id: 'language', name: 'プログラミング言語', icon: 'Code' },
-  { id: 'design', name: 'デザイン', icon: 'Palette' },
-  { id: 'management', name: 'マネジメント', icon: 'Users' },
-];
-```
-
-#### 9.2.3 スキルマップ表示
-
-スキルの関係性を可視化するマップ形式の表示：
-
-```
-Frontend
-├── Core
-│   ├── HTML/CSS
-│   ├── JavaScript
-│   └── TypeScript
-├── Framework
-│   ├── React
-│   ├── Next.js
-│   └── Astro
-├── UI Libraries
-│   ├── shadcn/ui
-│   ├── MUI
-│   └── Ant Design
-├── Styling
-│   ├── Tailwind CSS
-│   ├── CSS Modules
-│   └── styled-components
-├── State Management
-│   ├── Jotai
-│   └── Zustand
-└── Testing
-    ├── Vitest
-    └── React Testing Library
-```
-
-#### 9.2.4 タグ拡張案
-
-より細かい分類のためのタグ追加：
+以下の型を追加・更新しました：
 
 ```typescript
-// skills-taxonomy.ts への追加案
-export const skillTags = [
-  // 既存
-  { id: 'ui', name: 'UI', color: 'blue' },
-  { id: 'state', name: '状態管理', color: 'green' },
-  { id: 'performance', name: 'パフォーマンス', color: 'orange' },
-  // 新規追加
-  { id: 'styling', name: 'スタイリング', color: 'purple' },
-  { id: 'form', name: 'フォーム', color: 'amber' },
-  { id: 'animation', name: 'アニメーション', color: 'pink' },
-  { id: 'testing', name: 'テスト', color: 'yellow' },
-  { id: 'css-in-js', name: 'CSS-in-JS', color: 'violet' },
-  { id: 'ui-library', name: 'UIライブラリ', color: 'cyan' },
-  { id: 'design-tool', name: 'デザインツール', color: 'rose' },
-  { id: 'pm-tool', name: 'PM/管理ツール', color: 'slate' },
-];
-```
+// 大カテゴリ
+interface SkillCategoryGroup {
+  id: string;
+  label: string;
+  description?: string;
+  categoryIds: string[];
+}
 
-#### 9.2.5 グループ化表示コンポーネント
+// サブカテゴリ（groupId追加）
+interface SkillCategory {
+  id: string;
+  groupId: string;
+  label: string;
+  description?: string;
+  icon?: string;
+}
 
-スキルをサブカテゴリでグループ化して表示：
-
-```tsx
-// 提案: SkillGroup コンポーネント
-<SkillGroup title="UIライブラリ" icon={<Layers />}>
-  <SkillBadge skill={shadcnui} />
-  <SkillBadge skill={mui} />
-  <SkillBadge skill={antDesign} />
-</SkillGroup>
-
-<SkillGroup title="状態管理" icon={<GitBranch />}>
-  <SkillBadge skill={jotai} />
-  <SkillBadge skill={zustand} />
-</SkillGroup>
-```
-
-### 9.3 実装優先度
-
-| 優先度 | 改善項目 | 工数 | 効果 |
-|--------|----------|------|------|
-| 高 | タグによる色分け表示 | 小 | 視認性向上 |
-| 高 | カテゴリ追加（design, management, language） | 小 | 分類明確化 |
-| 中 | グループ化表示 | 中 | 構造把握しやすく |
-| 中 | タグ拡張（styling, form等） | 小 | 詳細分類 |
-| 低 | スキルマップ可視化 | 大 | 関係性理解 |
-
-### 9.4 データ構造の変更案
-
-スキル分類をより明確にするため、`subCategory` フィールドの追加を検討：
-
-```typescript
+// スキルレコード（icon追加）
 interface SkillRecord {
-  // 既存フィールド...
-  subCategory?: string; // 'ui-library' | 'state-management' | 'css-framework' | 'form' | 'animation' | 'testing' など
+  // ...既存フィールド
+  icon?: string; // 技術アイコンのパス
+}
+
+// スキルスタックグループ（groupId追加）
+interface SkillStackGroup {
+  id: string;
+  groupId: string;
+  label: string;
+  description: string;
+  skills: SkillStackItem[];
 }
 ```
 
-これにより、同一カテゴリ内でのグループ化が容易になります。
+### 9.3 UI改善
+
+1. **大カテゴリでのグループ化表示**: スキル詳細ページで大カテゴリごとにセクション分け
+2. **色分け**: 大カテゴリごとに左ボーダーで色分け（青・緑・オレンジ・紫）
+3. **アイコン表示**: 技術ごとにSVGアイコンを表示
+4. **レベル表示の削除**: tech-stack.tsx からレベル（エキスパート/上級/中級）を削除
+5. **スコープ表示の最適化**: 3つまで表示 + 残りは「+N」で省略
+
+### 9.4 更新したファイル
+
+| ファイル | 変更内容 |
+|----------|----------|
+| `src/types/skill.ts` | `SkillCategoryGroup`, `icon`, `groupId` 追加 |
+| `src/data/skills-taxonomy.ts` | 大カテゴリ + 17サブカテゴリに再構成 |
+| `src/data/skills/frontend-core.ts` | categoryIds更新, icon追加 |
+| `src/data/skills/frontend-styling.ts` | categoryIds更新, icon追加 |
+| `src/data/skills/frontend-ecosystem.ts` | categoryIds更新, icon追加 |
+| `src/data/skills/backend-infra.ts` | categoryIds更新, icon追加, Git/GitHub Actions追加 |
+| `src/lib/skills/selectors.ts` | `getSkillStackByGroup()` 追加 |
+| `src/components/about/tech-stack.tsx` | レベル削除, シンプル化 |
+| `src/components/about/skills/skill-summary.tsx` | 大カテゴリ対応, 色分け |
+| `src/components/about/skills/skill-stack.tsx` | 大カテゴリグループ化, アイコン表示 |
+
+---
+
+## 10. 次のアクション
+
+### 10.1 高優先度（すぐに実施）
+
+#### 10.1.1 アイコンの追加
+
+現在アイコンが設定されていないスキルにアイコンを追加する。
+
+**アイコン未設定のスキル:**
+
+| スキル | 推奨アイコン | 対応 |
+|--------|-------------|------|
+| HTML/CSS | `/icons/css/css.svg` | ✅ 設定済み |
+| JavaScript | `/icons/js/javascript-large.svg` | ✅ 設定済み |
+| TypeScript | `/icons/typescript.svg` | ✅ 設定済み |
+| React | `/icons/react.svg` | ✅ 設定済み |
+| Next.js | `/icons/next-js.svg` | ✅ 設定済み |
+| Astro | 未取得 | 🔲 要取得 |
+| Sass/SCSS | 未取得 | 🔲 要取得 |
+| CSS Modules | なし（汎用アイコン使用） | - |
+| Tailwind CSS | `/icons/tailwind-css-2.svg` | ✅ 設定済み |
+| styled-components | 未取得 | 🔲 要取得 |
+| Emotion | 未取得 | 🔲 要取得 |
+| shadcn/ui | `/icons/shadcn.svg` | ✅ 設定済み |
+| MUI | 未取得 | 🔲 要取得 |
+| Ant Design | 未取得 | 🔲 要取得 |
+| Daisy UI | 未取得 | 🔲 要取得 |
+| Jotai | `/icons/jotai.png` | ✅ 設定済み |
+| Zustand | 未取得 | 🔲 要取得 |
+| React Hook Form | 未取得 | 🔲 要取得 |
+| Zod | 未取得 | 🔲 要取得 |
+| Framer Motion | `/icons/motion/motion-logo.svg` | ✅ 設定済み |
+| GSAP | 未取得 | 🔲 要取得 |
+| Storybook | `/icons/storybook.svg` | ✅ 設定済み |
+| Vitest | `/icons/vite.svg` | ✅ 設定済み（Viteアイコン） |
+| Jest | 未取得 | 🔲 要取得 |
+| React Testing Library | なし（汎用アイコン使用） | - |
+| Node.js | `/icons/nodejs.svg` | ✅ 設定済み |
+| Supabase | `/icons/supabase/supabase-logo-icon.svg` | ✅ 設定済み |
+| PostgreSQL | `/icons/postgresql.svg` | ✅ 設定済み |
+| AWS | 未取得 | 🔲 要取得 |
+| Docker | `/icons/docker.svg` | ✅ 設定済み |
+| GitHub Actions | `/icons/github.svg` | ✅ 設定済み |
+| Git | `/icons/git.svg` | ✅ 設定済み |
+
+**アイコン取得方法:**
+- [Simple Icons](https://simpleicons.org/) からSVGをダウンロード
+- [devicon](https://devicon.dev/) から取得
+- 公式サイトのブランドガイドラインから取得
+
+#### 10.1.2 スキルデータのインタビュー
+
+以下のスキルについて、ユーザーにインタビューを実施する：
+
+1. **プログラミング言語** - Rust, Go, Python, PHP
+2. **バックエンドフレームワーク** - Express.js, Hono
+3. **データベース・ORM** - SQLite, LibSQL, Prisma, Drizzle
+4. **デザイン** - Figma, UIデザイン, UXデザイン
+5. **マネジメント** - プロジェクト管理, 要件定義
+
+### 10.2 中優先度（今週中）
+
+#### 10.2.1 サーバーレス・BaaS スキルの追加
+
+以下のスキルを追加する（インタビュー後）：
+
+| スキル | カテゴリ | アイコン |
+|--------|----------|----------|
+| Firebase | `backend-baas` | 要取得 |
+| Turso | `database` | 要取得 |
+| Neon | `database` | 要取得 |
+| Clerk | `backend-baas` | 要取得 |
+| Stripe | `backend-baas` | 要取得 |
+| Vercel | `cloud` | 要取得 |
+| Cloudflare | `cloud` | 要取得 |
+
+#### 10.2.2 ドキュメントの更新
+
+- [x] `skill-data-guide.md` のデータ構造セクションを新しい型定義に合わせて更新
+- [x] 設定例（React）を新しいカテゴリIDに更新
+- [x] チェックリストに `icon` フィールドを追加
+
+### 10.3 低優先度（今後検討）
+
+#### 10.3.1 スキルマップ可視化
+
+スキル間の関係性を可視化するインタラクティブなマップ表示。
+
+**検討事項:**
+- D3.js または React Flow を使用
+- スキル間の依存関係データの定義
+- パフォーマンス考慮（スキル数増加時）
+
+#### 10.3.2 スキル詳細ページ
+
+各スキルの詳細ページを個別に作成。
+
+**表示内容:**
+- 概要、強み、用途
+- 代表プロジェクト（カード形式）
+- 関連リンク
+- 学習中・関心事項
+
+#### 10.3.3 フィルタリング機能
+
+スキル一覧のフィルタリング機能を追加。
+
+**フィルタ条件:**
+- 大カテゴリ（フロントエンド/バックエンド/インフラ）
+- サブカテゴリ
+- タグ
+- 経験年数
+
+---
+
+## 11. インタビュー質問テンプレート
+
+スキル追加時に使用する質問テンプレート：
+
+```
+【スキル名】: ______
+
+1. 開始時期: いつから使い始めましたか？（YYYY-MM-DD）
+   → 
+
+2. 主な対応範囲（scope）: どのような業務を担当できますか？（3〜6項目）
+   → 
+   → 
+   → 
+
+3. 強み（strengths）: 他の技術と比較して得意な点は？（3〜5項目）
+   → 
+   → 
+   → 
+
+4. 用途・成果（useCases）: 実務での具体的な利用場面は？（3〜5項目）
+   → 
+   → 
+   → 
+
+5. 代表プロジェクト（projects）: このスキルを活用したプロジェクトは？（2〜3件）
+   - 名前: 
+     URL: 
+     説明: 
+
+6. 学習中（learning）: 現在学習しているトピックは？（1〜3件）
+   → 
+
+7. 関心（interests）: 今後習得したい関連技術は？（1〜3件）
+   → 
+```
+
+---
+
+## 12. 関連ファイル（更新版）
+
+| ファイル | 説明 |
+|----------|------|
+| `src/types/skill.ts` | 型定義（SkillCategoryGroup追加） |
+| `src/data/skills-taxonomy.ts` | 大カテゴリ + サブカテゴリ定義 |
+| `src/data/skills/index.ts` | スキルデータ集約 |
+| `src/data/skills/frontend-core.ts` | HTML/CSS, JS, TS, React, Next.js, Astro |
+| `src/data/skills/frontend-styling.ts` | CSS フレームワーク, CSS-in-JS, UIライブラリ |
+| `src/data/skills/frontend-ecosystem.ts` | 状態管理, フォーム, アニメーション, テスト |
+| `src/data/skills/backend-infra.ts` | Node.js, DB, クラウド, インフラ, CI/CD |
+| `src/lib/skills/selectors.ts` | UI用データ変換（getSkillStackByGroup追加） |
+| `src/lib/dateUtils.ts` | 日付計算ユーティリティ |
+| `src/components/about/skills/skill-summary.tsx` | スキル概要（大カテゴリ対応） |
+| `src/components/about/skills/skill-stack.tsx` | 技術スタック詳細（グループ化対応） |
+| `src/components/about/skills/skill-capabilities.tsx` | 対応可能な業務 |
+| `src/components/about/skills/skill-development.tsx` | 学習中・関心事項 |
+| `src/components/about/tech-stack.tsx` | トップページ用技術スタック |
+| `public/icons/` | 技術アイコン格納ディレクトリ |
