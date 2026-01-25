@@ -4,7 +4,7 @@ import { SectionTitle, Container } from '@/components/common';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Code2, Database, Layout, Server } from 'lucide-react';
+import { ArrowRight, Database, Layout, Server, Cloud, GitBranch } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const techStacks = [
@@ -12,74 +12,55 @@ const techStacks = [
     category: 'フロントエンド',
     icon: Layout,
     technologies: [
-      { name: 'React', level: 'エキスパート' },
-      { name: 'Next.js', level: 'エキスパート' },
-      { name: 'TypeScript', level: 'エキスパート' },
-      { name: 'Tailwind CSS', level: 'エキスパート' },
-      { name: 'Framer Motion', level: '上級' },
-      { name: 'shadcn/ui', level: '上級' },
-      { name: 'Jotai', level: '上級' },
+      'React',
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Framer Motion',
+      'shadcn/ui',
+      'Jotai',
     ],
   },
   {
-    category: 'バックエンド・言語',
+    category: 'バックエンド',
     icon: Server,
     technologies: [
-      { name: 'Node.js', level: 'エキスパート' },
-      { name: 'Python', level: '上級' },
-      { name: 'Go', level: '上級' },
-      { name: 'Rust', level: '中級' },
-      { name: 'FastAPI', level: '上級' },
-      { name: 'Express', level: '上級' },
-      { name: 'tRPC', level: '上級' },
+      'Node.js',
+      'Supabase',
+      'Hono',
+      'tRPC',
     ],
   },
   {
-    category: 'ネイティブアプリ',
-    icon: Code2,
-    technologies: [
-      { name: 'React Native', level: '上級' },
-      { name: 'Tauri', level: '上級' },
-      { name: 'Electron', level: '中級' },
-    ],
-  },
-  {
-    category: 'データベース・サーバレス',
+    category: 'データベース',
     icon: Database,
     technologies: [
-      { name: 'PostgreSQL', level: '上級' },
-      { name: 'Supabase', level: 'エキスパート' },
-      { name: 'Turso', level: '上級' },
-      { name: 'Prisma', level: '上級' },
-      { name: 'Drizzle', level: '上級' },
-      { name: 'Redis', level: '中級' },
+      'PostgreSQL',
+      'Prisma',
+      'Drizzle',
     ],
   },
   {
     category: 'クラウド・インフラ',
-    icon: Code2,
+    icon: Cloud,
     technologies: [
-      { name: 'AWS', level: '上級' },
-      { name: 'GCP', level: '上級' },
-      { name: 'Cloudflare', level: '上級' },
-      { name: 'Docker', level: '上級' },
-      { name: 'Kubernetes', level: '中級' },
-      { name: 'CI/CD', level: '上級' },
-      { name: 'Git', level: 'エキスパート' },
+      'AWS',
+      'Vercel',
+      'Cloudflare',
+      'Docker',
+    ],
+  },
+  {
+    category: 'CI/CD・ツール',
+    icon: GitBranch,
+    technologies: [
+      'GitHub Actions',
+      'Git',
+      'Storybook',
+      'Vitest',
     ],
   },
 ];
-
-const getBadgeVariant = (level: string) => {
-  switch (level) {
-    case 'エキスパート':
-      return 'default';
-    case '上級':
-      return 'secondary';
-    default:
-      return 'outline';
-  }
-};
 
 export const TechStack = () => {
   return (
@@ -90,7 +71,7 @@ export const TechStack = () => {
           subtitle="実務で使用している技術一覧を表示します。"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
           {techStacks.map((stack, stackIndex) => (
             <motion.div
               key={stack.category}
@@ -108,11 +89,11 @@ export const TechStack = () => {
                   <div className="flex flex-wrap gap-2">
                     {stack.technologies.map((tech) => (
                       <Badge
-                        key={tech.name}
-                        variant={getBadgeVariant(tech.level)}
+                        key={tech}
+                        variant="secondary"
                         className="text-sm"
                       >
-                        {tech.name}
+                        {tech}
                       </Badge>
                     ))}
                   </div>

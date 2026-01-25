@@ -1,7 +1,22 @@
-export interface SkillCategory {
+/**
+ * 大カテゴリ（フロントエンド、バックエンド、インフラなど）
+ */
+export interface SkillCategoryGroup {
   id: string;
   label: string;
   description?: string;
+  categoryIds: string[];
+}
+
+/**
+ * サブカテゴリ（フレームワーク、スタイリング、状態管理など）
+ */
+export interface SkillCategory {
+  id: string;
+  groupId: string;
+  label: string;
+  description?: string;
+  icon?: string;
 }
 
 export interface SkillRole {
@@ -41,6 +56,7 @@ export interface SkillRecord {
   categoryIds: string[];
   roleIds: string[];
   tagIds?: string[];
+  icon?: string;
   startDate?: string;
   summary?: string;
   scope?: string[];
@@ -70,11 +86,13 @@ export interface SkillCapability {
 export interface SkillStackItem {
   id: string;
   name: string;
+  icon?: string;
   scope: string[];
 }
 
 export interface SkillStackGroup {
   id: string;
+  groupId: string;
   label: string;
   description: string;
   skills: SkillStackItem[];

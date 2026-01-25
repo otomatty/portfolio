@@ -1,5 +1,9 @@
 import { skills } from '@/data/skills';
-import { skillCategories, skillRoles } from '@/data/skills-taxonomy';
+import {
+  skillCategories,
+  skillCategoryGroups,
+  skillRoles,
+} from '@/data/skills-taxonomy';
 import { calculateExperiencePeriod } from '@/lib/dateUtils';
 import type {
   SkillCapability,
@@ -20,50 +24,29 @@ const getEarliestStartDate = (items: SkillRecord[]): string | null => {
 };
 
 export const getSkillSummary = (): SkillSummaryItem[] => {
-  const summaryGroups = [
-    {
-      id: 'frontend',
-      label: 'フロントエンド',
-      description: 'React/Next.js を中心とした開発',
-      categoryIds: ['frontend'],
-      experience: null,
-    },
-    {
-      id: 'backend',
-      label: 'バックエンド',
-      description: 'API 設計とデータ処理の実装',
-      categoryIds: ['backend'],
-      experience: null,
-    },
-    {
-      id: 'database',
-      label: 'データベース',
-      description: 'スキーマ設計とクエリ最適化',
-      categoryIds: ['database'],
-      experience: null,
-    },
-    {
-      id: 'cloud',
-      label: 'クラウド・インフラ',
-      description: 'サーバーレス基盤と運用設計',
-      categoryIds: ['cloud', 'infra'],
-      experience: null,
-    },
-  ];
+  // 大カテゴリ（フロントエンド、バックエンド、インフラ）でグループ化
+  return skillCategoryGroups
+    .filter((group) => group.id !== 'other') // その他は除外
+    .map((group) => {
+      // このグループに属するカテゴリIDを取得
+      const categoryIds = group.categoryIds;
 
-  return summaryGroups.map((item) => {
-    const relatedSkills = skills.filter((skill) =>
-      item.categoryIds.some((categoryId) =>
-        skill.categoryIds.includes(categoryId)
-      )
-    );
-    const earliestDate = getEarliestStartDate(relatedSkills);
+      // 該当カテゴリに属するスキルを抽出
+      const relatedSkills = skills.filter((skill) =>
+        skill.categoryIds.some((catId) => categoryIds.includes(catId))
+      );
 
-    return {
-      ...item,
-      experience: earliestDate ? calculateExperiencePeriod(earliestDate) : null,
-    };
-  });
+      const earliestDate = getEarliestStartDate(relatedSkills);
+
+      return {
+        id: group.id,
+        label: group.label,
+        description: group.description ?? '',
+        experience: earliestDate
+          ? calculateExperiencePeriod(earliestDate)
+          : null,
+      };
+    });
 };
 
 export const getSkillCapabilities = (): SkillCapability[] => {
@@ -86,24 +69,50 @@ export const getSkillCapabilities = (): SkillCapability[] => {
 };
 
 export const getSkillStackGroups = (): SkillStackGroup[] => {
-  return skillCategories
-    .map((category) => {
+  // 大カテゴリでグループ化して返す
+  const result: SkillStackGroup[] = [];
+
+  for (const group of skillCategoryGroups) {
+    // このグループに属するサブカテゴリを取得
+    const subCategories = skillCategories.filter(
+      (cat) => cat.groupId === group.id
+    );
+
+    for (const category of subCategories) {
       const relatedSkills = skills.filter((skill) =>
         skill.categoryIds.includes(category.id)
       );
 
-      return {
+      if (relatedSkills.length === 0) continue;
+
+      result.push({
         id: category.id,
+        groupId: group.id,
         label: category.label,
         description: category.description ?? '',
         skills: relatedSkills.map((skill) => ({
           id: skill.id,
           name: skill.name,
+          icon: skill.icon,
           scope: skill.scope ?? [],
         })),
-      };
-    })
-    .filter((group) => group.skills.length > 0);
+      });
+    }
+  }
+
+  return result;
+};
+
+/**
+ * 大カテゴリでグループ化されたスキルスタックを取得
+ */
+export const getSkillStackByGroup = () => {
+  const stackGroups = getSkillStackGroups();
+
+  return skillCategoryGroups.map((group) => ({
+    ...group,
+    categories: stackGroups.filter((stack) => stack.groupId === group.id),
+  }));
 };
 
 const extractUniqueItems = (

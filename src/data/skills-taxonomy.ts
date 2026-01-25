@@ -1,30 +1,188 @@
-import type { SkillCategory, SkillRole, SkillTag } from '@/types/skill';
+import type {
+  SkillCategory,
+  SkillCategoryGroup,
+  SkillRole,
+  SkillTag,
+} from '@/types/skill';
 
-export const skillCategories: SkillCategory[] = [
+/**
+ * 大カテゴリ（視覚的なグループ分け）
+ */
+export const skillCategoryGroups: SkillCategoryGroup[] = [
   {
     id: 'frontend',
     label: 'フロントエンド',
-    description: 'UI設計と体験設計を中心とした開発領域。',
+    description: 'UI/UX開発に関連する技術',
+    categoryIds: [
+      'language',
+      'frontend-framework',
+      'frontend-styling',
+      'frontend-state',
+      'frontend-ui',
+      'frontend-animation',
+      'frontend-form',
+      'frontend-testing',
+      'frontend-tooling',
+    ],
   },
   {
     id: 'backend',
     label: 'バックエンド',
-    description: 'API設計やデータ処理を中心としたサーバー領域。',
-  },
-  {
-    id: 'database',
-    label: 'データベース',
-    description: 'スキーマ設計やクエリ最適化などのデータ基盤。',
-  },
-  {
-    id: 'cloud',
-    label: 'クラウド',
-    description: 'サーバーレスやクラウド運用を中心とした基盤。',
+    description: 'サーバーサイド・データ処理に関連する技術',
+    categoryIds: [
+      'backend-runtime',
+      'backend-baas',
+      'backend-api',
+      'database',
+      'orm',
+    ],
   },
   {
     id: 'infra',
     label: 'インフラ・DevOps',
-    description: '開発環境やCI/CDなどの運用基盤。',
+    description: 'インフラ・運用に関連する技術',
+    categoryIds: ['cloud', 'container', 'cicd', 'monitoring'],
+  },
+  {
+    id: 'other',
+    label: 'その他',
+    description: 'デザイン・マネジメント等',
+    categoryIds: ['design', 'management'],
+  },
+];
+
+/**
+ * サブカテゴリ（詳細な分類）
+ */
+export const skillCategories: SkillCategory[] = [
+  // ===== プログラミング言語 =====
+  {
+    id: 'language',
+    groupId: 'frontend',
+    label: 'プログラミング言語',
+    description: 'Web開発で使用する言語',
+  },
+
+  // ===== フロントエンド =====
+  {
+    id: 'frontend-framework',
+    groupId: 'frontend',
+    label: 'フレームワーク',
+    description: 'UIフレームワーク・メタフレームワーク',
+  },
+  {
+    id: 'frontend-styling',
+    groupId: 'frontend',
+    label: 'スタイリング',
+    description: 'CSS/スタイリング関連ツール',
+  },
+  {
+    id: 'frontend-state',
+    groupId: 'frontend',
+    label: '状態管理',
+    description: '状態管理ライブラリ',
+  },
+  {
+    id: 'frontend-ui',
+    groupId: 'frontend',
+    label: 'UIライブラリ',
+    description: 'UIコンポーネントライブラリ',
+  },
+  {
+    id: 'frontend-animation',
+    groupId: 'frontend',
+    label: 'アニメーション',
+    description: 'アニメーション・モーションライブラリ',
+  },
+  {
+    id: 'frontend-form',
+    groupId: 'frontend',
+    label: 'フォーム',
+    description: 'フォーム・バリデーション',
+  },
+  {
+    id: 'frontend-testing',
+    groupId: 'frontend',
+    label: 'テスト',
+    description: 'テストフレームワーク',
+  },
+  {
+    id: 'frontend-tooling',
+    groupId: 'frontend',
+    label: '開発ツール',
+    description: 'ビルドツール・Linter等',
+  },
+
+  // ===== バックエンド =====
+  {
+    id: 'backend-runtime',
+    groupId: 'backend',
+    label: 'ランタイム',
+    description: 'JavaScript/TypeScriptランタイム',
+  },
+  {
+    id: 'backend-baas',
+    groupId: 'backend',
+    label: 'BaaS',
+    description: 'Backend as a Service',
+  },
+  {
+    id: 'backend-api',
+    groupId: 'backend',
+    label: 'APIフレームワーク',
+    description: 'API構築フレームワーク',
+  },
+  {
+    id: 'database',
+    groupId: 'backend',
+    label: 'データベース',
+    description: 'RDBMS・NoSQL',
+  },
+  {
+    id: 'orm',
+    groupId: 'backend',
+    label: 'ORM',
+    description: 'ORM・クエリビルダー',
+  },
+
+  // ===== インフラ・DevOps =====
+  {
+    id: 'cloud',
+    groupId: 'infra',
+    label: 'クラウド',
+    description: 'クラウドプラットフォーム',
+  },
+  {
+    id: 'container',
+    groupId: 'infra',
+    label: 'コンテナ',
+    description: 'コンテナ技術',
+  },
+  {
+    id: 'cicd',
+    groupId: 'infra',
+    label: 'CI/CD',
+    description: '継続的インテグレーション・デプロイ',
+  },
+  {
+    id: 'monitoring',
+    groupId: 'infra',
+    label: '監視',
+    description: '監視・ロギング',
+  },
+
+  // ===== その他 =====
+  {
+    id: 'design',
+    groupId: 'other',
+    label: 'デザイン',
+    description: 'デザインツール',
+  },
+  {
+    id: 'management',
+    groupId: 'other',
+    label: 'マネジメント',
+    description: 'プロジェクト管理',
   },
 ];
 
