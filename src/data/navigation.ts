@@ -5,7 +5,6 @@ import {
   GraduationCap,
   Heart,
   Lightbulb,
-  Mail,
   Rocket,
   Sparkles,
   User,
@@ -91,15 +90,4 @@ export const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  {
-    title: 'Contact',
-    href: '/contact',
-  },
 ];
-
-// CTA button configuration
-export const ctaButton = {
-  title: 'お問い合わせ',
-  href: '/contact',
-  icon: Mail,
-};
