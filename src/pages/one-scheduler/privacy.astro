@@ -1,0 +1,111 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Container, BasicHero } from '@/components/common';
+---
+
+<PageLayout
+  title="プライバシーポリシー | 1on1 Scheduler"
+  description="1on1 Schedulerのプライバシーポリシーについて説明しています。"
+>
+  <BasicHero
+    title="プライバシーポリシー"
+    description="1on1 Schedulerにおける個人情報の取り扱いについて説明します。"
+    pattern="dots"
+    size="lg"
+    client:load
+  />
+
+  <Container className="py-12 md:py-16">
+    <div class="mx-auto max-w-4xl space-y-6">
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">1. はじめに</h2>
+        <p class="text-foreground">
+          1on1 Scheduler（以下「本サービス」）は、ユーザーのプライバシーを尊重し、
+          個人情報の保護に努めています。本プライバシーポリシーは、本サービスが
+          収集する情報、その利用方法、およびユーザーの権利について説明します。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">2. 収集する情報</h2>
+        <p class="text-foreground">本サービスは、以下の情報を収集する場合があります：</p>
+        <ul class="ml-6 mt-2 list-disc space-y-2 text-foreground">
+          <li>アカウント情報（氏名、メールアドレス、プロフィール画像）</li>
+          <li>予約情報（ミーティング日時、アジェンダ、参加者情報）</li>
+          <li>カレンダーデータ（Googleカレンダー連携に必要な情報）</li>
+          <li>利用状況データ（匿名化された利用ログ等）</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">3. 情報の利用目的</h2>
+        <ul class="ml-6 mt-2 list-disc space-y-2 text-foreground">
+          <li>本サービスの提供および運営</li>
+          <li>ユーザー認証およびアカウント管理</li>
+          <li>ミーティング予約の管理および通知</li>
+          <li>Googleカレンダーとの連携（ユーザーが許可した場合）</li>
+          <li>サービスの改善および新機能の開発</li>
+          <li>ユーザーサポートの提供</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">4. 情報の共有</h2>
+        <p class="text-foreground">
+          本サービスは、以下の場合を除き、ユーザーの個人情報を第三者と共有しません：
+        </p>
+        <ul class="ml-6 mt-2 list-disc space-y-2 text-foreground">
+          <li>ユーザーの同意がある場合</li>
+          <li>法令に基づく開示要請がある場合</li>
+          <li>サービス提供に必要なパートナー（Google Cloud、Firebase）との共有</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">5. データの保管</h2>
+        <p class="text-foreground">
+          ユーザーデータはGoogle Cloud Platform上のFirebaseサービスを利用して安全に保管されます。
+          データは適切なセキュリティ対策により保護されています。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">6. ユーザーの権利</h2>
+        <ul class="ml-6 mt-2 list-disc space-y-2 text-foreground">
+          <li>自身の個人情報へのアクセス</li>
+          <li>個人情報の訂正または削除の要請</li>
+          <li>データのエクスポート</li>
+          <li>アカウントの削除</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">7. Cookieの使用</h2>
+        <p class="text-foreground">
+          本サービスは、認証状態の維持およびユーザー体験の向上のためにCookieを使用します。
+          ブラウザの設定でCookieを無効にすることができますが、一部の機能が制限される場合があります。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">8. ポリシーの変更</h2>
+        <p class="text-foreground">
+          本プライバシーポリシーは、必要に応じて更新される場合があります。
+          重要な変更がある場合は、サービス内で通知します。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">9. お問い合わせ</h2>
+        <p class="text-foreground">
+          本プライバシーポリシーに関するご質問やお問い合わせは、
+          1on1 Schedulerの運営者までご連絡ください。
+        </p>
+      </section>
+
+      <div class="mt-8 text-sm text-muted-foreground">
+        <p>最終更新日: 2026年1月25日</p>
+      </div>
+    </div>
+  </Container>
+</PageLayout>

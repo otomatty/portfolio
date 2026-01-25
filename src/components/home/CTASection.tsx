@@ -57,7 +57,7 @@ export const CTASection = ({
   phoneNumber = '080-9068-9306',
 }: CTASectionProps) => {
   return (
-    <section className="relative py-12 md:py-20 overflow-hidden">
+    <section className="relative">
       <div className="absolute inset-0 bg-linear-to-b from-background to-muted/30" />
       <div className="absolute inset-0 opacity-5 bg-[radial-gradient(hsl(var(--foreground)/0.2)_1px,transparent_1px)] [background-size:24px_24px]" />
 
@@ -69,7 +69,7 @@ export const CTASection = ({
           className="mb-16"
         />
 
-        <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -105,7 +105,7 @@ export const CTASection = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="relative group overflow-hidden"
+            className="relative group"
           >
             <div className="absolute -inset-1 bg-linear-to-r from-primary to-primary-foreground rounded-2xl blur-sm opacity-25 transition-all group-hover:opacity-40" />
             <Card className="relative h-full bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/75 transition-all duration-300 group-hover:scale-[1.02]">
@@ -321,27 +321,6 @@ export const CTASection = ({
                           →
                         </span>
                       </a>
-                    </div>
-                    <div className="space-y-3 sm:space-y-4">
-                      <div className="flex items-center gap-3 text-foreground">
-                        <div className="p-2 rounded-lg bg-muted">
-                          <CalendarClock className="w-5 h-5" />
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
-                          {homepageCopy.cta.availability.meetingSchedule}
-                        </h3>
-                      </div>
-                      <Button asChild size="lg" className="w-full">
-                        <a
-                          href="https://calendly.com/saedgewell"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2"
-                        >
-                          <CalendarClock className="w-5 h-5" />
-                          <span>{homepageCopy.cta.availability.meetingSchedule}</span>
-                        </a>
-                      </Button>
                     </div>
                   </div>
                 </div>

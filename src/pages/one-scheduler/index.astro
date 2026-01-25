@@ -1,0 +1,70 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Container, BasicHero } from '@/components/common';
+---
+
+<PageLayout
+  title="1on1 Scheduler | Saedgewell"
+  description="1on1 Schedulerのサービス概要とポリシーをご案内します。"
+>
+  <BasicHero
+    title="1on1 Scheduler"
+    description="1on1ミーティングの予約・管理をシンプルにするスケジューリングサービスです。"
+    pattern="dots"
+    size="lg"
+    client:load
+  />
+
+  <Container className="py-12 md:py-16">
+    <div class="mx-auto max-w-4xl space-y-8">
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">サービス概要</h2>
+        <p class="text-foreground">
+          1on1 Schedulerは、リーダーとメンバーの1on1ミーティングを円滑に進めるための
+          スケジューリングサービスです。共有URLから予約でき、アジェンダ管理や
+          カレンダー連携にも対応しています。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">主な機能</h2>
+        <ul class="ml-6 list-disc space-y-2 text-foreground">
+          <li>共有URLによるミーティング予約</li>
+          <li>アジェンダ入力・確認</li>
+          <li>Googleカレンダー連携</li>
+          <li>リーダー・メンバーの予約管理</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">アプリURL</h2>
+        <p class="text-foreground">
+          サービス本体はこちらからアクセスできます：
+          <a
+            href="https://one-scheduler.saedgewell.com"
+            class="ml-2 text-primary underline underline-offset-4"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://one-scheduler.saedgewell.com
+          </a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-2xl font-semibold">ポリシー</h2>
+        <p class="text-foreground">
+          本サービスのご利用にあたっては、以下のポリシーをご確認ください。
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4 text-sm">
+          <a href="/one-scheduler/privacy" class="text-primary underline underline-offset-4">
+            プライバシーポリシー
+          </a>
+          <a href="/one-scheduler/terms" class="text-primary underline underline-offset-4">
+            利用規約
+          </a>
+        </div>
+      </section>
+    </div>
+  </Container>
+</PageLayout>
