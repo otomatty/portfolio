@@ -6,7 +6,6 @@ import { Container, SectionTitle } from '@/components/common';
 import { cn } from '@/lib/utils';
 import {
   Calendar,
-  CalendarClock,
   FileText,
   Mail,
   MessageSquare,

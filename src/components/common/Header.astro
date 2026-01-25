@@ -4,7 +4,7 @@ import { Navigation } from './Navigation';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { MobileSidebar } from './MobileSidebar';
-import LogoLink from './LogoLink.astro';
+import { LogoLink } from './LogoLink';
 
 const currentPath = Astro.url.pathname;
 const currentLocale = Astro.currentLocale || 'ja';
@@ -15,7 +15,7 @@ const currentLocale = Astro.currentLocale || 'ja';
 >
   <Container className="flex h-16 items-center py-0 px-4">
     <div class="mr-8">
-      <LogoLink />
+      <LogoLink client:load />
     </div>
 
     <div class="flex flex-1 items-center justify-end space-x-4">
