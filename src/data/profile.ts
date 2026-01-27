@@ -46,10 +46,10 @@ export type CareerHighlight = {
 
 export const profile = {
   name: {
-    ja: '菅井瑛正',
+    ja: 'スガイアキマサ',
     en: 'Akimasa Sugai',
   },
-  role: 'プロダクトエンジニア',
+  role: 'Product Engineer',
   headline:
     'プロダクトエンジニアとして、モダンな技術を活用したWeb開発に携わっています。',
   bioShort:

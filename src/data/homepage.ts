@@ -11,7 +11,7 @@ export const homepageCopy = {
     title: 'About Me',
     subtitle: '私のプロフィールと実績',
     profile: {
-      name: '菅井瑛正',
+      name: '菅井 瑛正 (スガイ アキマサ)',
       description:
         'フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。',
       cta: '詳細プロフィール',

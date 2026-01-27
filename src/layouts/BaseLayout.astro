@@ -14,7 +14,7 @@ const siteUrl = 'https://saedgewell.com';
 const siteName = 'Saedgewell';
 const authorName = profile.name.ja;
 const defaultDescription =
-  'プロダクトエンジニア 菅井瑛正のポートフォリオサイトです。';
+  'スガイアキマサ / ポートフォリオ';
 const defaultImage = '/images/akimasapf.png';
 
 const {
@@ -69,13 +69,11 @@ const defaultJsonLd = [
     '@id': personId,
     name: authorName,
     alternateName: profile.name.en,
-    jobTitle: 'プロダクトエンジニア',
+    jobTitle: 'Product Engineer',
     url: siteUrl,
     image: imageUrl,
     sameAs: [
       profile.socials.github,
-      profile.socials.twitter,
-      profile.socials.linkedin,
     ],
   },
 ];
@@ -107,7 +105,7 @@ const structuredData = Array.isArray(jsonLd)
     <link rel="canonical" href={canonicalURL} />
     <meta
       name="keywords"
-      content="プロダクトエンジニア,Web開発,Next.js,React,TypeScript,ポートフォリオ"
+      content="Product Engineer,Web Development,Next.js,React,TypeScript,Portfolio"
     />
 
     <!-- Open Graph / Facebook -->
