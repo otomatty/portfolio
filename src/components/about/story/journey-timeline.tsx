@@ -2,6 +2,7 @@
 
 import { Container, SectionTitle } from '@/components/common';
 import { Card, CardContent } from '@/components/ui/card';
+import { TimelineRoot, TimelineItem, TimelineDot } from '@/components/ui/timeline';
 import {
   BookOpen,
   Code2,
@@ -29,25 +30,25 @@ const journeyEntries: JourneyEntry[] = [
     icon: GraduationCap,
   },
   {
-    year: '2018',
+    year: '2020',
     title: 'プログラミングとの出会い',
     description:
-      '教材管理や学習進捗の可視化に課題を感じ、独学でプログラミングを開始。Python と HTML/CSS から学び始めました。',
+      '独学でプログラミングを学び始めました。効率化や自動化への関心が、その後のエンジニアとしての道のりにつながっていきます。',
     icon: Code2,
     highlight: true,
   },
   {
-    year: '2019',
-    title: '最初の自作ツール',
+    year: '2021',
+    title: '初めての自作ツール',
     description:
-      '学習塾の業務を効率化する簡単なツールを作成。Excel VBA や Google Apps Script を活用した自動化に成功しました。',
+      'Google Apps Script（GAS）を使い、Google スプレッドシートの勤務記録を自動集計するツールを初めて作成しました。',
     icon: Sparkles,
   },
   {
-    year: '2020',
-    title: 'Web 開発への本格参入',
+    year: '2021',
+    title: 'エンジニアとしてのキャリアを志す',
     description:
-      'React と TypeScript を学び始め、本格的な Web アプリケーション開発の世界へ。フリーランスとしての活動も開始しました。',
+      '塾講師ではなくエンジニアとしてのキャリアを考え始め、改めて Web 系言語の学習に取り組みました。',
     icon: Rocket,
     highlight: true,
   },
@@ -60,15 +61,15 @@ const journeyEntries: JourneyEntry[] = [
   },
   {
     year: '2023',
-    title: 'AI 駆動開発への転換',
+    title: 'AI 駆動開発との出会い（Cursor）',
     description:
-      'GitHub Copilot の登場を機に AI ツールを積極的に活用。開発効率が飛躍的に向上し、より複雑なプロジェクトに挑戦できるようになりました。',
+      'Cursor がリリースされた日から使い始め、AI 駆動開発の世界に足を踏み入れました。その後 GitHub Copilot なども活用するようになりました。',
     icon: Sparkles,
     highlight: true,
   },
   {
     year: '2024',
-    title: 'Cursor との出会い',
+    title: 'AI 駆動開発の確立',
     description:
       'Cursor を中心とした AI 駆動開発を確立。1 週間で 35 ページの ERP システムを構築するなど、開発速度が劇的に向上しました。',
     icon: Rocket,
@@ -93,28 +94,20 @@ export const JourneyTimeline = () => {
           subtitle="エンジニアとしての道のりを振り返ります。"
         />
 
-        <div className="relative">
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-primary/20" />
-
+        <TimelineRoot variant="left">
           <div className="space-y-6">
             {journeyEntries.map((entry, index) => (
               <motion.div
-                key={entry.year}
-                className="relative pl-12 md:pl-20"
+                key={`${entry.year}-${entry.title}`}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div
-                  className={`absolute left-2 md:left-6 w-5 h-5 rounded-full border-4 ${
-                    entry.highlight
-                      ? 'bg-primary border-primary/30'
-                      : 'bg-background border-primary/50'
-                  } z-10`}
-                />
+                <TimelineItem>
+                  <TimelineDot highlight={entry.highlight} />
 
-                <Card
+                  <Card
                   className={
                     entry.highlight ? 'border-primary/30 shadow-lg' : ''
                   }
@@ -152,10 +145,11 @@ export const JourneyTimeline = () => {
                     </div>
                   </CardContent>
                 </Card>
+                </TimelineItem>
               </motion.div>
             ))}
           </div>
-        </div>
+        </TimelineRoot>
       </Container>
     </section>
   );

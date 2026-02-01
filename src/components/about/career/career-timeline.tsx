@@ -3,6 +3,7 @@
 import { Container, SectionTitle } from '@/components/common';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { TimelineRoot, TimelineDot } from '@/components/ui/timeline';
 import { Building2, Code2, GraduationCap, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
 import { careerEntries, type CareerEntry } from '@/data/profile';
@@ -14,19 +15,6 @@ const iconMap: Record<CareerEntry['iconKey'], typeof Building2> = {
   rocket: Rocket,
 };
 
-const getTypeColor = (type: CareerEntry['type']) => {
-  switch (type) {
-    case 'work':
-      return 'bg-blue-500';
-    case 'freelance':
-      return 'bg-green-500';
-    case 'education':
-      return 'bg-purple-500';
-    default:
-      return 'bg-primary';
-  }
-};
-
 export const CareerTimeline = () => {
   return (
     <section className="py-12 md:py-20 bg-secondary/5">
@@ -36,9 +24,7 @@ export const CareerTimeline = () => {
           subtitle="これまでのキャリアを時系列でご紹介します。"
         />
 
-        <div className="relative">
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
-
+        <TimelineRoot variant="center">
           <div className="space-y-8">
             {careerEntries.map((entry, index) => (
               <motion.div
@@ -51,10 +37,9 @@ export const CareerTimeline = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div
-                  className={`absolute left-4 md:left-1/2 w-3 h-3 rounded-full ${getTypeColor(
-                    entry.type
-                  )} -translate-x-1/2 mt-6 z-10`}
+                <TimelineDot
+                  align="center"
+                  variant={entry.type}
                 />
 
                 <div className="md:w-1/2 pl-10 md:pl-0">
@@ -156,7 +141,7 @@ export const CareerTimeline = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </TimelineRoot>
       </Container>
     </section>
   );

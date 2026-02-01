@@ -15,19 +15,19 @@ const siteName = 'Saedgewell';
 const authorName = profile.name.ja;
 const defaultDescription =
   'スガイアキマサ / ポートフォリオ';
-const defaultImage = '/images/akimasapf.png';
+const faviconUrl = new URL('/images/favicon/favicon-32x32.png', siteUrl).toString();
 
 const {
   title,
   description = defaultDescription,
-  image = defaultImage,
+  image,
   lang = Astro.currentLocale ?? 'ja',
   noindex = false,
   jsonLd,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
-const imageUrl = new URL(image, siteUrl).toString();
+const imageUrl = image ? new URL(image, siteUrl).toString() : null;
 
 const localeMap = {
   ja: 'ja-JP',
@@ -71,7 +71,7 @@ const defaultJsonLd = [
     alternateName: profile.name.en,
     jobTitle: 'Product Engineer',
     url: siteUrl,
-    image: imageUrl,
+    image: imageUrl ?? faviconUrl,
     sameAs: [
       profile.socials.github,
     ],
@@ -89,10 +89,10 @@ const structuredData = Array.isArray(jsonLd)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/images/favicon/icon.svg" />
+    <!-- 正のファビコン: favicon.ico を優先（Slack 等もこちらを使用） -->
+    <link rel="icon" href="/images/favicon/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
-    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/images/favicon/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
@@ -108,24 +108,28 @@ const structuredData = Array.isArray(jsonLd)
       content="Product Engineer,Web Development,Next.js,React,TypeScript,Portfolio"
     />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook (og:image なしでシンプルなプレビューに) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:alt" content={title} />
+    {imageUrl && (
+      <>
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:alt" content={title} />
+      </>
+    )}
     <meta property="og:locale" content={ogLocale} />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter (画像なしのときは summary で小さいプレビュー) -->
+    <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:site" content="@saedgewell" />
     <meta name="twitter:creator" content="@saedgewell" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={imageUrl} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     <meta name="theme-color" content="#0f172a" />
 
     <!-- Fonts (self-hosted) -->
