@@ -1,28 +1,33 @@
 ---
 import { Container } from './container';
+import { getT, localePath } from '@/lib/i18n';
+
+const currentLocale = Astro.currentLocale;
+const common = getT(currentLocale, 'common');
+const footerCopy = common.footer;
 
 const footerLinks = [
   {
-    title: 'About',
+    title: footerCopy.sections.about.title,
     items: [
-      { label: '自己紹介', href: '/about' },
-      { label: 'キャリア', href: '/about/career' },
-      { label: 'スキル', href: '/about/skills' },
+      { label: footerCopy.sections.about.items.intro, href: localePath('/about', currentLocale) },
+      { label: footerCopy.sections.about.items.career, href: localePath('/about/career', currentLocale) },
+      { label: footerCopy.sections.about.items.skills, href: localePath('/about/skills', currentLocale) },
     ],
   },
   {
-    title: 'Works',
+    title: footerCopy.sections.works.title,
     items: [
-      { label: '会社案件', href: '/works/company' },
-      { label: 'フリーランス', href: '/works/freelance' },
-      { label: '個人開発', href: '/works/personal' },
+      { label: footerCopy.sections.works.items.company, href: localePath('/works/company', currentLocale) },
+      { label: footerCopy.sections.works.items.freelance, href: localePath('/works/freelance', currentLocale) },
+      { label: footerCopy.sections.works.items.personal, href: localePath('/works/personal', currentLocale) },
     ],
   },
   {
-    title: 'Contact',
+    title: footerCopy.sections.contact.title,
     items: [
-      { label: 'お問い合わせ', href: '/contact' },
-      { label: 'サービス', href: '/services' },
+      { label: footerCopy.sections.contact.items.contact, href: localePath('/contact', currentLocale) },
+      { label: footerCopy.sections.contact.items.services, href: localePath('/services', currentLocale) },
     ],
   },
 ];
@@ -41,6 +46,8 @@ const socialLinks = [
 ];
 
 const currentYear = new Date().getFullYear();
+const privacyHref = localePath('/privacy-policy', currentLocale);
+const termsHref = localePath('/terms', currentLocale);
 ---
 
 <footer
@@ -111,17 +118,17 @@ const currentYear = new Date().getFullYear();
       <div class="flex flex-col items-center gap-4 md:flex-row md:gap-6">
         <nav class="flex gap-4 text-sm text-muted-foreground">
           <a
-            href="/privacy-policy"
+            href={privacyHref}
             class="hover:text-foreground transition-colors"
           >
-            プライバシーポリシー
+            {footerCopy.legal.privacy}
           </a>
-          <a href="/terms" class="hover:text-foreground transition-colors">
-            利用規約
+          <a href={termsHref} class="hover:text-foreground transition-colors">
+            {footerCopy.legal.terms}
           </a>
         </nav>
         <p class="text-sm text-muted-foreground">
-          &copy; {currentYear} Saedgewell. All rights reserved.
+          &copy; {currentYear} Saedgewell. {footerCopy.copyright}
         </p>
       </div>
     </div>

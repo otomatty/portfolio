@@ -12,9 +12,10 @@ import {
   Phone,
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { homepageCopy } from '@/data/homepage';
+import type { HomepageCopy } from '@/data/homepage';
 
 export interface CTASectionProps {
+  copy: HomepageCopy;
   title?: string;
   subtitle?: string;
   contactButtonText?: string;
@@ -51,10 +52,12 @@ const AvailabilityIndicator = ({ status }: { status: '○' | '△' | '×' }) => 
 };
 
 export const CTASection = ({
+  copy,
   estimateLink = '/services/estimate',
   email = 'saedgewell@gmail.com',
   phoneNumber = '080-9068-9306',
 }: CTASectionProps) => {
+  const homepageCopy = copy;
   return (
     <section className="relative">
       <div className="absolute inset-0 bg-linear-to-b from-background to-muted/30" />

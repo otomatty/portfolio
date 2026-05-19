@@ -97,7 +97,7 @@
 - 静的サイト生成（SSG）
 - レスポンシブデザイン
 - ダークモード/ライトモード切替
-- 多言語対応（日本語・英語・中国語・韓国語）
+- 多言語対応（日本語・英語の2言語）。Phase 1 でトップページ・Header・Footer を翻訳適用、Phase 2 で各ページ展開予定
 - SEO 最適化（メタタグ、OGP、JSON-LD）
 - サイトマップ自動生成
 - 画像最適化
@@ -153,17 +153,19 @@ export default defineConfig({
         locales: {
           ja: 'ja-JP',
           en: 'en-US',
-          zh: 'zh-CN',
-          ko: 'ko-KR',
         },
       },
     }),
   ],
   i18n: {
     defaultLocale: 'ja',
-    locales: ['ja', 'en', 'zh', 'ko'],
+    locales: ['ja', 'en'],
+    fallback: {
+      en: 'ja',
+    },
     routing: {
       prefixDefaultLocale: false,
+      fallbackType: 'rewrite',
     },
   },
   vite: {
@@ -184,11 +186,11 @@ portfolio/
 │   ├── robots.txt                   # 📌 未作成
 │   ├── images/                      # 🟡 移行中（画像ファイル）
 │   │   └── works/
-│   └── locales/                     # 📌 未作成（翻訳 JSON）
+│   └── locales/                     # ✅ 作成済み（翻訳 JSON、ja/en の2言語）
 │       ├── ja/
-│       ├── en/
-│       ├── zh/
-│       └── ko/
+│       │   └── common.json
+│       └── en/
+│           └── common.json
 ├── src/
 │   ├── pages/                       # ルーティング（Astro ページ）
 │   │   ├── index.astro              # ✅ 作成済み
@@ -337,19 +339,38 @@ export function getFeaturedWorks(): Work[] {
 
 ### 4.2 翻訳データ
 
-既存の `public/locales/` をそのまま移行：
+`public/locales/{ja,en}/common.json` をポートフォリオ向けに再設計し、`src/lib/i18n.ts` から静的 import で読み込む。Astro / React 双方から利用可能：
 
 ```typescript
 // src/lib/i18n.ts
-export async function getTranslations(locale: string, namespace: string) {
-  const translations = await import(`../../public/locales/${locale}/${namespace}.json`);
-  return translations.default;
+import jaCommon from '../../public/locales/ja/common.json';
+import enCommon from '../../public/locales/en/common.json';
+
+export const locales = ['ja', 'en'] as const;
+export type Locale = (typeof locales)[number];
+export const defaultLocale: Locale = 'ja';
+
+const dictionaries = {
+  ja: { common: jaCommon },
+  en: { common: enCommon },
+} as const;
+
+export function getT<NS extends keyof (typeof dictionaries)['ja']>(
+  locale: string | undefined,
+  namespace: NS,
+) {
+  const resolved = (locales as readonly string[]).includes(locale ?? '')
+    ? (locale as Locale)
+    : defaultLocale;
+  return dictionaries[resolved][namespace];
 }
 
-export function t(translations: Record<string, string>, key: string): string {
-  return translations[key] ?? key;
+export function localePath(path: string, locale: string | undefined): string {
+  // ja は prefix なし、en は /en/ プレフィックス
 }
 ```
+
+データ層（`src/data/homepage.ts` など）は `.ja.ts` / `.en.ts` にロケール別ファイルを分割し、`getHomepageCopy(locale)` を返す薄いファサードで参照する。
 
 ### 4.3 ホームページ用データ
 
@@ -519,17 +540,19 @@ export default defineConfig({
         locales: {
           ja: 'ja-JP',
           en: 'en-US',
-          zh: 'zh-CN',
-          ko: 'ko-KR',
         },
       },
     }),
   ],
   i18n: {
     defaultLocale: 'ja',
-    locales: ['ja', 'en', 'zh', 'ko'],
+    locales: ['ja', 'en'],
+    fallback: {
+      en: 'ja',
+    },
     routing: {
       prefixDefaultLocale: false,
+      fallbackType: 'rewrite',
     },
   },
   vite: {
@@ -706,7 +729,7 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 | コンポーネント | パス | 用途 |
 |--------------|------|------|
 | ThemeToggle | `@/components/common` | ダーク/ライトモード切替 |
-| LanguageSwitcher | `@/components/common` | 言語切替（4言語対応） |
+| LanguageSwitcher | `@/components/common` | 言語切替（ja/en の2言語対応） |
 | Navigation | `@/components/common` | デスクトップナビゲーション |
 | MobileSidebar | `@/components/common` | モバイルサイドバーメニュー |
 
@@ -749,7 +772,8 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 - [x] LanguageSwitcher コンポーネント作成
 - [x] フォント設定（Inter, Noto Sans JP）
 - [x] MobileSidebar コンポーネント作成
-- [x] i18n 設定（4言語対応）
+- [x] i18n 設定（ja/en の2言語対応、Phase 1 ではトップページ・Header・Footer を翻訳適用）
+- [ ] 各ページの英語翻訳（Phase 2、issue #28 のスコープ外）
 
 ### Phase 2: コアページ実装
 - [x] トップページ（UI 再現）

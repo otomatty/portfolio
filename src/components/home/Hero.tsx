@@ -4,9 +4,14 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { LinearRotate } from '@/components/magicui/linear-rotate';
 import { ThemeToggle } from '@/components/common';
-import { homepageCopy } from '@/data/homepage';
+import type { HomepageCopy } from '@/data/homepage';
 
-export const Hero = () => {
+interface HeroProps {
+  copy: HomepageCopy;
+}
+
+export const Hero = ({ copy }: HeroProps) => {
+  const homepageCopy = copy;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,

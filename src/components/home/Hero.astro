@@ -1,7 +1,9 @@
 ---
 import { LinearRotate } from '@/components/magicui/linear-rotate';
 import { ThemeSwitch } from '@/components/common/ThemeSwitch';
-import { homepageCopy } from '@/data/homepage';
+import { getHomepageCopy } from '@/data/homepage';
+
+const homepageCopy = getHomepageCopy(Astro.currentLocale);
 ---
 
 <section class="relative min-h-screen overflow-hidden">

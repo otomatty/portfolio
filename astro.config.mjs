@@ -17,17 +17,19 @@ export default defineConfig({
         locales: {
           ja: 'ja-JP',
           en: 'en-US',
-          zh: 'zh-CN',
-          ko: 'ko-KR',
         },
       },
     }),
   ],
   i18n: {
     defaultLocale: 'ja',
-    locales: ['ja', 'en', 'zh', 'ko'],
+    locales: ['ja', 'en'],
+    fallback: {
+      en: 'ja',
+    },
     routing: {
       prefixDefaultLocale: false,
+      fallbackType: 'rewrite',
     },
   },
   vite: {

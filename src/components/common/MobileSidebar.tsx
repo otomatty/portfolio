@@ -18,9 +18,16 @@ import { ThemeToggle } from './ThemeToggle';
 interface MobileSidebarProps {
   currentPath?: string;
   currentLocale?: string;
+  openMenuLabel?: string;
+  menuTitleLabel?: string;
 }
 
-export function MobileSidebar({ currentPath = '/', currentLocale = 'ja' }: MobileSidebarProps) {
+export function MobileSidebar({
+  currentPath = '/',
+  currentLocale = 'ja',
+  openMenuLabel = 'メニューを開く',
+  menuTitleLabel = 'メニュー',
+}: MobileSidebarProps) {
   const [open, setOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
 
@@ -36,12 +43,12 @@ export function MobileSidebar({ currentPath = '/', currentLocale = 'ja' }: Mobil
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">メニューを開く</span>
+          <span className="sr-only">{openMenuLabel}</span>
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>メニュー</SheetTitle>
+          <SheetTitle>{menuTitleLabel}</SheetTitle>
         </SheetHeader>
 
         <nav className="flex flex-col gap-1 p-4">

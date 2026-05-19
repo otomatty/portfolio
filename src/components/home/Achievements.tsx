@@ -11,7 +11,7 @@ import {
   useTransform,
 } from 'motion/react';
 import { useRef, useState } from 'react';
-import { homepageCopy } from '@/data/homepage';
+import type { HomepageCopy } from '@/data/homepage';
 import { AchievementBar } from './AchievementBar';
 import { AchievementDetail } from './AchievementDetail';
 import { BackgroundImages } from './BackgroundImages';
@@ -20,9 +20,11 @@ import { OrbitBackground } from './OrbitBackground';
 
 interface AchievementsProps {
   works: Work[];
+  copy: HomepageCopy;
 }
 
-export const Achievements = ({ works }: AchievementsProps) => {
+export const Achievements = ({ works, copy }: AchievementsProps) => {
+  const homepageCopy = copy;
   const FADE_IN_START = 0.36;
   const FADE_IN_COMPLETE = 0.44;
   const FADE_OUT_START = 0.85;

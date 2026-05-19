@@ -32,14 +32,10 @@ const imageUrl = image ? new URL(image, siteUrl).toString() : null;
 const localeMap = {
   ja: 'ja-JP',
   en: 'en-US',
-  zh: 'zh-CN',
-  ko: 'ko-KR',
 } as const;
 const ogLocaleMap = {
   ja: 'ja_JP',
   en: 'en_US',
-  zh: 'zh_CN',
-  ko: 'ko_KR',
 } as const;
 const langKey = lang.split('-')[0];
 const languageTag =
@@ -144,24 +140,6 @@ const structuredData = Array.isArray(jsonLd)
       <link
         rel="preload"
         href="/fonts/noto-sans-jp.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-    )}
-    {langKey === 'zh' && (
-      <link
-        rel="preload"
-        href="/fonts/noto-sans-sc.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-    )}
-    {langKey === 'ko' && (
-      <link
-        rel="preload"
-        href="/fonts/noto-sans-kr.woff2"
         as="font"
         type="font/woff2"
         crossorigin

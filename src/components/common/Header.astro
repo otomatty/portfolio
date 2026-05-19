@@ -5,9 +5,12 @@ import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { MobileSidebar } from './MobileSidebar';
 import { LogoLink } from './LogoLink';
+import { getT, localePath } from '@/lib/i18n';
 
 const currentPath = Astro.url.pathname;
 const currentLocale = Astro.currentLocale || 'ja';
+const common = getT(currentLocale, 'common');
+const contactHref = localePath('/contact', currentLocale);
 ---
 
 <header
@@ -25,10 +28,10 @@ const currentLocale = Astro.currentLocale || 'ja';
         <ThemeToggle client:load />
         <LanguageSwitcher client:load currentLocale={currentLocale} />
         <a
-          href="/contact"
+          href={contactHref}
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          お問い合わせ
+          {common.header.contactCta}
         </a>
       </div>
 
@@ -37,6 +40,8 @@ const currentLocale = Astro.currentLocale || 'ja';
         client:load
         currentPath={currentPath}
         currentLocale={currentLocale}
+        openMenuLabel={common.header.openMenu}
+        menuTitleLabel={common.header.menuTitle}
       />
     </div>
   </Container>

@@ -9,18 +9,21 @@ import { SectionTitle } from '@/components/common';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
-import { homepageCopy } from '@/data/homepage';
+import type { HomepageCopy } from '@/data/homepage';
 import { WorkCard } from './WorkCard';
 
 type WorkCategory = Work['category'];
 
 interface AdditionalAchievementsProps {
   works: Work[];
+  copy: HomepageCopy;
 }
 
 export const AdditionalAchievements = ({
   works,
+  copy,
 }: AdditionalAchievementsProps) => {
+  const homepageCopy = copy;
   const [selectedCategory, setSelectedCategory] = useState<
     WorkCategory | 'all'
   >('all');

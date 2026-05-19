@@ -13,9 +13,7 @@ import {
 
 const languages = [
   { code: 'ja', label: '日本語', flag: '🇯🇵', enabled: true },
-  { code: 'en', label: 'English', flag: '🇺🇸', enabled: false },
-  { code: 'zh', label: '中文', flag: '🇨🇳', enabled: false },
-  { code: 'ko', label: '한국어', flag: '🇰🇷', enabled: false },
+  { code: 'en', label: 'English', flag: '🇺🇸', enabled: true },
 ];
 
 interface LanguageSwitcherProps {
