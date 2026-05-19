@@ -3,7 +3,7 @@
 import { BasicHero } from '@/components/common';
 import { profile } from '@/data/profile';
 import { Button } from '@/components/ui/button';
-import { Github, Twitter } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 export const AboutHero = () => {
   return (
@@ -27,16 +27,6 @@ export const AboutHero = () => {
             >
               <Github className="h-4 w-4" />
               <span className="sr-only">GitHubプロフィール</span>
-            </a>
-          </Button>
-          <Button variant="outline" size="icon" asChild>
-            <a
-              href={profile.socials.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Twitter className="h-4 w-4" />
-              <span className="sr-only">Xプロフィール</span>
             </a>
           </Button>
         </div>

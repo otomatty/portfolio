@@ -181,9 +181,7 @@ const structuredData = Array.isArray(jsonLd)
       })();
     </script>
 
-    <script type="application/ld+json">
-      {JSON.stringify(structuredData)}
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <style is:global>
       @import '../styles/global.css';
 
