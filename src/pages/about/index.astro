@@ -38,16 +38,16 @@ if (githubUsername && githubToken) {
 >
   <main>
     <AboutHero client:load />
-    <AboutHeader client:load />
-    <Career client:load />
-    <Values client:load />
-    <TechStack client:load />
-    <Certifications client:load />
-    <Interests client:load />
+    <AboutHeader client:visible />
+    <Career client:visible />
+    <Values client:visible />
+    <TechStack client:visible />
+    <Certifications client:visible />
+    <Interests client:visible />
     {showContributions && (
       <section class="py-12">
         <div class="container mx-auto px-4">
-          <GithubContributions contributions={contributions} client:load />
+          <GithubContributions contributions={contributions} client:visible />
         </div>
       </section>
     )}
