@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { HomepageCopy } from '@/data/homepage';
+import { localePath } from '@/lib/i18n';
 import { WorkCard } from './WorkCard';
 
 type WorkCategory = Work['category'];
@@ -17,11 +18,13 @@ type WorkCategory = Work['category'];
 interface AdditionalAchievementsProps {
   works: Work[];
   copy: HomepageCopy;
+  locale: string;
 }
 
 export const AdditionalAchievements = ({
   works,
   copy,
+  locale,
 }: AdditionalAchievementsProps) => {
   const homepageCopy = copy;
   const [selectedCategory, setSelectedCategory] = useState<
@@ -121,7 +124,7 @@ export const AdditionalAchievements = ({
 
         <div className="text-center mt-12 relative z-10">
           <a
-            href="/works"
+            href={localePath('/works', locale)}
             className={cn(
               buttonVariants({ variant: 'outline' }),
               'group inline-flex items-center justify-center'

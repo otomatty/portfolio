@@ -12,5 +12,3 @@ const map: Record<Locale, HomepageCopy> = {
 export function getHomepageCopy(locale: string | undefined): HomepageCopy {
   return map[resolveLocale(locale)];
 }
-
-export const homepageCopy: HomepageCopy = homepageJa;
