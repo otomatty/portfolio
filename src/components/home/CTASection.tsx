@@ -13,9 +13,11 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { HomepageCopy } from '@/data/homepage';
+import { localePath } from '@/lib/i18n';
 
 export interface CTASectionProps {
   copy: HomepageCopy;
+  locale: string;
   title?: string;
   subtitle?: string;
   contactButtonText?: string;
@@ -53,11 +55,14 @@ const AvailabilityIndicator = ({ status }: { status: '○' | '△' | '×' }) => 
 
 export const CTASection = ({
   copy,
-  estimateLink = '/services/estimate',
+  locale,
+  estimateLink,
   email = 'saedgewell@gmail.com',
   phoneNumber = '080-9068-9306',
 }: CTASectionProps) => {
   const homepageCopy = copy;
+  const contactHref = localePath('/contact', locale);
+  const estimateHref = estimateLink ?? localePath('/services/estimate', locale);
   return (
     <section className="relative">
       <div className="absolute inset-0 bg-linear-to-b from-background to-muted/30" />
@@ -95,7 +100,7 @@ export const CTASection = ({
                     {homepageCopy.cta.contact.description}
                   </p>
                   <Button asChild size="lg" className="w-full">
-                    <a href="/contact">{homepageCopy.cta.contact.buttonText}</a>
+                    <a href={contactHref}>{homepageCopy.cta.contact.buttonText}</a>
                   </Button>
                 </div>
               </CardContent>
@@ -125,7 +130,7 @@ export const CTASection = ({
                     {homepageCopy.cta.estimate.description}
                   </p>
                   <Button asChild size="lg" className="w-full">
-                    <a href={estimateLink}>{homepageCopy.cta.estimate.buttonText}</a>
+                    <a href={estimateHref}>{homepageCopy.cta.estimate.buttonText}</a>
                   </Button>
                 </div>
               </CardContent>

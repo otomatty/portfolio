@@ -9,9 +9,9 @@ import {
 import Hero from '@/components/home/Hero.astro';
 import { getFeaturedWorks, getAllWorks, getHomeMetrics } from '@/data';
 import { getHomepageCopy } from '@/data/homepage';
-import { getT } from '@/lib/i18n';
+import { getT, resolveLocale } from '@/lib/i18n';
 
-const locale = Astro.currentLocale;
+const locale = resolveLocale(Astro.currentLocale);
 const copy = getHomepageCopy(locale);
 const common = getT(locale, 'common');
 
@@ -27,13 +27,19 @@ const limitedPublishedWorks = publishedWorks.slice(0, 6);
 >
   <div class="min-h-screen">
     <Hero />
-    <Introduction metrics={metrics} copy={copy} client:visible />
+    <Introduction
+      metrics={metrics}
+      copy={copy}
+      locale={locale}
+      client:visible
+    />
     <Achievements works={featuredWorks} copy={copy} client:visible />
     <AdditionalAchievements
       works={limitedPublishedWorks}
       copy={copy}
+      locale={locale}
       client:visible
     />
-    <CTASection copy={copy} client:visible />
+    <CTASection copy={copy} locale={locale} client:visible />
   </div>
 </PageLayout>
