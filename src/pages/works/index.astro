@@ -15,6 +15,6 @@ const technologies = getAllTechnologies();
   <WorksHero client:load />
 
   <Container className="py-12">
-    <WorksFilter works={works} technologies={technologies} client:load />
+    <WorksFilter works={works} technologies={technologies} client:visible />
   </Container>
 </PageLayout>
