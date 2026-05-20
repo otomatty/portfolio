@@ -20,7 +20,7 @@ import { SeigaihaPattern } from '@/components/magicui/seigaiha-pattern';
 import { ShippoPattern } from '@/components/magicui/shippo-pattern';
 import { cn } from '@/lib/utils';
 import type { Metric } from '@/types/metrics';
-import { homepageCopy } from '@/data/homepage';
+import type { HomepageCopy } from '@/data/homepage';
 import { profile } from '@/data/profile';
 import { GitHubImages } from './GitHubImages';
 import { NumberDisplay } from './NumberDisplay';
@@ -28,11 +28,13 @@ import { TechStackGrid } from './TechStackGrid';
 
 interface IntroductionProps {
   metrics: Metric[];
+  copy: HomepageCopy;
 }
 
 const PROFILE_IMAGE = profile.images.profile;
 
-export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
+export const Introduction: React.FC<IntroductionProps> = ({ metrics, copy }) => {
+  const homepageCopy = copy;
   const developmentExperience =
     metrics.find((m) => m.type === 'development_experience')?.value ?? 0;
   const projectCount =
