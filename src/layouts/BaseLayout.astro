@@ -81,10 +81,24 @@ const structuredData = Array.isArray(jsonLd)
 ---
 
 <!doctype html>
-<html lang={languageTag} class="light">
+<html lang={languageTag}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Theme initialization script (must run before first paint to avoid FOUC) -->
+    <script is:inline>
+      (function () {
+        const theme = localStorage.getItem('theme') || 'system';
+        const systemDark = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        ).matches;
+        const isDark = theme === 'dark' || (theme === 'system' && systemDark);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.classList.toggle('light', !isDark);
+      })();
+    </script>
+
     <!-- 正のファビコン: favicon.ico を優先（Slack 等もこちらを使用） -->
     <link rel="icon" href="/images/favicon/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
@@ -145,19 +159,6 @@ const structuredData = Array.isArray(jsonLd)
         crossorigin
       />
     )}
-
-    <!-- Theme initialization script -->
-    <script is:inline>
-      (function () {
-        const theme = localStorage.getItem('theme') || 'system';
-        const systemDark = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        ).matches;
-        const isDark = theme === 'dark' || (theme === 'system' && systemDark);
-        document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.classList.toggle('light', !isDark);
-      })();
-    </script>
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <style is:global>
