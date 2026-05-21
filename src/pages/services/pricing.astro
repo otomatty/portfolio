@@ -17,7 +17,7 @@ import { pricingPlans } from '@/data/services';
   />
 
   <Container className="py-12 space-y-12">
-    <BackLink href="/services" label="サービス一覧に戻る" client:load />
+    <BackLink href="/services" label="サービス一覧に戻る" />
 
     <!-- Pricing Cards -->
     <section>
@@ -71,7 +71,7 @@ import { pricingPlans } from '@/data/services';
       <SectionTitle
         title="料金についての注意事項"
         subtitle=""
-        client:load
+        client:visible
       />
       <div class="prose prose-sm max-w-none dark:prose-invert">
         <ul>
