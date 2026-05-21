@@ -1,6 +1,5 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { getFeaturedWorks } from '@/data/works';
 import { getGithubCalendarContributions } from '@/lib/github';
 import type { ContributionDay } from '@/types/github';
 import { AboutHero } from '@/components/about/about-hero';
@@ -12,7 +11,6 @@ import { Certifications } from '@/components/about/certifications';
 import { Interests } from '@/components/about/interests';
 import { GithubContributions } from '@/components/about/github-contributions';
 
-const featuredWorks = getFeaturedWorks();
 const githubUsername = import.meta.env.GITHUB_USERNAME;
 const githubToken = import.meta.env.GITHUB_TOKEN;
 

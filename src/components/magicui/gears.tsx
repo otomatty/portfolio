@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Gear1 = () => (
   <svg
     width="33"
