@@ -1,5 +1,3 @@
-'use client';
-
 import { Check, Globe } from 'lucide-react';
 import { useState } from 'react';
 

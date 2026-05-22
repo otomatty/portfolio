@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Gear1, Gear2, Gear3, Gear4, Gear5, Gear6, Gear7 } from './gears';

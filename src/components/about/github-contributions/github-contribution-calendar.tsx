@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContributionDay } from '@/types/github';
 import { useState } from 'react';
 

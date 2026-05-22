@@ -1,8 +1,6 @@
 /**
  * Card with mouse-following gradient highlight.
  */
-'use client';
-
 import { motion, useMotionTemplate, useMotionValue } from 'motion/react';
 import type React from 'react';
 import { useCallback, useEffect, useRef } from 'react';

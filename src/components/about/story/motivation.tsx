@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Lightbulb, Target } from 'lucide-react';

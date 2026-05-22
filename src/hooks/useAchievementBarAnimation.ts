@@ -1,5 +1,3 @@
-'use client';
-
 import { useWindowSize } from './useWindowSize';
 
 export const useAchievementBarAnimation = () => {

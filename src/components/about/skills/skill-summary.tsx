@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import { Cloud, Layout, Server } from 'lucide-react';
 import { motion } from 'motion/react';

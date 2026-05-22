@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import { Award, Briefcase, Code2, Users } from 'lucide-react';
 import { motion } from 'motion/react';

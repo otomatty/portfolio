@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import OtherInterests from './other-interests';
 import TechnicalInterests from './technical-interests';

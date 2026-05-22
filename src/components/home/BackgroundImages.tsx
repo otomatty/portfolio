@@ -1,5 +1,3 @@
-'use client';
-
 import type { Work } from '@/types/works';
 import { motion } from 'motion/react';
 
