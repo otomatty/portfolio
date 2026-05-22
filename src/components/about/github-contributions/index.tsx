@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContributionDay } from '@/types/github';
 import { SectionTitle } from '@/components/common';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

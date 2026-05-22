@@ -1,5 +1,3 @@
-'use client';
-
 import { Card, CardContent } from '@/components/ui/card';
 import { type LucideIcon, Rocket, Sparkles, Zap } from 'lucide-react';
 import { motion } from 'motion/react';

@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import FutureGoals from './future-goals';
 import TechnicalChallenges from './technical-challenges';

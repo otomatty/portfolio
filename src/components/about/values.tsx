@@ -1,5 +1,3 @@
-'use client';
-
 import { SectionTitle, Container } from '@/components/common';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {

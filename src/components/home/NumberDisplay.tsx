@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { NumberTicker } from '@/components/magicui/number-ticker';
 import { cn } from '@/lib/utils';

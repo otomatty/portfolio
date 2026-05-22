@@ -1,5 +1,3 @@
-'use client';
-
 import type { Work } from '@/types/works';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

@@ -1,5 +1,3 @@
-"use client";
-
 import { BasicHero } from '@/components/common';
 
 export const WorksHero = () => {

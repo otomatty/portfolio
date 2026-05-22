@@ -1,5 +1,3 @@
-'use client';
-
 import { SectionTitle, Container } from '@/components/common';
 import { Card, CardContent } from '@/components/ui/card';
 import { Award, Trophy } from 'lucide-react';

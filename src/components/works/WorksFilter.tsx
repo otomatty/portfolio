@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo, useState } from 'react';
 import type { Work } from '@/types/works';
 import { Badge } from '@/components/ui/badge';

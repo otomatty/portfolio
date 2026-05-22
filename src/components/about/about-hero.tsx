@@ -1,5 +1,3 @@
-'use client';
-
 import { BasicHero } from '@/components/common';
 import { profile } from '@/data/profile';
 import { Button } from '@/components/ui/button';

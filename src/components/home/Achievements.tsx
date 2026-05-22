@@ -1,5 +1,3 @@
-'use client';
-
 import type { Work } from '@/types/works';
 import { NeonGradientCard } from '@/components/magicui/neon-gradient-card';
 import { ScrollTextAnimation } from '@/components/magicui/scroll-text-animation';

@@ -1,5 +1,3 @@
-'use client';
-
 import { Container, SectionTitle } from '@/components/common';
 import { Card, CardContent } from '@/components/ui/card';
 import { TimelineRoot, TimelineItem, TimelineDot } from '@/components/ui/timeline';
