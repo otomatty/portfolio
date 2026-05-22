@@ -89,11 +89,13 @@ const structuredData = Array.isArray(jsonLd)
     <!-- Theme initialization script (must run before first paint to avoid FOUC) -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem('theme') || 'system';
-        const systemDark = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        ).matches;
-        const isDark = theme === 'dark' || (theme === 'system' && systemDark);
+        let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        try {
+          const theme = localStorage.getItem('theme') || 'system';
+          if (theme !== 'system') isDark = theme === 'dark';
+        } catch {
+          // localStorage may throw in private mode / blocked 3rd-party storage; fall back to system preference
+        }
         document.documentElement.classList.toggle('dark', isDark);
         document.documentElement.classList.toggle('light', !isDark);
       })();
