@@ -2,7 +2,8 @@ import type { Work } from '@/types/works';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowRight } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
 import { motion } from 'motion/react';
 
 interface AchievementDetailProps {
@@ -83,7 +84,7 @@ export const AchievementDetail = ({
                     rel="noopener noreferrer"
                     className="inline-flex items-center text-primary hover:underline"
                   >
-                    <Github className="mr-2 h-4 w-4" />
+                    <SiGithub className="mr-2 h-4 w-4" />
                     GitHubを見る
                   </a>
                 )}

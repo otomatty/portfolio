@@ -1,7 +1,7 @@
 import { BasicHero } from '@/components/common';
 import { profile } from '@/data/profile';
 import { Button } from '@/components/ui/button';
-import { Github } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
 
 export const AboutHero = () => {
   return (
@@ -23,7 +23,7 @@ export const AboutHero = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="h-4 w-4" />
+              <SiGithub className="h-4 w-4" />
               <span className="sr-only">GitHubプロフィール</span>
             </a>
           </Button>

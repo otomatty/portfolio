@@ -5,7 +5,8 @@ import { BackLink, Container } from '@/components/common';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
 import { getAllWorks } from '@/data/works';
 import type { Work } from '@/types/works';
 
@@ -144,7 +145,7 @@ const pageJsonLd = {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Github className="h-4 w-4" />
+                      <SiGithub className="h-4 w-4" />
                       ソースコード
                     </a>
                   </Button>

@@ -1,11 +1,11 @@
 import {
   Code,
-  Github,
   Layers,
   Telescope,
   Type,
   User,
 } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
 import { motion } from 'motion/react';
 import { BentoGrid, MagicBentoCard } from '@/components/magicui/bento-grid';
 import { Container, SectionTitle } from '@/components/common';
@@ -197,7 +197,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
           <Ripple className="absolute inset-0 z-0 mask-[radial-gradient(450px_circle_at_center,white,transparent)]" />
         </div>
       ),
-      Icon: Github,
+      Icon: SiGithub,
       href: 'https://github.com/otomatty',
       cta: homepageCopy.introduction.cards.github.cta,
     },

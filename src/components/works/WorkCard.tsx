@@ -2,7 +2,8 @@ import type { Work } from '@/types/works';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
 
 interface WorkCardProps {
   work: Work;
@@ -45,7 +46,7 @@ export const WorkCard = ({ work }: WorkCardProps) => {
                   rel="noopener noreferrer"
                   aria-label={`${work.title} のGitHub`}
                 >
-                  <Github className="h-4 w-4" />
+                  <SiGithub className="h-4 w-4" />
                 </a>
               </Button>
             )}
