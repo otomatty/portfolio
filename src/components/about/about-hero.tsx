@@ -23,7 +23,7 @@ export const AboutHero = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <SiGithub className="h-4 w-4" />
+              <SiGithub color="currentColor" className="h-4 w-4" />
               <span className="sr-only">GitHubプロフィール</span>
             </a>
           </Button>

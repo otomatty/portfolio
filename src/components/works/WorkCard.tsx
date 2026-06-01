@@ -46,7 +46,7 @@ export const WorkCard = ({ work }: WorkCardProps) => {
                   rel="noopener noreferrer"
                   aria-label={`${work.title} のGitHub`}
                 >
-                  <SiGithub className="h-4 w-4" />
+                  <SiGithub color="currentColor" className="h-4 w-4" />
                 </a>
               </Button>
             )}

@@ -197,7 +197,9 @@ export const Introduction: React.FC<IntroductionProps> = ({
           <Ripple className="absolute inset-0 z-0 mask-[radial-gradient(450px_circle_at_center,white,transparent)]" />
         </div>
       ),
-      Icon: SiGithub,
+      Icon: (props: React.ComponentProps<typeof SiGithub>) => (
+        <SiGithub color="currentColor" {...props} />
+      ),
       href: 'https://github.com/otomatty',
       cta: homepageCopy.introduction.cards.github.cta,
     },

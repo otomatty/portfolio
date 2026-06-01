@@ -84,7 +84,7 @@ export const AchievementDetail = ({
                     rel="noopener noreferrer"
                     className="inline-flex items-center text-primary hover:underline"
                   >
-                    <SiGithub className="mr-2 h-4 w-4" />
+                    <SiGithub color="currentColor" className="mr-2 h-4 w-4" />
                     GitHubを見る
                   </a>
                 )}
