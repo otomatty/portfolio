@@ -9,6 +9,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://saedgewell.com',
   output: 'static',
+  // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
+  // prefetched (default `hover` strategy), e.g. the LanguageSwitcher links.
+  prefetch: true,
   integrations: [
     react(),
     sitemap({

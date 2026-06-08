@@ -26,7 +26,7 @@ const contactHref = localePath('/contact', currentLocale);
       <div class="hidden md:flex md:items-center md:gap-2">
         <Navigation client:load currentPath={currentPath} />
         <ThemeToggle client:load />
-        <LanguageSwitcher client:load currentLocale={currentLocale} />
+        <LanguageSwitcher client:load currentLocale={currentLocale} currentPath={currentPath} />
         <a
           href={contactHref}
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"

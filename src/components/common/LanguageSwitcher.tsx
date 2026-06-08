@@ -1,5 +1,4 @@
 import { Check, Globe } from 'lucide-react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -8,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { switchLocalePath } from '@/lib/i18n';
 
 const languages = [
   { code: 'ja', label: '日本語', flag: '🇯🇵', enabled: true },
@@ -16,52 +16,18 @@ const languages = [
 
 interface LanguageSwitcherProps {
   currentLocale?: string;
+  currentPath?: string;
 }
 
-export function LanguageSwitcher({ currentLocale = 'ja' }: LanguageSwitcherProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+export function LanguageSwitcher({
+  currentLocale = 'ja',
+  currentPath = '/',
+}: LanguageSwitcherProps) {
   const currentLanguage =
     languages.find((lang) => lang.code === currentLocale) || languages[0];
 
-  const handleLanguageChange = (languageCode: string) => {
-    // For Astro's i18n, we navigate to the new locale path
-    const currentPath = window.location.pathname;
-    const pathParts = currentPath.split('/').filter(Boolean);
-    
-    // Check if current path starts with a locale
-    const currentLocaleFromPath = languages.find(
-      (lang) => pathParts[0] === lang.code
-    );
-    
-    let newPath: string;
-    if (currentLocaleFromPath) {
-      // Replace the locale in the path
-      pathParts[0] = languageCode;
-      newPath = '/' + pathParts.join('/');
-    } else {
-      // Default locale (ja) doesn't have prefix
-      if (languageCode === 'ja') {
-        newPath = currentPath;
-      } else {
-        newPath = '/' + languageCode + currentPath;
-      }
-    }
-    
-    // Handle default locale (ja) - no prefix
-    if (languageCode === 'ja') {
-      if (currentLocaleFromPath) {
-        pathParts.shift();
-        newPath = '/' + (pathParts.join('/') || '');
-      }
-    }
-    
-    window.location.href = newPath;
-    setIsOpen(false);
-  };
-
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
           <Globe className="h-4 w-4" />
@@ -72,17 +38,30 @@ export function LanguageSwitcher({ currentLocale = 'ja' }: LanguageSwitcherProps
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            onClick={() => language.enabled && handleLanguageChange(language.code)}
+            asChild={language.enabled}
             disabled={!language.enabled}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <span className="text-base">{language.flag}</span>
-            <span className="flex-1">{language.label}</span>
-            {!language.enabled && (
-              <span className="text-xs text-muted-foreground">準備中</span>
-            )}
-            {currentLocale === language.code && (
-              <Check className="h-4 w-4 text-primary" />
+            {language.enabled ? (
+              // Native anchor so navigation stays SPA-friendly: Astro link
+              // prefetch works and a future View Transitions setup can take over.
+              <a
+                href={switchLocalePath(currentPath, language.code)}
+                rel="nofollow noreferrer"
+                data-astro-prefetch
+              >
+                <span className="text-base">{language.flag}</span>
+                <span className="flex-1">{language.label}</span>
+                {currentLocale === language.code && (
+                  <Check className="h-4 w-4 text-primary" />
+                )}
+              </a>
+            ) : (
+              <>
+                <span className="text-base">{language.flag}</span>
+                <span className="flex-1">{language.label}</span>
+                <span className="text-xs text-muted-foreground">準備中</span>
+              </>
             )}
           </DropdownMenuItem>
         ))}
