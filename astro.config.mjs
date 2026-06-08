@@ -10,8 +10,13 @@ export default defineConfig({
   site: 'https://saedgewell.com',
   output: 'static',
   // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
-  // prefetched (default `hover` strategy), e.g. the LanguageSwitcher links.
-  prefetch: true,
+  // prefetched, on `hover` (e.g. the LanguageSwitcher links). `prefetchAll`
+  // is pinned to false so prefetching stays opt-in even if a ClientRouter
+  // (View Transitions) is added later, where it would otherwise default to true.
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
   integrations: [
     react(),
     sitemap({
