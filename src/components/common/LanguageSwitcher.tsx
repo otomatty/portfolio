@@ -47,7 +47,6 @@ export function LanguageSwitcher({
               // prefetch works and a future View Transitions setup can take over.
               <a
                 href={switchLocalePath(currentPath, language.code)}
-                rel="nofollow noreferrer"
                 data-astro-prefetch
               >
                 <span className="text-base">{language.flag}</span>
