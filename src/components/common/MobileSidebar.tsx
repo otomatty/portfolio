@@ -127,7 +127,7 @@ export function MobileSidebar({
         <div className="absolute bottom-0 left-0 right-0 p-4 space-y-4">
           <div className="flex items-center justify-center gap-4">
             <ThemeToggle />
-            <LanguageSwitcher currentLocale={currentLocale} />
+            <LanguageSwitcher currentLocale={currentLocale} currentPath={currentPath} />
           </div>
           <Separator />
           <div className="text-center text-sm text-muted-foreground">

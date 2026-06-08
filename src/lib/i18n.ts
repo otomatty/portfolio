@@ -53,3 +53,27 @@ export function localePath(
   if (resolved === defaultLocale) return normalized;
   return normalized === '/' ? `/${resolved}/` : `/${resolved}${normalized}`;
 }
+
+/**
+ * Remove a leading locale segment from a pathname.
+ * `/en/about` -> `/about`, `/en` -> `/`, `/about` -> `/about`.
+ */
+export function stripLocalePrefix(pathname: string): string {
+  const segments = pathname.split('/');
+  if (isLocale(segments[1])) {
+    segments.splice(1, 1);
+  }
+  const stripped = segments.join('/');
+  return stripped === '' ? '/' : stripped;
+}
+
+/**
+ * Build the equivalent path for `targetLocale` from the current pathname,
+ * preserving the page being viewed. Used by the language switcher.
+ */
+export function switchLocalePath(
+  pathname: string,
+  targetLocale: string | undefined,
+): string {
+  return localePath(stripLocalePrefix(pathname), targetLocale);
+}
