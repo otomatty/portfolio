@@ -14,8 +14,9 @@ const siteUrl = 'https://saedgewell.com';
 const siteName = 'Saedgewell';
 const authorName = profile.name.ja;
 const defaultDescription =
-  'スガイアキマサ / ポートフォリオ';
+  '菅井 瑛正 / ポートフォリオ';
 const faviconUrl = new URL('/images/favicon/favicon-32x32.png', siteUrl).toString();
+const defaultOgImage = new URL('/images/og-default.png', siteUrl).toString();
 
 const {
   title,
@@ -27,7 +28,9 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
-const imageUrl = image ? new URL(image, siteUrl).toString() : null;
+const imageUrl = image
+  ? new URL(image, siteUrl).toString()
+  : defaultOgImage;
 
 const localeMap = {
   ja: 'ja-JP',

@@ -7,7 +7,8 @@ export const homepageEn: HomepageCopy = {
       highlight: 'maximum value',
       part2: ' from minimal resources',
     },
-    subtitle: 'As a product engineer, turning your vision into reality',
+    subtitle:
+      'A product engineer building end-to-end, from frontend to backend and infrastructure.',
     ctaPrimary: 'View works',
     ctaSecondary: 'About me',
   },
@@ -74,40 +75,15 @@ export const homepageEn: HomepageCopy = {
   },
   cta: {
     title: 'Contact',
-    subtitle: 'Inquiries & estimates',
+    subtitle: 'Get in touch',
     contact: {
-      title: 'Chat inquiry',
+      title: 'Contact',
       description:
-        'Feel free to reach out with any questions or requests.\nI respond in real time.',
+        'Feel free to reach out with any questions about\nproduct development or technology.',
       buttonText: 'Get in touch',
     },
-    estimate: {
-      title: 'Estimate',
-      description:
-        'Our AI-powered estimation system delivers\nfast and accurate quotes.',
-      buttonText: 'Request an estimate',
-    },
     availability: {
-      title: 'Availability',
-      timeSlot: 'Time slot',
       email: 'Email',
-      phone: 'Phone',
-      meetingSchedule: 'Schedule a meeting',
-      status: {
-        available: 'Available',
-        consultation: 'On request',
-        unavailable: 'Unavailable',
-      },
-      days: {
-        monday: 'Mon',
-        tuesday: 'Tue',
-        wednesday: 'Wed',
-        thursday: 'Thu',
-        friday: 'Fri',
-        saturday: 'Sat',
-        sunday: 'Sun',
-        holiday: 'Hol',
-      },
     },
   },
 };

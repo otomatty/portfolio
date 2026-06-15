@@ -46,7 +46,7 @@ export type CareerHighlight = {
 
 export const profile = {
   name: {
-    ja: 'スガイアキマサ',
+    ja: '菅井 瑛正',
     en: 'Akimasa Sugai',
   },
   role: 'Product Engineer',

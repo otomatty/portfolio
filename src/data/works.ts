@@ -104,7 +104,7 @@ export const works: Work[] = [
   {
     slug: 'saedgewell',
     title: 'ポートフォリオサイト',
-    description: 'スガイアキマサのポートフォリオサイト',
+    description: '菅井 瑛正のポートフォリオサイト',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/saedgewell.webp',
