@@ -1,6 +1,7 @@
 ---
 import { Container } from './container';
 import { getT, localePath } from '@/lib/i18n';
+import { profile } from '@/data/profile';
 
 const currentLocale = Astro.currentLocale;
 const common = getT(currentLocale, 'common');
@@ -27,7 +28,6 @@ const footerLinks = [
     title: footerCopy.sections.contact.title,
     items: [
       { label: footerCopy.sections.contact.items.contact, href: localePath('/contact', currentLocale) },
-      { label: footerCopy.sections.contact.items.services, href: localePath('/services', currentLocale) },
     ],
   },
 ];
@@ -40,7 +40,7 @@ const socialLinks = [
   },
   {
     label: 'Email',
-    href: 'mailto:contact@saedgewell.com',
+    href: `mailto:${profile.email}`,
     icon: 'mail',
   },
 ];

@@ -70,8 +70,8 @@ export const Vision = () => {
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <Button asChild size="lg">
-              <a href="/services/estimate" className="gap-2 inline-flex items-center">
-                お見積もり依頼
+              <a href="/contact" className="gap-2 inline-flex items-center">
+                お問い合わせ
                 <ArrowRight className="h-4 w-4" />
               </a>
             </Button>

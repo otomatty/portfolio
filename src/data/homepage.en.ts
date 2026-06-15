@@ -3,11 +3,14 @@ import type { HomepageCopy } from './homepage';
 export const homepageEn: HomepageCopy = {
   hero: {
     title: {
-      part1: 'Creating ',
-      highlight: 'maximum value',
-      part2: ' from minimal resources',
+      part1: 'Make AI-driven development',
+      highlight: 'a team standard',
+      part2: '.',
     },
-    subtitle: 'As a product engineer, turning your vision into reality',
+    subtitle:
+      'From adoption and enablement to full-stack delivery including UI/UX — an engineer who makes AI run reliably.',
+    ctaPrimary: 'View works',
+    ctaSecondary: 'About me',
   },
   introduction: {
     title: 'About Me',
@@ -72,40 +75,15 @@ export const homepageEn: HomepageCopy = {
   },
   cta: {
     title: 'Contact',
-    subtitle: 'Inquiries & estimates',
+    subtitle: 'Get in touch',
     contact: {
-      title: 'Chat inquiry',
+      title: 'Contact',
       description:
-        'Feel free to reach out with any questions or requests.\nI respond in real time.',
+        'Feel free to reach out with any questions about\nproduct development or technology.',
       buttonText: 'Get in touch',
     },
-    estimate: {
-      title: 'Estimate',
-      description:
-        'Our AI-powered estimation system delivers\nfast and accurate quotes.',
-      buttonText: 'Request an estimate',
-    },
     availability: {
-      title: 'Availability',
-      timeSlot: 'Time slot',
       email: 'Email',
-      phone: 'Phone',
-      meetingSchedule: 'Schedule a meeting',
-      status: {
-        available: 'Available',
-        consultation: 'On request',
-        unavailable: 'Unavailable',
-      },
-      days: {
-        monday: 'Mon',
-        tuesday: 'Tue',
-        wednesday: 'Wed',
-        thursday: 'Thu',
-        friday: 'Fri',
-        saturday: 'Sat',
-        sunday: 'Sun',
-        holiday: 'Hol',
-      },
     },
   },
 };

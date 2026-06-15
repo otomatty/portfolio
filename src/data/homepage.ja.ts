@@ -1,11 +1,14 @@
 export const homepageJa = {
   hero: {
     title: {
-      part1: '最小のリソースから',
-      highlight: '最大の価値',
-      part2: 'を生み出す',
+      part1: 'AI駆動開発を、',
+      highlight: 'チームの当たり前',
+      part2: 'に。',
     },
-    subtitle: 'プロダクトエンジニアとして、あなたのビジョンを現実に',
+    subtitle:
+      'AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。AIを"安定して動かす"ことにこだわるエンジニアです。',
+    ctaPrimary: '実績を見る',
+    ctaSecondary: 'プロフィール',
   },
   introduction: {
     title: 'About Me',
@@ -70,40 +73,15 @@ export const homepageJa = {
   },
   cta: {
     title: 'Contact',
-    subtitle: 'お問い合わせ・お見積り',
+    subtitle: 'お問い合わせ',
     contact: {
-      title: 'チャットでのお問い合わせ',
+      title: 'お問い合わせ',
       description:
-        'ご質問・ご相談などお気軽にお問い合わせください。\nリアルタイムでご対応いたします。',
+        'プロダクト開発や技術に関するご質問・ご相談など、\nお気軽にお問い合わせください。',
       buttonText: 'お問い合わせはこちら',
     },
-    estimate: {
-      title: 'お見積り',
-      description:
-        'AIによる自動見積もりシステムで、\n素早く正確なお見積りを提供いたします。',
-      buttonText: 'お見積りはこちら',
-    },
     availability: {
-      title: '対応可能時間',
-      timeSlot: '時間帯',
       email: 'メールアドレス',
-      phone: '電話番号',
-      meetingSchedule: 'ミーティングを予約する',
-      status: {
-        available: '対応可能',
-        consultation: '要相談',
-        unavailable: '対応不可',
-      },
-      days: {
-        monday: '月',
-        tuesday: '火',
-        wednesday: '水',
-        thursday: '木',
-        friday: '金',
-        saturday: '土',
-        sunday: '日',
-        holiday: '祝',
-      },
     },
   },
 };

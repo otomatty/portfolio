@@ -14,8 +14,9 @@ const siteUrl = 'https://saedgewell.com';
 const siteName = 'Saedgewell';
 const authorName = profile.name.ja;
 const defaultDescription =
-  'スガイアキマサ / ポートフォリオ';
+  '菅井 瑛正 / ポートフォリオ';
 const faviconUrl = new URL('/images/favicon/favicon-32x32.png', siteUrl).toString();
+const defaultOgImage = new URL('/images/og-default.png', siteUrl).toString();
 
 const {
   title,
@@ -27,7 +28,9 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
-const imageUrl = image ? new URL(image, siteUrl).toString() : null;
+const imageUrl = image
+  ? new URL(image, siteUrl).toString()
+  : defaultOgImage;
 
 const localeMap = {
   ja: 'ja-JP',
@@ -65,7 +68,7 @@ const defaultJsonLd = [
     '@id': personId,
     name: authorName,
     alternateName: profile.name.en,
-    jobTitle: 'Product Engineer',
+    jobTitle: 'AI-Driven Development Engineer',
     url: siteUrl,
     image: imageUrl ?? faviconUrl,
     sameAs: [
@@ -117,7 +120,7 @@ const structuredData = Array.isArray(jsonLd)
     <link rel="canonical" href={canonicalURL} />
     <meta
       name="keywords"
-      content="Product Engineer,Web Development,Next.js,React,TypeScript,Portfolio"
+      content="AI駆動開発,AI-DLC,AI-Driven Development,UI/UX,Full-Stack Engineer,Web Development,Next.js,React,TypeScript,Portfolio"
     />
 
     <!-- Open Graph / Facebook (og:image なしでシンプルなプレビューに) -->
