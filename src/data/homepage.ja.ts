@@ -6,6 +6,8 @@ export const homepageJa = {
       part2: 'を生み出す',
     },
     subtitle: 'プロダクトエンジニアとして、あなたのビジョンを現実に',
+    ctaPrimary: '実績を見る',
+    ctaSecondary: 'プロフィール',
   },
   introduction: {
     title: 'About Me',

@@ -2,13 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Container, SectionTitle } from '@/components/common';
 import { cn } from '@/lib/utils';
-import {
-  Calendar,
-  FileText,
-  Mail,
-  MessageSquare,
-  Phone,
-} from 'lucide-react';
+import { Calendar, FileText, Mail, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { HomepageCopy } from '@/data/homepage';
 import { localePath } from '@/lib/i18n';
@@ -22,7 +16,6 @@ export interface CTASectionProps {
   estimateLink?: string;
   estimateButtonText?: string;
   email?: string;
-  phoneNumber?: string;
 }
 
 const AvailabilityIndicator = ({ status }: { status: '○' | '△' | '×' }) => {
@@ -55,8 +48,7 @@ export const CTASection = ({
   copy,
   locale,
   estimateLink,
-  email = 'saedgewell@gmail.com',
-  phoneNumber = '080-9068-9306',
+  email = 'akimasa.sugai@saedgewell.com',
 }: CTASectionProps) => {
   const homepageCopy = copy;
   const contactHref = localePath('/contact', locale);
@@ -303,25 +295,6 @@ export const CTASection = ({
                         className="group/link inline-flex items-center gap-2 text-primary hover:text-primary/90 transition-colors"
                       >
                         <span className="text-base sm:text-lg break-all">{email}</span>
-                        <span className="text-primary/70 group-hover/link:translate-x-0.5 transition-transform">
-                          →
-                        </span>
-                      </a>
-                    </div>
-                    <div className="space-y-3 sm:space-y-4">
-                      <div className="flex items-center gap-3 text-foreground">
-                        <div className="p-2 rounded-lg bg-muted">
-                          <Phone className="w-5 h-5" />
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
-                          {homepageCopy.cta.availability.phone}
-                        </h3>
-                      </div>
-                      <a
-                        href={`tel:${phoneNumber}`}
-                        className="group/link inline-flex items-center gap-2 text-primary hover:text-primary/90 transition-colors"
-                      >
-                        <span className="text-base sm:text-lg">{phoneNumber}</span>
                         <span className="text-primary/70 group-hover/link:translate-x-0.5 transition-transform">
                           →
                         </span>

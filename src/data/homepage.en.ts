@@ -8,6 +8,8 @@ export const homepageEn: HomepageCopy = {
       part2: ' from minimal resources',
     },
     subtitle: 'As a product engineer, turning your vision into reality',
+    ctaPrimary: 'View works',
+    ctaSecondary: 'About me',
   },
   introduction: {
     title: 'About Me',

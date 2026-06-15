@@ -1,9 +1,11 @@
 ---
 import { LinearRotate } from '@/components/magicui/linear-rotate';
-import { ThemeSwitch } from '@/components/common/ThemeSwitch';
 import { getHomepageCopy } from '@/data/homepage';
+import { localePath } from '@/lib/i18n';
 
 const homepageCopy = getHomepageCopy(Astro.currentLocale);
+const worksHref = localePath('/works', Astro.currentLocale);
+const aboutHref = localePath('/about', Astro.currentLocale);
 ---
 
 <section class="relative min-h-screen overflow-hidden">
@@ -26,8 +28,19 @@ const homepageCopy = getHomepageCopy(Astro.currentLocale);
       </p>
     </div>
 
-    <div>
-      <ThemeSwitch client:load />
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href={worksHref}
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-base font-medium transition-all h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90"
+      >
+        {homepageCopy.hero.ctaPrimary}
+      </a>
+      <a
+        href={aboutHref}
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-base font-medium transition-all h-11 px-8 border border-input bg-background/60 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground"
+      >
+        {homepageCopy.hero.ctaSecondary}
+      </a>
     </div>
   </div>
 </section>
