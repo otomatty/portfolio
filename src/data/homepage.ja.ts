@@ -1,12 +1,12 @@
 export const homepageJa = {
   hero: {
     title: {
-      part1: 'AIと共に、',
-      highlight: '止まらない開発',
-      part2: 'を。',
+      part1: 'AI駆動開発を、',
+      highlight: 'チームの当たり前',
+      part2: 'に。',
     },
     subtitle:
-      'AI駆動開発（AI-DLC）の導入・定着支援から、UI/UX設計を含むフルスタック開発まで。AIを"安定して動かす"エンジニアです。',
+      'AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。AIを"安定して動かす"ことにこだわるエンジニアです。',
     ctaPrimary: '実績を見る',
     ctaSecondary: 'プロフィール',
   },
