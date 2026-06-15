@@ -21,9 +21,10 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="0" y="0" width="1200" height="8" fill="url(#accent)"/>
-  <text x="90" y="250" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="#f8fafc">Akimasa Sugai</text>
-  <text x="94" y="320" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="600" fill="url(#accent)">Product Engineer</text>
-  <text x="94" y="400" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="400" fill="#cbd5e1">Building end-to-end, from frontend to infrastructure.</text>
+  <text x="90" y="232" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="#f8fafc">Akimasa Sugai</text>
+  <text x="94" y="302" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="600" fill="url(#accent)">AI-Driven Development Engineer</text>
+  <text x="94" y="386" font-family="Helvetica, Arial, sans-serif" font-size="29" font-weight="400" fill="#cbd5e1">Making AI-driven development run reliably —</text>
+  <text x="94" y="426" font-family="Helvetica, Arial, sans-serif" font-size="29" font-weight="400" fill="#cbd5e1">UI/UX to infrastructure, full-stack.</text>
   <text x="94" y="560" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#64748b">saedgewell.com</text>
 </svg>`;
 

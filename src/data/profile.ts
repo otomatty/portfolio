@@ -49,9 +49,9 @@ export const profile = {
     ja: '菅井 瑛正',
     en: 'Akimasa Sugai',
   },
-  role: 'Product Engineer',
+  role: 'AI-Driven Development Engineer',
   headline:
-    'プロダクトエンジニアとして、モダンな技術を活用したWeb開発に携わっています。',
+    'AI駆動開発の導入支援とAIを活用した開発を軸に、UI/UXからインフラまで幅広く手がけるエンジニアです。',
   bioShort:
     'フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。',
   bioLong:

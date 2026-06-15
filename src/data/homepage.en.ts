@@ -3,12 +3,12 @@ import type { HomepageCopy } from './homepage';
 export const homepageEn: HomepageCopy = {
   hero: {
     title: {
-      part1: 'Creating ',
-      highlight: 'maximum value',
-      part2: ' from minimal resources',
+      part1: 'Building with AI,',
+      highlight: 'unstoppable',
+      part2: ' development.',
     },
     subtitle:
-      'A product engineer building end-to-end, from frontend to backend and infrastructure.',
+      'From adopting and operationalizing AI-driven development (AI-DLC) to full-stack delivery including UI/UX — an engineer who makes AI run reliably.',
     ctaPrimary: 'View works',
     ctaSecondary: 'About me',
   },
