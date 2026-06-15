@@ -17,7 +17,7 @@ export interface CTASectionProps {
 export const CTASection = ({
   copy,
   locale,
-  email = 'akimasa.sugai@saedgewell.com',
+  email = profile.email,
 }: CTASectionProps) => {
   const homepageCopy = copy;
   const contactHref = localePath('/contact', locale);

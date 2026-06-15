@@ -49,6 +49,7 @@ export const profile = {
     ja: '菅井 瑛正',
     en: 'Akimasa Sugai',
   },
+  email: 'akimasa.sugai@saedgewell.com',
   role: 'AI-Driven Development Engineer',
   headline:
     'AI駆動開発の導入支援とAIを活用した開発を軸に、UI/UXからインフラまで幅広く手がけるエンジニアです。',

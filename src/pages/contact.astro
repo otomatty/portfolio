@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, MessageCircle } from 'lucide-react';
+import { profile } from '@/data/profile';
 ---
 
 <PageLayout
@@ -38,7 +39,7 @@ import { Mail, MessageCircle } from 'lucide-react';
             <Badge variant="outline">日本語対応</Badge>
           </div>
           <Button asChild>
-            <a href="mailto:akimasa.sugai@saedgewell.com">メールを送る</a>
+            <a href={`mailto:${profile.email}`}>メールを送る</a>
           </Button>
         </CardContent>
       </Card>

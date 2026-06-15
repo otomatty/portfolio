@@ -1,6 +1,7 @@
 ---
 import { Container } from './container';
 import { getT, localePath } from '@/lib/i18n';
+import { profile } from '@/data/profile';
 
 const currentLocale = Astro.currentLocale;
 const common = getT(currentLocale, 'common');
@@ -39,7 +40,7 @@ const socialLinks = [
   },
   {
     label: 'Email',
-    href: 'mailto:akimasa.sugai@saedgewell.com',
+    href: `mailto:${profile.email}`,
     icon: 'mail',
   },
 ];
