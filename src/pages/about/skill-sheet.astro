@@ -1,0 +1,25 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { BasicHero } from '@/components/common';
+import { SkillSheetProjects } from '@/components/about/skill-sheet/skill-sheet-projects';
+import { SkillSheetLevels } from '@/components/about/skill-sheet/skill-sheet-levels';
+import { SkillSheetMatrix } from '@/components/about/skill-sheet/skill-sheet-matrix';
+import { resolveLocale } from '@/lib/i18n';
+
+const locale = resolveLocale(Astro.currentLocale);
+---
+
+<PageLayout
+  title="Skill Sheet | Saedgewell"
+  description="案件単位の構造化されたスキルシート。役割・担当工程・案件規模・使用技術・習熟度をまとめています。"
+>
+  <BasicHero
+    title="スキルシート"
+    description="案件単位の役割・担当工程・規模・使用技術と、技術ごとの習熟度を構造化してご紹介します。"
+    client:load
+  />
+
+  <SkillSheetProjects locale={locale} client:visible />
+  <SkillSheetLevels locale={locale} client:visible />
+  <SkillSheetMatrix locale={locale} client:visible />
+</PageLayout>
