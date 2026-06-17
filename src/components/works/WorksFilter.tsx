@@ -1,35 +1,45 @@
-import { useMemo, useState } from 'react';
-import type { Work } from '@/types/works';
+import { useEffect, useMemo, useState } from 'react';
+import type { Work, WorkKind } from '@/types/works';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AnimatePresence, motion } from 'motion/react';
 import { WorkCard } from './WorkCard';
 
-type WorkCategory = 'all' | 'company' | 'freelance' | 'personal';
+type KindFilter = 'all' | WorkKind;
 
 interface WorksFilterProps {
   works: Work[];
   technologies: string[];
-  initialCategory?: WorkCategory;
+  initialKind?: KindFilter;
 }
 
-const categories: Array<{ value: WorkCategory; label: string }> = [
+const kinds: Array<{ value: KindFilter; label: string }> = [
   { value: 'all', label: 'すべて' },
-  { value: 'company', label: '企業案件' },
-  { value: 'freelance', label: 'フリーランス' },
+  { value: 'professional', label: '実務' },
   { value: 'personal', label: '個人開発' },
 ];
+
+const isKindFilter = (value: string | null): value is KindFilter =>
+  value === 'all' || value === 'professional' || value === 'personal';
 
 export const WorksFilter = ({
   works,
   technologies = [],
-  initialCategory = 'all',
+  initialKind = 'all',
 }: WorksFilterProps) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] =
-    useState<WorkCategory>(initialCategory);
+  const [selectedKind, setSelectedKind] = useState<KindFilter>(initialKind);
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
+
+  // Allow deep-linking / redirects via `?kind=professional|personal`.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const kindParam = new URLSearchParams(window.location.search).get('kind');
+    if (isKindFilter(kindParam)) {
+      setSelectedKind(kindParam);
+    }
+  }, []);
 
   const filteredWorks = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -40,20 +50,20 @@ export const WorksFilter = ({
         work.title.toLowerCase().includes(normalizedQuery) ||
         work.description.toLowerCase().includes(normalizedQuery);
 
-      const matchesCategory =
-        selectedCategory === 'all' || work.category === selectedCategory;
+      const matchesKind =
+        selectedKind === 'all' || work.kind === selectedKind;
 
       const matchesTech =
         !selectedTech || work.technologies.includes(selectedTech);
 
-      return matchesSearch && matchesCategory && matchesTech;
+      return matchesSearch && matchesKind && matchesTech;
     });
-  }, [works, searchQuery, selectedCategory, selectedTech]);
+  }, [works, searchQuery, selectedKind, selectedTech]);
 
   const selectedCount =
-    selectedCategory === 'all'
+    selectedKind === 'all'
       ? works.length
-      : works.filter((work) => work.category === selectedCategory).length;
+      : works.filter((work) => work.kind === selectedKind).length;
 
   return (
     <div className="space-y-8">
@@ -68,20 +78,20 @@ export const WorksFilter = ({
 
         <div className="flex flex-col items-center space-y-4">
           <Tabs
-            value={selectedCategory}
-            onValueChange={(value) => setSelectedCategory(value as WorkCategory)}
+            value={selectedKind}
+            onValueChange={(value) => setSelectedKind(value as KindFilter)}
             className="w-full max-w-[600px]"
           >
-            <TabsList className="grid w-full grid-cols-4">
-              {categories.map((category) => (
-                <TabsTrigger key={category.value} value={category.value}>
-                  {category.label}
+            <TabsList className="grid w-full grid-cols-3">
+              {kinds.map((kind) => (
+                <TabsTrigger key={kind.value} value={kind.value}>
+                  {kind.label}
                 </TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
           <p className="text-sm text-muted-foreground">
-            {selectedCategory === 'all'
+            {selectedKind === 'all'
               ? `全${works.length}件の実績`
               : `${selectedCount}件の実績`}
           </p>

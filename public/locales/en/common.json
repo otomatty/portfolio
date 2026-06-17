@@ -18,8 +18,8 @@
       "works": {
         "title": "Works",
         "items": {
-          "company": "Company",
-          "freelance": "Freelance",
+          "all": "All",
+          "professional": "Professional",
           "personal": "Personal"
         }
       },

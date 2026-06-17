@@ -2,14 +2,20 @@ import type { Work } from '@/types/works';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { motion } from 'motion/react';
+import { WORK_KIND_LABELS } from '@/data/works';
 
 interface WorkCardProps {
   work: Work;
+  /** Localized kind labels; falls back to default (JA) labels. */
+  kindLabels?: Record<Work['kind'], string>;
 }
 
 const FALLBACK_THUMBNAIL = '/images/works/default-thumbnail.webp';
 
-export const WorkCard = ({ work }: WorkCardProps) => {
+export const WorkCard = ({
+  work,
+  kindLabels = WORK_KIND_LABELS,
+}: WorkCardProps) => {
   const technologies = work.technologies ?? [];
 
   return (
@@ -28,6 +34,12 @@ export const WorkCard = ({ work }: WorkCardProps) => {
                 loading="lazy"
                 decoding="async"
               />
+              <Badge
+                variant={work.kind === 'personal' ? 'default' : 'secondary'}
+                className="absolute left-2 top-2 z-20 shadow-sm"
+              >
+                {kindLabels[work.kind]}
+              </Badge>
             </div>
           </Card>
         </motion.div>

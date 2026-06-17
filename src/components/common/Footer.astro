@@ -20,9 +20,9 @@ const footerLinks = [
   {
     title: footerCopy.sections.works.title,
     items: [
-      { label: footerCopy.sections.works.items.company, href: localePath('/works/company', currentLocale) },
-      { label: footerCopy.sections.works.items.freelance, href: localePath('/works/freelance', currentLocale) },
-      { label: footerCopy.sections.works.items.personal, href: localePath('/works/personal', currentLocale) },
+      { label: footerCopy.sections.works.items.all, href: localePath('/works', currentLocale) },
+      { label: footerCopy.sections.works.items.professional, href: localePath('/works?kind=professional', currentLocale) },
+      { label: footerCopy.sections.works.items.personal, href: localePath('/works?kind=personal', currentLocale) },
     ],
   },
   {

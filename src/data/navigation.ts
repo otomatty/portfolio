@@ -1,6 +1,5 @@
 import {
   Briefcase,
-  Building2,
   Code2,
   GraduationCap,
   Heart,
@@ -71,20 +70,14 @@ export const navigationItems: NavigationItem[] = [
         icon: Sparkles,
       },
       {
-        title: 'Company',
-        href: '/works/company',
-        description: '会社員として携わったプロジェクト',
-        icon: Building2,
-      },
-      {
-        title: 'Freelance',
-        href: '/works/freelance',
-        description: 'フリーランスとして請け負った案件',
+        title: '実務',
+        href: '/works?kind=professional',
+        description: '企業案件・フリーランスとして携わったプロジェクト',
         icon: Briefcase,
       },
       {
-        title: 'Personal',
-        href: '/works/personal',
+        title: '個人開発',
+        href: '/works?kind=personal',
         description: '個人で開発したプロジェクト',
         icon: Rocket,
       },

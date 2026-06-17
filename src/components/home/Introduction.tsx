@@ -180,7 +180,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
         </div>
       ),
       Icon: Code,
-      href: localePath('/works/personal', locale),
+      href: localePath('/works?kind=personal', locale),
       cta: homepageCopy.introduction.metrics.personalProjectCount.cta,
     },
     {
