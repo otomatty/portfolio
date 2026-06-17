@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
 import { SiGithub } from '@icons-pack/react-simple-icons';
+import { WORK_KIND_LABELS } from '@/data/works';
 
 interface WorkCardProps {
   work: Work;
@@ -26,6 +27,12 @@ export const WorkCard = ({ work }: WorkCardProps) => {
           loading="lazy"
           decoding="async"
         />
+        <Badge
+          variant={work.kind === 'personal' ? 'default' : 'secondary'}
+          className="absolute left-3 top-3 shadow-sm"
+        >
+          {WORK_KIND_LABELS[work.kind]}
+        </Badge>
       </div>
       <CardHeader className="space-y-2">
         <div className="flex items-start justify-between gap-3">

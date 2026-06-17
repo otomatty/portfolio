@@ -1,4 +1,13 @@
-import type { Work } from '@/types/works';
+import type { Work, WorkCategory, WorkKind } from '@/types/works';
+
+/**
+ * Default (Japanese) labels for work kinds. UI with locale context can
+ * override these (see homepage copy).
+ */
+export const WORK_KIND_LABELS: Record<WorkKind, string> = {
+  professional: '実務',
+  personal: '個人開発',
+};
 
 /**
  * Works data (静的データ)
@@ -9,6 +18,7 @@ export const works: Work[] = [
     slug: 'skill-quest-ai',
     title: 'Skill Quest Ai',
     description: 'SES企業に所属するエンジニアのためのLXP (Learning Experience Platform)のプロトタイプです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/skill-quest-ai-thumbnail.webp',
@@ -23,6 +33,7 @@ export const works: Work[] = [
     slug: 'zedi',
     title: 'Zedi',
     description: 'AI時代のメモアプリ。気になることをリンクにし、新たな知識をAIを活用して身につけていくことができます。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/zedi-thumbnail.webp',
@@ -37,6 +48,7 @@ export const works: Work[] = [
     slug: 'typeflow',
     title: 'Typeflow',
     description: '効率的にタイピングが上手くなるためのタイピング練習アプリです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/typeflow.webp',
@@ -51,6 +63,7 @@ export const works: Work[] = [
     slug: 'kouden',
     title: '香典帳アプリ',
     description: '香典帳を簡単に管理することができるアプリです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/kouden-thumbnail.webp',
@@ -65,6 +78,7 @@ export const works: Work[] = [
     slug: 'robbozle-game',
     title: 'Robbozle Game',
     description: 'RobbozleをWebアプリとして再現したものです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/robbozle-game.webp',
@@ -79,6 +93,7 @@ export const works: Work[] = [
     slug: 'fresh-inventory',
     title: '菓子製造会社向け流通管理システム',
     description: '菓子製造会社向け流通管理システムのプロトタイプです。',
+    kind: 'professional',
     category: 'freelance',
     status: 'published',
     thumbnail: '/images/works/fresh-inventory.webp',
@@ -92,6 +107,7 @@ export const works: Work[] = [
     slug: 'printing-erp',
     title: 'Printing Erp',
     description: '印刷会社向けのERPシステムのプロトタイプです。',
+    kind: 'professional',
     category: 'freelance',
     status: 'published',
     thumbnail: '/images/works/printing-erp.webp',
@@ -105,6 +121,7 @@ export const works: Work[] = [
     slug: 'saedgewell',
     title: 'ポートフォリオサイト',
     description: '菅井 瑛正のポートフォリオサイト',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/saedgewell.webp',
@@ -118,6 +135,7 @@ export const works: Work[] = [
     slug: 'career-gems',
     title: 'Career Gems',
     description: 'SES企業のエンジニアのスキル管理ツールのプロトタイプです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/career-gems-thumbnail.webp',
@@ -131,6 +149,7 @@ export const works: Work[] = [
     slug: 'kaki-map-hero',
     title: 'Kaki Map Hero',
     description: 'Snanoハッカソンで開発した柿取りマッチングアプリ',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/kaki-map-hero-thumbnail.webp',
@@ -144,6 +163,7 @@ export const works: Work[] = [
     slug: 'ofunato-mokumoku',
     title: 'Ofunato Mokumoku',
     description: '菅井が主催していた大船渡もくもく会の公式サイト',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/ofunato-mokumoku.webp',
@@ -157,6 +177,7 @@ export const works: Work[] = [
     slug: 'paper-ocr-tool',
     title: 'Paper OCR Tool',
     description: '簡単・効率的に紙を文字起こししてさまざまなシステムに貼り付けるためのアプリです。',
+    kind: 'personal',
     category: 'personal',
     status: 'published',
     thumbnail: '/images/works/paper-ocr-tool.webp',
@@ -169,10 +190,24 @@ export const works: Work[] = [
 ];
 
 /**
- * Get all published works
+ * Sort works by pinned status first, then by updated date (descending).
+ */
+function sortWorks(items: Work[]): Work[] {
+  return [...items].sort((a, b) => {
+    if (a.isPinned !== b.isPinned) {
+      return a.isPinned ? -1 : 1;
+    }
+    return (
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
+  });
+}
+
+/**
+ * Get all published works (pinned first, then newest updated).
  */
 export function getAllWorks(): Work[] {
-  return works.filter((w) => w.status === 'published');
+  return sortWorks(works.filter((w) => w.status === 'published'));
 }
 
 /**
@@ -185,10 +220,15 @@ export function getWorkBySlug(slug: string): Work | undefined {
 /**
  * Get works by category
  */
-export function getWorksByCategory(
-  category: 'company' | 'freelance' | 'personal'
-): Work[] {
+export function getWorksByCategory(category: WorkCategory): Work[] {
   return getAllWorks().filter((w) => w.category === category);
+}
+
+/**
+ * Get works by kind (実務 / 個人開発)
+ */
+export function getWorksByKind(kind: WorkKind): Work[] {
+  return getAllWorks().filter((w) => w.kind === kind);
 }
 
 /**

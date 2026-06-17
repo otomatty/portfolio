@@ -18,8 +18,8 @@
       "works": {
         "title": "Works",
         "items": {
-          "company": "会社案件",
-          "freelance": "フリーランス",
+          "all": "すべて",
+          "professional": "実務",
           "personal": "個人開発"
         }
       },

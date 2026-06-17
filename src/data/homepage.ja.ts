@@ -60,12 +60,11 @@ export const homepageJa = {
   additionalAchievements: {
     title: 'Works',
     subtitle: 'これまでの成果物をご紹介します。',
-    categories: {
-      company: '企業案件',
-      freelance: 'フリーランス',
+    kinds: {
+      professional: '実務',
       personal: '個人開発',
     },
-    categoryPlaceholder: 'カテゴリー',
+    categoryPlaceholder: '種別',
     all: 'すべて',
     searchPlaceholder: 'プロジェクトを検索...',
     notFound: '条件に一致する実績が見つかりませんでした',

@@ -9,6 +9,13 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://saedgewell.com',
   output: 'static',
+  // Legacy per-category works pages are consolidated into `/works`.
+  // Preserve old URLs by redirecting to the unified list with a kind filter.
+  redirects: {
+    '/works/company': '/works?kind=professional',
+    '/works/freelance': '/works?kind=professional',
+    '/works/personal': '/works?kind=personal',
+  },
   // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
   // prefetched, on `hover` (e.g. the LanguageSwitcher links). `prefetchAll`
   // is pinned to false so prefetching stays opt-in even if a ClientRouter

@@ -18,7 +18,7 @@ Astro + React で構築したポートフォリオサイトです。実績、提
 - `/` ホーム
 - `/about`（`/about/career`, `/about/skills`, `/about/story`, `/about/interests`）
 - `/services`（`/services/pricing`, `/services/process`, `/services/faq`）
-- `/works`（`/works/company`, `/works/freelance`, `/works/personal`, `/works/[slug]`）
+- `/works`（種別フィルタ `?kind=professional|personal`、`/works/[slug]`。旧 `/works/company`・`/works/freelance`・`/works/personal` はリダイレクト）
 - `/contact`, `/privacy-policy`, `/terms`, `/404`
 
 ## コンテンツ管理

@@ -1,11 +1,24 @@
 /**
+ * Work kind (並列表示の主軸): 実務 / 個人開発
+ */
+export type WorkKind = 'professional' | 'personal';
+
+/**
+ * Work category (働き方の細目)
+ */
+export type WorkCategory = 'company' | 'freelance' | 'personal';
+
+/**
  * Work item type definition
  */
 export interface Work {
   slug: string;
   title: string;
   description: string;
-  category: 'company' | 'freelance' | 'personal';
+  /** 実務 / 個人開発（並列表示の主軸） */
+  kind: WorkKind;
+  /** 働き方の細目（company/freelance/personal） */
+  category: WorkCategory;
   status: 'published' | 'draft';
   thumbnail: string;
   technologies: string[];

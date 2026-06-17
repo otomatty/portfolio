@@ -62,12 +62,11 @@ export const homepageEn: HomepageCopy = {
   additionalAchievements: {
     title: 'Works',
     subtitle: 'A selection of past projects.',
-    categories: {
-      company: 'Company',
-      freelance: 'Freelance',
+    kinds: {
+      professional: 'Professional',
       personal: 'Personal',
     },
-    categoryPlaceholder: 'Category',
+    categoryPlaceholder: 'Kind',
     all: 'All',
     searchPlaceholder: 'Search projects...',
     notFound: 'No projects match your filters',

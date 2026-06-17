@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { Work } from '@/types/works';
+import type { Work, WorkKind } from '@/types/works';
 import { buttonVariants } from '@/components/ui/button';
 import { Container } from '@/components/common';
 import { Input } from '@/components/ui/input';
@@ -10,8 +10,6 @@ import { motion } from 'motion/react';
 import type { HomepageCopy } from '@/data/homepage';
 import { localePath } from '@/lib/i18n';
 import { WorkCard } from './WorkCard';
-
-type WorkCategory = Work['category'];
 
 interface AdditionalAchievementsProps {
   works: Work[];
@@ -25,37 +23,26 @@ export const AdditionalAchievements = ({
   locale,
 }: AdditionalAchievementsProps) => {
   const homepageCopy = copy;
-  const [selectedCategory, setSelectedCategory] = useState<
-    WorkCategory | 'all'
-  >('all');
+  const [selectedKind, setSelectedKind] = useState<WorkKind | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = [
-    {
-      label: homepageCopy.additionalAchievements.categories.company,
-      value: 'company',
-    },
-    {
-      label: homepageCopy.additionalAchievements.categories.freelance,
-      value: 'freelance',
-    },
-    {
-      label: homepageCopy.additionalAchievements.categories.personal,
-      value: 'personal',
-    },
+  const kindLabels = homepageCopy.additionalAchievements.kinds;
+  const kinds: Array<{ label: string; value: WorkKind }> = [
+    { label: kindLabels.professional, value: 'professional' },
+    { label: kindLabels.personal, value: 'personal' },
   ];
 
   const filteredWorks = useMemo(
     () =>
       works.filter((work) => {
-        const matchesCategory =
-          selectedCategory === 'all' || work.category === selectedCategory;
+        const matchesKind =
+          selectedKind === 'all' || work.kind === selectedKind;
         const matchesSearch = work.title
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+        return matchesKind && matchesSearch;
       }),
-    [works, selectedCategory, searchQuery]
+    [works, selectedKind, searchQuery]
   );
 
   return (
@@ -70,9 +57,9 @@ export const AdditionalAchievements = ({
 
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <select
-            value={selectedCategory}
+            value={selectedKind}
             onChange={(event) =>
-              setSelectedCategory(event.target.value as WorkCategory | 'all')
+              setSelectedKind(event.target.value as WorkKind | 'all')
             }
             className={cn(
               'border-input h-9 w-full sm:w-[200px] rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none',
@@ -83,9 +70,9 @@ export const AdditionalAchievements = ({
             <option value="all">
               {homepageCopy.additionalAchievements.all}
             </option>
-            {categories.map((category) => (
-              <option key={category.value} value={category.value}>
-                {category.label}
+            {kinds.map((kind) => (
+              <option key={kind.value} value={kind.value}>
+                {kind.label}
               </option>
             ))}
           </select>
@@ -107,7 +94,7 @@ export const AdditionalAchievements = ({
               viewport={{ once: true }}
               className="h-full"
             >
-              <WorkCard work={work} />
+              <WorkCard work={work} kindLabels={kindLabels} />
             </motion.div>
           ))}
         </div>
