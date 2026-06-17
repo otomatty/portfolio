@@ -11,7 +11,8 @@
         "items": {
           "intro": "About me",
           "career": "Career",
-          "skills": "Skills"
+          "skills": "Skills",
+          "skillSheet": "Skill Sheet"
         }
       },
       "works": {

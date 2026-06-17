@@ -11,7 +11,8 @@
         "items": {
           "intro": "自己紹介",
           "career": "キャリア",
-          "skills": "スキル"
+          "skills": "スキル",
+          "skillSheet": "スキルシート"
         }
       },
       "works": {
