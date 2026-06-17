@@ -194,8 +194,10 @@ export const works: Work[] = [
  */
 function sortWorks(items: Work[]): Work[] {
   return [...items].sort((a, b) => {
-    if (a.isPinned !== b.isPinned) {
-      return a.isPinned ? -1 : 1;
+    const aPinned = !!a.isPinned;
+    const bPinned = !!b.isPinned;
+    if (aPinned !== bPinned) {
+      return aPinned ? -1 : 1;
     }
     return (
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()

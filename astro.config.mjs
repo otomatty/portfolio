@@ -15,6 +15,9 @@ export default defineConfig({
     '/works/company': '/works?kind=professional',
     '/works/freelance': '/works?kind=professional',
     '/works/personal': '/works?kind=personal',
+    '/en/works/company': '/en/works?kind=professional',
+    '/en/works/freelance': '/en/works?kind=professional',
+    '/en/works/personal': '/en/works?kind=personal',
   },
   // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
   // prefetched, on `hover` (e.g. the LanguageSwitcher links). `prefetchAll`
