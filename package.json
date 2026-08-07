@@ -12,7 +12,7 @@
     "lhci": "node ./scripts/lhci.mjs"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.4",
+    "@astrojs/react": "^6.0.2",
     "@astrojs/sitemap": "^3.7.0",
     "@icons-pack/react-simple-icons": "^13.13.0",
     "@radix-ui/react-accordion": "^1.2.12",
