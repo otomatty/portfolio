@@ -52,8 +52,16 @@ export const homepageCopy = {
     },
   },
   achievements: {
-    scrollText: '実績の一部をご紹介します',
-    description: '表示されている実績をクリックすると詳細を見ることができます',
+    label: '注目の実績',
+    collectionSubtitle: 'Featured Works',
+    countUnit: '件',
+    prevCollection: '前の種別',
+    nextCollection: '次の種別',
+    hint: 'カーソルを合わせて選択、クリックで概要を表示',
+    technologies: '使用技術',
+    viewDetail: '詳細ページを見る',
+    website: 'Webサイト',
+    close: '閉じる',
   },
   additionalAchievements: {
     title: 'Works',
