@@ -1,20 +1,8 @@
-import { motion } from 'motion/react';
-
+/**
+ * Hero 背景の回転アニメーション。
+ * JS を使わず CSS アニメーションだけで回すため、client ディレクティブなしで描画する。
+ */
 export const LinearRotate = () => {
-  const linearEase = 'linear' as const;
-  const spinnerVariants = {
-    animate: {
-      rotate: -360,
-      transition: {
-        duration: 10,
-        ease: linearEase,
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: 'loop' as const,
-        repeatDelay: 0,
-      },
-    },
-  };
-
   return (
     <div className="absolute inset-0 -z-10 flex items-center justify-center text-primary">
       <div className="relative flex justify-center">
@@ -58,12 +46,7 @@ export const LinearRotate = () => {
         </div>
 
         <div className="aspect-square h-[560px] rounded-full translate-x-[21%] relative border border-dashed border-muted-foreground/30">
-          <motion.div
-            className="absolute inset-2 rounded-full z-10"
-            variants={spinnerVariants}
-            animate="animate"
-            initial={{ rotate: 0 }}
-          >
+          <div className="absolute inset-2 rounded-full z-10 animate-[spin_10s_linear_infinite_reverse] motion-reduce:animate-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="84"
@@ -99,16 +82,11 @@ export const LinearRotate = () => {
                 </linearGradient>
               </defs>
             </svg>
-          </motion.div>
+          </div>
         </div>
 
         <div className="aspect-square h-[560px] rounded-full -translate-x-[21%] rotate-180 relative border border-dashed border-muted-foreground/30">
-          <motion.div
-            className="absolute inset-2 rounded-full z-10"
-            variants={spinnerVariants}
-            animate="animate"
-            initial={{ rotate: 0 }}
-          >
+          <div className="absolute inset-2 rounded-full z-10 animate-[spin_10s_linear_infinite_reverse] motion-reduce:animate-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="84"
@@ -144,7 +122,7 @@ export const LinearRotate = () => {
                 </linearGradient>
               </defs>
             </svg>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
