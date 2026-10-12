@@ -1,42 +1,13 @@
+import { fixupPluginRules } from '@eslint/compat';
 import js from '@eslint/js';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import astroPlugin from 'eslint-plugin-astro';
-import astroParser from 'astro-eslint-parser';
 import globals from 'globals';
 
-const astroConfigs = astroPlugin.configs?.['flat/recommended'];
-const astroConfigArray = astroConfigs
-  ? Array.isArray(astroConfigs)
-    ? astroConfigs
-    : [astroConfigs]
-  : [
-      {
-        files: ['**/*.astro'],
-        languageOptions: {
-          parser: astroParser,
-          parserOptions: {
-            parser: tsParser,
-            extraFileExtensions: ['.astro'],
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-          },
-          globals: {
-            ...globals.browser,
-            ...globals.node,
-          },
-        },
-        plugins: {
-          astro: astroPlugin,
-        },
-        processor: astroPlugin.processors['.astro'],
-        rules: {
-          ...(astroPlugin.configs?.recommended?.rules ?? {}),
-        },
-      },
-    ];
+const astroConfigArray = astroPlugin.configs['flat/recommended'];
 
 const jsRecommendedRules = js.configs.recommended?.rules ?? {};
 const tsRecommendedRules = tsPlugin.configs.recommended?.rules ?? {};
@@ -65,7 +36,8 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      react: reactPlugin,
+      // eslint-plugin-react 7.x still calls context APIs removed in ESLint 10
+      react: fixupPluginRules(reactPlugin),
       'react-hooks': reactHooksPlugin,
     },
     settings: {
