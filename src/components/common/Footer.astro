@@ -1,34 +1,32 @@
 ---
 import { Container } from './container';
-import { getT, localePath } from '@/lib/i18n';
+import { commonCopy } from '@/data/common';
 import { profile } from '@/data/profile';
 
-const currentLocale = Astro.currentLocale;
-const common = getT(currentLocale, 'common');
-const footerCopy = common.footer;
+const footerCopy = commonCopy.footer;
 
 const footerLinks = [
   {
     title: footerCopy.sections.about.title,
     items: [
-      { label: footerCopy.sections.about.items.intro, href: localePath('/about', currentLocale) },
-      { label: footerCopy.sections.about.items.career, href: localePath('/about/career', currentLocale) },
-      { label: footerCopy.sections.about.items.skills, href: localePath('/about/skills', currentLocale) },
-      { label: footerCopy.sections.about.items.skillSheet, href: localePath('/about/skill-sheet', currentLocale) },
+      { label: footerCopy.sections.about.items.intro, href: '/about' },
+      { label: footerCopy.sections.about.items.career, href: '/about/career' },
+      { label: footerCopy.sections.about.items.skills, href: '/about/skills' },
+      { label: footerCopy.sections.about.items.skillSheet, href: '/about/skill-sheet' },
     ],
   },
   {
     title: footerCopy.sections.works.title,
     items: [
-      { label: footerCopy.sections.works.items.all, href: localePath('/works', currentLocale) },
-      { label: footerCopy.sections.works.items.professional, href: localePath('/works?kind=professional', currentLocale) },
-      { label: footerCopy.sections.works.items.personal, href: localePath('/works?kind=personal', currentLocale) },
+      { label: footerCopy.sections.works.items.all, href: '/works' },
+      { label: footerCopy.sections.works.items.professional, href: '/works?kind=professional' },
+      { label: footerCopy.sections.works.items.personal, href: '/works?kind=personal' },
     ],
   },
   {
     title: footerCopy.sections.contact.title,
     items: [
-      { label: footerCopy.sections.contact.items.contact, href: localePath('/contact', currentLocale) },
+      { label: footerCopy.sections.contact.items.contact, href: '/contact' },
     ],
   },
 ];
@@ -47,8 +45,6 @@ const socialLinks = [
 ];
 
 const currentYear = new Date().getFullYear();
-const privacyHref = localePath('/privacy-policy', currentLocale);
-const termsHref = localePath('/terms', currentLocale);
 ---
 
 <footer
@@ -119,12 +115,12 @@ const termsHref = localePath('/terms', currentLocale);
       <div class="flex flex-col items-center gap-4 md:flex-row md:gap-6">
         <nav class="flex gap-4 text-sm text-muted-foreground">
           <a
-            href={privacyHref}
+            href="/privacy-policy"
             class="hover:text-foreground transition-colors"
           >
             {footerCopy.legal.privacy}
           </a>
-          <a href={termsHref} class="hover:text-foreground transition-colors">
+          <a href="/terms" class="hover:text-foreground transition-colors">
             {footerCopy.legal.terms}
           </a>
         </nav>

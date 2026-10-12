@@ -4,23 +4,14 @@ import { Container, SectionTitle } from '@/components/common';
 import { Mail, MessageSquare } from 'lucide-react';
 import { SiGithub } from '@icons-pack/react-simple-icons';
 import { motion } from 'motion/react';
-import type { HomepageCopy } from '@/data/homepage';
-import { localePath } from '@/lib/i18n';
+import { homepageCopy } from '@/data/homepage';
 import { profile } from '@/data/profile';
 
 export interface CTASectionProps {
-  copy: HomepageCopy;
-  locale: string;
   email?: string;
 }
 
-export const CTASection = ({
-  copy,
-  locale,
-  email = profile.email,
-}: CTASectionProps) => {
-  const homepageCopy = copy;
-  const contactHref = localePath('/contact', locale);
+export const CTASection = ({ email = profile.email }: CTASectionProps) => {
 
   return (
     <section className="relative">
@@ -59,7 +50,7 @@ export const CTASection = ({
                     {homepageCopy.cta.contact.description}
                   </p>
                   <Button asChild size="lg" className="w-full">
-                    <a href={contactHref}>{homepageCopy.cta.contact.buttonText}</a>
+                    <a href="/contact">{homepageCopy.cta.contact.buttonText}</a>
                   </Button>
                 </div>
               </CardContent>

@@ -7,19 +7,17 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
-  lang?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { title, description, image, lang, noindex, jsonLd } = Astro.props;
+const { title, description, image, noindex, jsonLd } = Astro.props;
 ---
 
 <BaseLayout
   title={title}
   description={description}
   image={image}
-  lang={lang}
   noindex={noindex}
   jsonLd={jsonLd}
 >

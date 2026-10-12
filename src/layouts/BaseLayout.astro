@@ -5,7 +5,6 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
-  lang?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
@@ -22,7 +21,6 @@ const {
   title,
   description = defaultDescription,
   image,
-  lang = Astro.currentLocale ?? 'ja',
   noindex = false,
   jsonLd,
 } = Astro.props;
@@ -32,20 +30,8 @@ const imageUrl = image
   ? new URL(image, siteUrl).toString()
   : defaultOgImage;
 
-const localeMap = {
-  ja: 'ja-JP',
-  en: 'en-US',
-} as const;
-const ogLocaleMap = {
-  ja: 'ja_JP',
-  en: 'en_US',
-} as const;
-const langKey = lang.split('-')[0];
-const languageTag =
-  localeMap[langKey as keyof typeof localeMap] ?? lang;
-const ogLocale =
-  ogLocaleMap[langKey as keyof typeof ogLocaleMap] ??
-  lang.replace('-', '_');
+const languageTag = 'ja-JP';
+const ogLocale = 'ja_JP';
 
 const personId = `${siteUrl}/#person`;
 const websiteId = `${siteUrl}/#website`;
@@ -155,15 +141,13 @@ const structuredData = Array.isArray(jsonLd)
       type="font/woff2"
       crossorigin
     />
-    {langKey === 'ja' && (
-      <link
-        rel="preload"
-        href="/fonts/noto-sans-jp.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-    )}
+    <link
+      rel="preload"
+      href="/fonts/noto-sans-jp.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <style is:global>

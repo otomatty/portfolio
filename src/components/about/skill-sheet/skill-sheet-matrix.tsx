@@ -3,11 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
-import { getSkillProficiencyGroups, pickText } from '@/lib/skills/skill-sheet';
-
-interface SkillSheetMatrixProps {
-  locale?: string;
-}
+import { getSkillProficiencyGroups } from '@/lib/skills/skill-sheet';
 
 const levelBorders: Record<number, string> = {
   1: 'border-l-muted-foreground/40',
@@ -24,7 +20,7 @@ const levelBadge: Record<number, string> = {
 };
 
 /** 技術 × 習熟度 × 経験年数のマトリクス（習熟度レベル降順） */
-export const SkillSheetMatrix = ({ locale }: SkillSheetMatrixProps) => {
+export const SkillSheetMatrix = () => {
   const groups = useMemo(() => getSkillProficiencyGroups(), []);
 
   return (
@@ -53,9 +49,9 @@ export const SkillSheetMatrix = ({ locale }: SkillSheetMatrixProps) => {
                   L{group.level}
                 </span>
                 <div>
-                  <h3 className="font-bold">{pickText(group.label, locale)}</h3>
+                  <h3 className="font-bold">{group.label}</h3>
                   <p className="text-xs text-muted-foreground">
-                    {pickText(group.description, locale)}
+                    {group.description}
                   </p>
                 </div>
               </div>

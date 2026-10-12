@@ -3,38 +3,19 @@ import {
   getValidSkillProficiencies,
   proficiencyLevels,
   skillSheetProjects,
-  type LocalizedText,
   type ProficiencyLevel,
   type SkillSheetProject,
 } from '@/data/skill-sheet';
 import { calculateExperiencePeriod } from '@/lib/dateUtils';
-import type { Locale } from '@/lib/i18n';
-import { resolveLocale } from '@/lib/i18n';
-
-/** 多言語テキストをロケールに応じて解決（EN未整備時は ja にフォールバック） */
-export const pickText = (
-  text: LocalizedText,
-  locale?: string | Locale
-): string => {
-  const resolved = resolveLocale(locale);
-  if (resolved === 'en') return text.en ?? text.ja;
-  return text.ja;
-};
-
 /** 期間（YYYY-MM）を表示用文字列に整形 */
-export const formatPeriod = (
-  period: SkillSheetProject['period'],
-  locale?: string | Locale
-): string => {
-  const resolved = resolveLocale(locale);
-  const present = resolved === 'en' ? 'Present' : '現在';
+export const formatPeriod = (period: SkillSheetProject['period']): string => {
   const format = (value: string) => {
     const [year, month] = value.split('-');
     if (!month) return year;
-    return resolved === 'en' ? `${year}/${month}` : `${year}年${Number(month)}月`;
+    return `${year}年${Number(month)}月`;
   };
   const start = format(period.start);
-  const end = period.end ? format(period.end) : present;
+  const end = period.end ? format(period.end) : '現在';
   return `${start} - ${end}`;
 };
 
@@ -55,8 +36,8 @@ export type SkillProficiencyView = {
 
 export type SkillProficiencyGroup = {
   level: ProficiencyLevel;
-  label: LocalizedText;
-  description: LocalizedText;
+  label: string;
+  description: string;
   skills: SkillProficiencyView[];
 };
 
