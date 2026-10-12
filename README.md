@@ -1,6 +1,6 @@
 # Saedgewell Portfolio
 
-Astro + React で構築したポートフォリオサイトです。実績、提供サービス、プロフィールを中心に、静的生成で高速に配信する構成になっています。
+Astro + React で構築したポートフォリオサイトです。実績、提供サービス、プロフィールを中心に、静的生成したページを Cloudflare Workers（静的アセット）で配信しています。
 
 ## 主な機能
 
@@ -42,8 +42,9 @@ GITHUB_TOKEN=your_github_token
 | :------------ | :------------------------------------------ |
 | `bun install` | 依存関係のインストール                       |
 | `bun dev`     | 開発サーバーを起動（`localhost:4321`）       |
-| `bun build`   | 本番ビルド（`./dist`）                       |
-| `bun preview` | 本番ビルドのローカルプレビュー               |
+| `bun run build`   | 本番ビルド（`./dist/client`）                |
+| `bun run preview` | 本番ビルドのローカルプレビュー（workerd 上で実行。`bunx astro preview stop` で停止） |
+| `bun run deploy`  | ビルドして Cloudflare Workers へデプロイ（`wrangler deploy`、要 Cloudflare ログイン） |
 
 ## ディレクトリ構成
 

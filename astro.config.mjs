@@ -4,11 +4,17 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://saedgewell.com',
   output: 'static',
+  // Deployed to Cloudflare Workers via `cf deploy`. All pages are prerendered;
+  // images are optimized at build time and sessions are unused, so no Images
+  // or KV bindings are provisioned.
+  adapter: cloudflare({ imageService: 'compile' }),
+  session: false,
   // Legacy per-category works pages are consolidated into `/works`.
   // Preserve old URLs by redirecting to the unified list with a kind filter.
   redirects: {
@@ -30,9 +36,6 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
-    build: {
-      minify: 'esbuild',
-    },
     ssr: {
       noExternal: ['motion'],
     },
