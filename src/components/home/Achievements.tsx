@@ -5,6 +5,7 @@ import { SiGithub } from '@icons-pack/react-simple-icons';
 import {
   AnimatePresence,
   LayoutGroup,
+  MotionConfig,
   motion,
   type Transition,
 } from 'motion/react';
@@ -55,7 +56,12 @@ export const Achievements = ({ works }: AchievementsProps) => {
     collection?.works.find((work) => work.slug === hoveredSlug) ??
     null;
 
+  // 閉じたときにフォーカスを戻す要素（開く操作をした帯）
+  const triggerRef = useRef<HTMLElement | null>(null);
+
   const open = (slug: string) => {
+    triggerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setSelectedSlug(slug);
     setHoveredSlug(null);
     setPhase('card');
@@ -118,6 +124,12 @@ export const Achievements = ({ works }: AchievementsProps) => {
   };
 
   useEffect(() => {
+    if (phase !== 'list' || !triggerRef.current) return;
+    triggerRef.current.focus({ preventScroll: true });
+    triggerRef.current = null;
+  }, [phase]);
+
+  useEffect(() => {
     if (!isOpen) return undefined;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') close();
@@ -129,268 +141,271 @@ export const Achievements = ({ works }: AchievementsProps) => {
   if (!collection) return null;
 
   return (
-    <section
-      ref={sectionRef}
-      aria-label={copy.label}
-      className="relative h-[calc(100svh-4rem)] min-h-[560px] scroll-mt-16 overflow-hidden bg-neutral-950 text-white"
-    >
-      {/* 背景: 選択中の作品画像をクロスフェード */}
-      <AnimatePresence initial={false}>
-        {backgroundWork && (
-          <motion.img
-            key={backgroundWork.slug}
-            src={thumbnailOf(backgroundWork)}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, filter: isOpen ? 'blur(12px)' : 'blur(0px)' }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          />
-        )}
-      </AnimatePresence>
-      <div className="absolute inset-0 bg-neutral-950/70" />
+    <MotionConfig reducedMotion="user">
+      <section
+        ref={sectionRef}
+        aria-label={copy.label}
+        className="relative h-[calc(100svh-4rem)] min-h-[560px] scroll-mt-16 overflow-hidden bg-neutral-950 text-white"
+      >
+        {/* 背景: 選択中の作品画像をクロスフェード */}
+        <AnimatePresence initial={false}>
+          {backgroundWork && (
+            <motion.img
+              key={backgroundWork.slug}
+              src={thumbnailOf(backgroundWork)}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, filter: isOpen ? 'blur(12px)' : 'blur(0px)' }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            />
+          )}
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-neutral-950/70" />
 
-      <LayoutGroup>
-        {/* 一覧: 帯 + 種別ラベル */}
-        <motion.div
-          className="relative flex h-full flex-col items-center justify-center gap-12 px-4"
-          animate={{ opacity: isOpen ? 0 : 1 }}
-          transition={FADE}
-          style={{ pointerEvents: isOpen ? 'none' : 'auto' }}
-        >
-          <div
-            className="flex items-end gap-3 md:gap-4"
-            onPointerLeave={(event) => {
-              if (event.pointerType === 'mouse') setHoveredSlug(null);
-            }}
+        <LayoutGroup>
+          {/* 一覧: 帯 + 種別ラベル */}
+          <motion.div
+            className="relative flex h-full flex-col items-center justify-center gap-12 px-4"
+            animate={{ opacity: isOpen ? 0 : 1 }}
+            transition={FADE}
+            inert={isOpen}
           >
-            {collection.works.map((work) => {
-              const isActive = hoveredSlug === work.slug;
-              const isMorphing = isOpen && selectedSlug === work.slug;
-              return (
-                <motion.button
-                  key={work.slug}
-                  type="button"
-                  aria-label={`${work.title} の概要を開く`}
-                  className="group relative h-[40vh] max-h-80 w-8 md:w-10 focus-visible:outline-none"
-                  animate={{ y: isActive ? -24 : 0 }}
-                  transition={FADE}
-                  onPointerEnter={(event) => {
-                    if (event.pointerType === 'mouse') setHoveredSlug(work.slug);
-                  }}
-                  onPointerDown={(event) =>
-                    handleStripPointerDown(event, work.slug)
-                  }
-                  onFocus={() => setHoveredSlug(work.slug)}
-                  onClick={() => handleStripClick(work.slug)}
-                >
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.span
-                        className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs italic text-white/90"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={FADE}
-                      >
-                        {work.title}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                  {!isMorphing && (
-                    <motion.div
-                      layoutId={`work-${work.slug}`}
-                      transition={MORPH}
-                      className="h-full w-full overflow-hidden ring-white/70 group-focus-visible:ring-2"
-                      style={{ borderRadius: 8 }}
-                    >
-                      <img
-                        src={thumbnailOf(work)}
-                        alt=""
-                        className="h-full w-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </motion.div>
-                  )}
-                  <motion.span
-                    className="absolute -bottom-5 left-1/2 size-2 -translate-x-1/2 rounded-full border border-white"
-                    animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.5 }}
+            <div
+              className="flex items-end gap-3 md:gap-4"
+              onPointerLeave={(event) => {
+                if (event.pointerType === 'mouse') setHoveredSlug(null);
+              }}
+            >
+              {collection.works.map((work) => {
+                const isActive = hoveredSlug === work.slug;
+                const isMorphing = isOpen && selectedSlug === work.slug;
+                return (
+                  <motion.button
+                    key={work.slug}
+                    type="button"
+                    aria-label={`${work.title} の概要を開く`}
+                    className="group relative h-[40vh] max-h-80 w-8 md:w-10 focus-visible:outline-none"
+                    animate={{ y: isActive ? -24 : 0 }}
                     transition={FADE}
-                  />
-                </motion.button>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center gap-6 md:gap-10">
-            {collections.length > 1 && (
-              <CollectionButton
-                label={copy.prevCollection}
-                onClick={() => switchCollection(-1)}
-              >
-                <ArrowLeft className="size-4" />
-              </CollectionButton>
-            )}
-            <div className="min-w-40 text-center">
-              <p className="text-lg italic">
-                {WORK_KIND_LABELS[collection.kind]}
-              </p>
-              <p className="text-xs text-white/60">
-                {copy.collectionSubtitle} • {collection.works.length}
-                {copy.countUnit}
-              </p>
+                    onPointerEnter={(event) => {
+                      if (event.pointerType === 'mouse') setHoveredSlug(work.slug);
+                    }}
+                    onPointerDown={(event) =>
+                      handleStripPointerDown(event, work.slug)
+                    }
+                    onFocus={() => setHoveredSlug(work.slug)}
+                    onClick={() => handleStripClick(work.slug)}
+                  >
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.span
+                          className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs italic text-white/90"
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 6 }}
+                          transition={FADE}
+                        >
+                          {work.title}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                    {!isMorphing && (
+                      <motion.div
+                        layoutId={`work-${work.slug}`}
+                        transition={MORPH}
+                        className="h-full w-full overflow-hidden ring-white/70 group-focus-visible:ring-2"
+                        style={{ borderRadius: 8 }}
+                      >
+                        <img
+                          src={thumbnailOf(work)}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </motion.div>
+                    )}
+                    <motion.span
+                      className="absolute -bottom-5 left-1/2 size-2 -translate-x-1/2 rounded-full border border-white"
+                      animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.5 }}
+                      transition={FADE}
+                    />
+                  </motion.button>
+                );
+              })}
             </div>
-            {collections.length > 1 && (
-              <CollectionButton
-                label={copy.nextCollection}
-                onClick={() => switchCollection(1)}
-              >
-                <ArrowRight className="size-4" />
-              </CollectionButton>
-            )}
-          </div>
 
-          <p className="absolute bottom-6 text-xs text-white/50">{copy.hint}</p>
-        </motion.div>
+            <div className="flex items-center gap-6 md:gap-10">
+              {collections.length > 1 && (
+                <CollectionButton
+                  label={copy.prevCollection}
+                  onClick={() => switchCollection(-1)}
+                >
+                  <ArrowLeft className="size-4" />
+                </CollectionButton>
+              )}
+              <div className="min-w-40 text-center">
+                <p className="text-lg italic">
+                  {WORK_KIND_LABELS[collection.kind]}
+                </p>
+                <p className="text-xs text-white/60">
+                  {copy.collectionSubtitle} • {collection.works.length}
+                  {copy.countUnit}
+                </p>
+              </div>
+              {collections.length > 1 && (
+                <CollectionButton
+                  label={copy.nextCollection}
+                  onClick={() => switchCollection(1)}
+                >
+                  <ArrowRight className="size-4" />
+                </CollectionButton>
+              )}
+            </div>
 
-        {/* カード / バナー: 帯と同じ layoutId で変形 */}
-        {isOpen && selectedWork && (
-          <div
-            className={
-              phase === 'card'
-                ? 'absolute inset-0 grid place-items-center p-4'
-                : 'absolute inset-x-0 top-0 p-3 md:p-4'
-            }
-          >
-            <motion.div
-              layoutId={`work-${selectedWork.slug}`}
-              transition={MORPH}
-              onLayoutAnimationComplete={handleMorphComplete}
+            <p className="absolute bottom-6 text-xs text-white/50">{copy.hint}</p>
+          </motion.div>
+
+          {/* カード / バナー: 帯と同じ layoutId で変形 */}
+          {isOpen && selectedWork && (
+            <div
               className={
                 phase === 'card'
-                  ? 'relative aspect-[4/5] w-[min(80vw,26rem)] overflow-hidden'
-                  : 'relative h-[34svh] w-full overflow-hidden'
+                  ? 'absolute inset-0 grid place-items-center p-4'
+                  : 'absolute inset-x-0 top-0 p-3 md:p-4'
               }
-              style={{ borderRadius: 24 }}
             >
-              <img
-                src={thumbnailOf(selectedWork)}
-                alt={selectedWork.title}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-neutral-950/80 via-neutral-950/20 to-transparent" />
               <motion.div
-                layout="position"
+                layoutId={`work-${selectedWork.slug}`}
                 transition={MORPH}
+                onLayoutAnimationComplete={handleMorphComplete}
                 className={
                   phase === 'card'
-                    ? 'absolute inset-x-6 bottom-8'
-                    : 'absolute inset-x-6 bottom-6 mx-auto max-w-3xl md:inset-x-10'
+                    ? 'relative aspect-[4/5] w-[min(80vw,26rem)] overflow-hidden'
+                    : 'relative h-[34svh] w-full overflow-hidden'
                 }
+                style={{ borderRadius: 24 }}
               >
-                <p className="text-xs text-white/70">{yearOf(selectedWork)}</p>
-                <h3 className="text-3xl font-semibold md:text-4xl">
-                  {selectedWork.title}
-                </h3>
-                <p className="text-sm text-white/70">
-                  {WORK_KIND_LABELS[selectedWork.kind]}
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
-        )}
-      </LayoutGroup>
-
-      {/* 概要（バナーの下） */}
-      <AnimatePresence>
-        {phase === 'detail' && selectedWork && (
-          <motion.div
-            key={selectedWork.slug}
-            className="absolute inset-x-0 bottom-0 top-[calc(34svh+1.5rem)] overflow-y-auto px-6 pb-12 pt-6 md:px-10"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0, transition: { ...FADE, delay: 0.25 } }}
-            exit={{ opacity: 0, y: 40, transition: FADE }}
-          >
-            <div className="mx-auto max-w-3xl space-y-8">
-              <p className="leading-relaxed text-white/85">
-                {selectedWork.description}
-              </p>
-
-              {selectedWork.technologies.length > 0 && (
-                <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-white/70">
-                    {copy.technologies}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedWork.technologies.map((tech) => (
-                      <Badge
-                        key={tech}
-                        variant="outline"
-                        className="border-white/30 text-white"
-                      >
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-                <a
-                  href={`/works/${selectedWork.slug}`}
-                  className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-5 text-sm font-medium text-neutral-950 transition-colors hover:bg-white/85"
+                <img
+                  src={thumbnailOf(selectedWork)}
+                  alt={selectedWork.title}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-neutral-950/80 via-neutral-950/20 to-transparent" />
+                <motion.div
+                  layout="position"
+                  transition={MORPH}
+                  className={
+                    phase === 'card'
+                      ? 'absolute inset-x-6 bottom-8'
+                      : 'absolute inset-x-6 bottom-6 mx-auto max-w-3xl md:inset-x-10'
+                  }
                 >
-                  {copy.viewDetail}
-                  <ArrowRight className="size-4" />
-                </a>
-                {selectedWork.github_url && (
-                  <a
-                    href={selectedWork.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
-                  >
-                    <SiGithub color="currentColor" className="size-4" />
-                    GitHub
-                  </a>
-                )}
-                {selectedWork.website_url && (
-                  <a
-                    href={selectedWork.website_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
-                  >
-                    <ExternalLink className="size-4" />
-                    {copy.website}
-                  </a>
-                )}
-              </div>
+                  <p className="text-xs text-white/70">{yearOf(selectedWork)}</p>
+                  <h3 className="text-3xl font-semibold md:text-4xl">
+                    {selectedWork.title}
+                  </h3>
+                  <p className="text-sm text-white/70">
+                    {WORK_KIND_LABELS[selectedWork.kind]}
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </LayoutGroup>
 
-      <AnimatePresence>
-        {phase === 'detail' && (
-          <motion.button
-            type="button"
-            onClick={close}
-            className="absolute right-6 top-6 z-10 inline-flex items-center gap-1.5 rounded-full bg-neutral-950/60 px-3 py-1.5 text-sm backdrop-blur-sm transition-colors hover:bg-neutral-950/80 md:right-8 md:top-8"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={FADE}
-          >
-            <X className="size-4" aria-hidden="true" />
-            {copy.close}
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </section>
+        {/* 概要（バナーの下） */}
+        <AnimatePresence>
+          {phase === 'detail' && selectedWork && (
+            <motion.div
+              key={selectedWork.slug}
+              className="absolute inset-x-0 bottom-0 top-[calc(34svh+1.5rem)] overflow-y-auto px-6 pb-12 pt-6 md:px-10"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0, transition: { ...FADE, delay: 0.25 } }}
+              exit={{ opacity: 0, y: 40, transition: FADE }}
+            >
+              <div className="mx-auto max-w-3xl space-y-8">
+                <p className="leading-relaxed text-white/85">
+                  {selectedWork.description}
+                </p>
+
+                {selectedWork.technologies.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-semibold text-white/70">
+                      {copy.technologies}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedWork.technologies.map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="outline"
+                          className="border-white/30 text-white"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <a
+                    href={`/works/${selectedWork.slug}`}
+                    className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-5 text-sm font-medium text-neutral-950 transition-colors hover:bg-white/85"
+                  >
+                    {copy.viewDetail}
+                    <ArrowRight className="size-4" />
+                  </a>
+                  {selectedWork.github_url && (
+                    <a
+                      href={selectedWork.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
+                    >
+                      <SiGithub color="currentColor" className="size-4" />
+                      GitHub
+                    </a>
+                  )}
+                  {selectedWork.website_url && (
+                    <a
+                      href={selectedWork.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
+                    >
+                      <ExternalLink className="size-4" />
+                      {copy.website}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {phase === 'detail' && (
+            <motion.button
+              type="button"
+              onClick={close}
+              autoFocus
+              className="absolute right-6 top-6 z-10 inline-flex items-center gap-1.5 rounded-full bg-neutral-950/60 px-3 py-1.5 text-sm backdrop-blur-sm transition-colors hover:bg-neutral-950/80 md:right-8 md:top-8"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={FADE}
+            >
+              <X className="size-4" aria-hidden="true" />
+              {copy.close}
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </section>
+    </MotionConfig>
   );
 };
 

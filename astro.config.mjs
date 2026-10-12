@@ -10,9 +10,9 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://saedgewell.com',
   output: 'static',
-  // Deployed to Cloudflare Workers via `cf deploy`. All pages are prerendered;
-  // images are optimized at build time and sessions are unused, so no Images
-  // or KV bindings are provisioned.
+  // Deployed to Cloudflare Workers via `wrangler deploy` (`bun run deploy`).
+  // All pages are prerendered; images are optimized at build time and sessions
+  // are unused, so no Images or KV bindings are provisioned.
   adapter: cloudflare({ imageService: 'compile' }),
   session: false,
   // Legacy per-category works pages are consolidated into `/works`.
