@@ -12,8 +12,7 @@ import { commonCopy } from '@/data/common';
 
 const metrics = getHomeMetrics();
 const featuredWorks = getFeaturedWorks();
-const publishedWorks = getAllWorks();
-const limitedPublishedWorks = publishedWorks.slice(0, 6);
+const latestWorks = getAllWorks().slice(0, 6);
 ---
 
 <PageLayout
@@ -24,7 +23,7 @@ const limitedPublishedWorks = publishedWorks.slice(0, 6);
     <Hero />
     <Introduction metrics={metrics} client:visible />
     <Achievements works={featuredWorks} client:visible />
-    <AdditionalAchievements works={limitedPublishedWorks} client:visible />
+    <AdditionalAchievements works={latestWorks} client:visible />
     <CTASection client:visible />
   </div>
 </PageLayout>

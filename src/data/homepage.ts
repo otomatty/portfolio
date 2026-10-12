@@ -14,7 +14,6 @@ export const homepageCopy = {
     title: 'About Me',
     subtitle: '私のプロフィールと実績',
     profile: {
-      name: '菅井 瑛正 (スガイ アキマサ)',
       description:
         'フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。',
       cta: '詳細プロフィール',
@@ -43,7 +42,6 @@ export const homepageCopy = {
       },
       interests: {
         title: '興味・価値観',
-        description: '興味と価値観',
         cta: '詳しく見る',
       },
       techStack: {
@@ -60,7 +58,6 @@ export const homepageCopy = {
   additionalAchievements: {
     title: 'Works',
     subtitle: 'これまでの成果物をご紹介します。',
-    categoryPlaceholder: '種別',
     all: 'すべて',
     searchPlaceholder: 'プロジェクトを検索...',
     notFound: '条件に一致する実績が見つかりませんでした',

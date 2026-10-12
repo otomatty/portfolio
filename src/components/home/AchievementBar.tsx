@@ -40,11 +40,9 @@ export const AchievementBar = ({
       }`}
       animate={
         isExpanded && currentIndex === index
-          ? isFullWidth
+          ? isFullWidth || isTitleVisible
             ? 'fullWidth'
-            : isTitleVisible
-              ? 'fullWidth'
-              : 'expanded'
+            : 'expanded'
           : currentIndex === index
             ? 'active'
             : 'default'

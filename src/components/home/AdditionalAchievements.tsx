@@ -9,7 +9,7 @@ import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { homepageCopy } from '@/data/homepage';
 import { WORK_KIND_LABELS } from '@/data/works';
-import { WorkCard } from './WorkCard';
+import { WorkCard } from '@/components/works/WorkCard';
 
 interface AdditionalAchievementsProps {
   works: Work[];

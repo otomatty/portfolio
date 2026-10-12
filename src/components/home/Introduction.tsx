@@ -1,8 +1,9 @@
 import {
   Code,
   Layers,
+  Rocket,
+  Sparkles,
   Telescope,
-  Type,
   User,
 } from 'lucide-react';
 import { SiGithub } from '@icons-pack/react-simple-icons';
@@ -109,7 +110,7 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
         </div>
       ),
       Icon: Code,
-      href: '/about#career',
+      href: '/about/career',
       cta: homepageCopy.introduction.metrics.developmentExperience.cta,
     },
     {
@@ -130,7 +131,7 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
           />
         </div>
       ),
-      Icon: Type,
+      Icon: Sparkles,
       href: '/works',
       cta: homepageCopy.introduction.metrics.projectCount.cta,
     },
@@ -171,7 +172,7 @@ export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
           />
         </div>
       ),
-      Icon: Code,
+      Icon: Rocket,
       href: '/works?kind=personal',
       cta: homepageCopy.introduction.metrics.personalProjectCount.cta,
     },

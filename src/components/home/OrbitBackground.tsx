@@ -27,9 +27,6 @@ export const OrbitBackground = () => {
         <div ref={circleRef} className="relative w-full h-full">
           <div className="absolute inset-0 border-2 border-primary/40 rounded-full animate-pulse" />
           <div className="absolute inset-0 border border-primary/20 rounded-full blur-sm" />
-          {process.env.NODE_ENV === 'development' && (
-            <div className="absolute inset-0 bg-red-500/10 rounded-full border-2 border-red-500/50" />
-          )}
           <OrbitAnimation
             className="w-full h-full"
             radius={animationRadius}
@@ -41,9 +38,6 @@ export const OrbitBackground = () => {
         <div className="relative w-full h-full">
           <div className="absolute inset-0 border-2 border-primary/40 rounded-full animate-pulse" />
           <div className="absolute inset-0 border border-primary/20 rounded-full blur-sm" />
-          {process.env.NODE_ENV === 'development' && (
-            <div className="absolute inset-0 bg-blue-500/10 rounded-full border-2 border-blue-500/50" />
-          )}
           <OrbitAnimation
             className="w-full h-full"
             radius={animationRadius}
