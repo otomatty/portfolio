@@ -2,11 +2,6 @@ import { Container, SectionTitle } from '@/components/common';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'motion/react';
 import { proficiencyLevels } from '@/data/skill-sheet';
-import { pickText } from '@/lib/skills/skill-sheet';
-
-interface SkillSheetLevelsProps {
-  locale?: string;
-}
 
 const levelColors: Record<number, string> = {
   1: 'bg-muted text-muted-foreground',
@@ -16,7 +11,7 @@ const levelColors: Record<number, string> = {
 };
 
 /** 習熟度レベルの凡例（各レベルで「できること」を明記） */
-export const SkillSheetLevels = ({ locale }: SkillSheetLevelsProps) => {
+export const SkillSheetLevels = () => {
   return (
     <section className="py-12 md:py-20 bg-secondary/5">
       <Container className="py-0">
@@ -47,10 +42,10 @@ export const SkillSheetLevels = ({ locale }: SkillSheetLevelsProps) => {
                       L{definition.level}
                     </div>
                     <h3 className="font-semibold mb-2">
-                      {pickText(definition.label, locale)}
+                      {definition.label}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {pickText(definition.description, locale)}
+                      {definition.description}
                     </p>
                   </CardContent>
                 </Card>

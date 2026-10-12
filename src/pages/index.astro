@@ -8,38 +8,22 @@ import {
 } from '@/components/home';
 import Hero from '@/components/home/Hero.astro';
 import { getFeaturedWorks, getAllWorks, getHomeMetrics } from '@/data';
-import { getHomepageCopy } from '@/data/homepage';
-import { getT, resolveLocale } from '@/lib/i18n';
-
-const locale = resolveLocale(Astro.currentLocale);
-const copy = getHomepageCopy(locale);
-const common = getT(locale, 'common');
+import { commonCopy } from '@/data/common';
 
 const metrics = getHomeMetrics();
 const featuredWorks = getFeaturedWorks();
-const publishedWorks = getAllWorks();
-const limitedPublishedWorks = publishedWorks.slice(0, 6);
+const latestWorks = getAllWorks().slice(0, 6);
 ---
 
 <PageLayout
-  title={common.home.meta.title}
-  description={common.home.meta.description}
+  title={commonCopy.home.meta.title}
+  description={commonCopy.home.meta.description}
 >
   <div class="min-h-screen">
     <Hero />
-    <Introduction
-      metrics={metrics}
-      copy={copy}
-      locale={locale}
-      client:visible
-    />
-    <Achievements works={featuredWorks} copy={copy} client:visible />
-    <AdditionalAchievements
-      works={limitedPublishedWorks}
-      copy={copy}
-      locale={locale}
-      client:visible
-    />
-    <CTASection copy={copy} locale={locale} client:visible />
+    <Introduction metrics={metrics} client:visible />
+    <Achievements works={featuredWorks} client:visible />
+    <AdditionalAchievements works={latestWorks} client:visible />
+    <CTASection client:visible />
   </div>
 </PageLayout>

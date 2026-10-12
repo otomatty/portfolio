@@ -10,19 +10,16 @@ import { navigationItems } from '@/data/navigation';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 
 interface MobileSidebarProps {
   currentPath?: string;
-  currentLocale?: string;
   openMenuLabel?: string;
   menuTitleLabel?: string;
 }
 
 export function MobileSidebar({
   currentPath = '/',
-  currentLocale = 'ja',
   openMenuLabel = 'メニューを開く',
   menuTitleLabel = 'メニュー',
 }: MobileSidebarProps) {
@@ -127,7 +124,6 @@ export function MobileSidebar({
         <div className="absolute bottom-0 left-0 right-0 p-4 space-y-4">
           <div className="flex items-center justify-center gap-4">
             <ThemeToggle />
-            <LanguageSwitcher currentLocale={currentLocale} currentPath={currentPath} />
           </div>
           <Separator />
           <div className="text-center text-sm text-muted-foreground">

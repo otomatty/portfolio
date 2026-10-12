@@ -2,7 +2,7 @@
 
 > **Version:** 1.2  
 > **作成日:** 2026-01-22  
-> **最終更新:** 2026-01-23  
+> **最終更新:** 2026-10-12  
 > **ステータス:** In Progress
 
 ---
@@ -15,6 +15,15 @@
 | Phase 2: コアページ実装 | ✅ 完了 | 100% |
 | Phase 3: 詳細・補助ページ | ✅ 完了 | 100% |
 | Phase 4: 最適化・品質保証 | 🟡 進行中 | 40% |
+
+---
+
+## 進捗更新（2026-10-12）
+
+- 多言語対応（英語）を廃止し、日本語のみの構成に変更
+  - `/en/*` ルート、`astro.config.mjs` の i18n 設定、`src/lib/i18n.ts`、`public/locales`、`LanguageSwitcher`、`homepage.en.ts` を削除
+  - UI 文言は `src/data/common.ts` / `src/data/homepage.ts` に集約
+  - 以降の本書における i18n 関連の記述（3.2 / 4.2 など）は経緯として残す
 
 ---
 
@@ -97,7 +106,7 @@
 - 静的サイト生成（SSG）
 - レスポンシブデザイン
 - ダークモード/ライトモード切替
-- 多言語対応（日本語・英語の2言語）。Phase 1 でトップページ・Header・Footer を翻訳適用、Phase 2 で各ページ展開予定
+- 日本語のみ（多言語対応は 2026-10 に廃止）
 - SEO 最適化（メタタグ、OGP、JSON-LD）
 - サイトマップ自動生成
 - 画像最適化
@@ -114,6 +123,7 @@
 | Supabase 連携 | データは静的 JSON で管理 |
 | `@kit/*` パッケージ依存 | ローカル実装に置換 |
 | 管理画面（`apps/admin`） | 対象外 |
+| 多言語対応（英語） | 2026-10 に廃止。日本語のみで提供 |
 
 ---
 
@@ -337,7 +347,7 @@ export function getFeaturedWorks(): Work[] {
 }
 ```
 
-### 4.2 翻訳データ
+### 4.2 翻訳データ（※2026-10 に廃止）
 
 `public/locales/{ja,en}/common.json` をポートフォリオ向けに再設計し、`src/lib/i18n.ts` から静的 import で読み込む。Astro / React 双方から利用可能：
 
@@ -729,7 +739,6 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 | コンポーネント | パス | 用途 |
 |--------------|------|------|
 | ThemeToggle | `@/components/common` | ダーク/ライトモード切替 |
-| LanguageSwitcher | `@/components/common` | 言語切替（ja/en の2言語対応） |
 | Navigation | `@/components/common` | デスクトップナビゲーション |
 | MobileSidebar | `@/components/common` | モバイルサイドバーメニュー |
 
@@ -769,11 +778,10 @@ cp /path/to/saedgewell-v2/apps/web/styles/*.css ./src/styles/
 - [x] Footer コンポーネント作成
 - [x] Navigation コンポーネント作成
 - [x] ThemeToggle コンポーネント作成
-- [x] LanguageSwitcher コンポーネント作成
+- [x] LanguageSwitcher コンポーネント作成（2026-10 に削除）
 - [x] フォント設定（Inter, Noto Sans JP）
 - [x] MobileSidebar コンポーネント作成
-- [x] i18n 設定（ja/en の2言語対応、Phase 1 ではトップページ・Header・Footer を翻訳適用）
-- [ ] 各ページの英語翻訳（Phase 2、issue #28 のスコープ外）
+- [x] ~~i18n 設定（ja/en の2言語対応）~~ → 2026-10 に廃止（日本語のみ）
 
 ### Phase 2: コアページ実装
 - [x] トップページ（UI 再現）

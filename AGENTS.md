@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a static portfolio site (Astro + React) with no database or external service dependencies.
+This is a static portfolio site (Astro + React) with no database or external service dependencies. It is deployed to Cloudflare Workers as static assets via the `@astrojs/cloudflare` adapter.
 
 ### Quick reference
 
@@ -12,7 +12,9 @@ This is a static portfolio site (Astro + React) with no database or external ser
 | Dev server | `bun run dev` (localhost:4321) |
 | Lint | `bun run lint` |
 | Type check | `bun run typecheck` |
-| Build | `bun run build` (outputs to `./dist/`) |
+| Build | `bun run build` (outputs to `./dist/client/`) |
+| Preview | `bun run preview` (runs in workerd; stop with `bunx astro preview stop`) |
+| Deploy | `bun run deploy` (`astro build && wrangler deploy`, requires Cloudflare login) |
 
 ### Notes
 
@@ -20,4 +22,5 @@ This is a static portfolio site (Astro + React) with no database or external ser
 - The dev server starts on port **4321** by default. Use `bun run dev --host 0.0.0.0` to expose it externally.
 - `bun run typecheck` reports deprecation hints for the `Github` icon from `lucide-react` — these are warnings, not errors.
 - There is no automated test suite (no Jest/Vitest/Playwright). CI runs lint, typecheck, and build only.
+- `cf` (Cloudflare CLI, beta) is installed, but `cf deploy` does not work yet: it requires the Build Output Specification, which the stable `@astrojs/cloudflare` adapter does not emit. Deploy with `wrangler` until the adapter supports it.
 - Optional env vars `GITHUB_USERNAME` and `GITHUB_TOKEN` enable the GitHub contributions chart on the About page; the site works fully without them.

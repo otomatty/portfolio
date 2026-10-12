@@ -7,29 +7,23 @@ import { SectionTitle } from '@/components/common';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
-import type { HomepageCopy } from '@/data/homepage';
-import { localePath } from '@/lib/i18n';
-import { WorkCard } from './WorkCard';
+import { homepageCopy } from '@/data/homepage';
+import { WORK_KIND_LABELS } from '@/data/works';
+import { WorkCard } from '@/components/works/WorkCard';
 
 interface AdditionalAchievementsProps {
   works: Work[];
-  copy: HomepageCopy;
-  locale: string;
 }
 
 export const AdditionalAchievements = ({
   works,
-  copy,
-  locale,
 }: AdditionalAchievementsProps) => {
-  const homepageCopy = copy;
   const [selectedKind, setSelectedKind] = useState<WorkKind | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const kindLabels = homepageCopy.additionalAchievements.kinds;
   const kinds: Array<{ label: string; value: WorkKind }> = [
-    { label: kindLabels.professional, value: 'professional' },
-    { label: kindLabels.personal, value: 'personal' },
+    { label: WORK_KIND_LABELS.professional, value: 'professional' },
+    { label: WORK_KIND_LABELS.personal, value: 'personal' },
   ];
 
   const filteredWorks = useMemo(
@@ -94,7 +88,7 @@ export const AdditionalAchievements = ({
               viewport={{ once: true }}
               className="h-full"
             >
-              <WorkCard work={work} kindLabels={kindLabels} />
+              <WorkCard work={work} />
             </motion.div>
           ))}
         </div>
@@ -109,7 +103,7 @@ export const AdditionalAchievements = ({
 
         <div className="text-center mt-12 relative z-10">
           <a
-            href={localePath('/works', locale)}
+            href="/works"
             className={cn(
               buttonVariants({ variant: 'outline' }),
               'group inline-flex items-center justify-center'

@@ -1,8 +1,9 @@
 import {
   Code,
   Layers,
+  Rocket,
+  Sparkles,
   Telescope,
-  Type,
   User,
 } from 'lucide-react';
 import { SiGithub } from '@icons-pack/react-simple-icons';
@@ -18,8 +19,7 @@ import { SeigaihaPattern } from '@/components/magicui/seigaiha-pattern';
 import { ShippoPattern } from '@/components/magicui/shippo-pattern';
 import { cn } from '@/lib/utils';
 import type { Metric } from '@/types/metrics';
-import type { HomepageCopy } from '@/data/homepage';
-import { localePath } from '@/lib/i18n';
+import { homepageCopy } from '@/data/homepage';
 import { profile } from '@/data/profile';
 import { GitHubImages } from './GitHubImages';
 import { NumberDisplay } from './NumberDisplay';
@@ -27,18 +27,11 @@ import { TechStackGrid } from './TechStackGrid';
 
 interface IntroductionProps {
   metrics: Metric[];
-  copy: HomepageCopy;
-  locale: string;
 }
 
 const PROFILE_IMAGE = profile.images.profile;
 
-export const Introduction: React.FC<IntroductionProps> = ({
-  metrics,
-  copy,
-  locale,
-}) => {
-  const homepageCopy = copy;
+export const Introduction: React.FC<IntroductionProps> = ({ metrics }) => {
   const developmentExperience =
     metrics.find((m) => m.type === 'development_experience')?.value ?? 0;
   const projectCount =
@@ -93,7 +86,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
       ),
       Icon: User,
       description: homepageCopy.introduction.profile.description,
-      href: localePath('/about', locale),
+      href: '/about',
       cta: homepageCopy.introduction.profile.cta,
     },
     {
@@ -117,7 +110,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
         </div>
       ),
       Icon: Code,
-      href: localePath('/about#career', locale),
+      href: '/about/career',
       cta: homepageCopy.introduction.metrics.developmentExperience.cta,
     },
     {
@@ -138,8 +131,8 @@ export const Introduction: React.FC<IntroductionProps> = ({
           />
         </div>
       ),
-      Icon: Type,
-      href: localePath('/works', locale),
+      Icon: Sparkles,
+      href: '/works',
       cta: homepageCopy.introduction.metrics.projectCount.cta,
     },
     {
@@ -158,7 +151,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
         </div>
       ),
       Icon: Telescope,
-      href: localePath('/about/interests', locale),
+      href: '/about/interests',
       cta: homepageCopy.introduction.cards.interests.cta,
     },
     {
@@ -179,8 +172,8 @@ export const Introduction: React.FC<IntroductionProps> = ({
           />
         </div>
       ),
-      Icon: Code,
-      href: localePath('/works?kind=personal', locale),
+      Icon: Rocket,
+      href: '/works?kind=personal',
       cta: homepageCopy.introduction.metrics.personalProjectCount.cta,
     },
     {
@@ -216,7 +209,7 @@ export const Introduction: React.FC<IntroductionProps> = ({
       ),
       Icon: Layers,
       description: homepageCopy.introduction.cards.techStack.description,
-      href: localePath('/about/skills', locale),
+      href: '/about/skills',
       cta: homepageCopy.introduction.cards.techStack.cta,
     },
   ] as const;

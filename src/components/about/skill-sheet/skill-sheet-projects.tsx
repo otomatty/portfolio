@@ -15,15 +15,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { projectPhases } from '@/data/skill-sheet';
-import {
-  formatPeriod,
-  getSkillSheetProjects,
-  pickText,
-} from '@/lib/skills/skill-sheet';
-
-interface SkillSheetProjectsProps {
-  locale?: string;
-}
+import { formatPeriod, getSkillSheetProjects } from '@/lib/skills/skill-sheet';
 
 const techGroups = [
   { key: 'languages', label: '言語', icon: Code2 },
@@ -33,7 +25,7 @@ const techGroups = [
   { key: 'tools', label: 'ツール', icon: Wrench },
 ] as const;
 
-export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
+export const SkillSheetProjects = () => {
   const projects = getSkillSheetProjects();
 
   return (
@@ -64,7 +56,7 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                     <div>
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <h3 className="text-lg font-bold">
-                          {pickText(project.role, locale)}
+                          {project.role}
                         </h3>
                         {project.isCurrent && (
                           <Badge className="text-xs">現職</Badge>
@@ -81,13 +73,13 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                       </div>
                       <div className="flex items-center gap-1.5 text-sm text-primary">
                         <Building2 className="h-4 w-4" />
-                        {pickText(project.industry, locale)}
+                        {project.industry}
                       </div>
                     </div>
                     <div className="flex flex-col gap-1 text-sm text-muted-foreground shrink-0">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="h-4 w-4" />
-                        {formatPeriod(project.period, locale)}
+                        {formatPeriod(project.period)}
                       </span>
                       {(project.scale || project.teamSize) && (
                         <span className="flex items-center gap-1.5">
@@ -95,7 +87,7 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                           {project.teamSize
                             ? `${project.teamSize}名`
                             : project.scale
-                              ? pickText(project.scale, locale)
+                              ? project.scale
                               : ''}
                         </span>
                       )}
@@ -106,7 +98,7 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                   <p className="text-muted-foreground mb-4">
                     {project.workSlug ? (
                       <>
-                        {pickText(project.summary, locale)}{' '}
+                        {project.summary}{' '}
                         <a
                           href={`/works/${project.workSlug}`}
                           className="text-primary hover:underline whitespace-nowrap"
@@ -115,7 +107,7 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                         </a>
                       </>
                     ) : (
-                      pickText(project.summary, locale)
+                      project.summary
                     )}
                   </p>
 
@@ -140,7 +132,7 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                                 active ? 'text-primary' : ''
                               }`}
                             />
-                            {pickText(phase.label, locale)}
+                            {phase.label}
                           </span>
                         );
                       })}
@@ -154,11 +146,11 @@ export const SkillSheetProjects = ({ locale }: SkillSheetProjectsProps) => {
                       <ul className="space-y-1">
                         {project.achievements.map((achievement) => (
                           <li
-                            key={achievement.ja}
+                            key={achievement}
                             className="text-sm text-muted-foreground flex items-start gap-2"
                           >
                             <span className="text-primary mt-1">•</span>
-                            {pickText(achievement, locale)}
+                            {achievement}
                           </li>
                         ))}
                       </ul>

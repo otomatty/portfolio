@@ -2,15 +2,11 @@
 import { Container } from './container';
 import { Navigation } from './Navigation';
 import { ThemeToggle } from './ThemeToggle';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { MobileSidebar } from './MobileSidebar';
 import { LogoLink } from './LogoLink';
-import { getT, localePath } from '@/lib/i18n';
+import { commonCopy } from '@/data/common';
 
 const currentPath = Astro.url.pathname;
-const currentLocale = Astro.currentLocale || 'ja';
-const common = getT(currentLocale, 'common');
-const contactHref = localePath('/contact', currentLocale);
 ---
 
 <header
@@ -26,12 +22,11 @@ const contactHref = localePath('/contact', currentLocale);
       <div class="hidden md:flex md:items-center md:gap-2">
         <Navigation client:load currentPath={currentPath} />
         <ThemeToggle client:load />
-        <LanguageSwitcher client:load currentLocale={currentLocale} currentPath={currentPath} />
         <a
-          href={contactHref}
+          href="/contact"
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          {common.header.contactCta}
+          {commonCopy.header.contactCta}
         </a>
       </div>
 
@@ -39,9 +34,8 @@ const contactHref = localePath('/contact', currentLocale);
       <MobileSidebar
         client:load
         currentPath={currentPath}
-        currentLocale={currentLocale}
-        openMenuLabel={common.header.openMenu}
-        menuTitleLabel={common.header.menuTitle}
+        openMenuLabel={commonCopy.header.openMenu}
+        menuTitleLabel={commonCopy.header.menuTitle}
       />
     </div>
   </Container>

@@ -1,8 +1,7 @@
 import type { Work, WorkCategory, WorkKind } from '@/types/works';
 
 /**
- * Default (Japanese) labels for work kinds. UI with locale context can
- * override these (see homepage copy).
+ * 種別（実務 / 個人開発）の表示ラベル
  */
 export const WORK_KIND_LABELS: Record<WorkKind, string> = {
   professional: '実務',

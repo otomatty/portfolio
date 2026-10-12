@@ -4,9 +4,6 @@ import { BasicHero } from '@/components/common';
 import { SkillSheetProjects } from '@/components/about/skill-sheet/skill-sheet-projects';
 import { SkillSheetLevels } from '@/components/about/skill-sheet/skill-sheet-levels';
 import { SkillSheetMatrix } from '@/components/about/skill-sheet/skill-sheet-matrix';
-import { resolveLocale } from '@/lib/i18n';
-
-const locale = resolveLocale(Astro.currentLocale);
 ---
 
 <PageLayout
@@ -19,7 +16,7 @@ const locale = resolveLocale(Astro.currentLocale);
     client:load
   />
 
-  <SkillSheetProjects locale={locale} client:visible />
-  <SkillSheetLevels locale={locale} client:visible />
-  <SkillSheetMatrix locale={locale} client:visible />
+  <SkillSheetProjects client:visible />
+  <SkillSheetLevels client:visible />
+  <SkillSheetMatrix client:visible />
 </PageLayout>
