@@ -8,18 +8,24 @@ export function initCopyEmail(root: ParentNode): void {
   const email = root.querySelector<HTMLElement>('[data-email]');
   if (!button || !email) return;
   const label = button.textContent ?? '';
+  let timer = 0;
+  // 結果を少しのあいだ表示してから、元のラベルに戻す
+  const show = (text: string | undefined) => {
+    button.textContent = text ?? label;
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => (button.textContent = label), 1800);
+  };
   const select = () => {
     const range = document.createRange();
     range.selectNodeContents(email);
     window.getSelection()?.removeAllRanges();
     window.getSelection()?.addRange(range);
-    button.textContent = button.dataset.labelSelected ?? label;
+    show(button.dataset.labelSelected);
   };
   button.addEventListener('click', () => {
     if (!navigator.clipboard) return select();
-    navigator.clipboard.writeText(email.textContent?.trim() ?? '').then(() => {
-      button.textContent = button.dataset.labelCopied ?? label;
-      window.setTimeout(() => (button.textContent = label), 1800);
-    }, select);
+    navigator.clipboard
+      .writeText(email.textContent?.trim() ?? '')
+      .then(() => show(button.dataset.labelCopied), select);
   });
 }

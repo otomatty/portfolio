@@ -122,19 +122,25 @@ export function mountVectorScene(
   };
   const start = async () => {
     measure();
+    // GPU は初期化の途中でも失われることがある。そのときは作り終えた WebGPU を捨てて Canvas 2D にする
+    const init: { gpu: VectorRenderer | null; lost: boolean } = { gpu: null, lost: false };
     try {
-      const gpu = await createWebGpuRenderer(canvas, palette, () => {
-        if (renderer === gpu) {
+      init.gpu = await createWebGpuRenderer(canvas, palette, () => {
+        if (!init.gpu) {
+          init.lost = true;
+        } else if (renderer === init.gpu) {
           stop();
           switchToCanvas2d();
           if (reduced.matches) still();
           else resume();
         }
       });
-      renderer = gpu;
+      if (init.lost) init.gpu.destroy();
+      else renderer = init.gpu;
     } catch {
-      switchToCanvas2d();
+      // WebGPU が使えない環境。下で Canvas 2D にする
     }
+    if (!renderer) switchToCanvas2d();
     section.dataset.renderer = renderer?.kind ?? '';
     if (reduced.matches) still();
     else resume();

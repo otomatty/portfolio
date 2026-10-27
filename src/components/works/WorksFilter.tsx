@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Work, WorkKind } from '@/types/works';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { WorkCard } from './WorkCard';
 
 type KindFilter = 'all' | WorkKind;
@@ -30,6 +30,8 @@ export const WorksFilter = ({
   numbers = {},
   initialKind = 'all',
 }: WorksFilterProps) => {
+  // 動きを減らす設定では、絞り込み時の並び替えと出入りのアニメーションを止める
+  const reduceMotion = useReducedMotion() ?? false;
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedKind, setSelectedKind] = useState<KindFilter>(initialKind);
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
@@ -120,16 +122,16 @@ export const WorksFilter = ({
       </div>
 
       {/* 右の列を少し下げ、展示室のように互い違いに並べる */}
-      <motion.div layout className="grid grid-cols-[minmax(0,1fr)] gap-x-12 gap-y-16 md:grid-cols-2 md:pb-28">
+      <motion.div layout={!reduceMotion} className="grid grid-cols-[minmax(0,1fr)] gap-x-12 gap-y-16 md:grid-cols-2 md:pb-28">
         <AnimatePresence mode="popLayout" initial={false}>
           {filteredWorks.map((work, index) => (
             <motion.div
               key={work.slug}
-              layout
-              initial={{ opacity: 0, y: 12 }}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.4 }}
             >
               <div className={index % 2 === 1 ? 'md:translate-y-28' : undefined}>
                 <WorkCard work={work} number={numbers[work.slug]} />
@@ -141,7 +143,7 @@ export const WorksFilter = ({
 
       {filteredWorks.length === 0 && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           className="py-12 text-center"
         >
