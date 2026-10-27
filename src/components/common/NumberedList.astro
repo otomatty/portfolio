@@ -1,0 +1,59 @@
+---
+/**
+ * 一、二、三… の漢数字を添えた項目の並び。各項目の上に細い線を引く。
+ * 箇条書き（points）と、技術名などの補足（note）も添えられる。
+ */
+import { kanjiNumerals } from '@/data/about';
+
+export interface NumberedItem {
+  title: string;
+  description?: string;
+  /** 漢数字の代わりに置く印（例: 短期） */
+  mark?: string;
+  points?: string[];
+  pointsLabel?: string;
+  note?: string;
+  noteLabel?: string;
+}
+
+interface Props {
+  items: NumberedItem[];
+  columns?: 2 | 3 | 4;
+  numbered?: boolean;
+}
+
+const { items, columns = 3, numbered = true } = Astro.props;
+const grid = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 lg:grid-cols-3',
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
+}[columns];
+---
+
+<ul class:list={['grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-12', grid]}>
+  {items.map((item, i) => (
+    <li class="grid content-start gap-3 border-t pt-6">
+      {(numbered || item.mark) && (
+        <span class="text-[14px] font-light tracking-[0.12em] text-gold" aria-hidden={item.mark ? undefined : 'true'}>
+          {item.mark ?? kanjiNumerals[i]}
+        </span>
+      )}
+      <h3 class="text-[17px] font-normal leading-relaxed tracking-[0.08em]">{item.title}</h3>
+      {item.description && <p class="text-flow text-[14px] text-muted-foreground">{item.description}</p>}
+      {item.points && item.points.length > 0 && (
+        <div class="mt-1 grid gap-2">
+          {item.pointsLabel && <p class="text-[11.5px] tracking-[0.14em] text-gold">{item.pointsLabel}</p>}
+          <ul class="ring-list text-[13.5px]">
+            {item.points.map((point) => <li>{point}</li>)}
+          </ul>
+        </div>
+      )}
+      {item.note && (
+        <p class="mt-1 text-xs leading-relaxed tracking-[0.06em] text-muted-foreground">
+          {item.noteLabel && <span class="mr-2 text-gold">{item.noteLabel}</span>}
+          {item.note}
+        </p>
+      )}
+    </li>
+  ))}
+</ul>

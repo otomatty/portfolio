@@ -1,10 +1,54 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
+import MetricRow from '@/components/common/MetricRow.astro';
+import NumberedList from '@/components/common/NumberedList.astro';
 import PageHero from '@/components/common/PageHero.astro';
-import { SkillSummary } from '@/components/about/skills/skill-summary';
-import { SkillCapabilities } from '@/components/about/skills/skill-capabilities';
-import { SkillStack } from '@/components/about/skills/skill-stack';
-import { SkillDevelopment } from '@/components/about/skills/skill-development';
+import Section from '@/components/common/Section.astro';
+import TermRows from '@/components/common/TermRows.astro';
+import {
+  getSkillCapabilities,
+  getSkillDevelopmentGoals,
+  getSkillStackByGroup,
+  getSkillSummary,
+} from '@/lib/skills/selectors';
+
+const summary = getSkillSummary().map((item) => ({
+  label: item.label,
+  value: item.experience ?? '-',
+  meta: item.description,
+}));
+
+const capabilities = getSkillCapabilities().map((capability) => ({
+  title: capability.title,
+  description: capability.description,
+  points: capability.tasks,
+  note: capability.technologies.join(' · '),
+  noteLabel: '主要技術',
+}));
+
+const stackGroups = getSkillStackByGroup()
+  .filter((group) => group.categories.length > 0)
+  .map((group) => ({
+    id: group.id,
+    label: group.label,
+    description: group.description,
+    rows: group.categories.map((category) => ({
+      term: category.label,
+      items: category.skills.map((skill) => ({
+        title: skill.name,
+        description: skill.scope.join(' · '),
+      })),
+    })),
+  }));
+
+const goals = getSkillDevelopmentGoals().map((goal) => ({
+  title: goal.title,
+  description: goal.description,
+  points: goal.learningItems,
+  pointsLabel: '学習中',
+  note: goal.relatedSkills.join(' · '),
+  noteLabel: '関連スキル',
+}));
 ---
 
 <PageLayout
@@ -18,8 +62,34 @@ import { SkillDevelopment } from '@/components/about/skills/skill-development';
     figure="pentagon"
   />
 
-  <SkillSummary client:visible />
-  <SkillCapabilities client:visible />
-  <SkillStack client:visible />
-  <SkillDevelopment client:visible />
+  <Section id="summary-title" label="Summary" title="スキル概要" description="各分野での経験年数と得意領域をご紹介します。">
+    <MetricRow items={summary} />
+  </Section>
+
+  <Section id="capabilities-title" label="Capabilities" title="対応可能な業務・役割" description="このような仕事をお任せください。">
+    <NumberedList items={capabilities} columns={2} />
+  </Section>
+
+  <Section id="stack-detail-title" label="Stack" title="技術スタック詳細" description="カテゴリ別に主な対応範囲を整理しています。">
+    <div class="grid gap-16">
+      {stackGroups.map((group) => (
+        <div>
+          <h3 class="mb-6 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+            <span class="text-[1.2rem] font-light tracking-[0.1em]">{group.label}</span>
+            {group.description && <span class="text-[13px] text-muted-foreground">{group.description}</span>}
+          </h3>
+          <TermRows rows={group.rows} layout="grid" />
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section
+    id="growth-title"
+    label="Growth"
+    title="スキル開発の方向性"
+    description="現在注力している3つの方向性と、それに向けた学習内容をご紹介します。"
+  >
+    <NumberedList items={goals} />
+  </Section>
 </PageLayout>

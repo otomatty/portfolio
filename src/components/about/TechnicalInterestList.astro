@@ -1,0 +1,151 @@
+---
+/**
+ * 技術分野の興味関心。各行を開くと、概要・経験・関連プロジェクト・学習目標が読める。
+ * 開閉は <details> に任せ、JavaScript を使わない。
+ */
+import { kanjiNumerals } from '@/data/about';
+import { technicalInterests } from '@/data/interests';
+---
+
+<ul class="border-b">
+  {technicalInterests.map((item, i) => (
+    <li class="border-t">
+      <details class="interest">
+        <summary class="interest-summary">
+          <span class="text-[14px] font-light text-gold" aria-hidden="true">{kanjiNumerals[i]}</span>
+          <span class="interest-name">{item.name}</span>
+          <span class="interest-desc">
+            {item.description}
+            <span class="mt-2 block text-xs tracking-[0.06em] text-muted-foreground/80">{item.tags.join(' · ')}</span>
+          </span>
+          <span class="interest-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="interest-detail">
+          <div class="grid gap-2">
+            <p class="interest-label">概要</p>
+            <p class="text-flow text-[14px] text-muted-foreground">{item.details.overview}</p>
+          </div>
+          <div class="grid gap-2">
+            <p class="interest-label">経験</p>
+            <p class="text-flow text-[14px] text-muted-foreground">{item.details.experience}</p>
+          </div>
+          <div class="grid gap-2">
+            <p class="interest-label">関連プロジェクト</p>
+            <ul class="ring-list text-[14px]">
+              {item.details.projects.map((project) => <li>{project}</li>)}
+            </ul>
+          </div>
+          <div class="grid gap-2">
+            <p class="interest-label">学習目標</p>
+            <ul class="ring-list text-[14px]">
+              {item.details.learningGoals.map((goal) => <li>{goal}</li>)}
+            </ul>
+          </div>
+        </div>
+      </details>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .interest-summary {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.5rem 1.25rem;
+    padding-block: 1.6rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .interest-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .interest-name {
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .interest-summary:hover .interest-name {
+    color: var(--gold);
+  }
+
+  .interest-desc {
+    grid-column: 2 / 3;
+    font-size: 14px;
+    line-height: 1.9;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* 小さな円の中の十字。開くと縦の線が消えて一になる */
+  .interest-toggle {
+    position: relative;
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid hsl(var(--foreground) / 0.2);
+    border-radius: 50%;
+    transition: border-color 0.2s;
+  }
+
+  .interest-toggle::before,
+  .interest-toggle::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background: var(--gold);
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s;
+  }
+
+  .interest-toggle::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .interest[open] .interest-toggle::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .interest-summary:hover .interest-toggle {
+    border-color: var(--gold);
+  }
+
+  .interest-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+    padding: 0 0 2.25rem 3.25rem;
+  }
+
+  .interest-label {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+
+  @media (min-width: 768px) {
+    .interest-summary {
+      grid-template-columns: 2rem 15rem minmax(0, 1fr) auto;
+      gap: 0.5rem 1.5rem;
+    }
+    .interest-desc {
+      grid-column: 3 / 4;
+      grid-row: 1;
+    }
+    .interest-toggle {
+      grid-column: 4;
+    }
+    .interest-detail {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.75rem 2.5rem;
+      padding-left: calc(2rem + 15rem + 3rem);
+    }
+  }
+</style>

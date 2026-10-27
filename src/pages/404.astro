@@ -1,4 +1,5 @@
 ---
+import PillLink from '@/components/common/PillLink.astro';
 import PageLayout from '@/layouts/PageLayout.astro';
 import PageHero from '@/components/common/PageHero.astro';
 import MoreLink from '@/components/common/MoreLink.astro';
@@ -17,12 +18,7 @@ import MoreLink from '@/components/common/MoreLink.astro';
       description="お探しのページは存在しないか、移動した可能性があります。"
       figure="gap"
     >
-      <a
-        href="/"
-        class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
-      >
-        ホームに戻る
-      </a>
+      <PillLink href="/" label="ホームに戻る" />
       <MoreLink href="/works" label="実績一覧" />
     </PageHero>
   </div>

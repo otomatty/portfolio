@@ -1,9 +1,17 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
+import MetricRow from '@/components/common/MetricRow.astro';
 import PageHero from '@/components/common/PageHero.astro';
-import { CareerHighlights } from '@/components/about/career/career-highlights';
-import { CareerTimeline } from '@/components/about/career/career-timeline';
-import { Education } from '@/components/about/career/education';
+import Section from '@/components/common/Section.astro';
+import AboutCareer from '@/components/about/AboutCareer.astro';
+import AboutCredentials from '@/components/about/AboutCredentials.astro';
+import { getCareerHighlights } from '@/data/profile';
+
+const highlights = getCareerHighlights().map((item) => ({
+  label: item.label,
+  value: item.value,
+  meta: item.description,
+}));
 ---
 
 <PageLayout
@@ -17,7 +25,9 @@ import { Education } from '@/components/about/career/education';
     figure="nested"
   />
 
-  <CareerHighlights client:visible />
-  <CareerTimeline client:visible />
-  <Education client:visible />
+  <Section id="highlights-title" label="Highlights" title="キャリアハイライト" description="これまでの主な実績です。">
+    <MetricRow items={highlights} />
+  </Section>
+  <AboutCareer detailed title="職歴・経歴" />
+  <AboutCredentials />
 </PageLayout>

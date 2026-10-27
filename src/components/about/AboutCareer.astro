@@ -1,124 +1,36 @@
 ---
 import MoreLink from '@/components/common/MoreLink.astro';
-import SectionHeading from '@/components/common/SectionHeading.astro';
+import Section from '@/components/common/Section.astro';
+import Timeline, { type TimelineEntry } from '@/components/common/Timeline.astro';
 import { careerEntries } from '@/data/profile';
+
+interface Props {
+  /** 経歴ページでは主な実績と案件の技術まで載せ、詳細へのリンクは出さない */
+  detailed?: boolean;
+  title?: string;
+}
+
+const { detailed = false, title = '経歴' } = Astro.props;
+
+const entries: TimelineEntry[] = careerEntries.map((entry) => ({
+  period: entry.period,
+  kicker: entry.company,
+  title: entry.title,
+  description: entry.description,
+  points: detailed ? entry.achievements : undefined,
+  pointsLabel: '主な実績',
+  subitems: entry.projects?.map((project) => ({
+    title: project.title,
+    href: project.slug ? `/works/${project.slug}` : undefined,
+    description: project.description,
+    note: detailed ? project.technologies?.join(' · ') : undefined,
+  })),
+  subitemsLabel: detailed ? 'プロジェクト' : undefined,
+  highlight: entry.period.includes('現在'),
+}));
 ---
 
-<section class="border-b py-20 md:py-28" aria-labelledby="career-title">
-  <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <SectionHeading id="career-title" label="Career" title="経歴" />
-
-    <ol class="career">
-      {careerEntries.map((entry) => (
-        <li class="career-item">
-          <p class="career-period">{entry.period}</p>
-          <div class="career-body">
-            {entry.company && <p class="career-company">{entry.company}</p>}
-            <h3 class="career-title">{entry.title}</h3>
-            <p class="text-flow max-w-[42em] text-muted-foreground">{entry.description}</p>
-            {entry.projects && entry.projects.length > 0 && (
-              <ul class="career-projects">
-                {entry.projects.map((project) => (
-                  <li>
-                    {project.slug ? (
-                      <a href={`/works/${project.slug}`} class="group inline-flex items-center gap-2 transition-colors hover:text-gold">
-                        {project.title}
-                        <span class="text-gold-dim transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
-                      </a>
-                    ) : (
-                      <span>{project.title}</span>
-                    )}
-                    <p class="mt-1 text-[13.5px] leading-relaxed text-muted-foreground">{project.description}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </li>
-      ))}
-    </ol>
-
-    <MoreLink href="/about/career" label="経歴の詳細" class="mt-12" />
-  </div>
-</section>
-
-<style>
-  .career {
-    display: grid;
-  }
-
-  .career-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.75rem;
-  }
-
-  .career-period {
-    font-size: 12.5px;
-    letter-spacing: 0.08em;
-    color: hsl(var(--muted-foreground));
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* 縦の線に沿って、各項目の頭に小さな円を置く */
-  .career-body {
-    position: relative;
-    display: grid;
-    justify-items: start;
-    gap: 0.75rem;
-    padding: 0 0 3rem 2rem;
-    border-left: 1px solid hsl(var(--border));
-  }
-
-  .career-item:last-child .career-body {
-    padding-bottom: 0;
-  }
-
-  .career-body::before {
-    content: '';
-    position: absolute;
-    left: -6px;
-    top: 0.35em;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    border: 1px solid var(--gold);
-    background: hsl(var(--background));
-  }
-
-  .career-company {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    color: var(--gold);
-  }
-
-  .career-title {
-    font-weight: 300;
-    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
-    letter-spacing: 0.08em;
-    line-height: 1.5;
-  }
-
-  .career-projects {
-    display: grid;
-    gap: 1.1rem;
-    width: 100%;
-    max-width: 42em;
-    margin-top: 0.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid hsl(var(--border));
-    font-size: 14.5px;
-    letter-spacing: 0.04em;
-  }
-
-  @media (min-width: 768px) {
-    .career-item {
-      grid-template-columns: 11rem minmax(0, 1fr);
-      gap: 2.5rem;
-    }
-    .career-period {
-      padding-top: 0.15em;
-      text-align: right;
-    }
-  }
-</style>
+<Section id="career-title" label="Career" title={title}>
+  <Timeline entries={entries} />
+  {!detailed && <MoreLink href="/about/career" label="経歴の詳細" class="mt-12" />}
+</Section>

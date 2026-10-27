@@ -142,3 +142,36 @@
     color: hsl(var(--muted-foreground));
   }
 }
+
+@layer components {
+  /* 本文の箇条書き。印は小さな金の円 */
+  .ring-list {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .ring-list > li {
+    position: relative;
+    padding-left: 1.15rem;
+    line-height: 1.75;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .ring-list > li::before {
+    content: '';
+    position: absolute;
+    left: 0.1rem;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+}
+
+@layer components {
+  /* ページ最後のセクションの下線は、フッターの上線と重なるので見せない */
+  main > section:last-child {
+    border-bottom-color: transparent;
+  }
+}

@@ -1,0 +1,45 @@
+---
+/**
+ * 左に区分、右に中身を置く行の並び。行の間を細い線で区切る。
+ * inline は名前だけを横に流し、grid は名前と説明を2〜3列に並べる。
+ */
+export interface TermRow {
+  term: string;
+  note?: string;
+  items: { title: string; description?: string }[];
+}
+
+interface Props {
+  rows: TermRow[];
+  layout?: 'inline' | 'grid';
+}
+
+const { rows, layout = 'inline' } = Astro.props;
+---
+
+<dl class="border-b">
+  {rows.map((row) => (
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 border-t py-7 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-10">
+      <dt class="grid content-start gap-1.5">
+        <span class="text-[13px] tracking-[0.1em] text-gold">{row.term}</span>
+        {row.note && <span class="text-xs leading-relaxed text-muted-foreground">{row.note}</span>}
+      </dt>
+      <dd>
+        {layout === 'inline' ? (
+          <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[14.5px] tracking-[0.04em]">
+            {row.items.map((item) => <li>{item.title}</li>)}
+          </ul>
+        ) : (
+          <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+            {row.items.map((item) => (
+              <li class="grid content-start gap-1">
+                <span class="text-[14.5px] tracking-[0.04em]">{item.title}</span>
+                {item.description && <span class="text-[13px] leading-relaxed text-muted-foreground">{item.description}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </dd>
+    </div>
+  ))}
+</dl>

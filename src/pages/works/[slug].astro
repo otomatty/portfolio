@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
+import PillLink from '@/components/common/PillLink.astro';
 import SectionLabel from '@/components/common/SectionLabel.astro';
 import { WORK_KIND_LABELS, formatWorkNumber, getAllWorks, getWorkNumbers } from '@/data/works';
 import type { Work } from '@/types/works';
@@ -79,16 +80,7 @@ const pageJsonLd = {
         <p class="text-flow max-w-[40em] text-muted-foreground">{work.description}</p>
         {(work.website_url || work.github_url) && (
           <div class="flex flex-wrap items-center gap-x-8 gap-y-3 pt-1">
-            {work.website_url && (
-              <a
-                href={work.website_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
-              >
-                サイトを見る ↗
-              </a>
-            )}
+            {work.website_url && <PillLink href={work.website_url} label="サイトを見る" external />}
             {work.github_url && (
               <a
                 href={work.github_url}

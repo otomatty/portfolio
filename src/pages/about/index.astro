@@ -1,4 +1,5 @@
 ---
+import PillLink from '@/components/common/PillLink.astro';
 import PageLayout from '@/layouts/PageLayout.astro';
 import PageHero from '@/components/common/PageHero.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
@@ -37,12 +38,7 @@ if (githubUsername && githubToken) {
   description="AI駆動開発の導入支援とAIを活用した開発を軸に、UI/UXからインフラまで幅広く手がけるエンジニアです。"
 >
   <PageHero label="About" title="プロフィール" description={profile.headline} figure="seed">
-    <a
-      href="/contact"
-      class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
-    >
-      お問い合わせ
-    </a>
+    <PillLink href="/contact" label="お問い合わせ" />
     <a
       href={profile.socials.github}
       target="_blank"

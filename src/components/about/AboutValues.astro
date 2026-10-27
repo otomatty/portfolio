@@ -1,20 +1,9 @@
 ---
-import SectionHeading from '@/components/common/SectionHeading.astro';
-import { aboutValues, kanjiNumerals } from '@/data/about';
+import NumberedList from '@/components/common/NumberedList.astro';
+import Section from '@/components/common/Section.astro';
+import { aboutValues } from '@/data/about';
 ---
 
-<section class="border-b py-20 md:py-28" aria-labelledby="values-title">
-  <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <SectionHeading id="values-title" label="Values" title="大切にしていること" />
-
-    <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-      {aboutValues.map((value, i) => (
-        <li class="grid content-start gap-3 border-t pt-6">
-          <span class="text-[15px] font-light text-gold" aria-hidden="true">{kanjiNumerals[i]}</span>
-          <h3 class="text-[17px] font-normal tracking-[0.08em]">{value.title}</h3>
-          <p class="text-flow text-[14px] text-muted-foreground">{value.description}</p>
-        </li>
-      ))}
-    </ul>
-  </div>
-</section>
+<Section id="values-title" label="Values" title="大切にしていること">
+  <NumberedList items={aboutValues} />
+</Section>

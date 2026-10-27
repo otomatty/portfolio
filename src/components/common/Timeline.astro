@@ -1,0 +1,151 @@
+---
+/**
+ * 年表。左に期間、右に内容を置き、1px の縦線に沿って各項目の頭に小さな円を打つ。
+ * highlight の項目は円を金で塗る。
+ */
+export interface TimelineEntry {
+  period: string;
+  /** 題名の上に置く小さな文字（会社名など） */
+  kicker?: string;
+  title: string;
+  description?: string;
+  points?: string[];
+  pointsLabel?: string;
+  /** 題名つきの子項目（案件など）。href があればリンクにする */
+  subitems?: { title: string; href?: string; description: string; note?: string }[];
+  subitemsLabel?: string;
+  highlight?: boolean;
+}
+
+interface Props {
+  entries: TimelineEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ol class="timeline">
+  {entries.map((entry) => (
+    <li class="timeline-item">
+      <p class="timeline-period">{entry.period}</p>
+      <div class:list={['timeline-body', { 'is-highlight': entry.highlight }]}>
+        {entry.kicker && <p class="timeline-kicker">{entry.kicker}</p>}
+        <h3 class="timeline-title">{entry.title}</h3>
+        {entry.description && <p class="text-flow max-w-[42em] text-muted-foreground">{entry.description}</p>}
+        {entry.points && entry.points.length > 0 && (
+          <div class="timeline-block">
+            {entry.pointsLabel && <p class="timeline-label">{entry.pointsLabel}</p>}
+            <ul class="ring-list text-[14px]">
+              {entry.points.map((point) => <li>{point}</li>)}
+            </ul>
+          </div>
+        )}
+        {entry.subitems && entry.subitems.length > 0 && (
+          <div class="timeline-block">
+            {entry.subitemsLabel && <p class="timeline-label">{entry.subitemsLabel}</p>}
+            <ul class="grid gap-4 text-[14.5px] tracking-[0.04em]">
+              {entry.subitems.map((sub) => (
+                <li>
+                  {sub.href ? (
+                    <a href={sub.href} class="group inline-flex items-center gap-2 transition-colors hover:text-gold">
+                      {sub.title}
+                      <span class="text-gold-dim transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                    </a>
+                  ) : (
+                    <span>{sub.title}</span>
+                  )}
+                  <p class="mt-1 text-[13.5px] leading-relaxed text-muted-foreground">{sub.description}</p>
+                  {sub.note && <p class="mt-1 text-xs tracking-[0.06em] text-muted-foreground/80">{sub.note}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .timeline-period {
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    color: hsl(var(--muted-foreground));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline-body {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 0.75rem;
+    padding: 0 0 3rem 2rem;
+    border-left: 1px solid hsl(var(--border));
+  }
+
+  .timeline-item:last-child .timeline-body {
+    padding-bottom: 0;
+  }
+
+  .timeline-body::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0.35em;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: hsl(var(--background));
+  }
+
+  .timeline-body.is-highlight::before {
+    background: var(--gold);
+  }
+
+  .timeline-kicker {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+
+  .timeline-title {
+    font-weight: 300;
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  .timeline-block {
+    display: grid;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 42em;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .timeline-label {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+
+  @media (min-width: 768px) {
+    .timeline-item {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+    .timeline-period {
+      padding-top: 0.15em;
+      text-align: right;
+    }
+  }
+</style>

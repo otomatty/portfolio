@@ -1,20 +1,10 @@
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
-import {
-  Bot,
-  Cloud,
-  Cog,
-  GitBranch,
-  Monitor,
-  type LucideIcon,
-} from 'lucide-react';
-import { motion } from 'motion/react';
+/**
+ * 「興味関心」ページの文章
+ */
 
-type TechnicalInterest = {
+export type TechnicalInterest = {
   name: string;
   description: string;
-  icon: LucideIcon;
   tags: string[];
   details: {
     overview: string;
@@ -24,10 +14,19 @@ type TechnicalInterest = {
   };
 };
 
-const technicalInterests: TechnicalInterest[] = [
+export type InterestItem = {
+  title: string;
+  description: string;
+};
+
+export type FutureGoal = InterestItem & {
+  /** 短期・中期・長期 */
+  period: string;
+};
+
+export const technicalInterests: TechnicalInterest[] = [
   {
     name: 'Web フロントエンド',
-    icon: Monitor,
     description:
       'React エコシステム全般と、Rust を活用したフロントエンド技術に強い関心があります。',
     tags: ['React', 'Next.js', 'TypeScript', 'Tauri', 'WebAssembly'],
@@ -50,7 +49,6 @@ const technicalInterests: TechnicalInterest[] = [
   },
   {
     name: 'Web バックエンド',
-    icon: Cog,
     description:
       'Rust による高パフォーマンスなバックエンド開発に興味を持っています。',
     tags: ['Rust', 'Axum', 'Actix-web', 'Node.js', 'GraphQL'],
@@ -73,7 +71,6 @@ const technicalInterests: TechnicalInterest[] = [
   },
   {
     name: 'クラウド・データベース',
-    icon: Cloud,
     description:
       'スケーラブルなクラウドインフラと、エッジで動作するデータベースに注目しています。',
     tags: ['AWS', 'Turso', 'LibSQL', 'Edge Computing'],
@@ -96,7 +93,6 @@ const technicalInterests: TechnicalInterest[] = [
   },
   {
     name: 'DevOps・CI/CD',
-    icon: GitBranch,
     description: '効率的な開発ワークフローの構築と自動化に取り組んでいます。',
     tags: ['GitHub Actions', 'Docker', 'Terraform', 'IaC'],
     details: {
@@ -118,7 +114,6 @@ const technicalInterests: TechnicalInterest[] = [
   },
   {
     name: 'AI ツール・開発支援',
-    icon: Bot,
     description:
       'AI を活用した開発効率化ツールの活用と、新しい開発手法の確立に興味があります。',
     tags: ['Cursor', 'Devin', 'GitHub Copilot', 'AI-Driven Development'],
@@ -141,152 +136,74 @@ const technicalInterests: TechnicalInterest[] = [
   },
 ];
 
-const TechnicalInterestCard = ({
-  item,
-  index,
-}: {
-  item: TechnicalInterest;
-  index: number;
-}) => {
-  const Icon = item.icon;
+export const privateInterests: InterestItem[] = [
+  {
+    title: '盆栽',
+    description:
+      '日本の伝統的な盆栽の育成を楽しんでいます。自然の美しさをミニチュアで表現する奥深さに魅了されています。',
+  },
+  {
+    title: 'DIY',
+    description:
+      '家具や小物の制作など、ものづくりを楽しんでいます。設計から完成まで自分の手で作り上げる達成感があります。',
+  },
+  {
+    title: '旅行',
+    description:
+      '国内外問わず、新しい土地や文化に触れることが好きです。特に自然豊かな場所や歴史的な街並みを訪れています。',
+  },
+  {
+    title: '映画',
+    description:
+      'さまざまなジャンルの映画を観ることが好きです。ストーリーや映像美から新しいインスピレーションを得ています。',
+  },
+  {
+    title: '家庭菜園',
+    description:
+      '野菜やハーブを育てています。自分で育てた作物を収穫する喜びと、土に触れるリラックス効果を楽しんでいます。',
+  },
+  {
+    title: '美術館・博物館',
+    description:
+      'アートや歴史的な展示物を鑑賞することが好きです。新しい知識や視点を得られる貴重な時間です。',
+  },
+];
 
-  const triggerCard = (
-    <Card className="h-full group hover:border-gold/50 transition-colors cursor-pointer">
-      <CardContent className="p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-full border border-gold/30 group-hover:border-gold/70 transition-colors">
-            <Icon className="h-5 w-5 text-gold" />
-          </div>
-          <h4 className="font-normal text-lg">{item.name}</h4>
-        </div>
-        <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-          {item.description}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {item.tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="text-xs font-normal"
-            >
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
+export const technicalChallenges: InterestItem[] = [
+  {
+    title: 'Rust × WebAssembly',
+    description:
+      'Rust と WebAssembly を活用して、Web アプリケーションのパフォーマンスを大幅に向上させるソリューションに挑戦しています。',
+  },
+  {
+    title: 'AI 駆動開発の実践',
+    description:
+      'Cursor や Devin などの AI ツールを活用し、開発効率を最大化する新しいワークフローの確立を目指しています。',
+  },
+  {
+    title: 'エッジコンピューティング',
+    description:
+      'Turso や Cloudflare Workers を活用した、低レイテンシで高可用性なアプリケーションアーキテクチャの構築に取り組んでいます。',
+  },
+];
 
-  const dialogContent = (
-    <div className="space-y-6 pb-4">
-      <div>
-        <h4 className="font-normal text-sm text-muted-foreground mb-2">
-          概要
-        </h4>
-        <p className="text-sm leading-relaxed">{item.details.overview}</p>
-      </div>
-
-      <div>
-        <h4 className="font-normal text-sm text-muted-foreground mb-2">
-          経験
-        </h4>
-        <p className="text-sm leading-relaxed">{item.details.experience}</p>
-      </div>
-
-      <div>
-        <h4 className="font-normal text-sm text-muted-foreground mb-2">
-          関連プロジェクト
-        </h4>
-        <ul className="space-y-1">
-          {item.details.projects.map((project) => (
-            <li
-              key={project}
-              className="text-sm text-muted-foreground flex items-start gap-2"
-            >
-              <span className="text-gold mt-1">•</span>
-              <span>{project}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h4 className="font-normal text-sm text-muted-foreground mb-2">
-          学習目標
-        </h4>
-        <ul className="space-y-1">
-          {item.details.learningGoals.map((goal) => (
-            <li
-              key={goal}
-              className="text-sm text-muted-foreground flex items-start gap-2"
-            >
-              <span className="text-gold mt-1">•</span>
-              <span>{goal}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h4 className="font-normal text-sm text-muted-foreground mb-2">
-          技術スタック
-        </h4>
-        <div className="flex flex-wrap gap-2">
-          {item.tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="text-xs font-normal"
-            >
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <motion.div
-      key={item.name}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-    >
-      <ResponsiveDialog
-        trigger={triggerCard}
-        title={item.name}
-        description={item.description}
-        contentClassName="sm:max-w-[700px] md:max-w-[800px] max-h-[calc(100vh-4rem)] overflow-y-auto"
-      >
-        {dialogContent}
-      </ResponsiveDialog>
-    </motion.div>
-  );
-};
-
-const TechnicalInterests = () => {
-  return (
-    <div>
-      <motion.div
-        className="flex items-center gap-3 mb-6"
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <div className="h-px w-8 bg-gold" />
-        <h3 className="text-2xl font-light">技術分野</h3>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {technicalInterests.map((item, index) => (
-          <TechnicalInterestCard key={item.name} item={item} index={index} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default TechnicalInterests;
+export const futureGoals: FutureGoal[] = [
+  {
+    period: '短期目標',
+    title: 'AI 駆動開発のエキスパート',
+    description:
+      'Cursor や Devin などの AI ツールを活用した効率的な開発手法を確立し、チームに展開していきます。',
+  },
+  {
+    period: '中期目標',
+    title: 'テックリード・技術顧問',
+    description:
+      '技術選定や設計レビューをリードし、チーム全体の技術力向上に貢献できる立場を目指します。',
+  },
+  {
+    period: '長期目標',
+    title: 'OSS への貢献・起業',
+    description:
+      'オープンソースプロジェクトへの積極的な貢献と、将来的には自身の技術を活かした事業立ち上げを視野に入れています。',
+  },
+];

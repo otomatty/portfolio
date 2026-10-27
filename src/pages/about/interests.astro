@@ -1,8 +1,12 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
+import NumberedList from '@/components/common/NumberedList.astro';
 import PageHero from '@/components/common/PageHero.astro';
-import InterestsList from '@/components/about/interests/interests-list';
-import Aspirations from '@/components/about/interests/aspirations';
+import Section from '@/components/common/Section.astro';
+import TechnicalInterestList from '@/components/about/TechnicalInterestList.astro';
+import { futureGoals, privateInterests, technicalChallenges } from '@/data/interests';
+
+const goals = futureGoals.map((goal) => ({ ...goal, mark: goal.period }));
 ---
 
 <PageLayout
@@ -16,6 +20,24 @@ import Aspirations from '@/components/about/interests/aspirations';
     figure="seed"
   />
 
-  <InterestsList client:visible />
-  <Aspirations client:visible />
+  <Section
+    id="technology-title"
+    label="Technology"
+    title="技術分野"
+    description="技術的な興味関心です。各分野を開くと、これまでの経験と学習目標をご覧いただけます。"
+  >
+    <TechnicalInterestList />
+  </Section>
+
+  <Section id="private-title" label="Private" title="趣味・プライベート">
+    <NumberedList items={privateInterests} numbered={false} />
+  </Section>
+
+  <Section id="challenges-title" label="Challenges" title="技術的な挑戦" description="いま取り組んでいる技術的な挑戦です。">
+    <NumberedList items={technicalChallenges} />
+  </Section>
+
+  <Section id="goals-title" label="Goals" title="これからの目標">
+    <NumberedList items={goals} />
+  </Section>
 </PageLayout>
