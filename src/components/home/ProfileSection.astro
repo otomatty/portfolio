@@ -1,0 +1,83 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { homepageCopy } from '@/data/homepage';
+import { profile } from '@/data/profile';
+
+const { profile: copy } = homepageCopy;
+---
+
+<section id="profile" class="relative scroll-mt-16 border-b py-20 md:py-36" aria-labelledby="profile-title">
+  <div class="container mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 md:grid-cols-[1.1fr_1fr] md:gap-24 lg:px-8">
+    <figure class="portrait">
+      <!-- 背景が透過した写真の後ろに金の円を置き、写真とは動く量を変える -->
+      <span class="moon" data-parallax="0.16" aria-hidden="true"></span>
+      <img
+        src={profile.images.profile}
+        alt={copy.photoAlt}
+        width="1987"
+        height="1491"
+        loading="lazy"
+        decoding="async"
+        data-parallax="0.04"
+      />
+    </figure>
+    <div class="grid justify-items-start gap-6">
+      <SectionLabel text={copy.label} />
+      <h2 id="profile-title" class="name">
+        {profile.name.ja}
+        <span class="name-en">{profile.name.en}</span>
+      </h2>
+      <p class="max-w-[34em] text-muted-foreground">{profile.bioLong}</p>
+      <ul class="flex flex-wrap gap-x-5 gap-y-1.5 text-[12.5px] tracking-[0.06em]" aria-label={copy.stackLabel}>
+        {copy.stack.map((name) => <li>{name}</li>)}
+      </ul>
+      <a href="/about" class="group inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold">
+        {copy.cta}
+        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .portrait {
+    position: relative;
+  }
+
+  .moon {
+    position: absolute;
+    left: 4%;
+    top: -2%;
+    width: 58%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+    background: radial-gradient(circle at 50% 50%, hsl(var(--card)) 0%, hsl(var(--background)) 72%);
+    will-change: transform;
+  }
+
+  .portrait img {
+    position: relative;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1) contrast(1.08) brightness(0.8);
+    will-change: transform;
+  }
+
+  .name {
+    display: grid;
+    gap: 10px;
+    font-weight: 300;
+    font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+    line-height: 1.3;
+    letter-spacing: 0.16em;
+  }
+
+  .name-en {
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+</style>

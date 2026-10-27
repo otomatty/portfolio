@@ -1,0 +1,187 @@
+---
+import { homepageCopy } from '@/data/homepage';
+import { profile } from '@/data/profile';
+
+const { hero } = homepageCopy;
+// 文ごとに分け、広い画面では文の切れ目で改行する
+const sentences = hero.subtitle.split(/(?<=。)/);
+---
+
+<section class="hero" data-hero-sangaku aria-labelledby="hero-title">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-body container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="hero-inner" data-parallax-fade>
+      <p class="hero-eyebrow">{profile.role}</p>
+      <h1 id="hero-title" class="hero-title">
+        <span class="nb">{hero.title.part1}</span><br />
+        <span class="nb"><span class="text-gold">{hero.title.highlight}</span>{hero.title.part2}</span>
+      </h1>
+      <p class="hero-lead">
+        {sentences.map((sentence, i) => (
+          <>
+            {i > 0 && <br class="max-md:hidden" />}
+            {sentence}
+          </>
+        ))}
+      </p>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3 pt-1">
+        <a
+          href="#works"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
+        >
+          {hero.ctaPrimary}
+        </a>
+        <a href="/about" class="group inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold">
+          {hero.ctaSecondary}
+          <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <p class="hero-meta container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    {profile.name.ja} / {profile.name.en}
+  </p>
+</section>
+
+<script>
+  import { mountHeroSangaku } from '@/lib/canvas/hero-sangaku';
+
+  document.querySelectorAll<HTMLElement>('[data-hero-sangaku]').forEach((section) => {
+    const canvas = section.querySelector<HTMLCanvasElement>('.hero-canvas');
+    if (canvas) mountHeroSangaku(section, canvas);
+  });
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: clamp(560px, calc(92vh - 4rem), 820px);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 文字の下だけ図形を薄くして読みやすくする */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--background)) 16%,
+      hsl(var(--background) / 0.55) 38%,
+      transparent 58%
+    );
+  }
+
+  .hero-body {
+    align-self: center;
+  }
+
+  .hero-inner {
+    display: grid;
+    justify-items: start;
+    gap: 1.75rem;
+    padding-block: 3.5rem;
+    will-change: transform, opacity;
+  }
+
+  .hero-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .hero-title {
+    font-weight: 300;
+    font-size: clamp(2rem, 4.6vw, 3.7rem);
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-lead {
+    max-width: 40em;
+    font-size: clamp(0.92rem, 1.1vw, 1rem);
+    line-height: 2.1;
+    color: hsl(var(--muted-foreground));
+    line-break: strict;
+    word-break: auto-phrase;
+  }
+
+  .nb {
+    display: inline-block;
+  }
+
+  .hero-meta {
+    padding-block: 1rem 1.4rem;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-inner > * {
+      animation: rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .hero-inner > :nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .hero-inner > :nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    .hero-inner > :nth-child(4) {
+      animation-delay: 0.3s;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      min-height: clamp(620px, calc(92vh - 4rem), 780px);
+    }
+    .hero-veil {
+      background: linear-gradient(
+        0deg,
+        hsl(var(--background)) 0%,
+        hsl(var(--background)) 24%,
+        hsl(var(--background) / 0.65) 50%,
+        transparent 68%
+      );
+    }
+    .hero-body {
+      align-self: end;
+    }
+    .hero-inner {
+      gap: 1.5rem;
+      padding-block: 2rem;
+    }
+  }
+</style>

@@ -6,83 +6,49 @@ export const homepageCopy = {
       part2: 'に。',
     },
     subtitle:
-      'AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。AIを"安定して動かす"ことにこだわるエンジニアです。',
+      'AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。AIを“安定して動かす”ことにこだわるエンジニアです。',
     ctaPrimary: '実績を見る',
     ctaSecondary: 'プロフィール',
   },
-  introduction: {
-    title: 'About Me',
-    subtitle: '私のプロフィールと実績',
-    profile: {
-      description:
-        'フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。',
-      cta: '詳細プロフィール',
-    },
+  about: {
+    label: 'About',
+    // 1行ごとの文節。文節の途中で改行しないように分けて持つ
+    title: [
+      ['UI/UXから', 'インフラまで、'],
+      ['AIを軸に', '手がける。'],
+    ],
     metrics: {
-      developmentExperience: {
-        title: '開発経験',
-        unit: '年',
-        cta: '経験を見る',
-      },
-      projectCount: {
-        title: '実績',
-        unit: '件',
-        cta: '実績を見る',
-      },
-      personalProjectCount: {
-        title: '個人開発',
-        unit: '個',
-        cta: '実績を見る',
-      },
+      developmentExperience: { title: '開発経験', unit: '年' },
+      projectCount: { title: '実績', unit: '件' },
+      personalProjectCount: { title: '個人開発', unit: '個' },
     },
-    cards: {
-      github: {
-        title: 'GitHub',
-        cta: 'リポジトリを見る',
-      },
-      interests: {
-        title: '興味・価値観',
-        cta: '詳しく見る',
-      },
-      techStack: {
-        title: '技術スタック',
-        description: 'モダンな技術スタックを活用した開発経験',
-        cta: 'スキル詳細',
-      },
-    },
+    untilNow: '現在',
   },
-  achievements: {
-    label: '注目の実績',
-    collectionSubtitle: 'Featured Works',
-    countUnit: '件',
-    prevCollection: '前の種別',
-    nextCollection: '次の種別',
-    hint: 'カーソルを合わせて選択、クリックで概要を表示',
-    technologies: '使用技術',
-    viewDetail: '詳細ページを見る',
-    website: 'Webサイト',
-    close: '閉じる',
-  },
-  additionalAchievements: {
-    title: 'Works',
-    subtitle: 'これまでの成果物をご紹介します。',
-    all: 'すべて',
-    searchPlaceholder: 'プロジェクトを検索...',
-    notFound: '条件に一致する実績が見つかりませんでした',
+  works: {
+    label: 'Works',
+    title: 'これまでの実績',
+    indexLabel: '展示の目次',
+    others: 'その他の実績',
+    othersIndex: 'その他',
+    viewDetail: '詳細を見る',
+    website: 'サイト',
     viewAll: 'すべての実績を見る',
   },
-  cta: {
-    title: 'Contact',
-    subtitle: 'お問い合わせ',
-    contact: {
-      title: 'お問い合わせ',
-      description:
-        'プロダクト開発や技術に関するご質問・ご相談など、\nお気軽にお問い合わせください。',
-      buttonText: 'お問い合わせはこちら',
-    },
-    availability: {
-      email: 'メールアドレス',
-    },
+  profile: {
+    label: 'Profile',
+    photoAlt: '松の手入れをする菅井 瑛正',
+    stack: ['TypeScript', 'React', 'Next.js', 'Astro', 'Hono', 'Tauri', 'Supabase', 'Rust', 'Go', 'Python', 'AWS', 'GCP'],
+    stackLabel: '主な技術',
+    cta: '詳細プロフィール',
+  },
+  contact: {
+    label: 'Contact',
+    title: 'お問い合わせ',
+    description: 'プロダクト開発や技術に関するご質問・ご相談など、お気軽にお問い合わせください。',
+    form: 'お問い合わせフォーム',
+    copy: 'コピー',
+    copied: 'コピーしました',
+    selected: '選択しました',
   },
 };
 

@@ -10,7 +10,6 @@ import { navigationItems } from '@/data/navigation';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { ThemeToggle } from './ThemeToggle';
 
 interface MobileSidebarProps {
   currentPath?: string;
@@ -122,9 +121,6 @@ export function MobileSidebar({
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 space-y-4">
-          <div className="flex items-center justify-center gap-4">
-            <ThemeToggle />
-          </div>
           <Separator />
           <div className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Saedgewell
