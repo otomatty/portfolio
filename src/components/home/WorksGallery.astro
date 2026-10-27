@@ -1,7 +1,7 @@
 ---
-import SectionLabel from './SectionLabel.astro';
+import SectionLabel from '@/components/common/SectionLabel.astro';
 import { homepageCopy } from '@/data/homepage';
-import { WORK_KIND_LABELS } from '@/data/works';
+import { WORK_KIND_LABELS, formatWorkNumber } from '@/data/works';
 import type { Work } from '@/types/works';
 
 /**
@@ -18,7 +18,7 @@ interface Props {
 const { featured, others, numbers } = Astro.props;
 const { works: copy } = homepageCopy;
 const yearMonth = (iso: string) => iso.slice(0, 7).replace('-', '.');
-const no = (work: Work) => `No.${String(numbers[work.slug] ?? 0).padStart(2, '0')}`;
+const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
 ---
 
 <section id="works" class="relative scroll-mt-16 border-b py-20 md:py-32" aria-labelledby="works-title">

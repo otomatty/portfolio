@@ -1,8 +1,7 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { Container } from '@/components/common';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import PageHero from '@/components/common/PageHero.astro';
+import MoreLink from '@/components/common/MoreLink.astro';
 ---
 
 <PageLayout
@@ -10,31 +9,29 @@ import { ArrowLeft } from 'lucide-react';
   description="お探しのページは存在しないか、移動した可能性があります。"
   noindex={true}
 >
-  <Container className="py-24">
-    <section class="flex min-h-[60vh] items-center justify-center">
-      <div class="flex flex-col items-center gap-10 text-center">
-        <div class="text-8xl font-extrabold tracking-tight sm:text-9xl">
-          404
-        </div>
-
-        <div class="space-y-6">
-          <div class="space-y-3">
-            <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
-              ページが見つかりません
-            </h1>
-            <p class="text-muted-foreground">
-              お探しのページは存在しないか、移動した可能性があります。
-            </p>
-          </div>
-
-          <Button asChild variant="outline" size="lg">
-            <a href="/">
-              <ArrowLeft className="h-4 w-4" />
-              ホームに戻る
-            </a>
-          </Button>
-        </div>
-      </div>
-    </section>
-  </Container>
+  <!-- 円鎖の円を1つだけ欠けさせ、見つからないページを表す -->
+  <div class="not-found">
+    <PageHero
+      label="404 · Not Found"
+      title="ページが見つかりません"
+      description="お探しのページは存在しないか、移動した可能性があります。"
+      figure="gap"
+    >
+      <a
+        href="/"
+        class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
+      >
+        ホームに戻る
+      </a>
+      <MoreLink href="/works" label="実績一覧" />
+    </PageHero>
+  </div>
 </PageLayout>
+
+<style>
+  /* フッターまでの間を空けず、見出しだけで画面を満たす */
+  .not-found :global(.page-hero) {
+    min-height: calc(100svh - 4rem);
+    border-bottom: 0;
+  }
+</style>

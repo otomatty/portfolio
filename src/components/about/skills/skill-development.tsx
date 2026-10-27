@@ -16,7 +16,7 @@ export const SkillDevelopment = () => {
   const goals = useMemo(() => getSkillDevelopmentGoals(), []);
 
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="スキル開発の方向性"
@@ -37,10 +37,10 @@ export const SkillDevelopment = () => {
                 <Card className="h-full">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Icon className="h-5 w-5 text-primary" />
+                      <div className="p-2 rounded-full border border-gold/30">
+                        <Icon className="h-5 w-5 text-gold" />
                       </div>
-                      <h3 className="font-bold text-sm leading-tight">
+                      <h3 className="font-normal text-sm leading-tight">
                         {goal.title}
                       </h3>
                     </div>
@@ -51,7 +51,7 @@ export const SkillDevelopment = () => {
 
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-xs font-semibold text-muted-foreground mb-2">
+                        <h4 className="text-xs font-normal text-muted-foreground mb-2">
                           学習中
                         </h4>
                         <ul className="space-y-2">
@@ -60,7 +60,7 @@ export const SkillDevelopment = () => {
                               key={item}
                               className="flex items-start gap-2 text-sm"
                             >
-                              <CheckCircle className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                              <CheckCircle className="h-4 w-4 text-gold mt-0.5 shrink-0" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -68,7 +68,7 @@ export const SkillDevelopment = () => {
                       </div>
 
                       <div>
-                        <h4 className="text-xs font-semibold text-muted-foreground mb-2">
+                        <h4 className="text-xs font-normal text-muted-foreground mb-2">
                           関連スキル
                         </h4>
                         <div className="flex flex-wrap gap-1">

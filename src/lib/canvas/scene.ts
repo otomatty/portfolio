@@ -1,5 +1,4 @@
 import { cssVarColor, observeVisibility, reducedMotionQuery } from './core';
-import { buildSangaku, type SceneState } from './sangaku';
 import {
   PrimList,
   createCanvas2dRenderer,
@@ -9,10 +8,49 @@ import {
 } from './vector-renderer';
 
 /**
- * Hero の円鎖を描画する。WebGPU を優先し、使えないときや GPU を失ったときは Canvas 2D に切り替える。
+ * 線と円で作る図形を、ページ上部のキャンバスに描き続ける。
+ * WebGPU を優先し、使えないときや GPU を失ったときは Canvas 2D に切り替える。
  * 画面外・タブ非表示では止め、prefers-reduced-motion では完成形の1フレームだけを描く。
  */
-export function mountHeroSangaku(section: HTMLElement, initialCanvas: HTMLCanvasElement): void {
+
+export interface SceneState {
+  /** キャンバスの CSS サイズ */
+  width: number;
+  height: number;
+  /** シーン開始からの秒数 */
+  time: number;
+  /** カーソル位置（-1..1、なめらかに追従させた値） */
+  pointerX: number;
+  pointerY: number;
+  /** ページのスクロール量（px、セクションの高さまで）。図形はページ上部に置く */
+  scroll: number;
+  /** 縦長の画面。図形を文字の上に置く */
+  compact: boolean;
+}
+
+export type SceneBuilder = (state: SceneState, prims: PrimList) => void;
+
+/** 動きを止めたときに描く時刻。どの図形もこの時点で描き終わっている */
+const STILL_TIME = 9;
+
+/** 奥の層ほどカーソルで大きくずれ、スクロールではページより遅れて動く */
+export function layerOffset(state: SceneState, depth: number, lag: number) {
+  return { x: -state.pointerX * 22 * depth, y: -state.pointerY * 14 * depth + state.scroll * lag };
+}
+
+export interface SceneOptions {
+  /** 縦長として扱うか。既定では幅が高さの 1.1 倍より小さいとき */
+  compact?: (width: number, height: number) => boolean;
+}
+
+const isPortrait = (width: number, height: number) => width / Math.max(1, height) < 1.1;
+
+export function mountVectorScene(
+  section: HTMLElement,
+  initialCanvas: HTMLCanvasElement,
+  build: SceneBuilder,
+  { compact = isPortrait }: SceneOptions = {}
+): void {
   const reduced = reducedMotionQuery();
   const palette: VectorPalette = {
     background: cssVarColor('--background', '#0e1b11'),
@@ -31,12 +69,12 @@ export function mountHeroSangaku(section: HTMLElement, initialCanvas: HTMLCanvas
     const rect = section.getBoundingClientRect();
     state.width = rect.width;
     state.height = rect.height;
-    state.compact = rect.width / Math.max(1, rect.height) < 1.1;
+    state.compact = compact(rect.width, rect.height);
   };
   const render = () => {
     if (!renderer) return;
     prims.reset();
-    buildSangaku(state, prims);
+    build(state, prims);
     renderer.frame(prims);
   };
   const canRun = () => renderer !== null && visible && !document.hidden && !reduced.matches;
@@ -64,7 +102,7 @@ export function mountHeroSangaku(section: HTMLElement, initialCanvas: HTMLCanvas
     frameId = 0;
   };
   const still = () => {
-    state.time = 9;
+    state.time = STILL_TIME;
     state.pointerX = 0;
     state.pointerY = 0;
     state.scroll = 0;

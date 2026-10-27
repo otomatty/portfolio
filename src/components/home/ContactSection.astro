@@ -1,5 +1,5 @@
 ---
-import SectionLabel from './SectionLabel.astro';
+import SectionLabel from '@/components/common/SectionLabel.astro';
 import { homepageCopy } from '@/data/homepage';
 import { profile } from '@/data/profile';
 
@@ -42,29 +42,13 @@ const { contact } = homepageCopy;
 
 <script>
   import { mountSeigaiha } from '@/lib/canvas/patterns';
+  import { initCopyEmail } from '@/lib/copy-email';
 
   document.querySelectorAll<HTMLElement>('[data-seigaiha]').forEach((section) => {
     const canvas = section.querySelector<HTMLCanvasElement>('canvas.seigaiha');
     if (canvas) mountSeigaiha(canvas, section);
 
-    const button = section.querySelector<HTMLButtonElement>('[data-copy-email]');
-    const email = section.querySelector<HTMLElement>('[data-email]');
-    if (!button || !email) return;
-    const label = button.textContent ?? '';
-    const select = () => {
-      const range = document.createRange();
-      range.selectNodeContents(email);
-      window.getSelection()?.removeAllRanges();
-      window.getSelection()?.addRange(range);
-      button.textContent = button.dataset.labelSelected ?? label;
-    };
-    button.addEventListener('click', () => {
-      if (!navigator.clipboard) return select();
-      navigator.clipboard.writeText(email.textContent?.trim() ?? '').then(() => {
-        button.textContent = button.dataset.labelCopied ?? label;
-        window.setTimeout(() => (button.textContent = label), 1800);
-      }, select);
-    });
+    initCopyEmail(section);
   });
 </script>
 

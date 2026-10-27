@@ -1,6 +1,6 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { BasicHero } from '@/components/common';
+import PageHero from '@/components/common/PageHero.astro';
 import { Motivation } from '@/components/about/story/motivation';
 import { JourneyTimeline } from '@/components/about/story/journey-timeline';
 import { Influences } from '@/components/about/story/influences';
@@ -11,10 +11,11 @@ import { Vision } from '@/components/about/story/vision';
   title="Story | Saedgewell"
   description="エンジニアとしての歩みとビジョン"
 >
-  <BasicHero
+  <PageHero
+    label="About / Story"
     title="エンジニアへの道のり"
     description="プログラミングを始めたきっかけから現在に至るまでの道のりをご紹介します。"
-    client:load
+    figure="spiral"
   />
 
   <Motivation client:visible />

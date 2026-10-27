@@ -15,7 +15,7 @@ const iconMap: Record<CareerEntry['iconKey'], typeof Building2> = {
 
 export const CareerTimeline = () => {
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="職歴・経歴"
@@ -44,21 +44,21 @@ export const CareerTimeline = () => {
                   <Card>
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
-                        <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+                        <div className="p-2 rounded-full border border-gold/30 shrink-0">
                           {(() => {
                             const Icon = iconMap[entry.iconKey];
-                            return <Icon className="h-5 w-5 text-primary" />;
+                            return <Icon className="h-5 w-5 text-gold" />;
                           })()}
                         </div>
                         <div className="flex-1">
                           <div className="text-sm text-muted-foreground mb-1">
                             {entry.period}
                           </div>
-                          <h3 className="text-lg font-bold mb-1">
+                          <h3 className="text-lg font-normal mb-1">
                             {entry.title}
                           </h3>
                           {entry.company && (
-                            <p className="text-sm text-primary mb-2">
+                            <p className="text-sm text-gold mb-2">
                               {entry.company}
                             </p>
                           )}
@@ -68,7 +68,7 @@ export const CareerTimeline = () => {
 
                           {entry.achievements && (
                             <div className="mb-4">
-                              <h4 className="text-sm font-semibold mb-2">
+                              <h4 className="text-sm font-normal mb-2">
                                 主な実績
                               </h4>
                               <ul className="space-y-1">
@@ -77,7 +77,7 @@ export const CareerTimeline = () => {
                                     key={achievement}
                                     className="text-sm text-muted-foreground flex items-start gap-2"
                                   >
-                                    <span className="text-primary mt-1">•</span>
+                                    <span className="text-gold mt-1">•</span>
                                     {achievement}
                                   </li>
                                 ))}
@@ -87,19 +87,19 @@ export const CareerTimeline = () => {
 
                           {entry.projects && (
                             <div>
-                              <h4 className="text-sm font-semibold mb-3">
+                              <h4 className="text-sm font-normal mb-3">
                                 プロジェクト
                               </h4>
                               <div className="space-y-3">
                                 {entry.projects.map((project) => (
                                   <div
                                     key={project.title}
-                                    className="p-3 rounded-lg bg-secondary/50"
+                                    className="border-l border-gold/30 py-1 pl-4"
                                   >
                                     {project.slug ? (
                                       <a
                                         href={`/works/${project.slug}`}
-                                        className="font-medium text-primary hover:underline"
+                                        className="font-medium text-gold hover:underline"
                                       >
                                         {project.title}
                                       </a>

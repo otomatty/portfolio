@@ -1,6 +1,6 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { BasicHero } from '@/components/common';
+import PageHero from '@/components/common/PageHero.astro';
 import { SkillSummary } from '@/components/about/skills/skill-summary';
 import { SkillCapabilities } from '@/components/about/skills/skill-capabilities';
 import { SkillStack } from '@/components/about/skills/skill-stack';
@@ -11,10 +11,11 @@ import { SkillDevelopment } from '@/components/about/skills/skill-development';
   title="Skills | Saedgewell"
   description="技術スキルと専門分野"
 >
-  <BasicHero
+  <PageHero
+    label="About / Skills"
     title="スキル・専門領域"
     description="何ができて、どのような仕事を任せられるか。技術スタックと対応可能な業務についてご紹介します。"
-    client:load
+    figure="pentagon"
   />
 
   <SkillSummary client:visible />

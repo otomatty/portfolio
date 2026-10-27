@@ -38,8 +38,8 @@ const FutureGoals = () => {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="h-1 w-8 bg-primary rounded-full" />
-        <h3 className="text-2xl font-bold">これからの目標</h3>
+        <div className="h-px w-8 bg-gold" />
+        <h3 className="text-2xl font-light">これからの目標</h3>
       </motion.div>
 
       <div className="relative">
@@ -55,14 +55,14 @@ const FutureGoals = () => {
               viewport={{ once: true }}
               className="relative md:pl-12"
             >
-              <div className="absolute left-2.5 top-6 h-3 w-3 rounded-full bg-primary hidden md:block" />
+              <div className="absolute left-2.5 top-6 h-3 w-3 rounded-full border border-gold bg-background hidden md:block" />
 
-              <Card className="group hover:border-primary/50 transition-colors">
+              <Card className="group hover:border-gold/50 transition-colors">
                 <CardContent className="p-6">
-                  <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-3">
+                  <span className="inline-block px-3 py-1 text-xs font-medium border border-gold text-gold rounded-full mb-3">
                     {item.period}
                   </span>
-                  <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
+                  <h4 className="font-normal text-lg mb-2">{item.title}</h4>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {item.description}
                   </p>

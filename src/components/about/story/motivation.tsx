@@ -26,7 +26,7 @@ const motivations = [
 
 export const Motivation = () => {
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="プログラミングを始めたきっかけ"
@@ -45,10 +45,10 @@ export const Motivation = () => {
               <Card className="h-full">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <item.icon className="h-5 w-5 text-primary" />
+                    <div className="p-2 rounded-full border border-gold/30">
+                      <item.icon className="h-5 w-5 text-gold" />
                     </div>
-                    <h3 className="font-bold">{item.title}</h3>
+                    <h3 className="font-normal">{item.title}</h3>
                   </div>
                   <p className="text-muted-foreground leading-relaxed">
                     {item.description}

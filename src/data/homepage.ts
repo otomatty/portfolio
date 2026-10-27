@@ -45,7 +45,7 @@ export const homepageCopy = {
     label: 'Contact',
     title: 'お問い合わせ',
     description: 'プロダクト開発や技術に関するご質問・ご相談など、お気軽にお問い合わせください。',
-    form: 'お問い合わせフォーム',
+    form: 'お問い合わせはこちら',
     copy: 'コピー',
     copied: 'コピーしました',
     selected: '選択しました',

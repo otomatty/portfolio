@@ -47,11 +47,12 @@ const sentences = hero.subtitle.split(/(?<=。)/);
 </section>
 
 <script>
-  import { mountHeroSangaku } from '@/lib/canvas/hero-sangaku';
+  import { buildSangaku } from '@/lib/canvas/sangaku';
+  import { mountVectorScene } from '@/lib/canvas/scene';
 
   document.querySelectorAll<HTMLElement>('[data-hero-sangaku]').forEach((section) => {
     const canvas = section.querySelector<HTMLCanvasElement>('.hero-canvas');
-    if (canvas) mountHeroSangaku(section, canvas);
+    if (canvas) mountVectorScene(section, canvas, buildSangaku);
   });
 </script>
 

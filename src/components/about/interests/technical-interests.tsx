@@ -151,13 +151,13 @@ const TechnicalInterestCard = ({
   const Icon = item.icon;
 
   const triggerCard = (
-    <Card className="h-full group hover:border-primary/50 transition-colors cursor-pointer">
+    <Card className="h-full group hover:border-gold/50 transition-colors cursor-pointer">
       <CardContent className="p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-            <Icon className="h-5 w-5 text-primary" />
+          <div className="p-2 rounded-full border border-gold/30 group-hover:border-gold/70 transition-colors">
+            <Icon className="h-5 w-5 text-gold" />
           </div>
-          <h4 className="font-semibold text-lg">{item.name}</h4>
+          <h4 className="font-normal text-lg">{item.name}</h4>
         </div>
         <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
           {item.description}
@@ -180,21 +180,21 @@ const TechnicalInterestCard = ({
   const dialogContent = (
     <div className="space-y-6 pb-4">
       <div>
-        <h4 className="font-semibold text-sm text-muted-foreground mb-2">
+        <h4 className="font-normal text-sm text-muted-foreground mb-2">
           概要
         </h4>
         <p className="text-sm leading-relaxed">{item.details.overview}</p>
       </div>
 
       <div>
-        <h4 className="font-semibold text-sm text-muted-foreground mb-2">
+        <h4 className="font-normal text-sm text-muted-foreground mb-2">
           経験
         </h4>
         <p className="text-sm leading-relaxed">{item.details.experience}</p>
       </div>
 
       <div>
-        <h4 className="font-semibold text-sm text-muted-foreground mb-2">
+        <h4 className="font-normal text-sm text-muted-foreground mb-2">
           関連プロジェクト
         </h4>
         <ul className="space-y-1">
@@ -203,7 +203,7 @@ const TechnicalInterestCard = ({
               key={project}
               className="text-sm text-muted-foreground flex items-start gap-2"
             >
-              <span className="text-primary mt-1">•</span>
+              <span className="text-gold mt-1">•</span>
               <span>{project}</span>
             </li>
           ))}
@@ -211,7 +211,7 @@ const TechnicalInterestCard = ({
       </div>
 
       <div>
-        <h4 className="font-semibold text-sm text-muted-foreground mb-2">
+        <h4 className="font-normal text-sm text-muted-foreground mb-2">
           学習目標
         </h4>
         <ul className="space-y-1">
@@ -220,7 +220,7 @@ const TechnicalInterestCard = ({
               key={goal}
               className="text-sm text-muted-foreground flex items-start gap-2"
             >
-              <span className="text-primary mt-1">•</span>
+              <span className="text-gold mt-1">•</span>
               <span>{goal}</span>
             </li>
           ))}
@@ -228,7 +228,7 @@ const TechnicalInterestCard = ({
       </div>
 
       <div>
-        <h4 className="font-semibold text-sm text-muted-foreground mb-2">
+        <h4 className="font-normal text-sm text-muted-foreground mb-2">
           技術スタック
         </h4>
         <div className="flex flex-wrap gap-2">
@@ -276,8 +276,8 @@ const TechnicalInterests = () => {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="h-1 w-8 bg-primary rounded-full" />
-        <h3 className="text-2xl font-bold">技術分野</h3>
+        <div className="h-px w-8 bg-gold" />
+        <h3 className="text-2xl font-light">技術分野</h3>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

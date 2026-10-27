@@ -1,4 +1,6 @@
 import { TAU, ramp } from './core';
+import { crosshair, protractor } from './marks';
+import { layerOffset, type SceneState } from './scene';
 import type { PrimList } from './vector-renderer';
 
 /**
@@ -6,20 +8,6 @@ import type { PrimList } from './vector-renderer';
  * 大小2つの円の間を n 個の円が互いに接しながら埋める。一度閉じた円鎖は
  * どこから始めても閉じる（シュタイナーのポリズム）ため、止まらずに回り続けられる。
  */
-
-export interface SceneState {
-  /** キャンバスの CSS サイズ */
-  width: number;
-  height: number;
-  /** シーン開始からの秒数 */
-  time: number;
-  /** カーソル位置（-1..1、なめらかに追従させた値） */
-  pointerX: number;
-  pointerY: number;
-  /** Hero 内でのスクロール量（px） */
-  scroll: number;
-  compact: boolean;
-}
 
 type Circle = readonly [x: number, y: number, r: number];
 
@@ -60,11 +48,6 @@ function focal(state: SceneState) {
   return { cx: state.width * 0.69, cy: state.height * 0.5, r: Math.min(state.height * 0.36, state.width * 0.24) };
 }
 
-/** 奥の層ほどカーソルで大きくずれ、スクロールではページより遅れて動く */
-function layerOffset(state: SceneState, depth: number, lag: number) {
-  return { x: -state.pointerX * 22 * depth, y: -state.pointerY * 14 * depth + state.scroll * lag };
-}
-
 export function buildSangaku(state: SceneState, prims: PrimList): void {
   const { cx, cy, r: R } = focal(state);
   const t = state.time;
@@ -72,16 +55,8 @@ export function buildSangaku(state: SceneState, prims: PrimList): void {
   // 奥：分度器の目盛りと作図の補助線
   let o = layerOffset(state, 0.35, 0.5);
   const X = cx + o.x, Y = cy + o.y, Rt = R * 1.17;
-  const ticks = ramp(t, 0.1, 1.8);
-  prims.ring(X, Y, Rt, 1, 0.2, 0, -Math.PI / 2, TAU * ticks);
-  for (let k = 0; k < 72 && k / 72 < ticks; k++) {
-    const a = -Math.PI / 2 + (k * TAU) / 72, major = k % 6 === 0, len = major ? 11 : 5;
-    const c = Math.cos(a), s = Math.sin(a);
-    prims.segment(X + c * Rt, Y + s * Rt, X + c * (Rt + len), Y + s * (Rt + len), 1, major ? 0.5 : 0.26, 0);
-  }
-  const axes = ramp(t, 0.6, 1.4);
-  prims.segment(X - Rt * 1.3, Y, X + Rt * 1.3, Y, 1, 0.18, 0, 0.5 - axes / 2, 0.5 + axes / 2, 7);
-  prims.segment(X, Y - Rt * 1.3, X, Y + Rt * 1.3, 1, 0.18, 0, 0.5 - axes / 2, 0.5 + axes / 2, 7);
+  protractor(prims, X, Y, Rt, ramp(t, 0.1, 1.8));
+  crosshair(prims, X, Y, Rt * 1.3, ramp(t, 0.6, 1.4));
 
   // 中：円鎖
   o = layerOffset(state, 0.7, 0.36);

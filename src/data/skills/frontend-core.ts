@@ -255,7 +255,6 @@ export const frontendCoreSkills: SkillRecord[] = [
   {
     id: 'astro',
     name: 'Astro',
-    icon: '/icons/astro.svg',
     categoryIds: ['frontend-framework'],
     roleIds: ['frontend'],
     tagIds: ['ssr', 'performance'],

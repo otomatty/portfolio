@@ -29,7 +29,7 @@ export const SkillSheetProjects = () => {
   const projects = getSkillSheetProjects();
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="案件一覧"
@@ -55,7 +55,7 @@ export const SkillSheetProjects = () => {
                   <div className="flex flex-col gap-2 mb-4 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="text-lg font-bold">
+                        <h3 className="text-lg font-normal">
                           {project.role}
                         </h3>
                         {project.isCurrent && (
@@ -71,7 +71,7 @@ export const SkillSheetProjects = () => {
                           </Badge>
                         )}
                       </div>
-                      <div className="flex items-center gap-1.5 text-sm text-primary">
+                      <div className="flex items-center gap-1.5 text-sm text-gold">
                         <Building2 className="h-4 w-4" />
                         {project.industry}
                       </div>
@@ -101,7 +101,7 @@ export const SkillSheetProjects = () => {
                         {project.summary}{' '}
                         <a
                           href={`/works/${project.workSlug}`}
-                          className="text-primary hover:underline whitespace-nowrap"
+                          className="text-gold hover:underline whitespace-nowrap"
                         >
                           実績を見る →
                         </a>
@@ -113,7 +113,7 @@ export const SkillSheetProjects = () => {
 
                   {/* 担当工程チェック */}
                   <div className="mb-4">
-                    <h4 className="text-sm font-semibold mb-2">担当工程</h4>
+                    <h4 className="text-sm font-normal mb-2">担当工程</h4>
                     <div className="flex flex-wrap gap-x-4 gap-y-2">
                       {projectPhases.map((phase) => {
                         const active = project.phases.includes(phase.id);
@@ -129,7 +129,7 @@ export const SkillSheetProjects = () => {
                           >
                             <Icon
                               className={`h-4 w-4 ${
-                                active ? 'text-primary' : ''
+                                active ? 'text-gold' : ''
                               }`}
                             />
                             {phase.label}
@@ -142,14 +142,14 @@ export const SkillSheetProjects = () => {
                   {/* 成果 */}
                   {project.achievements && project.achievements.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold mb-2">成果</h4>
+                      <h4 className="text-sm font-normal mb-2">成果</h4>
                       <ul className="space-y-1">
                         {project.achievements.map((achievement) => (
                           <li
                             key={achievement}
                             className="text-sm text-muted-foreground flex items-start gap-2"
                           >
-                            <span className="text-primary mt-1">•</span>
+                            <span className="text-gold mt-1">•</span>
                             {achievement}
                           </li>
                         ))}
@@ -159,7 +159,7 @@ export const SkillSheetProjects = () => {
 
                   {/* 使用技術 */}
                   <div className="space-y-2">
-                    <h4 className="text-sm font-semibold">使用技術</h4>
+                    <h4 className="text-sm font-normal">使用技術</h4>
                     <div className="flex flex-col gap-2">
                       {techGroups.map(({ key, label, icon: Icon }) => {
                         const items = project.technologies[key];

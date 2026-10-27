@@ -10,7 +10,7 @@ interface TimelineRootProps {
 
 /**
  * 縦線が途切れないタイムラインの土台。
- * 線はドットの中心を通り、ドットはリング状なので線が貫いて見える。
+ * 1px の線を縦に引き、各項目の頭に小さな円を置く。
  */
 export function TimelineRoot({
   children,
@@ -19,10 +19,10 @@ export function TimelineRoot({
 }: TimelineRootProps) {
   return (
     <div className={cn('relative', className)}>
-      {/* 線は top-0 bottom-0 でコンテンツ全体の高さに引き、ドットはリングのため線が途切れない */}
+      {/* 線は top-0 bottom-0 でコンテンツ全体の高さに引く */}
       <div
         className={cn(
-          'absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-primary/20',
+          'absolute top-0 bottom-0 w-px bg-border',
           variant === 'left' && 'left-4 md:left-8',
           variant === 'center' && 'left-4 md:left-1/2 md:-translate-x-1/2'
         )}
@@ -57,28 +57,16 @@ interface TimelineDotProps {
   className?: string;
 }
 
-const variantBorderColors: Record<
-  NonNullable<TimelineDotProps['variant']>,
-  string
-> = {
-  default: 'border-primary/50',
-  work: 'border-blue-500',
-  freelance: 'border-green-500',
-  education: 'border-purple-500',
-};
-
-const variantFillColors: Record<
-  NonNullable<TimelineDotProps['variant']>,
-  string
-> = {
-  default: 'bg-primary/50',
-  work: 'bg-blue-500',
-  freelance: 'bg-green-500',
-  education: 'bg-purple-500',
+/** 種別は金の濃さで分ける。実務は塗り、受託・個人はリング、教育は淡いリング */
+const variantClasses: Record<NonNullable<TimelineDotProps['variant']>, string> = {
+  default: 'border-gold/60',
+  work: 'border-gold bg-gold',
+  freelance: 'border-gold',
+  education: 'border-gold-dim',
 };
 
 /**
- * ライン上に表示するドット。リング＋中心の点で線が途切れず、点がはっきり見える。
+ * ライン上に表示する小さな円。背景色で塗るので、線はドットの手前で途切れて見える。
  */
 export function TimelineDot({
   highlight = false,
@@ -86,35 +74,18 @@ export function TimelineDot({
   align = 'left',
   className,
 }: TimelineDotProps) {
-  const isColoredVariant = variant !== 'default';
-  const fillColor =
-    variant === 'default'
-      ? highlight
-        ? 'bg-primary'
-        : 'bg-primary'
-      : variantFillColors[variant];
   return (
     <div
       className={cn(
-        'absolute w-5 h-5 rounded-full border-4 z-10 bg-transparent flex items-center justify-center',
-        align === 'left' &&
-          'left-[7px] md:left-[23px]', // 線の中心に合わせる
-        align === 'center' &&
-          'left-[7px] md:left-1/2 md:-translate-x-1/2 mt-6', // モバイルは線と揃える
-        highlight && !isColoredVariant && 'border-primary',
-        !highlight && !isColoredVariant && 'border-primary/50',
-        isColoredVariant && variantBorderColors[variant],
+        'absolute z-10 h-3 w-3 rounded-full border bg-background',
+        // 線（1px）の中心に合わせる
+        align === 'left' && 'left-[10.5px] top-7 md:left-[26.5px]',
+        align === 'center' && 'left-[10.5px] mt-7 md:left-1/2 md:-translate-x-1/2',
+        variantClasses[variant],
+        highlight && variant === 'default' && 'border-gold bg-gold',
         className
       )}
       aria-hidden
-    >
-      {/* ライン上にはっきり見える点 */}
-      <span
-        className={cn(
-          'w-4 h-4 rounded-full shrink-0',
-          fillColor
-        )}
-      />
-    </div>
+    />
   );
 }

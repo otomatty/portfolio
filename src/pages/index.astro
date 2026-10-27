@@ -5,19 +5,14 @@ import AboutSection from '@/components/home/AboutSection.astro';
 import WorksGallery from '@/components/home/WorksGallery.astro';
 import ProfileSection from '@/components/home/ProfileSection.astro';
 import ContactSection from '@/components/home/ContactSection.astro';
-import { getAllWorks, getFeaturedWorks, getHomeMetrics } from '@/data';
+import { getAllWorks, getFeaturedWorks, getHomeMetrics, getWorkNumbers } from '@/data';
 import { commonCopy } from '@/data/common';
 
 const metrics = getHomeMetrics();
 const allWorks = getAllWorks();
 const featuredWorks = getFeaturedWorks();
 const otherWorks = allWorks.filter((work) => !work.isPinned);
-// 実績の通し番号は作成日の古い順
-const numbers = Object.fromEntries(
-  [...allWorks]
-    .sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at))
-    .map((work, i) => [work.slug, i + 1])
-);
+const numbers = getWorkNumbers();
 ---
 
 <PageLayout
@@ -30,9 +25,3 @@ const numbers = Object.fromEntries(
   <ProfileSection />
   <ContactSection />
 </PageLayout>
-
-<script>
-  import { initParallax } from '@/lib/parallax';
-
-  initParallax();
-</script>

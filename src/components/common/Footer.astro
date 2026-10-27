@@ -55,13 +55,13 @@ const currentYear = new Date().getFullYear();
       {
         footerLinks.map((section) => (
           <div class="footer-section">
-            <h3 class="mb-3 text-sm font-semibold">{section.title}</h3>
+            <h3 class="mb-4 text-[11.5px] font-medium uppercase tracking-[0.24em] text-gold">{section.title}</h3>
             <ul class="space-y-2">
               {section.items.map((item) => (
                 <li>
                   <a
                     href={item.href}
-                    class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    class="text-[13.5px] tracking-[0.04em] text-muted-foreground transition-colors hover:text-gold"
                   >
                     {item.label}
                   </a>
@@ -84,7 +84,7 @@ const currentYear = new Date().getFullYear();
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              class="inline-flex items-center justify-center size-9 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
+              class="inline-flex size-9 items-center justify-center rounded-full border border-transparent text-muted-foreground transition-colors hover:border-gold/60 hover:text-gold"
             >
               {icon === 'github' && (
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">

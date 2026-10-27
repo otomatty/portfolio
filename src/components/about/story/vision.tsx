@@ -27,7 +27,7 @@ const visions = [
 
 export const Vision = () => {
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="将来のビジョン"
@@ -43,12 +43,12 @@ export const Vision = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full hover:border-primary/50 transition-colors">
+              <Card className="h-full hover:border-gold/50 transition-colors">
                 <CardContent className="p-6">
-                  <div className="p-3 rounded-lg bg-primary/10 w-fit mb-4">
-                    <vision.icon className="h-6 w-6 text-primary" />
+                  <div className="p-3 rounded-full border border-gold/30 w-fit mb-4">
+                    <vision.icon className="h-6 w-6 text-gold" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">{vision.title}</h3>
+                  <h3 className="font-normal text-lg mb-3">{vision.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     {vision.description}
                   </p>

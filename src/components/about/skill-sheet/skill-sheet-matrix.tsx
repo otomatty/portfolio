@@ -7,16 +7,16 @@ import { getSkillProficiencyGroups } from '@/lib/skills/skill-sheet';
 
 const levelBorders: Record<number, string> = {
   1: 'border-l-muted-foreground/40',
-  2: 'border-l-blue-500',
-  3: 'border-l-green-500',
+  2: 'border-l-gold',
+  3: 'border-l-gold/60',
   4: 'border-l-primary',
 };
 
 const levelBadge: Record<number, string> = {
-  1: 'bg-muted text-muted-foreground',
-  2: 'bg-blue-500/10 text-blue-600',
-  3: 'bg-green-500/10 text-green-600',
-  4: 'bg-primary/10 text-primary',
+  1: 'border border-border text-muted-foreground',
+  2: 'border border-foreground/20 text-foreground/80',
+  3: 'border border-gold/40 text-gold/80',
+  4: 'border border-gold text-gold',
 };
 
 /** 技術 × 習熟度 × 経験年数のマトリクス（習熟度レベル降順） */
@@ -24,7 +24,7 @@ export const SkillSheetMatrix = () => {
   const groups = useMemo(() => getSkillProficiencyGroups(), []);
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="スキルサマリ"
@@ -42,14 +42,14 @@ export const SkillSheetMatrix = () => {
             >
               <div className="flex items-center gap-3 mb-4">
                 <span
-                  className={`inline-flex items-center justify-center h-8 w-8 rounded-lg font-bold text-sm ${
+                  className={`inline-flex items-center justify-center h-8 w-8 rounded-lg font-normal text-sm ${
                     levelBadge[group.level]
                   }`}
                 >
                   L{group.level}
                 </span>
                 <div>
-                  <h3 className="font-bold">{group.label}</h3>
+                  <h3 className="font-normal">{group.label}</h3>
                   <p className="text-xs text-muted-foreground">
                     {group.description}
                   </p>

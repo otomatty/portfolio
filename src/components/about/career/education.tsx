@@ -8,7 +8,7 @@ const certificationItems =
 
 export const Education = () => {
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <div className="grid grid-cols-1 gap-8">
           <div>
@@ -21,8 +21,8 @@ export const Education = () => {
               {certificationItems.map((cert, index) => (
                 <motion.div
                   key={cert.title}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
@@ -33,7 +33,7 @@ export const Education = () => {
                           <div className="text-xs text-muted-foreground">
                             {cert.date}
                           </div>
-                          <h4 className="font-semibold">{cert.title}</h4>
+                          <h4 className="font-normal">{cert.title}</h4>
                           <p className="text-sm text-muted-foreground">
                             {cert.description}
                           </p>

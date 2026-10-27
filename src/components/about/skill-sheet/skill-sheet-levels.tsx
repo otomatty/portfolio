@@ -4,16 +4,16 @@ import { motion } from 'motion/react';
 import { proficiencyLevels } from '@/data/skill-sheet';
 
 const levelColors: Record<number, string> = {
-  1: 'bg-muted text-muted-foreground',
-  2: 'bg-blue-500/10 text-blue-600',
-  3: 'bg-green-500/10 text-green-600',
-  4: 'bg-primary/10 text-primary',
+  1: 'border border-border text-muted-foreground',
+  2: 'border border-foreground/20 text-foreground/80',
+  3: 'border border-gold/40 text-gold/80',
+  4: 'border border-gold text-gold',
 };
 
 /** 習熟度レベルの凡例（各レベルで「できること」を明記） */
 export const SkillSheetLevels = () => {
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="習熟度レベルの定義"
@@ -35,13 +35,13 @@ export const SkillSheetLevels = () => {
                 <Card className="h-full">
                   <CardContent className="p-5">
                     <div
-                      className={`inline-flex items-center justify-center h-9 w-9 rounded-lg font-bold mb-3 ${
+                      className={`inline-flex items-center justify-center h-9 w-9 rounded-lg font-normal mb-3 ${
                         levelColors[definition.level]
                       }`}
                     >
                       L{definition.level}
                     </div>
-                    <h3 className="font-semibold mb-2">
+                    <h3 className="font-normal mb-2">
                       {definition.label}
                     </h3>
                     <p className="text-sm text-muted-foreground">

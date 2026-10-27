@@ -65,7 +65,7 @@ export function MobileSidebar({
                       className={cn(
                         'w-full justify-between px-4 py-2 text-sm font-medium',
                         {
-                          'bg-accent': isActive,
+                          'text-gold': isActive,
                         }
                       )}
                     >
@@ -88,7 +88,7 @@ export function MobileSidebar({
                           className={cn(
                             'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
                             {
-                              'bg-accent': currentPath === subItem.href,
+                              'text-gold': currentPath === subItem.href,
                             }
                           )}
                         >
@@ -110,7 +110,7 @@ export function MobileSidebar({
                 className={cn(
                   'px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
                   {
-                    'bg-accent': currentPath === item.href,
+                    'text-gold': currentPath === item.href,
                   }
                 )}
               >

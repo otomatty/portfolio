@@ -1,0 +1,21 @@
+---
+/**
+ * 本文のセクション見出し。金のラベル、細い見出し、補足の順に縦に並べる。
+ */
+import SectionLabel from './SectionLabel.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  title: string;
+  description?: string;
+}
+
+const { id, label, title, description } = Astro.props;
+---
+
+<header class="mb-12 grid justify-items-start gap-5 md:mb-16">
+  <SectionLabel text={label} />
+  <h2 id={id} class="heading-thin text-[clamp(1.6rem,2.8vw,2.3rem)]">{title}</h2>
+  {description && <p class="text-flow max-w-[40em] text-muted-foreground">{description}</p>}
+</header>

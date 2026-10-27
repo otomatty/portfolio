@@ -78,12 +78,12 @@ export const GithubContributionChart = ({
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="contributions" stroke="#8884d8" />
+          <Line type="monotone" dataKey="contributions" stroke="var(--gold)" dot={false} />
         </LineChart>
       </ResponsiveContainer>
       <div className="flex gap-2">
@@ -94,7 +94,7 @@ export const GithubContributionChart = ({
         >
           <ChevronLeft />
         </button>
-        <h3 className="text-lg font-bold p-2">
+        <h3 className="text-lg font-normal p-2">
           {currentYear}年 {currentMonth + 1}月
         </h3>
         <button

@@ -4,7 +4,7 @@ import TechnicalInterests from './technical-interests';
 
 const InterestsList = () => {
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="興味関心"

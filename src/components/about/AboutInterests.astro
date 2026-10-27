@@ -1,0 +1,27 @@
+---
+import MoreLink from '@/components/common/MoreLink.astro';
+import SectionHeading from '@/components/common/SectionHeading.astro';
+import { aboutInterests } from '@/data/about';
+---
+
+<section class="border-b py-20 md:py-28" aria-labelledby="interests-title">
+  <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      id="interests-title"
+      label="Interests"
+      title="興味関心"
+      description="技術的な関心事と、仕事の外で続けていることです。"
+    />
+
+    <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      {aboutInterests.map((interest) => (
+        <li class="grid content-start gap-2.5 border-t pt-6">
+          <h3 class="text-[17px] font-normal tracking-[0.08em]">{interest.title}</h3>
+          <p class="text-[13.5px] leading-relaxed text-muted-foreground">{interest.description}</p>
+        </li>
+      ))}
+    </ul>
+
+    <MoreLink href="/about/interests" label="すべての興味関心" class="mt-12" />
+  </div>
+</section>

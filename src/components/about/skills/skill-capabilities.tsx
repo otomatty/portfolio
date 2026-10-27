@@ -23,7 +23,7 @@ export const SkillCapabilities = () => {
   }, []);
 
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="対応可能な業務・役割"
@@ -42,11 +42,11 @@ export const SkillCapabilities = () => {
               <Card className="h-full">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <capability.icon className="h-6 w-6 text-primary" />
+                    <div className="p-2 rounded-full border border-gold/30">
+                      <capability.icon className="h-6 w-6 text-gold" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold">
+                      <h3 className="text-xl font-normal">
                         {capability.title}
                       </h3>
                       <p className="text-sm text-muted-foreground">
@@ -58,7 +58,7 @@ export const SkillCapabilities = () => {
                   <ul className="space-y-2 mb-4">
                     {capability.tasks.map((task) => (
                       <li key={task} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-gold mt-0.5 shrink-0" />
                         <span className="text-sm">{task}</span>
                       </li>
                     ))}

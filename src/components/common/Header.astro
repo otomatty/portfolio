@@ -22,7 +22,7 @@ const currentPath = Astro.url.pathname;
         <Navigation client:load currentPath={currentPath} />
         <a
           href="/contact"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90"
+          class="ml-2 inline-flex h-9 items-center justify-center whitespace-nowrap rounded-full border border-gold px-5 text-[13px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
         >
           {commonCopy.header.contactCta}
         </a>

@@ -12,7 +12,7 @@ const iconMap = {
 
 export const CareerHighlights = () => {
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="キャリアハイライト"
@@ -23,22 +23,22 @@ export const CareerHighlights = () => {
           {getCareerHighlights().map((item, index) => (
             <motion.div
               key={item.label}
-              className="text-center p-6 rounded-xl bg-card border"
+              className="text-center p-6 rounded-[3px] border"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="inline-flex p-3 rounded-lg bg-primary/10 mb-4">
+              <div className="inline-flex p-3 rounded-full border border-gold/30 mb-4">
                 {(() => {
                   const Icon = iconMap[item.iconKey];
-                  return <Icon className="h-6 w-6 text-primary" />;
+                  return <Icon className="h-6 w-6 text-gold" />;
                 })()}
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-primary mb-1">
+              <div className="text-2xl md:text-3xl font-light text-gold mb-1">
                 {item.value}
               </div>
-              <div className="font-semibold mb-2">{item.label}</div>
+              <div className="font-normal mb-2">{item.label}</div>
               <p className="text-sm text-muted-foreground">
                 {item.description}
               </p>

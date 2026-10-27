@@ -19,10 +19,10 @@ const groupIcons = {
 };
 
 const groupColors = {
-  frontend: 'border-l-blue-500',
-  backend: 'border-l-green-500',
-  infra: 'border-l-orange-500',
-  other: 'border-l-purple-500',
+  frontend: 'border-l-gold',
+  backend: 'border-l-gold/60',
+  infra: 'border-l-gold/35',
+  other: 'border-l-foreground/30',
 };
 
 export const SkillStack = () => {
@@ -31,7 +31,7 @@ export const SkillStack = () => {
   }, []);
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="技術スタック詳細"
@@ -46,7 +46,7 @@ export const SkillStack = () => {
               groupIcons[group.id as keyof typeof groupIcons] ?? Layout;
             const borderColor =
               groupColors[group.id as keyof typeof groupColors] ??
-              'border-l-gray-500';
+              'border-l-border';
 
             return (
               <motion.div
@@ -58,11 +58,11 @@ export const SkillStack = () => {
               >
                 {/* 大カテゴリヘッダー */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <GroupIcon className="h-6 w-6 text-primary" />
+                  <div className="p-2 rounded-full border border-gold/30">
+                    <GroupIcon className="h-6 w-6 text-gold" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">{group.label}</h3>
+                    <h3 className="text-xl font-normal">{group.label}</h3>
                     <p className="text-sm text-muted-foreground">
                       {group.description}
                     </p>
@@ -77,7 +77,7 @@ export const SkillStack = () => {
                       className={`border-l-4 ${borderColor}`}
                     >
                       <CardContent className="p-4">
-                        <h4 className="font-semibold mb-3">{category.label}</h4>
+                        <h4 className="font-normal mb-3">{category.label}</h4>
                         <div className="space-y-3">
                           {category.skills.map((skill) => (
                             <div key={skill.id} className="flex flex-col gap-2">
@@ -85,8 +85,8 @@ export const SkillStack = () => {
                                 {skill.icon && (
                                   <img
                                     src={skill.icon}
-                                    alt={skill.name}
-                                    className="h-5 w-5 object-contain"
+                                    alt=""
+                                    className="h-5 w-5 object-contain opacity-75 grayscale"
                                   />
                                 )}
                                 <Badge variant="secondary" className="w-fit">

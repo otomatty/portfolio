@@ -11,9 +11,9 @@ const summaryIcons = {
 };
 
 const summaryColors = {
-  frontend: 'bg-blue-500/10 text-blue-600',
-  backend: 'bg-green-500/10 text-green-600',
-  infra: 'bg-orange-500/10 text-orange-600',
+  frontend: 'border border-foreground/20 text-foreground/80',
+  backend: 'border border-gold/40 text-gold/80',
+  infra: 'border border-gold/25 text-gold/70',
 };
 
 export const SkillSummary = () => {
@@ -23,12 +23,12 @@ export const SkillSummary = () => {
       icon: summaryIcons[item.id as keyof typeof summaryIcons] ?? Layout,
       colorClass:
         summaryColors[item.id as keyof typeof summaryColors] ??
-        'bg-primary/10 text-primary',
+        'border border-gold text-gold',
     }));
   }, []);
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="スキル概要"
@@ -39,7 +39,7 @@ export const SkillSummary = () => {
           {summaryData.map((item, index) => (
             <motion.div
               key={item.label}
-              className="text-center p-6 rounded-xl bg-card border"
+              className="text-center p-6 rounded-[3px] border"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -50,10 +50,10 @@ export const SkillSummary = () => {
               >
                 <item.icon className="h-6 w-6" />
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-primary mb-1">
+              <div className="text-2xl md:text-3xl font-light text-gold mb-1">
                 {item.experience || '-'}
               </div>
-              <div className="font-semibold mb-2">{item.label}</div>
+              <div className="font-normal mb-2">{item.label}</div>
               <p className="text-sm text-muted-foreground">{item.description}</p>
             </motion.div>
           ))}

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Work, WorkKind } from '@/types/works';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AnimatePresence, motion } from 'motion/react';
@@ -11,6 +10,8 @@ type KindFilter = 'all' | WorkKind;
 interface WorksFilterProps {
   works: Work[];
   technologies: string[];
+  /** 作成日順の通し番号（slug → No.） */
+  numbers?: Record<string, number>;
   initialKind?: KindFilter;
 }
 
@@ -26,6 +27,7 @@ const isKindFilter = (value: string | null): value is KindFilter =>
 export const WorksFilter = ({
   works,
   technologies = [],
+  numbers = {},
   initialKind = 'all',
 }: WorksFilterProps) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,80 +62,78 @@ export const WorksFilter = ({
     });
   }, [works, searchQuery, selectedKind, selectedTech]);
 
-  const selectedCount =
-    selectedKind === 'all'
-      ? works.length
-      : works.filter((work) => work.kind === selectedKind).length;
+  const countOf = (kind: KindFilter) =>
+    kind === 'all' ? works.length : works.filter((work) => work.kind === kind).length;
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-4">
-        <Input
-          type="search"
-          placeholder="プロジェクトを検索..."
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-          className="max-w-md"
-        />
-
-        <div className="flex flex-col items-center space-y-4">
+    <div className="grid gap-14">
+      <div className="grid gap-8">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <Tabs
             value={selectedKind}
             onValueChange={(value) => setSelectedKind(value as KindFilter)}
-            className="w-full max-w-[600px]"
           >
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList>
               {kinds.map((kind) => (
-                <TabsTrigger key={kind.value} value={kind.value}>
+                <TabsTrigger key={kind.value} value={kind.value} className="flex-none">
                   {kind.label}
+                  <span className="text-[11px] text-muted-foreground tabular-nums">
+                    {countOf(kind.value)}
+                  </span>
                 </TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
-          <p className="text-sm text-muted-foreground">
-            {selectedKind === 'all'
-              ? `全${works.length}件の実績`
-              : `${selectedCount}件の実績`}
-          </p>
+          <Input
+            type="search"
+            placeholder="名前や説明で探す"
+            aria-label="実績を検索"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            className="max-w-xs"
+          />
         </div>
 
         {technologies.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="使用技術で絞り込む">
             {technologies.map((tech) => (
-              <Badge
+              <button
                 key={tech}
-                asChild
-                variant={selectedTech === tech ? 'default' : 'outline'}
-                className="cursor-pointer"
+                type="button"
+                aria-pressed={selectedTech === tech}
+                onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
+                className={
+                  selectedTech === tech
+                    ? 'rounded-full border border-gold px-3 py-1 text-xs tracking-[0.04em] text-gold transition-colors'
+                    : 'rounded-full border border-foreground/15 px-3 py-1 text-xs tracking-[0.04em] text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground'
+                }
               >
-                <button
-                  type="button"
-                  aria-pressed={selectedTech === tech}
-                  onClick={() =>
-                    setSelectedTech(selectedTech === tech ? null : tech)
-                  }
-                >
-                  {tech}
-                </button>
-              </Badge>
+                {tech}
+              </button>
             ))}
           </div>
         )}
+
+        <p className="text-xs tracking-[0.14em] text-muted-foreground tabular-nums" aria-live="polite">
+          {filteredWorks.length}件
+        </p>
       </div>
 
-      <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filteredWorks.map((work) => (
+      {/* 右の列を少し下げ、展示室のように互い違いに並べる */}
+      <motion.div layout className="grid grid-cols-[minmax(0,1fr)] gap-x-12 gap-y-16 md:grid-cols-2 md:pb-28">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {filteredWorks.map((work, index) => (
             <motion.div
               key={work.slug}
               layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="h-full"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
             >
-              <WorkCard work={work} />
+              <div className={index % 2 === 1 ? 'md:translate-y-28' : undefined}>
+                <WorkCard work={work} number={numbers[work.slug]} />
+              </div>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -145,7 +145,7 @@ export const WorksFilter = ({
           animate={{ opacity: 1 }}
           className="py-12 text-center"
         >
-          <p className="text-lg text-muted-foreground">
+          <p className="text-muted-foreground">
             条件に一致するプロジェクトが見つかりませんでした。
           </p>
         </motion.div>

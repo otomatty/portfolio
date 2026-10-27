@@ -1,9 +1,15 @@
 ---
-import SectionLabel from './SectionLabel.astro';
+import SectionLabel from '@/components/common/SectionLabel.astro';
 import { homepageCopy } from '@/data/homepage';
 import { profile } from '@/data/profile';
 
+interface Props {
+  /** 写真の横に置くリンク。About ページでは道のりのページへつなぐ */
+  cta?: { label: string; href: string };
+}
+
 const { profile: copy } = homepageCopy;
+const { cta = { label: copy.cta, href: '/about' } } = Astro.props;
 ---
 
 <section id="profile" class="relative scroll-mt-16 border-b py-20 md:py-36" aria-labelledby="profile-title">
@@ -31,8 +37,8 @@ const { profile: copy } = homepageCopy;
       <ul class="flex flex-wrap gap-x-5 gap-y-1.5 text-[12.5px] tracking-[0.06em]" aria-label={copy.stackLabel}>
         {copy.stack.map((name) => <li>{name}</li>)}
       </ul>
-      <a href="/about" class="group inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold">
-        {copy.cta}
+      <a href={cta.href} class="group inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold">
+        {cta.label}
         <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
       </a>
     </div>

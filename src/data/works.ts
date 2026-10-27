@@ -249,3 +249,20 @@ export function getAllTechnologies(): string[] {
   });
   return Array.from(techSet).sort();
 }
+
+/**
+ * Work numbers (No.01, No.02, ...) assigned in order of creation, oldest first.
+ */
+export function getWorkNumbers(): Record<string, number> {
+  return Object.fromEntries(
+    [...getAllWorks()]
+      .sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at))
+      .map((work, i) => [work.slug, i + 1])
+  );
+}
+
+/**
+ * Format a work number as a two-digit label, e.g. "No.07".
+ */
+export const formatWorkNumber = (value: number | undefined): string =>
+  `No.${String(value ?? 0).padStart(2, '0')}`;

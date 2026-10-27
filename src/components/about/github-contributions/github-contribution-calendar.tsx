@@ -6,11 +6,11 @@ interface GithubContributionCalendarProps {
 }
 
 const getColor = (count: number): string => {
-  if (count === 0) return 'bg-gray-100';
-  if (count >= 1 && count <= 5) return 'bg-green-200';
-  if (count >= 6 && count <= 10) return 'bg-green-400';
-  if (count >= 11 && count <= 15) return 'bg-green-600';
-  return 'bg-green-800';
+  if (count === 0) return 'bg-foreground/5';
+  if (count >= 1 && count <= 5) return 'bg-gold/25';
+  if (count >= 6 && count <= 10) return 'bg-gold/50';
+  if (count >= 11 && count <= 15) return 'bg-gold/75';
+  return 'bg-gold';
 };
 
 const groupByYear = (
@@ -97,8 +97,10 @@ export const GithubContributionCalendar = ({
           <button
             key={year}
             type="button"
-            className={`mx-1 px-2 py-1 rounded ${
-              selectedYear === year ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            className={`mx-1 rounded-full border px-3 py-1 text-xs tracking-[0.06em] transition-colors ${
+              selectedYear === year
+                ? 'border-gold text-gold'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
             onClick={() => setSelectedYear(year)}
           >

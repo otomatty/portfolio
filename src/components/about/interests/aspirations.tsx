@@ -4,7 +4,7 @@ import TechnicalChallenges from './technical-challenges';
 
 const Aspirations = () => {
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="目指しているもの"

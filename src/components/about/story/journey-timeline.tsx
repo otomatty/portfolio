@@ -85,7 +85,7 @@ const journeyEntries: JourneyEntry[] = [
 
 export const JourneyTimeline = () => {
   return (
-    <section className="py-12 md:py-20 bg-secondary/5">
+    <section className="border-b py-20 md:py-28">
       <Container className="py-0">
         <SectionTitle
           title="成長の軌跡"
@@ -107,34 +107,34 @@ export const JourneyTimeline = () => {
 
                   <Card
                   className={
-                    entry.highlight ? 'border-primary/30 shadow-lg' : ''
+                    entry.highlight ? 'border-gold/40' : ''
                   }
                 >
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div
-                        className={`p-2 rounded-lg shrink-0 ${
-                          entry.highlight ? 'bg-primary/20' : 'bg-primary/10'
+                        className={`p-2 rounded-full shrink-0 ${
+                          entry.highlight ? 'border border-gold/60' : 'border border-gold/30'
                         }`}
                       >
                         <entry.icon
                           className={`h-5 w-5 ${
-                            entry.highlight ? 'text-primary' : 'text-primary/70'
+                            entry.highlight ? 'text-gold' : 'text-gold/70'
                           }`}
                         />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <span
-                            className={`text-sm font-bold ${
+                            className={`text-sm font-normal ${
                               entry.highlight
-                                ? 'text-primary'
+                                ? 'text-gold'
                                 : 'text-muted-foreground'
                             }`}
                           >
                             {entry.year}
                           </span>
-                          <h3 className="font-bold">{entry.title}</h3>
+                          <h3 className="font-normal">{entry.title}</h3>
                         </div>
                         <p className="text-muted-foreground leading-relaxed">
                           {entry.description}
