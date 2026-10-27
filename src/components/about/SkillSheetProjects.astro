@@ -1,0 +1,89 @@
+---
+/**
+ * スキルシートの案件一覧。左に期間と規模、右に役割・担当工程・成果・使用技術を置く。
+ */
+import { projectPhases } from '@/data/skill-sheet';
+import { formatPeriod, getSkillSheetProjects } from '@/lib/skills/skill-sheet';
+import { cn } from '@/lib/utils';
+
+const techGroups = [
+  { key: 'languages', label: '言語' },
+  { key: 'frameworks', label: 'FW' },
+  { key: 'databases', label: 'DB' },
+  { key: 'cloud', label: 'クラウド' },
+  { key: 'tools', label: 'ツール' },
+] as const;
+
+const projects = getSkillSheetProjects();
+---
+
+<ol class="border-b">
+  {projects.map((project) => (
+    <li class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-5 border-t py-10 md:grid-cols-[11rem_minmax(0,1fr)]">
+      <div class="grid content-start gap-2 text-[12.5px] tracking-[0.06em] text-muted-foreground tabular-nums">
+        <p>{formatPeriod(project.period)}</p>
+        {(project.teamSize || project.scale) && <p>{project.teamSize ? `${project.teamSize}名` : project.scale}</p>}
+        <p class="flex flex-wrap gap-2 pt-1">
+          {project.isCurrent && <span class="rounded-full border border-gold px-2.5 py-0.5 text-[11px] text-gold">現職</span>}
+          {project.masked && <span class="rounded-full border border-foreground/15 px-2.5 py-0.5 text-[11px]">NDA配慮</span>}
+        </p>
+      </div>
+
+      <div class="grid justify-items-start gap-5">
+        <div class="grid gap-2">
+          <p class="text-[12px] tracking-[0.14em] text-gold">{project.industry}</p>
+          <h3 class="text-[clamp(1.15rem,1.8vw,1.4rem)] font-light leading-normal tracking-[0.08em]">{project.role}</h3>
+        </div>
+        <p class="text-flow max-w-[44em] text-muted-foreground">
+          {project.summary}
+          {project.workSlug && (
+            <a href={`/works/${project.workSlug}`} class="ml-2 whitespace-nowrap text-gold transition-colors hover:text-gold-hi">
+              実績を見る →
+            </a>
+          )}
+        </p>
+
+        <div class="grid w-full max-w-[44em] gap-3 border-t pt-5">
+          <p class="text-[11.5px] tracking-[0.14em] text-gold">担当工程</p>
+          <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px]">
+            {projectPhases.map((phase) => {
+              const active = project.phases.includes(phase.id);
+              return (
+                <li class={cn('inline-flex items-center gap-2', active ? 'text-foreground' : 'text-muted-foreground/45')}>
+                  <i
+                    class={cn('inline-block size-2 rounded-full border', active ? 'border-gold bg-gold' : 'border-foreground/25')}
+                    aria-hidden="true"
+                  />
+                  {phase.label}
+                  {!active && <span class="sr-only">（担当外）</span>}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {project.achievements && project.achievements.length > 0 && (
+          <div class="grid w-full max-w-[44em] gap-3 border-t pt-5">
+            <p class="text-[11.5px] tracking-[0.14em] text-gold">成果</p>
+            <ul class="ring-list text-[14px]">
+              {project.achievements.map((achievement) => <li>{achievement}</li>)}
+            </ul>
+          </div>
+        )}
+
+        <dl class="grid w-full max-w-[44em] gap-2 border-t pt-5 text-[13.5px]">
+          {techGroups.map(({ key, label }) => {
+            const items = project.technologies[key];
+            if (!items || items.length === 0) return null;
+            return (
+              <div class="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4">
+                <dt class="text-[11.5px] tracking-[0.14em] text-gold">{label}</dt>
+                <dd class="tracking-[0.04em]">{items.join(' · ')}</dd>
+              </div>
+            );
+          })}
+        </dl>
+      </div>
+    </li>
+  ))}
+</ol>

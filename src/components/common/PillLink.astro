@@ -1,0 +1,21 @@
+---
+/**
+ * 金の細い枠の丸いリンク。ページで一番すすめたい行き先に使う。
+ */
+interface Props {
+  href: string;
+  label: string;
+  /** 別のサイトへのリンク。新しいタブで開き、↗ を添える */
+  external?: boolean;
+}
+
+const { href, label, external = false } = Astro.props;
+---
+
+<a
+  href={href}
+  class="inline-flex min-h-12 items-center justify-center rounded-full border border-gold px-7 text-[14.5px] tracking-[0.08em] text-gold transition-colors hover:bg-gold hover:text-background"
+  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+>
+  {external ? `${label} ↗` : label}
+</a>

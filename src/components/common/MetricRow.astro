@@ -1,0 +1,100 @@
+---
+/**
+ * 数字で見せる指標の列。細い縦線で区切り、数字は細く大きく置く。
+ */
+export interface Metric {
+  label: string;
+  value: string;
+  unit?: string;
+  meta?: string;
+}
+
+interface Props {
+  items: Metric[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="metrics" style={`--count: ${items.length}`}>
+  {items.map((item) => (
+    <div class="metric">
+      <dt>{item.label}</dt>
+      <dd class="value">
+        <span class="num">{item.value}</span>
+        {item.unit && <span class="unit">{item.unit}</span>}
+      </dd>
+      {item.meta && <dd class="meta">{item.meta}</dd>}
+    </div>
+  ))}
+</dl>
+
+<style>
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .metric {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 24px 0 4px 24px;
+    border-left: 1px solid hsl(var(--border));
+  }
+
+  .metric:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .metric dt {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .num {
+    font-weight: 200;
+    font-size: clamp(2rem, 4.2vw, 3.4rem);
+    letter-spacing: 0.02em;
+  }
+
+  .unit {
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .meta {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* 4つ以上は、狭い画面で2列に折り返す */
+  @media (max-width: 767px) {
+    .metrics {
+      grid-template-columns: repeat(min(var(--count), 2), minmax(0, 1fr));
+    }
+    .metric {
+      padding-left: 16px;
+    }
+    .metric:nth-child(odd) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .metric:nth-child(n + 3) {
+      margin-top: 12px;
+      border-top: 1px solid hsl(var(--border));
+    }
+  }
+</style>

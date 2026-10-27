@@ -1,0 +1,9 @@
+---
+import NumberedList from '@/components/common/NumberedList.astro';
+import Section from '@/components/common/Section.astro';
+import { aboutValues } from '@/data/about';
+---
+
+<Section id="values-title" label="Values" title="大切にしていること">
+  <NumberedList items={aboutValues} />
+</Section>

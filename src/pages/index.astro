@@ -1,29 +1,27 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import {
-  Introduction,
-  Achievements,
-  AdditionalAchievements,
-  CTASection,
-} from '@/components/home';
-import Hero from '@/components/home/Hero.astro';
-import { getFeaturedWorks, getAllWorks, getHomeMetrics } from '@/data';
+import HeroSection from '@/components/home/HeroSection.astro';
+import AboutSection from '@/components/home/AboutSection.astro';
+import WorksGallery from '@/components/home/WorksGallery.astro';
+import ProfileSection from '@/components/home/ProfileSection.astro';
+import ContactSection from '@/components/home/ContactSection.astro';
+import { getAllWorks, getFeaturedWorks, getHomeMetrics, getWorkNumbers } from '@/data';
 import { commonCopy } from '@/data/common';
 
 const metrics = getHomeMetrics();
+const allWorks = getAllWorks();
 const featuredWorks = getFeaturedWorks();
-const latestWorks = getAllWorks().slice(0, 6);
+const otherWorks = allWorks.filter((work) => !work.isPinned);
+const numbers = getWorkNumbers();
 ---
 
 <PageLayout
   title={commonCopy.home.meta.title}
   description={commonCopy.home.meta.description}
 >
-  <div class="min-h-screen">
-    <Hero />
-    <Introduction metrics={metrics} client:visible />
-    <Achievements works={featuredWorks} client:visible />
-    <AdditionalAchievements works={latestWorks} client:visible />
-    <CTASection client:visible />
-  </div>
+  <HeroSection />
+  <AboutSection metrics={metrics} works={allWorks} />
+  <WorksGallery featured={featuredWorks} others={otherWorks} numbers={numbers} />
+  <ProfileSection />
+  <ContactSection />
 </PageLayout>

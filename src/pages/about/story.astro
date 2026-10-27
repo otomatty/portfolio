@@ -1,24 +1,68 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { BasicHero } from '@/components/common';
-import { Motivation } from '@/components/about/story/motivation';
-import { JourneyTimeline } from '@/components/about/story/journey-timeline';
-import { Influences } from '@/components/about/story/influences';
-import { Vision } from '@/components/about/story/vision';
+import MoreLink from '@/components/common/MoreLink.astro';
+import NumberedList from '@/components/common/NumberedList.astro';
+import PageHero from '@/components/common/PageHero.astro';
+import PillLink from '@/components/common/PillLink.astro';
+import Section from '@/components/common/Section.astro';
+import TermRows from '@/components/common/TermRows.astro';
+import Timeline from '@/components/common/Timeline.astro';
+import { influenceGroups, journeyEntries, storyMotivations, storyVisions } from '@/data/story';
+
+const journey = journeyEntries.map((entry) => ({
+  period: entry.year,
+  title: entry.title,
+  description: entry.description,
+  highlight: entry.highlight,
+}));
+
+const influences = influenceGroups.map((group) => ({
+  term: group.category,
+  items: group.items.map((item) => ({ title: item.name, description: item.description })),
+}));
 ---
 
 <PageLayout
   title="Story | Saedgewell"
   description="エンジニアとしての歩みとビジョン"
 >
-  <BasicHero
+  <PageHero
+    label="About / Story"
     title="エンジニアへの道のり"
     description="プログラミングを始めたきっかけから現在に至るまでの道のりをご紹介します。"
-    client:load
+    figure="spiral"
   />
 
-  <Motivation client:visible />
-  <JourneyTimeline client:visible />
-  <Influences client:visible />
-  <Vision client:visible />
+  <Section
+    id="origin-title"
+    label="Origin"
+    title="プログラミングを始めたきっかけ"
+    description="エンジニアを目指すようになった原点をお話しします。"
+  >
+    <NumberedList items={storyMotivations} />
+  </Section>
+
+  <Section id="journey-title" label="Journey" title="成長の軌跡" description="エンジニアとしての道のりを振り返ります。転機になった年は円を塗っています。">
+    <Timeline entries={journey} />
+  </Section>
+
+  <Section
+    id="influences-title"
+    label="Influences"
+    title="影響を受けたもの"
+    description="私のエンジニアとしての考え方を形作ったものたちです。"
+  >
+    <TermRows rows={influences} layout="grid" />
+  </Section>
+
+  <Section id="vision-title" label="Vision" title="将来のビジョン" description="これから目指していく方向性についてお話しします。">
+    <NumberedList items={storyVisions} />
+    <div class="mt-16 grid justify-items-start gap-6 border-t pt-10">
+      <p class="text-flow text-muted-foreground">一緒にプロジェクトを進めたい方、お気軽にお問い合わせください。</p>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        <PillLink href="/contact" label="お問い合わせ" />
+        <MoreLink href="/about/interests" label="興味関心を見る" />
+      </div>
+    </div>
+  </Section>
 </PageLayout>

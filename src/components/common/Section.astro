@@ -1,0 +1,22 @@
+---
+/**
+ * 本文のセクション。細い線で区切り、金のラベルと細い見出しを先頭に置く。
+ */
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  title: string;
+  description?: string;
+}
+
+const { id, label, title, description } = Astro.props;
+---
+
+<section class="border-b py-20 md:py-28" aria-labelledby={id}>
+  <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <SectionHeading id={id} label={label} title={title} description={description} />
+    <slot />
+  </div>
+</section>

@@ -10,7 +10,6 @@ import { navigationItems } from '@/data/navigation';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { ThemeToggle } from './ThemeToggle';
 
 interface MobileSidebarProps {
   currentPath?: string;
@@ -66,7 +65,7 @@ export function MobileSidebar({
                       className={cn(
                         'w-full justify-between px-4 py-2 text-sm font-medium',
                         {
-                          'bg-accent': isActive,
+                          'text-gold': isActive,
                         }
                       )}
                     >
@@ -89,7 +88,7 @@ export function MobileSidebar({
                           className={cn(
                             'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
                             {
-                              'bg-accent': currentPath === subItem.href,
+                              'text-gold': currentPath === subItem.href,
                             }
                           )}
                         >
@@ -111,7 +110,7 @@ export function MobileSidebar({
                 className={cn(
                   'px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground transition-colors',
                   {
-                    'bg-accent': currentPath === item.href,
+                    'text-gold': currentPath === item.href,
                   }
                 )}
               >
@@ -122,9 +121,6 @@ export function MobileSidebar({
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 space-y-4">
-          <div className="flex items-center justify-center gap-4">
-            <ThemeToggle />
-          </div>
           <Separator />
           <div className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Saedgewell

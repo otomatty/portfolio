@@ -1,22 +1,69 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { BasicHero } from '@/components/common';
-import { SkillSheetProjects } from '@/components/about/skill-sheet/skill-sheet-projects';
-import { SkillSheetLevels } from '@/components/about/skill-sheet/skill-sheet-levels';
-import { SkillSheetMatrix } from '@/components/about/skill-sheet/skill-sheet-matrix';
+import LevelRing from '@/components/common/LevelRing.astro';
+import PageHero from '@/components/common/PageHero.astro';
+import Section from '@/components/common/Section.astro';
+import SkillSheetProjects from '@/components/about/SkillSheetProjects.astro';
+import { proficiencyLevels } from '@/data/skill-sheet';
+import { getSkillProficiencyGroups } from '@/lib/skills/skill-sheet';
+
+const levels = proficiencyLevels.slice().sort((a, b) => b.level - a.level);
+const groups = getSkillProficiencyGroups();
 ---
 
 <PageLayout
   title="Skill Sheet | Saedgewell"
   description="案件単位の構造化されたスキルシート。役割・担当工程・案件規模・使用技術・習熟度をまとめています。"
 >
-  <BasicHero
+  <PageHero
+    label="About / Skill Sheet"
     title="スキルシート"
     description="案件単位の役割・担当工程・規模・使用技術と、技術ごとの習熟度を構造化してご紹介します。"
-    client:load
+    figure="pentagon"
   />
 
-  <SkillSheetProjects client:visible />
-  <SkillSheetLevels client:visible />
-  <SkillSheetMatrix client:visible />
+  <Section
+    id="projects-title"
+    label="Projects"
+    title="案件一覧"
+    description="担当した案件を、役割・担当工程・規模・使用技術とともに構造化して整理しています。"
+  >
+    <SkillSheetProjects />
+  </Section>
+
+  <Section id="levels-title" label="Levels" title="習熟度レベルの定義" description="各技術の習熟度を、実務経験ベースの 4 段階で評価しています。">
+    <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+      {levels.map((definition) => (
+        <li class="grid content-start justify-items-start gap-3 border-t pt-6">
+          <LevelRing level={definition.level} size={44} />
+          <h3 class="text-[17px] font-normal tracking-[0.08em]">{definition.label}</h3>
+          <p class="text-flow text-[14px] text-muted-foreground">{definition.description}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="matrix-title" label="Matrix" title="スキルサマリ" description="技術ごとの習熟度と経験年数を一覧にまとめています。">
+    <div class="grid gap-14">
+      {groups.map((group) => (
+        <div>
+          <h3 class="mb-5 flex items-center gap-4">
+            <LevelRing level={group.level} size={36} />
+            <span class="grid gap-0.5">
+              <span class="text-[16px] font-normal tracking-[0.08em]">{group.label}</span>
+              <span class="text-xs text-muted-foreground">{group.description}</span>
+            </span>
+          </h3>
+          <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 border-b sm:grid-cols-2 lg:grid-cols-3">
+            {group.skills.map((skill) => (
+              <li class="flex items-center gap-3 border-t py-3.5">
+                <span class="min-w-0 flex-1 truncate text-[14.5px] tracking-[0.04em]">{skill.name}</span>
+                {skill.experience && <span class="shrink-0 text-xs text-muted-foreground tabular-nums">{skill.experience}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
 </PageLayout>

@@ -1,20 +1,26 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import { Container } from '@/components/common';
-import { WorksFilter, WorksHero } from '@/components/works';
-import { getAllWorks, getAllTechnologies } from '@/data/works';
+import PageHero from '@/components/common/PageHero.astro';
+import { WorksFilter } from '@/components/works';
+import { getAllWorks, getAllTechnologies, getWorkNumbers } from '@/data/works';
 
 const works = getAllWorks();
 const technologies = getAllTechnologies();
+const numbers = getWorkNumbers();
 ---
 
 <PageLayout
   title="実績一覧 | Saedgewell"
   description="これまでの実績をご紹介します。"
 >
-  <WorksHero client:load />
+  <PageHero
+    label="Works"
+    title="実績一覧"
+    description="企業案件、フリーランス案件、個人開発など、これまでに手がけた主要なプロジェクトをご紹介します。各プロジェクトの詳細、使用技術、課題解決のプロセスなどをご覧いただけます。"
+    figure="apollonian"
+  />
 
-  <Container className="py-12">
-    <WorksFilter works={works} technologies={technologies} client:visible />
-  </Container>
+  <div class="container mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+    <WorksFilter works={works} technologies={technologies} numbers={numbers} client:load />
+  </div>
 </PageLayout>

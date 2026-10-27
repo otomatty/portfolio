@@ -1,0 +1,23 @@
+---
+/**
+ * 「詳しく見る」のような、次のページへ進む文字のリンク。
+ */
+interface Props {
+  href: string;
+  label: string;
+  class?: string;
+}
+
+const { href, label, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'group inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold',
+    className,
+  ]}
+>
+  {label}
+  <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+</a>

@@ -30,3 +30,148 @@
     color: var(--color-muted-foreground);
   }
 }
+@layer components {
+  /* セクション見出しの上に置く英字ラベル。先頭の「重なる2つの円」はロゴと揃えた印 */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .vesica {
+    flex: none;
+    display: inline-block;
+    width: 19px;
+    height: 11px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 11'%3E%3Cg fill='none' stroke='black' stroke-width='1'%3E%3Ccircle cx='6.5' cy='5.5' r='4.6'/%3E%3Ccircle cx='12.5' cy='5.5' r='4.6'/%3E%3C/g%3E%3C/svg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 11'%3E%3Cg fill='none' stroke='black' stroke-width='1'%3E%3Ccircle cx='6.5' cy='5.5' r='4.6'/%3E%3Ccircle cx='12.5' cy='5.5' r='4.6'/%3E%3C/g%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  /* 本文の見出し。細いウェイトで字間を広くとる */
+  .heading-thin {
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    line-break: strict;
+    word-break: auto-phrase;
+  }
+
+  /* 文章を読みやすい長さで折り返す */
+  .text-flow {
+    line-height: 2;
+    line-break: strict;
+    word-break: auto-phrase;
+  }
+}
+
+@layer components {
+  /* 規約やポリシーなどの文書。見出しの間を細い線で区切り、本文は少し抑えた色で読ませる */
+  .doc {
+    max-width: 46rem;
+  }
+
+  .doc > section {
+    padding-block: 2.25rem;
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .doc > section:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .doc h2 {
+    margin-bottom: 1.1rem;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+  }
+
+  .doc h3 {
+    margin-block: 1.5rem 0.6rem;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
+
+  .doc p,
+  .doc li {
+    color: hsl(var(--muted-foreground));
+    font-size: 15px;
+    line-height: 2;
+    line-break: strict;
+  }
+
+  .doc ul {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+  }
+
+  /* 箇条書きの印は小さな金の円にする */
+  .doc li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+
+  .doc li::before {
+    content: '';
+    position: absolute;
+    left: 0.2rem;
+    top: 0.82em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+
+  .doc-note {
+    padding-top: 2rem;
+    border-top: 1px solid hsl(var(--border));
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: hsl(var(--muted-foreground));
+  }
+}
+
+@layer components {
+  /* 本文の箇条書き。印は小さな金の円 */
+  .ring-list {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .ring-list > li {
+    position: relative;
+    padding-left: 1.15rem;
+    line-height: 1.75;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .ring-list > li::before {
+    content: '';
+    position: absolute;
+    left: 0.1rem;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+  }
+}
+
+@layer components {
+  /* ページ最後のセクションの下線は、フッターの上線と重なるので見せない */
+  main > section:last-child {
+    border-bottom-color: transparent;
+  }
+}

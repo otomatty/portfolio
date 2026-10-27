@@ -1,0 +1,36 @@
+---
+import MoreLink from '@/components/common/MoreLink.astro';
+import Section from '@/components/common/Section.astro';
+import Timeline, { type TimelineEntry } from '@/components/common/Timeline.astro';
+import { careerEntries } from '@/data/profile';
+
+interface Props {
+  /** 経歴ページでは主な実績と案件の技術まで載せ、詳細へのリンクは出さない */
+  detailed?: boolean;
+  title?: string;
+}
+
+const { detailed = false, title = '経歴' } = Astro.props;
+
+const entries: TimelineEntry[] = careerEntries.map((entry) => ({
+  period: entry.period,
+  kicker: entry.company,
+  title: entry.title,
+  description: entry.description,
+  points: detailed ? entry.achievements : undefined,
+  pointsLabel: '主な実績',
+  subitems: entry.projects?.map((project) => ({
+    title: project.title,
+    href: project.slug ? `/works/${project.slug}` : undefined,
+    description: project.description,
+    note: detailed ? project.technologies?.join(' · ') : undefined,
+  })),
+  subitemsLabel: detailed ? 'プロジェクト' : undefined,
+  highlight: entry.period.includes('現在'),
+}));
+---
+
+<Section id="career-title" label="Career" title={title}>
+  <Timeline entries={entries} />
+  {!detailed && <MoreLink href="/about/career" label="経歴の詳細" class="mt-12" />}
+</Section>

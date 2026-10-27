@@ -26,7 +26,7 @@ export function Navigation({ currentPath = '/' }: NavigationProps) {
               <>
                 <NavigationMenuTrigger
                   className={cn({
-                    'bg-accent': currentPath.startsWith(item.href),
+                    'text-gold': currentPath.startsWith(item.href),
                   })}
                 >
                   {item.title}
@@ -43,7 +43,7 @@ export function Navigation({ currentPath = '/' }: NavigationProps) {
                               className={cn(
                                 'block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
                                 {
-                                  'bg-accent': currentPath === subItem.href,
+                                  'text-gold': currentPath === subItem.href,
                                 }
                               )}
                             >
@@ -67,7 +67,7 @@ export function Navigation({ currentPath = '/' }: NavigationProps) {
                 <a
                   href={item.href}
                   className={cn(navigationMenuTriggerStyle(), 'h-9', {
-                    'bg-accent': currentPath === item.href,
+                    'text-gold': currentPath === item.href,
                   })}
                 >
                   {item.title}

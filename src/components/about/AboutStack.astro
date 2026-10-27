@@ -1,0 +1,19 @@
+---
+import MoreLink from '@/components/common/MoreLink.astro';
+import Section from '@/components/common/Section.astro';
+import TermRows from '@/components/common/TermRows.astro';
+import { getTechStacks } from '@/lib/skills/selectors';
+
+const rows = getTechStacks().map((stack) => ({
+  term: stack.category,
+  items: stack.technologies.map((title) => ({ title })),
+}));
+---
+
+<Section id="stack-title" label="Stack" title="技術スタック" description="実務で使っている技術です。">
+  <TermRows rows={rows} />
+  <div class="mt-12 flex flex-wrap gap-x-10 gap-y-4">
+    <MoreLink href="/about/skills" label="スキルの詳細" />
+    <MoreLink href="/about/skill-sheet" label="スキルシート" />
+  </div>
+</Section>

@@ -70,25 +70,10 @@ const structuredData = Array.isArray(jsonLd)
 ---
 
 <!doctype html>
-<html lang={languageTag}>
+<html lang={languageTag} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Theme initialization script (must run before first paint to avoid FOUC) -->
-    <script is:inline>
-      (function () {
-        let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        try {
-          const theme = localStorage.getItem('theme') || 'system';
-          if (theme !== 'system') isDark = theme === 'dark';
-        } catch {
-          // localStorage may throw in private mode / blocked 3rd-party storage; fall back to system preference
-        }
-        document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.classList.toggle('light', !isDark);
-      })();
-    </script>
 
     <!-- 正のファビコン: favicon.ico を優先（Slack 等もこちらを使用） -->
     <link rel="icon" href="/images/favicon/favicon.ico" />
@@ -131,7 +116,7 @@ const structuredData = Array.isArray(jsonLd)
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     {imageUrl && <meta name="twitter:image" content={imageUrl} />}
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#0e1b11" />
 
     <!-- Fonts (self-hosted) -->
     <link

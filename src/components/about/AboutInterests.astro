@@ -1,0 +1,16 @@
+---
+import MoreLink from '@/components/common/MoreLink.astro';
+import NumberedList from '@/components/common/NumberedList.astro';
+import Section from '@/components/common/Section.astro';
+import { aboutInterests } from '@/data/about';
+---
+
+<Section
+  id="interests-title"
+  label="Interests"
+  title="興味関心"
+  description="技術的な関心事と、仕事の外で続けていることです。"
+>
+  <NumberedList items={aboutInterests} columns={4} numbered={false} />
+  <MoreLink href="/about/interests" label="すべての興味関心" class="mt-12" />
+</Section>

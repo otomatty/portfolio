@@ -133,7 +133,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
   {
     id: 'framer-motion',
     name: 'Framer Motion',
-    icon: '/icons/motion/motion-logo.svg',
+    icon: '/icons/motion/motion-logo-light.svg',
     categoryIds: ['frontend-animation'],
     roleIds: ['frontend'],
     tagIds: ['ui', 'performance'],

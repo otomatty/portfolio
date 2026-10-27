@@ -29,3 +29,10 @@ const { title, description, image, noindex, jsonLd } = Astro.props;
     <Footer />
   </div>
 </BaseLayout>
+
+<script>
+  import { initParallax } from '@/lib/parallax';
+
+  // `data-parallax` と `data-parallax-fade` はどのページでも使えるようにする
+  initParallax();
+</script>

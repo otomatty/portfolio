@@ -40,6 +40,10 @@
   --color-4: hsl(var(--color-4));
   --color-5: hsl(var(--color-5));
 
+  --color-gold-dim: var(--gold-dim);
+  --color-gold: var(--gold);
+  --color-gold-hi: var(--gold-hi);
+
   --radius-radius: var(--radius);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
