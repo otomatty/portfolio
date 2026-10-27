@@ -7,70 +7,28 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap">
 <style>
-/* Layout: 1200px editorial column, left-aligned type over one full-bleed GPU field; sections divided by hairlines instead of cards. */
+/* Layout: 1200px column with wide margins (間); every ornament is drawn from circles; one dark ground of lacquer green with gold lines. */
 :root {
   color-scheme: dark;
-  --mode: dark;
-  --bg: #0D1811;
-  --bg-raise: #142219;
-  --fg: #F1F0E4;
-  --fg-muted: #A0A996;
-  --line: #243629;
-  --gold: #D8B45E;
-  --btn-bg: #D8B45E;
-  --btn-fg: #0D1811;
-  --p-a: #D8B45E;
-  --p-b: #F6EDD2;
+  --bg: #0E1B11;          /* hsl(136 31% 8%) 現行ダークの背景 */
+  --bg-raise: #122116;    /* hsl(136 31% 10%) */
+  --line: #1F3325;
+  --fg: #F4F5EC;
+  --fg-muted: #9FA898;
+  --gold: #D0A900;        /* 現行の FlickeringGrid の金 */
+  --gold-dim: #987D00;    /* 現行の Seigaiha / Shippo の金 */
+  --gold-hi: #F1D46A;
   --note: #7AA2FF;
-  --note-fg: #0D1811;
-  --shadow: rgb(0 0 0 / 0.35);
+  --note-fg: #0E1B11;
+  --shadow: rgb(0 0 0 / 0.4);
 
-  --font-display: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
-  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans: "Inter", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
 
   --container: 1200px;
   --header-h: 64px;
-}
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    color-scheme: light;
-    --mode: light;
-    --bg: #F6F6EC;
-    --bg-raise: #ECEDE1;
-    --fg: #11211A;
-    --fg-muted: #535E51;
-    --line: #D8DACB;
-    --gold: #7E6312;
-    --btn-bg: #11211A;
-    --btn-fg: #F6F6EC;
-    --p-a: #1D3A29;
-    --p-b: #9A7A1C;
-    --note: #2F5FD0;
-    --note-fg: #FFFFFF;
-    --shadow: rgb(17 33 26 / 0.14);
-  }
-}
-:root[data-theme="light"] {
-  color-scheme: light;
-  --mode: light;
-  --bg: #F6F6EC;
-  --bg-raise: #ECEDE1;
-  --fg: #11211A;
-  --fg-muted: #535E51;
-  --line: #D8DACB;
-  --gold: #7E6312;
-  --btn-bg: #11211A;
-  --btn-fg: #F6F6EC;
-  --p-a: #1D3A29;
-  --p-b: #9A7A1C;
-  --note: #2F5FD0;
-  --note-fg: #FFFFFF;
-  --shadow: rgb(17 33 26 / 0.14);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -79,12 +37,13 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: 15px;
-  line-height: 1.85;
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  padding-bottom: 112px;
+  padding-bottom: 104px;
 }
 body::before {
   content: "";
@@ -95,12 +54,15 @@ body::before {
   background: var(--bg);
 }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
 img { max-width: 100%; height: auto; display: block; }
-main > section[id], .notes { scroll-margin-top: var(--header-h); }
-canvas { display: block; max-width: 100%; }
+canvas { display: block; }
 h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
+main > section[id], .notes { scroll-margin-top: var(--header-h); }
+h1, h2, h3, .lead, .sec-lead { line-break: strict; word-break: auto-phrase; text-wrap: balance; }
+.nb { display: inline-block; }
+@media (max-width: 859px) { .br-wide { display: none; } }
 
 .wrap {
   width: 100%;
@@ -111,55 +73,55 @@ ul, ol { padding: 0; list-style: none; }
 }
 @media (min-width: 720px) {
   .wrap {
-    padding-left: max(40px, env(safe-area-inset-left, 0px));
-    padding-right: max(40px, env(safe-area-inset-right, 0px));
+    padding-left: max(48px, env(safe-area-inset-left, 0px));
+    padding-right: max(48px, env(safe-area-inset-right, 0px));
   }
 }
-.nb { display: inline-block; }
-h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: strict; word-break: auto-phrase; }
-@media (max-width: 859px) { .br-wide { display: none; } }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.mono { font-family: var(--font-mono); }
 
-/* ---------- labels & buttons ---------- */
+/* two overlapping circles: the mark used for the logo and every label */
+.vesica {
+  display: inline-block;
+  flex: none;
+  width: 19px;
+  height: 11px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 11'%3E%3Cg fill='none' stroke='black' stroke-width='1'%3E%3Ccircle cx='6.5' cy='5.5' r='4.6'/%3E%3Ccircle cx='12.5' cy='5.5' r='4.6'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 11'%3E%3Cg fill='none' stroke='black' stroke-width='1'%3E%3Ccircle cx='6.5' cy='5.5' r='4.6'/%3E%3Ccircle cx='12.5' cy='5.5' r='4.6'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
 .label {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  gap: 12px;
+  font-size: 11.5px;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--gold);
 }
-.label::before {
-  content: "";
-  width: 5px; height: 5px; border-radius: 50%;
-  background: currentColor;
-}
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   min-height: 48px;
-  padding: 0 26px;
-  font: 500 15px/1 var(--font-body);
-  letter-spacing: 0.04em;
+  padding: 0 28px;
+  font: 400 14.5px/1 var(--font-sans);
+  letter-spacing: 0.08em;
   text-decoration: none;
   border-radius: 999px;
-  transition: transform .2s ease, background-color .2s ease, color .2s ease;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
 }
-.btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
-.btn-primary:hover { transform: translateY(-1px); }
-.btn-text { padding: 0 4px; color: var(--fg); }
-.btn-text .arrow { transition: transform .2s ease; }
-.btn-text:hover .arrow { transform: translateX(4px); }
+.btn-line { border: 1px solid var(--gold); color: var(--gold); }
+.btn-line:hover { background: var(--gold); color: var(--bg); }
+.btn-text { padding: 0 2px; color: var(--fg); }
+.btn-text .arrow { transition: transform .25s ease; }
 .btn-text:hover { color: var(--gold); }
+.btn-text:hover .arrow { transform: translateX(4px); }
 
 /* ---------- header ---------- */
 .site-header {
@@ -170,43 +132,20 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   transition: background-color .3s ease, border-color .3s ease;
 }
 .site-header.scrolled {
-  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-bottom-color: var(--line);
 }
-.site-header .wrap {
-  height: var(--header-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font: 500 15px/1 var(--font-mono);
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-.logo-mark {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 9px -5px 0 -2px var(--gold), 5px 7px 0 -2.5px var(--gold);
-  margin-right: 10px;
-}
-.nav { display: flex; align-items: center; gap: clamp(14px, 2.6vw, 32px); font-size: 14px; }
+.site-header .wrap { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.logo { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; letter-spacing: 0.06em; text-decoration: none; }
+.logo .vesica { color: var(--gold); width: 24px; height: 14px; }
+.nav { display: flex; align-items: center; gap: clamp(14px, 2.6vw, 34px); font-size: 13.5px; letter-spacing: 0.08em; }
 .nav a { text-decoration: none; color: var(--fg-muted); transition: color .2s ease; }
 .nav a:hover { color: var(--fg); }
-.nav .nav-cta {
-  color: var(--fg);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 16px;
-}
+.nav .nav-cta { color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; }
 .nav .nav-cta:hover { border-color: var(--gold); }
-@media (max-width: 420px) { .nav { font-size: 13px; } .nav .nav-cta { padding: 6px 12px; } }
+@media (max-width: 420px) { .nav { font-size: 12.5px; gap: 12px; } .nav .nav-cta { padding: 6px 12px; } }
 
 /* ---------- hero ---------- */
 .hero {
@@ -217,288 +156,222 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   grid-template-rows: 1fr auto;
   overflow: hidden;
   isolation: isolate;
+  border-bottom: 1px solid var(--line);
 }
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-}
+.hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 34%, transparent 58%);
+  background: linear-gradient(90deg, var(--bg) 0%, var(--bg) 18%, color-mix(in srgb, var(--bg) 60%, transparent) 40%, transparent 62%);
 }
 .hero-inner {
   align-self: center;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   justify-items: start;
-  gap: 28px;
+  gap: 30px;
   padding-top: calc(var(--header-h) + 56px);
   padding-bottom: 56px;
 }
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
+.eyebrow { font-size: 11.5px; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--fg-muted); }
 .hero-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.15rem, 5.2vw, 4.35rem);
-  line-height: 1.28;
-  letter-spacing: 0.03em;
-  text-wrap: balance;
+  font-weight: 300;
+  font-size: clamp(2rem, 4.6vw, 3.7rem);
+  line-height: 1.5;
+  letter-spacing: 0.1em;
 }
 .hero-title .accent { color: var(--gold); }
-.hero-lead {
-  max-width: 34em;
-  color: var(--fg-muted);
-  font-size: clamp(0.94rem, 1.15vw, 1.04rem);
-  line-height: 2;
-}
-.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-top: 6px; }
+.hero-inner .lead { max-width: 33em; color: var(--fg-muted); font-size: clamp(0.92rem, 1.1vw, 1rem); line-height: 2.1; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding-top: 4px; }
 .hero-meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 6px 24px;
-  padding-block: 14px 26px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
+  padding-block: 16px 22px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
 }
-.hero-meta .readout { display: inline-flex; gap: 18px; }
-.hero-meta .readout span + span::before { content: "/"; margin-right: 18px; color: var(--line); }
+.hero-meta .readout { display: inline-flex; gap: 16px; }
 @media (prefers-reduced-motion: no-preference) {
-  .hero-inner > * { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
-  .hero-inner > :nth-child(2) { animation-delay: .08s; }
-  .hero-inner > :nth-child(3) { animation-delay: .16s; }
-  .hero-inner > :nth-child(4) { animation-delay: .24s; }
+  .hero-inner > * { animation: rise 1.1s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-inner > :nth-child(2) { animation-delay: .1s; }
+  .hero-inner > :nth-child(3) { animation-delay: .2s; }
+  .hero-inner > :nth-child(4) { animation-delay: .3s; }
 }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (max-width: 860px) {
-  .hero { min-height: clamp(640px, 92vh, 820px); }
-  .hero::after { background: linear-gradient(0deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 46%, transparent 72%); }
-  .hero-inner { align-self: end; padding-bottom: 36px; gap: 22px; }
+  .hero { min-height: clamp(660px, 92vh, 820px); }
+  .hero::after { background: linear-gradient(0deg, var(--bg) 0%, var(--bg) 22%, color-mix(in srgb, var(--bg) 65%, transparent) 50%, transparent 70%); }
+  .hero-inner { align-self: end; padding-bottom: 32px; gap: 24px; }
 }
 
 /* ---------- sections ---------- */
-.sec {
-  position: relative;
-  border-top: 1px solid var(--line);
-  padding-block: clamp(72px, 10vw, 128px);
-}
-.sec-head {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: 20px 56px;
-  align-items: end;
-}
-.sec-head .label { grid-column: 1 / -1; }
-.sec-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.75rem, 3.1vw, 2.55rem);
-  line-height: 1.4;
-  letter-spacing: 0.03em;
-  text-wrap: balance;
-}
-.sec-lead { color: var(--fg-muted); max-width: 36em; }
-@media (max-width: 860px) { .sec-head { grid-template-columns: minmax(0, 1fr); } }
+.sec { position: relative; border-bottom: 1px solid var(--line); padding-block: clamp(80px, 11vw, 144px); }
+.sec-title { font-weight: 300; font-size: clamp(1.7rem, 3vw, 2.45rem); line-height: 1.6; letter-spacing: 0.08em; }
+.sec-lead { color: var(--fg-muted); max-width: 34em; }
 
-/* metrics */
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: clamp(48px, 6vw, 80px);
-  border-top: 1px solid var(--line);
-}
-.metric {
-  display: grid;
-  gap: 6px;
-  padding: 24px 0 0 24px;
-  border-left: 1px solid var(--line);
-}
+/* about */
+.about-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 96px); align-items: center; }
+.about-text { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; justify-items: start; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; margin-top: 20px; border-top: 1px solid var(--line); }
+.metric { display: grid; gap: 4px; padding: 22px 0 0 22px; border-left: 1px solid var(--line); }
 .metric:first-child { border-left: 0; padding-left: 0; }
-.metric dt {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  color: var(--fg-muted);
+.metric dt { font-size: 12px; letter-spacing: 0.12em; color: var(--fg-muted); }
+.metric .value { display: flex; align-items: baseline; gap: 6px; line-height: 1; font-variant-numeric: tabular-nums; }
+.metric .num { font-weight: 200; font-size: clamp(2.6rem, 5.6vw, 4.4rem); letter-spacing: 0; }
+.metric .unit { font-size: 13px; color: var(--fg-muted); }
+.metric .meta { font-size: 11px; color: var(--fg-muted); letter-spacing: 0.08em; }
+.window { width: 100%; max-width: 440px; aspect-ratio: 1; margin-inline: auto; }
+.window canvas { width: 100%; height: 100%; }
+@media (max-width: 860px) {
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .window { max-width: 320px; grid-row: 1; }
 }
-.metric .value {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.metric .num { font-size: clamp(2.6rem, 7vw, 5.4rem); letter-spacing: -0.01em; }
-.metric .unit { font-size: clamp(0.95rem, 1.6vw, 1.25rem); color: var(--fg-muted); }
-.metric .meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); letter-spacing: 0.04em; }
-@media (max-width: 520px) {
-  .metric { padding-left: 14px; }
-  .metric .meta { font-size: 10.5px; }
-}
-
-.timeline { margin-top: clamp(40px, 5vw, 64px); }
-.timeline canvas { width: 100%; height: 156px; }
-.timeline figcaption {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 22px;
-  margin-top: 8px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--fg-muted);
-}
-.key { display: inline-flex; align-items: center; gap: 8px; }
-.key i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-.key .fill { background: var(--gold); }
-.key .ring { border: 1.5px solid var(--fg); }
-.key .dash { width: 1px; height: 12px; border-radius: 0; border-left: 1px dashed var(--fg-muted); }
+@media (max-width: 520px) { .metric { padding-left: 14px; } }
 
 /* works */
-.works-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 40px; }
-.works-head > div { display: grid; gap: 20px; }
-.works-count { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted); letter-spacing: 0.06em; }
+.works-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 40px; }
+.works-title { display: grid; gap: 22px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg-muted);
+  font: 400 12.5px/1 var(--font-sans);
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  min-height: 36px;
+  padding: 0 16px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.chip:hover { color: var(--fg); }
+.chip[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
 .works-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-  gap: 56px;
-  margin-top: clamp(40px, 5vw, 64px);
-  align-items: start;
-}
-.work-list { border-top: 1px solid var(--line); }
-.work-list li { border-bottom: 1px solid var(--line); }
-.work {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 4px 16px;
-  padding: 22px 0;
-  text-decoration: none;
-}
-.work-thumb { display: none; }
-.work-meta {
-  display: inline-flex;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 80px);
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
-  color: var(--fg-muted);
+  margin-top: clamp(48px, 6vw, 80px);
 }
-.work-meta i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.work-meta .fill { background: var(--gold); }
-.work-meta .ring { border: 1.5px solid var(--fg); }
-.work-title {
-  grid-column: 1;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
-  line-height: 1.45;
-  letter-spacing: 0.02em;
-  transition: color .2s ease;
+.ring-wrap { display: grid; gap: 14px; justify-items: center; }
+.ring { position: relative; width: 100%; max-width: 460px; aspect-ratio: 1; }
+.ring canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
 }
-.work-arrow {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  align-self: center;
-  font-family: var(--font-mono);
-  color: var(--fg-muted);
-  transition: transform .25s ease, color .2s ease;
+.ring-center .no { font-weight: 200; font-size: clamp(2.6rem, 5vw, 3.8rem); line-height: 1; letter-spacing: 0.02em; }
+.ring-center .of { font-size: 11px; letter-spacing: 0.2em; color: var(--fg-muted); }
+.ring-center .date { font-size: 12px; letter-spacing: 0.16em; color: var(--gold); }
+.node {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
 }
-.work-desc { grid-column: 1 / -1; color: var(--fg-muted); font-size: 14px; line-height: 1.8; }
-.work-tech { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); letter-spacing: 0.03em; padding-top: 4px; }
-.work.is-active .work-title, .work:hover .work-title { color: var(--gold); }
-.work.is-active .work-arrow, .work:hover .work-arrow { color: var(--gold); transform: translate(3px, -3px); }
-.work-preview { position: sticky; top: calc(var(--header-h) + 32px); }
-.work-preview canvas {
+.node:focus-visible { outline: 1px solid var(--gold); outline-offset: -6px; }
+.node:disabled { cursor: default; }
+.ring-hint { font-size: 11.5px; color: var(--fg-muted); letter-spacing: 0.08em; text-align: center; }
+
+.spot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; }
+.spot-frame { position: relative; aspect-ratio: 1120 / 619; }
+.spot-frame::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--gold-dim), var(--gold-dim)) left top / 16px 1px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) left top / 1px 16px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) right top / 16px 1px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) right top / 1px 16px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) left bottom / 16px 1px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) left bottom / 1px 16px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) right bottom / 16px 1px no-repeat,
+    linear-gradient(var(--gold-dim), var(--gold-dim)) right bottom / 1px 16px no-repeat;
+}
+.spot-frame img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1120 / 619;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.04) brightness(0.9);
+  transition: filter .6s ease;
+}
+.spot-frame:hover img { filter: grayscale(0) brightness(1); }
+.spot-frame .top { clip-path: circle(0% at 50% 50%); }
+.spot-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.spot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font-size: 11.5px; letter-spacing: 0.14em; color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+.spot-meta .kind { display: inline-flex; align-items: center; gap: 8px; }
+.spot-meta .kind i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.kind-personal i { background: var(--gold); }
+.kind-professional i { border: 1px solid var(--fg); }
+.spot-title { font-weight: 400; font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.5; letter-spacing: 0.06em; }
+.spot-desc { color: var(--fg-muted); max-width: 36em; }
+.spot-tech { font-size: 12px; letter-spacing: 0.08em; color: var(--fg-muted); }
+.spot-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding-top: 10px; border-top: 1px solid var(--line); }
+.spot-links { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 13px; letter-spacing: 0.06em; }
+.spot-links a { text-decoration: none; color: var(--fg); padding-block: 6px; }
+.spot-links a:hover { color: var(--gold); }
+.spot-nav { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; color: var(--fg-muted); letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.round {
+  appearance: none;
+  width: 40px; height: 40px;
+  border-radius: 50%;
   border: 1px solid var(--line);
-  border-radius: 3px;
-  background: var(--bg-raise);
+  background: transparent;
+  color: var(--fg);
+  font: 400 15px/1 var(--font-sans);
+  cursor: pointer;
 }
-.work-preview figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 12px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--fg-muted);
-  letter-spacing: 0.04em;
-}
+.round:hover { border-color: var(--gold); color: var(--gold); }
 @media (max-width: 860px) {
-  .works-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .work-preview { display: none; }
-  .work-thumb {
-    display: block;
-    grid-column: 1 / -1;
-    width: 100%;
-    aspect-ratio: 1120 / 619;
-    object-fit: cover;
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    margin-bottom: 12px;
-    grid-row: 1;
-  }
-  .work-arrow { grid-row: 2 / span 2; }
+  .works-grid { grid-template-columns: minmax(0, 1fr); }
+  .ring { max-width: 340px; }
 }
 
 /* profile */
-.profile-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: clamp(32px, 6vw, 80px);
-  align-items: center;
+.profile-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 96px); align-items: center; }
+.portrait { position: relative; }
+.portrait .moon {
+  position: absolute;
+  left: 4%;
+  top: -2%;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  background: radial-gradient(circle at 50% 50%, var(--bg-raise) 0%, var(--bg) 72%);
 }
-.portrait canvas { width: 100%; aspect-ratio: 900 / 675; cursor: crosshair; }
-.portrait figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); }
-.profile-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; justify-items: start; }
-.name {
-  display: grid;
-  gap: 8px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2rem, 3.6vw, 2.9rem);
-  line-height: 1.2;
-  letter-spacing: 0.08em;
-}
-.name-en {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: 12.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
+.portrait img { position: relative; filter: grayscale(1) contrast(1.08) brightness(0.8); }
+.profile-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; justify-items: start; }
+.name { display: grid; gap: 10px; font-weight: 300; font-size: clamp(1.9rem, 3.2vw, 2.6rem); line-height: 1.3; letter-spacing: 0.16em; }
+.name-en { font-weight: 400; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--fg-muted); }
 .bio { color: var(--fg-muted); max-width: 34em; }
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--fg);
-}
+.stack { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 12.5px; letter-spacing: 0.06em; color: var(--fg); }
 @media (max-width: 860px) { .profile-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* contact */
-.contact { overflow: hidden; isolation: isolate; padding-block: clamp(96px, 13vw, 168px); }
+.contact { overflow: hidden; isolation: isolate; padding-block: clamp(104px, 14vw, 176px); }
 .contact canvas {
   position: absolute;
   inset: 0;
@@ -508,24 +381,19 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   -webkit-mask-image: linear-gradient(270deg, #000 0%, rgb(0 0 0 / 0.75) 30%, transparent 72%);
   mask-image: linear-gradient(270deg, #000 0%, rgb(0 0 0 / 0.75) 30%, transparent 72%);
 }
-.contact-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; justify-items: start; }
-.contact-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.3rem, 6vw, 4.6rem);
-  line-height: 1.2;
-  letter-spacing: 0.06em;
-}
+.contact-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; justify-items: start; }
+.contact-title { font-weight: 300; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 1.3; letter-spacing: 0.14em; }
 .contact-text { color: var(--fg-muted); max-width: 40em; }
-.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-top: 8px; }
+.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-top: 6px; }
 .email { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.email span { font-family: var(--font-mono); font-size: 14px; user-select: all; overflow-wrap: anywhere; }
+.email span { font-size: 14px; letter-spacing: 0.04em; user-select: all; overflow-wrap: anywhere; }
 .btn-mini {
   appearance: none;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--fg-muted);
-  font: 500 12px/1 var(--font-mono);
+  font: 400 12px/1 var(--font-sans);
+  letter-spacing: 0.08em;
   border-radius: 999px;
   padding: 0 14px;
   min-height: 34px;
@@ -539,18 +407,7 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   }
 }
 
-/* footer */
-.site-footer { border-top: 1px solid var(--line); }
-.site-footer .wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 12px 32px;
-  padding-block: 28px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--fg-muted);
-}
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; padding-block: 28px; font-size: 12px; letter-spacing: 0.08em; color: var(--fg-muted); }
 .site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { color: var(--fg); }
@@ -560,30 +417,17 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   position: absolute;
   z-index: 5;
   top: 24px;
-  right: max(16px, env(safe-area-inset-right, 0px), calc((100% - var(--container)) / 2 + 40px));
+  right: max(16px, env(safe-area-inset-right, 0px), calc((100% - var(--container)) / 2 + 48px));
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font: 500 11.5px/1.3 var(--font-mono);
+  font: 500 11.5px/1.3 var(--font-sans);
+  letter-spacing: 0.04em;
   text-decoration: none;
   color: var(--fg);
 }
-.pin b {
-  flex: none;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--note);
-  color: var(--note-fg);
-  font-weight: 500;
-}
-.pin span {
-  background: var(--bg-raise);
-  border: 1px solid var(--note);
-  border-radius: 999px;
-  padding: 4px 10px;
-}
+.pin b { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--note); color: var(--note-fg); font-weight: 500; }
+.pin span { background: var(--bg-raise); border: 1px solid var(--note); border-radius: 999px; padding: 4px 10px; }
 .hero .pin { top: calc(var(--header-h) + 18px); }
 .notes-off .pin { display: none; }
 @media (max-width: 560px) { .pin span { display: none; } }
@@ -597,84 +441,63 @@ h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: stri
   width: max-content;
   max-width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 8px 12px;
-  padding: 7px 8px 7px 14px;
-  background: color-mix(in srgb, var(--bg-raise) 90%, transparent);
+  gap: 10px;
+  padding: 6px 6px 6px 14px;
+  background: color-mix(in srgb, var(--bg-raise) 92%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border: 1px solid var(--line);
   border-radius: 16px;
   box-shadow: 0 10px 34px var(--shadow);
-  font: 500 12px/1 var(--font-mono);
+  font: 500 12px/1 var(--font-sans);
   color: var(--fg-muted);
 }
-.mockbar .tag { color: var(--note); letter-spacing: 0.12em; text-transform: uppercase; }
-.mockbar .group { display: inline-flex; align-items: center; gap: 8px; }
+.mockbar .tag { color: var(--note); letter-spacing: 0.16em; text-transform: uppercase; }
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-.seg button, .toggle {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  color: var(--fg-muted);
-  font: inherit;
-  min-height: 36px;
-  padding: 0 11px;
-  cursor: pointer;
-}
+.seg button, .toggle { appearance: none; border: 0; background: transparent; color: var(--fg-muted); font: inherit; min-height: 36px; padding: 0 12px; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--line); }
 .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
 .seg button:disabled { cursor: not-allowed; opacity: 0.55; }
 .toggle { border: 1px solid var(--line); border-radius: 10px; }
 .toggle[aria-pressed="true"] { border-color: var(--note); color: var(--note); }
-@media (max-width: 640px) {
-  .mockbar .group-label, .mockbar .tag { display: none; }
-  .mockbar { padding: 6px; gap: 6px; font-size: 11px; flex-wrap: nowrap; }
-  .seg button, .toggle { padding: 0 8px; min-height: 34px; }
-}
+@media (max-width: 480px) { .mockbar .tag { display: none; } .mockbar { padding-left: 6px; } }
 
 /* ---------- notes ---------- */
-.notes { background: var(--bg-raise); border-top: 1px solid var(--line); }
-.notes .wrap { padding-block: clamp(64px, 9vw, 112px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.notes { background: var(--bg-raise); }
+.notes .wrap { padding-block: clamp(64px, 9vw, 112px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
 .notes .label { color: var(--note); }
 .notes-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
-.notes-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 2.8vw, 2.2rem); line-height: 1.4; }
-.notes-lead { max-width: 44em; color: var(--fg-muted); }
-.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px; align-items: start; }
-.compare figure img { border: 1px solid var(--line); border-radius: 3px; }
-.compare figcaption { margin-top: 8px; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); }
+.notes-title { font-weight: 300; font-size: clamp(1.5rem, 2.6vw, 2.05rem); line-height: 1.5; letter-spacing: 0.08em; }
+.notes .lead { max-width: 46em; color: var(--fg-muted); }
+.notes h3.sub { font-size: 15px; font-weight: 500; letter-spacing: 0.06em; margin-bottom: 14px; }
+.feedback { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.feedback li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 6px 32px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.feedback li > span:first-child { color: var(--fg-muted); }
+@media (max-width: 720px) { .feedback li { grid-template-columns: minmax(0, 1fr); } }
+.note-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 30px 44px; }
+.note-list li { display: grid; gap: 8px; align-content: start; scroll-margin-top: 96px; }
+.note-list h3 { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; line-height: 1.5; letter-spacing: 0.04em; }
+.note-list h3 b { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--note); color: var(--note-fg); font-size: 11.5px; font-weight: 500; }
+.note-list p { color: var(--fg-muted); font-size: 14px; }
+.note-list .hint { font-size: 12.5px; color: var(--note); }
+.formula { font-variant-numeric: tabular-nums; color: var(--fg); white-space: nowrap; }
 .table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.7; min-width: 560px; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.7; min-width: 600px; }
 th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
-th { font-family: var(--font-mono); font-weight: 500; font-size: 11.5px; letter-spacing: 0.06em; color: var(--fg-muted); }
+th { font-weight: 500; font-size: 11.5px; letter-spacing: 0.12em; color: var(--fg-muted); }
 td:first-child { white-space: nowrap; font-weight: 500; }
 td.muted { color: var(--fg-muted); }
-.note-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 28px 40px; counter-reset: note; }
-.note-list li { display: grid; gap: 8px; align-content: start; scroll-margin-top: 96px; }
-.note-list h3 { display: flex; align-items: center; gap: 10px; font-size: 15.5px; font-weight: 700; line-height: 1.5; }
-.note-list h3 b {
-  flex: none;
-  width: 24px; height: 24px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--note); color: var(--note-fg);
-  font: 500 11.5px/1 var(--font-mono);
-}
-.note-list p { color: var(--fg-muted); font-size: 14px; }
-.note-list .hint { font-family: var(--font-mono); font-size: 12px; color: var(--note); }
-.steps { display: grid; gap: 10px; counter-reset: step; max-width: 52em; }
+.steps { display: grid; gap: 10px; counter-reset: step; max-width: 54em; }
 .steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; font-size: 14px; color: var(--fg-muted); }
-.steps li::before { counter-increment: step; content: counter(step); font-family: var(--font-mono); color: var(--note); }
-.steps code, .note-list code, td code { font-family: var(--font-mono); font-size: 0.92em; color: var(--fg); }
-.notes h3.sub { font-size: 15.5px; font-weight: 700; margin-bottom: 12px; }
-@media (max-width: 860px) { .compare { grid-template-columns: minmax(0, 1fr); } }
+.steps li::before { counter-increment: step; content: counter(step); color: var(--note); }
+code { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.9em; color: var(--fg); }
 </style>
 </head>
 <body>
 <header class="site-header" id="siteHeader">
   <div class="wrap">
-    <a class="logo" href="https://saedgewell.com/" target="_blank" rel="noopener"><span class="logo-mark" aria-hidden="true"></span>Saedgewell</a>
+    <a class="logo" href="https://saedgewell.com/" target="_blank" rel="noopener"><span class="vesica" aria-hidden="true"></span>Saedgewell</a>
     <nav class="nav" aria-label="メイン">
       <a href="#works">Works</a>
       <a href="#profile">About</a>
@@ -689,133 +512,111 @@ td.muted { color: var(--fg-muted); }
     <div class="wrap hero-inner">
       <p class="eyebrow">AI-Driven Development Engineer</p>
       <h1 class="hero-title" id="heroTitle"><span class="nb">AI駆動開発を、</span><br><span class="nb"><span class="accent">チームの当たり前</span>に。</span></h1>
-      <p class="hero-lead">AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。<br class="br-wide">AIを“安定して動かす”ことにこだわるエンジニアです。</p>
+      <p class="lead">AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。<br class="br-wide">AIを“安定して動かす”ことにこだわるエンジニアです。</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#works">実績を見る</a>
+        <a class="btn btn-line" href="#works">実績を見る</a>
         <a class="btn btn-text" href="#profile">プロフィール <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
     <div class="wrap hero-meta">
-      <span class="readout"><span id="gpuStatus">初期化中</span><span id="fps">— fps</span></span>
+      <span class="readout"><span id="gpuStatus">初期化中</span><span id="fps"></span></span>
       <span>菅井 瑛正 / Akimasa Sugai</span>
     </div>
-    <a class="pin" href="#note-1"><b>1</b><span>WebGPU 金粉フィールド</span></a>
+    <a class="pin" href="#note-1"><b>1</b><span>WebGPU 枯山水</span></a>
   </section>
 
   <section class="sec" id="about" aria-labelledby="aboutTitle">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="label">About</p>
+    <div class="wrap about-grid">
+      <div class="about-text">
+        <p class="label"><span class="vesica" aria-hidden="true"></span>About</p>
         <h2 class="sec-title" id="aboutTitle"><span class="nb">UI/UXから</span><span class="nb">インフラまで、</span><br><span class="nb">AIを軸に</span><span class="nb">手がける。</span></h2>
         <p class="sec-lead">フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。</p>
+        <dl class="metrics">
+          <div class="metric">
+            <dt>開発経験</dt>
+            <dd class="value"><span class="num">5</span><span class="unit">年</span></dd>
+            <dd class="meta">2020.12 – 現在</dd>
+          </div>
+          <div class="metric">
+            <dt>実績</dt>
+            <dd class="value"><span class="num">12</span><span class="unit">件</span></dd>
+            <dd class="meta">実務 2 / 個人開発 10</dd>
+          </div>
+          <div class="metric">
+            <dt>個人開発</dt>
+            <dd class="value"><span class="num">10</span><span class="unit">個</span></dd>
+            <dd class="meta">2024.09 – 現在</dd>
+          </div>
+        </dl>
       </div>
-      <dl class="metrics">
-        <div class="metric">
-          <dt>開発経験</dt>
-          <dd class="value"><span class="num">5</span><span class="unit">年</span></dd>
-          <dd class="meta">2020.12 – 現在</dd>
-        </div>
-        <div class="metric">
-          <dt>実績</dt>
-          <dd class="value"><span class="num">12</span><span class="unit">件</span></dd>
-          <dd class="meta">実務 2 / 個人開発 10</dd>
-        </div>
-        <div class="metric">
-          <dt>個人開発</dt>
-          <dd class="value"><span class="num">10</span><span class="unit">個</span></dd>
-          <dd class="meta">2024.09 – 現在</dd>
-        </div>
-      </dl>
-      <figure class="timeline">
-        <canvas id="timeline" role="img" aria-label="2020年12月から現在までの実績12件を作成日順に並べた年表"></canvas>
-        <figcaption>
-          <span class="key"><i class="fill"></i>個人開発</span>
-          <span class="key"><i class="ring"></i>実務</span>
-          <span class="key"><i class="dash"></i>経歴の節目</span>
-        </figcaption>
-        <ol class="sr-only" id="timelineList"></ol>
-      </figure>
+      <div class="window"><canvas id="shippo" aria-hidden="true"></canvas></div>
     </div>
-    <a class="pin" href="#note-2"><b>2</b><span>Canvas 2D 活動年表</span></a>
+    <a class="pin" href="#note-2"><b>2</b><span>Canvas 2D 七宝の円窓</span></a>
   </section>
 
   <section class="sec" id="works" aria-labelledby="worksTitle">
     <div class="wrap">
       <div class="works-head">
-        <div>
-          <p class="label">Works</p>
-          <h2 class="sec-title" id="worksTitle">注目の実績</h2>
+        <div class="works-title">
+          <p class="label"><span class="vesica" aria-hidden="true"></span>Works</p>
+          <h2 class="sec-title" id="worksTitle">これまでの実績</h2>
         </div>
-        <p class="works-count">6 / 12件を表示</p>
+        <div class="chips" role="group" aria-label="種別で絞り込む">
+          <button type="button" class="chip" id="filterAll" data-filter="all" aria-pressed="true">すべて 12</button>
+          <button type="button" class="chip" id="filterPro" data-filter="professional" aria-pressed="false">実務 2</button>
+          <button type="button" class="chip" id="filterPersonal" data-filter="personal" aria-pressed="false">個人開発 10</button>
+        </div>
       </div>
       <div class="works-grid">
-        <ul class="work-list" id="workList">
-          <li><a class="work is-active" href="https://saedgewell.com/works/skill-quest-ai" target="_blank" rel="noopener" data-img="../../../public/images/works/skill-quest-ai-thumbnail.webp" data-kind="個人開発" data-date="2026.01">
-            <img class="work-thumb" src="../../../public/images/works/skill-quest-ai-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="fill"></i>個人開発 · 2026.01</span>
-            <span class="work-title">Skill Quest Ai</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">SES企業に所属するエンジニアのためのLXP（Learning Experience Platform）のプロトタイプです。</span>
-            <span class="work-tech">TypeScript · CSS · HTML · Lovable</span>
-          </a></li>
-          <li><a class="work" href="https://saedgewell.com/works/zedi" target="_blank" rel="noopener" data-img="../../../public/images/works/zedi-thumbnail.webp" data-kind="個人開発" data-date="2025.12">
-            <img class="work-thumb" src="../../../public/images/works/zedi-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.12</span>
-            <span class="work-title">Zedi</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">AI時代のメモアプリ。気になることをリンクにし、新たな知識をAIを活用して身につけていくことができます。</span>
-            <span class="work-tech">TypeScript · CSS · HTML</span>
-          </a></li>
-          <li><a class="work" href="https://saedgewell.com/works/typeflow" target="_blank" rel="noopener" data-img="../../../public/images/works/typeflow.webp" data-kind="個人開発" data-date="2025.12">
-            <img class="work-thumb" src="../../../public/images/works/typeflow.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.12</span>
-            <span class="work-title">Typeflow</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">効率的にタイピングが上手くなるためのタイピング練習アプリです。</span>
-            <span class="work-tech">TypeScript · CSS · Shell</span>
-          </a></li>
-          <li><a class="work" href="https://saedgewell.com/works/kouden" target="_blank" rel="noopener" data-img="../../../public/images/works/kouden-thumbnail.webp" data-kind="個人開発" data-date="2025.01">
-            <img class="work-thumb" src="../../../public/images/works/kouden-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.01</span>
-            <span class="work-title">香典帳アプリ</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">香典帳を簡単に管理することができるアプリです。</span>
-            <span class="work-tech">TypeScript · PLpgSQL · MDX</span>
-          </a></li>
-          <li><a class="work" href="https://saedgewell.com/works/fresh-inventory" target="_blank" rel="noopener" data-img="../../../public/images/works/fresh-inventory.webp" data-kind="実務" data-date="2026.01">
-            <img class="work-thumb" src="../../../public/images/works/fresh-inventory.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="ring"></i>実務 · 2026.01</span>
-            <span class="work-title">菓子製造会社向け流通管理システム</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">菓子製造会社向け流通管理システムのプロトタイプです。</span>
-            <span class="work-tech">TypeScript · HTML · Lovable</span>
-          </a></li>
-          <li><a class="work" href="https://saedgewell.com/works/printing-erp" target="_blank" rel="noopener" data-img="../../../public/images/works/printing-erp.webp" data-kind="実務" data-date="2025.05">
-            <img class="work-thumb" src="../../../public/images/works/printing-erp.webp" alt="" width="1120" height="619" loading="lazy">
-            <span class="work-meta"><i class="ring"></i>実務 · 2025.05</span>
-            <span class="work-title">Printing Erp</span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
-            <span class="work-desc">印刷会社向けのERPシステムのプロトタイプです。</span>
-            <span class="work-tech">TypeScript · Go · MDX</span>
-          </a></li>
-        </ul>
-        <figure class="work-preview" aria-hidden="true">
-          <canvas id="workPreview"></canvas>
-          <figcaption><span id="previewTitle">Skill Quest Ai</span><span id="previewMeta">個人開発 · 2026.01</span></figcaption>
-        </figure>
+        <div class="ring-wrap">
+          <div class="ring" id="ring">
+            <canvas id="ringCanvas" aria-hidden="true"></canvas>
+            <div class="ring-center" aria-hidden="true">
+              <span class="no" id="ringNo">11</span>
+              <span class="of">OF 12</span>
+              <span class="date" id="ringDate">2026.01</span>
+            </div>
+            <div id="ringNodes" role="group" aria-label="実績を作成した順に並べた円環"></div>
+          </div>
+          <p class="ring-hint">作成した順に、上から時計回りに並んでいます</p>
+        </div>
+        <article class="spot" aria-live="polite">
+          <div class="spot-frame">
+            <img class="base" id="spotBase" src="../../../public/images/works/skill-quest-ai-thumbnail.webp" alt="Skill Quest Ai の画面" width="1120" height="619">
+            <img class="top" id="spotTop" src="../../../public/images/works/skill-quest-ai-thumbnail.webp" alt="" width="1120" height="619" aria-hidden="true">
+          </div>
+          <div class="spot-body">
+            <p class="spot-meta"><span id="spotNo">No.11</span><span class="kind kind-personal" id="spotKind"><i></i>個人開発</span><span id="spotDate">2026.01</span></p>
+            <h3 class="spot-title" id="spotTitle">Skill Quest Ai</h3>
+            <p class="spot-desc" id="spotDesc">SES企業に所属するエンジニアのためのLXP（Learning Experience Platform）のプロトタイプです。</p>
+            <p class="spot-tech" id="spotTech">TypeScript · CSS · HTML · JavaScript · Lovable</p>
+          </div>
+          <div class="spot-foot">
+            <div class="spot-links">
+              <a id="spotDetail" href="https://saedgewell.com/works/skill-quest-ai" target="_blank" rel="noopener">詳細を見る ↗</a>
+              <a id="spotSite" href="https://growthquest-hub.lovable.app" target="_blank" rel="noopener">サイト ↗</a>
+              <a id="spotGh" href="https://github.com/otomatty/skill-quest-ai" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="spot-nav">
+              <button type="button" class="round" id="prevWork" aria-label="前の実績">←</button>
+              <span id="spotCount">11 / 12</span>
+              <button type="button" class="round" id="nextWork" aria-label="次の実績">→</button>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
-    <a class="pin" href="#note-3"><b>3</b><span>Canvas 2D ディゾルブ</span></a>
+    <a class="pin" href="#note-3"><b>3</b><span>Canvas 2D 円環ナビ</span></a>
   </section>
 
   <section class="sec" id="profile" aria-labelledby="profileTitle">
     <div class="wrap profile-grid">
       <figure class="portrait">
-        <canvas id="portrait" role="img" aria-label="松の手入れをする菅井 瑛正"></canvas>
-        <figcaption>カーソルを重ねた円の中だけ写真が見えます</figcaption>
+        <span class="moon" aria-hidden="true"></span>
+        <img src="../../../public/images/profile.webp" alt="松の手入れをする菅井 瑛正" width="900" height="675" loading="lazy">
       </figure>
       <div class="profile-body">
-        <p class="label">Profile</p>
+        <p class="label"><span class="vesica" aria-hidden="true"></span>Profile</p>
         <h2 class="name" id="profileTitle">菅井 瑛正<span class="name-en">Akimasa Sugai</span></h2>
         <p class="bio">TypeScript/React を中心としたフロントエンドから、Rust/Go/Python によるバックエンド、AWS/GCP 等のクラウドインフラまで幅広い技術領域をカバーするエンジニアです。OSSをカスタマイズして高品質なアプリケーションを構築するノウハウや、企業DX推進・チーム育成の経験を活かし、技術と組織の両面から課題解決に取り組んでいます。</p>
         <ul class="stack" aria-label="主な技術">
@@ -824,17 +625,17 @@ td.muted { color: var(--fg-muted); }
         <a class="btn btn-text" href="https://saedgewell.com/about" target="_blank" rel="noopener">詳細プロフィール <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
-    <a class="pin" href="#note-4"><b>4</b><span>Canvas 2D 網点ポートレート</span></a>
+    <a class="pin" href="#note-4"><b>4</b><span>モノクロ写真</span></a>
   </section>
 
   <section class="sec contact" id="contact" aria-labelledby="contactTitle">
     <canvas id="seigaiha" aria-hidden="true"></canvas>
     <div class="wrap contact-inner">
-      <p class="label">Contact</p>
+      <p class="label"><span class="vesica" aria-hidden="true"></span>Contact</p>
       <h2 class="contact-title" id="contactTitle">お問い合わせ</h2>
       <p class="contact-text">プロダクト開発や技術に関するご質問・ご相談など、お気軽にお問い合わせください。</p>
       <div class="contact-actions">
-        <a class="btn btn-primary" href="https://saedgewell.com/contact" target="_blank" rel="noopener">お問い合わせフォーム</a>
+        <a class="btn btn-line" href="https://saedgewell.com/contact" target="_blank" rel="noopener">お問い合わせフォーム</a>
         <div class="email">
           <span id="email">akimasa.sugai@saedgewell.com</span>
           <button type="button" class="btn-mini" id="copyEmail">コピー</button>
@@ -859,53 +660,44 @@ td.muted { color: var(--fg-muted); }
 <section class="notes" id="notes" aria-labelledby="notesTitle">
   <div class="wrap">
     <div class="notes-head">
-      <p class="label">Mockup notes</p>
+      <p class="label"><span class="vesica" aria-hidden="true"></span>Mockup notes · v2</p>
       <h2 class="notes-title" id="notesTitle">このモックアップについて</h2>
-      <p class="notes-lead">コンセプトは「蒔絵（まきえ）」です。漆の深い緑に金粉を蒔くように、現行サイトの配色（深緑・クリーム・金）と和柄のモチーフはそのまま引き継ぎ、装飾を GPU で描く金粉に集約します。大きな動きは Hero の一か所だけに置き、ほかのセクションは Canvas 2D による控えめな表現に留めます。</p>
+      <p class="lead">コンセプトは「枯山水と円」です。旧トップの「重なる2つの円」を庭石に見立て、そのまわりに砂紋を引きます。七宝・青海波・円環ナビなど、ほかの模様もすべて円の組み合わせだけで作図しています。色は現行ダークの深緑と金だけにし、余白を多くとります。</p>
     </div>
 
-    <div class="compare">
-      <figure>
-        <img src="./current.webp" alt="現行サイトのトップページ。中央揃えの見出しと、破線の円が2つ重なった背景" width="1200" height="750" loading="lazy">
-        <figcaption>現行のトップページ</figcaption>
-      </figure>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>箇所</th><th>現行</th><th>提案</th></tr></thead>
-          <tbody>
-            <tr><td>Hero</td><td class="muted">SVG と CSS で回る2つの円、中央揃えの見出し</td><td>2つの円を WebGPU の金粉の軌道として描き直す。見出しは左揃え</td></tr>
-            <tr><td>アクセント色</td><td class="muted">紫からピンクへのグラデーション文字</td><td>金の単色に絞る</td></tr>
-            <tr><td>背景パターン</td><td class="muted">magicui の7種（FlickeringGrid・Shippo・Seigaiha・Dot・Grid・Ripple・Particles）</td><td>WebGPU 1つと Canvas 2D 3つに統合</td></tr>
-            <tr><td>自己紹介</td><td class="muted">Bento グリッド</td><td>3つの数字と活動年表</td></tr>
-            <tr><td>注目の実績</td><td class="muted">黒背景の全画面ビュー</td><td>一覧とプレビュー</td></tr>
-            <tr><td>書体</td><td class="muted">Inter・Noto Sans JP</td><td>見出しは Shippori Mincho、本文は Noto Sans JP、数字とラベルは Geist Mono</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div>
+      <h3 class="sub">v1 からの変更</h3>
+      <ul class="feedback">
+        <li><span>カラーは暗めの緑とゴールドを基調に</span><span>背景は現行ダークの <code>hsl(136 31% 8%)</code>、金は現行パターンの <code>#D0A900</code> と <code>#987D00</code>。ライトテーマはなくし、この一色の世界に絞りました。</span></li>
+        <li><span>フォントをもっとシンプルに</span><span>明朝をやめ、現行と同じ Inter と Noto Sans JP の2書体にしました。見出しは細め（300）にして字間を広くとっています。</span></li>
+        <li><span>幾何学と和柄、数学的な美しさ、禅</span><span>金粉をやめ、Hero は WebGPU で描く枯山水にしました。七宝と青海波は旧サイトの <code>ShippoPattern</code>・<code>SeigaihaPattern</code> と同じ作図を Canvas 2D で描き直しています。</span></li>
+        <li><span>画像はモノクロにするだけ</span><span>網点をやめ、写真はグレースケールにしました。実績の画面画像もモノクロで、カーソルを重ねたときだけカラーに戻ります。</span></li>
+        <li><span>実績の見せ方を工夫</span><span>12件を作成順に円周へ並べた「円環ナビ」と、大きなプレビューの組み合わせにしました。</span></li>
+      </ul>
     </div>
 
     <ol class="note-list">
       <li id="note-1">
-        <h3><b>1</b>Hero：WebGPU の金粉フィールド</h3>
-        <p>compute shader で 65,536 粒（スマートフォンは 16,384 粒）の位置を毎フレーム更新し、インスタンス描画で点を打ちます。現行 Hero の「重なる2つの円」を粒子の軌道として引き継ぎ、カーソルの周りでは金粉が渦を巻きます。読み込み直後は画面全体に散った粒が約2.5秒で円に集まります。</p>
-        <p>WebGPU に対応していないブラウザでは同じ動きを Canvas 2D の 4,000 粒で描き、OS の「視差効果を減らす」設定では静止した1フレームだけを表示します。</p>
-        <p class="hint">下のツールバーで WebGPU と Canvas 2D を切り替えて比べられます。</p>
+        <h3><b>1</b>Hero：WebGPU の枯山水</h3>
+        <p>フラグメントシェーダで画面の全ピクセルの砂紋を計算します。石の外側の線は、円柱のまわりを流れる水の流線 <span class="formula">ψ = y (1 − R² / r²)</span> の等高線です。そのため、まっすぐな砂紋が石の手前で自然に分かれて回り込みます。石のまわりの同心円は、2つの円の外形から外周の円へ少しずつ形を変えます。</p>
+        <p>読み込み時は、コンパスで2つの円を描いたあと、砂紋が石から外へ広がります。砂紋は9秒周期でわずかに呼吸し、カーソルを動かすと指でなぞったように砂紋がよけます。円の上を金の弧がゆっくり回るのは、旧 Hero の回転する弧を引き継いだものです。</p>
+        <p class="hint">下のツールバーで WebGPU と Canvas 2D（静止した砂紋と回る弧）を切り替えられます。</p>
       </li>
       <li id="note-2">
-        <h3><b>2</b>数字と活動年表：Canvas 2D</h3>
-        <p>Bento グリッドを、3つの数字と1本の年表に置き換えます。年表は <code>works.ts</code> の <code>created_at</code> と経歴の節目から描き、塗りの点が個人開発、輪の点が実務です。点にカーソルを合わせると作品名が出ます。同じ内容をリストとしても出力し、検索エンジンとスクリーンリーダーに渡します。</p>
+        <h3><b>2</b>About：七宝の円窓</h3>
+        <p>七宝つなぎは、半径 r の円を格子点 (i·r, j·r)（i + j が偶数）に置くだけでできる模様です。丸窓の中でこの格子が4分で一回転し、カーソルの近くの円だけが明るくなります。数字は3つだけに絞りました。</p>
       </li>
       <li id="note-3">
-        <h3><b>3</b>Works：一覧とプレビュー</h3>
-        <p>作品を一覧で並べ、行にカーソルを合わせると右のプレビューが金のブロックを伴って切り替わります（Canvas 2D のクリップ描画、約0.5秒）。スマートフォンではプレビューを使わず、各行にサムネイルを表示します。</p>
+        <h3><b>3</b>Works：円環ナビ</h3>
+        <p>12件の実績を作成した順に、上から時計回りに円周へ並べます。塗りの点が個人開発、輪の点が実務です。点や矢印、キーボードの ← → で選ぶと、針が回って右のプレビューが円形に切り替わります。種別で絞り込むと、対象外の点は薄くなって選べなくなります。1本の円で、件数・時系列・種別が同時に読めます。</p>
       </li>
       <li id="note-4">
-        <h3><b>4</b>Profile：網点のポートレート</h3>
-        <p>プロフィール写真を 8×8 の組織的ディザで網点にし、松の葉を金、人物を地の反対色で描き分けます。カーソルを重ねた円の中だけ元の写真が見えます。</p>
+        <h3><b>4</b>Profile：モノクロ写真</h3>
+        <p>写真はグレースケールにするだけにしました。背景が透過した写真なので、後ろに細い金の円を置き、月を背にした掛け軸のような構図にしています。</p>
       </li>
       <li id="note-5">
         <h3><b>5</b>Contact：青海波</h3>
-        <p>現行の <code>SeigaihaPattern</code> を Canvas 2D で描き直し、光の輪がゆっくり通り過ぎます。空いている所をクリックすると、そこから波紋が広がります。画面外では描画を止めます。</p>
+        <p>中心を半径の分ずらしながら同心円を重ねた青海波です。光の輪がゆっくり通り過ぎ、空いている所をクリックするとそこから波紋が広がります。</p>
       </li>
     </ol>
 
@@ -915,11 +707,10 @@ td.muted { color: var(--fg-muted); }
         <table>
           <thead><tr><th>要素</th><th>描画</th><th>非対応のとき</th><th>止めるとき</th></tr></thead>
           <tbody>
-            <tr><td>Hero 金粉</td><td>WebGPU（compute shader とインスタンス描画）</td><td class="muted">Canvas 2D 4,000 粒</td><td class="muted">画面外、タブ非表示。reduced-motion では静止1フレーム</td></tr>
-            <tr><td>活動年表</td><td>Canvas 2D</td><td class="muted">同じ内容の <code>&lt;ol&gt;</code> を SSR で出力</td><td class="muted">ホバーとリサイズのときだけ再描画</td></tr>
-            <tr><td>Works プレビュー</td><td>Canvas 2D（ブロック単位のクリップ）</td><td class="muted"><code>&lt;img&gt;</code> をそのまま表示</td><td class="muted">切り替え中の約0.5秒だけ描画</td></tr>
-            <tr><td>ポートレート</td><td>Canvas 2D（8×8 ディザ）</td><td class="muted"><code>&lt;img&gt;</code></td><td class="muted">ホバー中だけ再描画</td></tr>
-            <tr><td>青海波</td><td>Canvas 2D</td><td class="muted">CSS 背景の静止画</td><td class="muted">画面外、reduced-motion</td></tr>
+            <tr><td>Hero 枯山水</td><td>WebGPU（全画面フラグメントシェーダ）</td><td class="muted">Canvas 2D で砂紋を一度だけ計算し、弧だけを動かす</td><td class="muted">画面外、タブ非表示。reduced-motion では静止1フレーム</td></tr>
+            <tr><td>七宝の円窓</td><td>Canvas 2D</td><td class="muted">CSS の <code>ShippoPattern</code></td><td class="muted">画面外、reduced-motion</td></tr>
+            <tr><td>円環ナビ</td><td>Canvas 2D と、点の上に重ねた <code>&lt;button&gt;</code></td><td class="muted">同じ順の一覧を SSR で出力</td><td class="muted">選択を切り替えた約0.7秒だけ描画</td></tr>
+            <tr><td>青海波</td><td>Canvas 2D</td><td class="muted">CSS の <code>SeigaihaPattern</code></td><td class="muted">画面外、reduced-motion</td></tr>
           </tbody>
         </table>
       </div>
@@ -928,30 +719,21 @@ td.muted { color: var(--fg-muted); }
     <div>
       <h3 class="sub">実装の進め方</h3>
       <ol class="steps">
-        <li><span><code>src/lib/canvas/</code> に共通の描画ループをまとめる（requestAnimationFrame、DPR 上限 2、画面外とタブ非表示での停止、reduced-motion、テーマ色の取得）</span></li>
-        <li><span>Hero を <code>HeroField.tsx</code> として <code>client:idle</code> の island にし、WebGPU → Canvas 2D → 静止画の順にフォールバックさせる</span></li>
-        <li><span>デザイントークンを整理し、アクセントを金に一本化する。見出し用の明朝はサブセット化して自前でホストする</span></li>
-        <li><span>年表・Works・Profile・Contact を順に置き換え、使わなくなった magicui コンポーネントを削除する</span></li>
-        <li><span>既存の Lighthouse CI（<code>.lighthouserc.json</code>）で LCP と TBT が悪化していないことを確かめる</span></li>
+        <li><span>配色トークンを深緑と金に絞り、ライトテーマ用の値と <code>ThemeToggle</code> を外す</span></li>
+        <li><span><code>src/lib/canvas/</code> に共通の描画ループ（DPR 上限 2、画面外とタブ非表示での停止、reduced-motion）をまとめる</span></li>
+        <li><span>Hero を <code>HeroGarden.tsx</code> として <code>client:idle</code> の island にし、WebGPU → Canvas 2D の順にフォールバックさせる</span></li>
+        <li><span><code>works.ts</code> から円環ナビを組み、<code>Achievements</code> と <code>AdditionalAchievements</code> を置き換える</span></li>
+        <li><span>七宝・青海波を Canvas 化し、使わなくなった magicui コンポーネントを削除する。最後に Lighthouse CI で LCP と TBT を確認する</span></li>
       </ol>
     </div>
   </div>
 </section>
 
 <div class="mockbar" role="toolbar" aria-label="モックアップの表示設定">
-  <span class="tag">Mockup</span>
-  <span class="group"><span class="group-label">描画</span>
-    <span class="seg">
-      <button type="button" id="modeGpu" data-mode="webgpu" aria-pressed="false">WebGPU</button>
-      <button type="button" id="mode2d" data-mode="canvas2d" aria-pressed="false">Canvas 2D</button>
-    </span>
-  </span>
-  <span class="group"><span class="group-label">テーマ</span>
-    <span class="seg">
-      <button type="button" id="themeAuto" data-theme-set="auto" aria-pressed="true">自動</button>
-      <button type="button" id="themeLight" data-theme-set="light" aria-pressed="false">ライト</button>
-      <button type="button" id="themeDark" data-theme-set="dark" aria-pressed="false">ダーク</button>
-    </span>
+  <span class="tag">Mockup v2</span>
+  <span class="seg">
+    <button type="button" id="modeGpu" data-mode="webgpu" aria-pressed="false">WebGPU</button>
+    <button type="button" id="mode2d" data-mode="canvas2d" aria-pressed="false">Canvas 2D</button>
   </span>
   <button type="button" class="toggle" id="noteToggle" aria-pressed="true">注釈</button>
 </div>
@@ -965,34 +747,23 @@ td.muted { color: var(--fg-muted); }
   if (!root.lang) root.lang = 'ja';
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
   let reduced = reduceMQ.matches;
+  const reducedListeners = [];
+  reduceMQ.addEventListener('change', () => { reduced = reduceMQ.matches; reducedListeners.forEach((fn) => fn()); });
   const DPR = () => Math.min(window.devicePixelRatio || 1, 2);
-  const MONO = '"Geist Mono", ui-monospace, Menlo, monospace';
-  const BODY = '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif';
+  const TAU = Math.PI * 2;
+  const FONT = 'Inter, "Noto Sans JP", system-ui, sans-serif';
+  const clamp01 = (x) => Math.min(1, Math.max(0, x));
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
+  const cs = getComputedStyle(root);
+  const tok = (n) => cs.getPropertyValue(n).trim();
+  const C = { bg: tok('--bg'), raise: tok('--bg-raise'), line: tok('--line'), fg: tok('--fg'), muted: tok('--fg-muted'), gold: tok('--gold'), goldDim: tok('--gold-dim'), goldHi: tok('--gold-hi') };
   function hexToRgb(hex) {
-    let h = hex.trim().replace('#', '');
-    if (h.length === 3) h = h.split('').map((c) => c + c).join('');
-    const n = parseInt(h, 16);
+    const n = parseInt(hex.replace('#', ''), 16);
     return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
   }
-  function readTokens() {
-    const cs = getComputedStyle(root);
-    const g = (n) => cs.getPropertyValue(n).trim();
-    return {
-      dark: g('--mode') === 'dark',
-      bg: g('--bg'), raise: g('--bg-raise'), fg: g('--fg'), muted: g('--fg-muted'),
-      line: g('--line'), gold: g('--gold'), pa: g('--p-a'), pb: g('--p-b'),
-    };
-  }
-  let T = readTokens();
-  const themeListeners = [];
-  function refreshTheme() {
-    T = readTokens();
-    themeListeners.forEach((fn) => fn());
-    syncThemeButtons();
-  }
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', refreshTheme);
-  new MutationObserver(refreshTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  const RGB = { bg: hexToRgb(C.bg), gold: hexToRgb(C.goldDim), hi: hexToRgb(C.goldHi) };
 
   function fit(canvas) {
     const r = canvas.getBoundingClientRect();
@@ -1005,149 +776,109 @@ td.muted { color: var(--fg-muted); }
   function onVisible(el, cb) {
     new IntersectionObserver((entries) => entries.forEach((e) => cb(e.isIntersecting)), { rootMargin: '80px' }).observe(el);
   }
-  const reducedListeners = [];
-  reduceMQ.addEventListener('change', () => { reduced = reduceMQ.matches; reducedListeners.forEach((fn) => fn()); });
 
-  /* ================= hero: WGSL ================= */
-  const WGSL_COMMON = /* wgsl */`
-struct Params {
-  res: vec2f,
-  mouse: vec2f,
-  c0: vec2f,
-  c1: vec2f,
-  radius: f32,
-  time: f32,
-  dt: f32,
-  mouseOn: f32,
-  aspect: f32,
-  pointSize: f32,
-  intro: f32,
-  spin: f32,
-  colorA: vec4f,
-  colorB: vec4f,
-  mouseVel: vec2f,
-  dark: f32,
-  glint: f32,
+  /* ================= hero: karesansui shader ================= */
+  const WGSL = /* wgsl */`
+struct U {
+  a: vec4f,   // res.x, res.y, aspect, line width (device px)
+  b: vec4f,   // zone centre m.xy, stone radius R, zone radius Rz
+  c: vec4f,   // stone centres c0.xy, c1.xy
+  d: vec4f,   // finger q.xy, strength, radius
+  e: vec4f,   // spacing s, ring count n, time, reveal radius
+  f: vec4f,   // arc head 0, arc head 1, compass progress, arc length
+  bg: vec4f,
+  gold: vec4f,
+  hi: vec4f,
 };
-@group(0) @binding(0) var<uniform> P: Params;
+@group(0) @binding(0) var<uniform> u: U;
 
-fn hash(n: u32) -> f32 {
-  var x = n * 747796405u + 2891336453u;
-  x = ((x >> ((x >> 28u) + 4u)) ^ x) * 277803737u;
-  x = (x >> 22u) ^ x;
-  return f32(x) * (1.0 / 4294967296.0);
-}
-`;
-
-  const WGSL_SIM = WGSL_COMMON + /* wgsl */`
-@group(0) @binding(1) var<storage, read_write> parts: array<vec4f>;
-
-fn potential(p: vec2f, t: f32) -> f32 {
-  return sin(p.x * 1.9 + t * 0.21) * cos(p.y * 2.3 - t * 0.17)
-       + 0.5 * sin(p.x * 4.1 - p.y * 3.3 + t * 0.37)
-       + 0.25 * cos(p.x * 8.3 + p.y * 7.1 - t * 0.53);
-}
-
-fn curl(p: vec2f, t: f32) -> vec2f {
-  let e = 0.02;
-  let dx = potential(p + vec2f(e, 0.0), t) - potential(p - vec2f(e, 0.0), t);
-  let dy = potential(p + vec2f(0.0, e), t) - potential(p - vec2f(0.0, e), t);
-  return vec2f(dy, -dx) / (2.0 * e);
-}
-
-@compute @workgroup_size(256)
-fn sim(@builtin(global_invocation_id) gid: vec3u) {
-  let i = gid.x;
-  if (i >= arrayLength(&parts)) { return; }
-  let d = parts[i];
-  var p = d.xy;
-  var v = d.zw;
-  let h1 = hash(i * 4u + 1u);
-  let h2 = hash(i * 4u + 2u);
-  let h3 = hash(i * 4u + 3u);
-  let isFree = h3 < 0.07;
-
-  var desired = curl(p * 1.2, P.time) * 0.045;
-  if (isFree) {
-    desired += vec2f(0.012, 0.004);
-  } else {
-    let ring = i & 1u;
-    let c = select(P.c0, P.c1, ring == 1u);
-    let g = (h1 + h2 + hash(i * 4u + 4u)) / 3.0 - 0.5;
-    let spread = select(0.42, 1.6, h2 > 0.88);
-    let rp = P.radius * (1.0 + g * spread);
-    let dv = p - c;
-    let r = max(length(dv), 1e-4);
-    let dir = dv / r;
-    let sgn = select(1.0, -1.0, ring == 1u);
-    let tang = vec2f(-dir.y, dir.x) * sgn;
-    desired += tang * P.spin * (0.6 + h1 * 0.8) - dir * (r - rp) * 1.8 * P.intro;
-  }
-
-  let m = p - P.mouse;
-  let md2 = dot(m, m);
-  let infl = P.mouseOn * exp(-md2 / 0.03);
-  desired += (m * inverseSqrt(md2 + 1e-4) * 0.7 + vec2f(-m.y, m.x) * 3.0 + P.mouseVel * 0.5) * infl;
-
-  let k = 1.0 - exp(-P.dt * 3.5);
-  v = mix(v, desired, k);
-  p += v * P.dt;
-
-  if (isFree) {
-    let lim = vec2f(P.aspect + 0.05, 1.05);
-    if (p.x > lim.x) { p.x = -lim.x; } else if (p.x < -lim.x) { p.x = lim.x; }
-    if (p.y > lim.y) { p.y = -lim.y; } else if (p.y < -lim.y) { p.y = lim.y; }
-  }
-  parts[i] = vec4f(p, v);
-}
-`;
-
-  const WGSL_DRAW = WGSL_COMMON + /* wgsl */`
-@group(0) @binding(1) var<storage, read> parts: array<vec4f>;
-
-struct VOut {
-  @builtin(position) pos: vec4f,
-  @location(0) uv: vec2f,
-  @location(1) alpha: f32,
-  @location(2) glint: f32,
-  @location(3) fade: f32,
-};
+const TAU = 6.283185307;
 
 @vertex
-fn vs(@builtin(vertex_index) vi: u32, @builtin(instance_index) ii: u32) -> VOut {
-  var corners = array<vec2f, 6>(
-    vec2f(-1.0, -1.0), vec2f(1.0, -1.0), vec2f(-1.0, 1.0),
-    vec2f(-1.0, 1.0), vec2f(1.0, -1.0), vec2f(1.0, 1.0)
-  );
-  let q = corners[vi];
-  let d = parts[ii];
-  let h1 = hash(ii * 7u + 11u);
-  let h2 = hash(ii * 13u + 5u);
-  let size = P.pointSize * (0.55 + h1 * h1 * 1.6);
-  let center = vec2f(d.x / P.aspect, d.y);
-  var o: VOut;
-  o.pos = vec4f(center + q * size * 2.0 / P.res, 0.0, 1.0);
-  o.uv = q;
-  let tw = 0.5 + 0.5 * sin(P.time * (0.8 + h2 * 2.6) + h1 * 6.2831);
-  o.alpha = (0.25 + 0.75 * tw * tw) * (0.7 + min(length(d.zw) * 3.0, 0.8));
-  o.glint = select(0.0, 1.0, h2 > P.glint);
-  o.fade = smoothstep(-1.0, -0.42, center.y);
-  return o;
+fn vs(@builtin(vertex_index) i: u32) -> @builtin(position) vec4f {
+  var pts = array<vec2f, 3>(vec2f(-1.0, -1.0), vec2f(3.0, -1.0), vec2f(-1.0, 3.0));
+  return vec4f(pts[i], 0.0, 1.0);
+}
+
+fn cover(dist: f32, perPx: f32, lw: f32) -> f32 {
+  return clamp(0.5 * lw + 0.5 - dist / max(perPx, 1e-6), 0.0, 1.0);
+}
+
+fn arcGlow(th: f32, head: f32, len: f32, dir: f32) -> f32 {
+  let behind = fract((head - th) * dir / TAU) * TAU;
+  let k = 1.0 - behind / len;
+  return select(0.0, k * k, behind < len);
 }
 
 @fragment
-fn fs(i: VOut) -> @location(0) vec4f {
-  let r2 = dot(i.uv, i.uv);
-  if (r2 > 1.0) { discard; }
-  let f = 1.0 - r2;
-  let a = clamp(f * f * i.alpha * i.fade * P.colorA.a, 0.0, 1.0);
-  let c = mix(P.colorA.rgb, P.colorB.rgb, i.glint);
-  return vec4f(c * a, a);
+fn fs(@builtin(position) fc: vec4f) -> @location(0) vec4f {
+  let res = u.a.xy;
+  let aspect = u.a.z;
+  let lw = u.a.w;
+  let p = vec2f((fc.x / res.x * 2.0 - 1.0) * aspect, 1.0 - fc.y / res.y * 2.0);
+  let px = 2.0 / res.y;
+  let m = u.b.xy;
+  let R = u.b.z;
+  let Rz = u.b.w;
+  let c0 = u.c.xy;
+  let c1 = u.c.zw;
+  let q = u.d.xy;
+  let km = u.d.z;
+  let Rm = u.d.w;
+  let s = u.e.x;
+  let n = u.e.y;
+  let reveal = u.e.w;
+  let drawn = u.f.z;
+
+  let v0 = p - c0;
+  let v1 = p - c1;
+  let d0 = length(v0) - R;
+  let d1 = length(v1) - R;
+  let du = min(d0, d1);
+  let rm = length(p - m);
+
+  // inside the zone: rings that morph from the stones' outline to the zone circle
+  let rc = max(Rz - rm, 0.0);
+  let w01 = clamp(du / max(du + rc, 1e-5), 0.0, 1.0);
+  let fin = -n * s * (1.0 - w01);
+  // outside: streamlines of potential flow past a cylinder, plus a finger in the sand
+  let dq = p - q;
+  let dq2 = max(dot(dq, dq), Rm * Rm * 0.2);
+  let zoneFade = smoothstep(0.0, 3.0 * s, rm - Rz);
+  let psi = (p.y - m.y) * (1.0 - Rz * Rz / max(rm * rm, 1e-5)) - km * Rm * Rm * dq.y / dq2 * zoneFade;
+  let F = select(psi, fin, rm < Rz);
+
+  let g = F / s;
+  let gw = fwidth(g);
+  var sand = cover(abs(fract(g + 0.5) - 0.5), gw, lw);
+  sand *= smoothstep(0.0, 2.0 * px, du);
+  sand *= 1.0 - smoothstep(0.35, 0.7, gw);
+  sand *= mix(1.0, smoothstep(0.55 * Rm, Rm, length(dq)), km);
+  sand *= 1.0 - smoothstep(reveal - 0.12, reveal, rm);
+  sand *= select(1.0, 1.3, rm < Rz);
+
+  // the two stones, drawn like a compass from the top
+  let t0 = fract(atan2(v0.y, v0.x) / TAU - 0.25);
+  let t1 = fract(0.25 - atan2(v1.y, v1.x) / TAU);
+  let o0 = cover(abs(d0), px, lw * 1.15) * step(t0, drawn);
+  let o1 = cover(abs(d1), px, lw * 1.15) * step(t1, drawn);
+  let glow = max(arcGlow(atan2(v0.y, v0.x), u.f.x, u.f.w, 1.0) * o0, arcGlow(atan2(v1.y, v1.x), u.f.y, u.f.w, -1.0) * o1);
+
+  // fine hatching inside the lens where the stones overlap
+  let hg = (p.x + p.y) / (s * 0.5);
+  let hw = fwidth(hg);
+  let lens = smoothstep(0.0, px, -d0) * smoothstep(0.0, px, -d1);
+  let hatch = cover(abs(fract(hg + 0.5) - 0.5), hw, lw) * lens * clamp(drawn * 2.0 - 1.0, 0.0, 1.0);
+  let fill = smoothstep(0.0, px, -du) * 0.03 * drawn;
+
+  let a = clamp(sand * 0.3 + max(o0, o1) * 0.7 + hatch * 0.32 + fill, 0.0, 1.0);
+  var col = mix(u.bg.rgb, u.gold.rgb, a);
+  col = mix(col, u.hi.rgb, clamp(glow, 0.0, 1.0));
+  return vec4f(col, 1.0);
 }
 `;
 
-  /* ================= hero: WebGPU renderer ================= */
-  async function createGPU(canvas, count, data, onLost) {
+  async function createGPU(canvas, onLost) {
     if (!navigator.gpu) throw new Error('navigator.gpu がありません');
     const adapter = await navigator.gpu.requestAdapter();
     if (!adapter) throw new Error('GPU アダプタを取得できません');
@@ -1155,221 +886,189 @@ fn fs(i: VOut) -> @location(0) vec4f {
     let destroyed = false;
     device.lost.then((info) => { if (!destroyed) { console.warn('[hero] GPU device lost:', info.message); onLost(); } });
     device.addEventListener('uncapturederror', (e) => console.error('[hero] WebGPU error:', e.error.message));
-
     const ctx = canvas.getContext('webgpu');
     if (!ctx) throw new Error('webgpu コンテキストを作れません');
     const format = navigator.gpu.getPreferredCanvasFormat();
     ctx.configure({ device, format, alphaMode: 'opaque' });
-
-    const simModule = device.createShaderModule({ code: WGSL_SIM });
-    const drawModule = device.createShaderModule({ code: WGSL_DRAW });
-    for (const mod of [simModule, drawModule]) {
-      const info = await mod.getCompilationInfo();
-      const errors = info.messages.filter((m) => m.type === 'error');
-      if (errors.length) throw new Error('WGSL: ' + errors.map((m) => `${m.lineNum}:${m.linePos} ${m.message}`).join(' / '));
-    }
-
+    const module = device.createShaderModule({ code: WGSL });
+    const info = await module.getCompilationInfo();
+    const errors = info.messages.filter((m) => m.type === 'error');
+    if (errors.length) throw new Error('WGSL: ' + errors.map((m) => `${m.lineNum}:${m.linePos} ${m.message}`).join(' / '));
     device.pushErrorScope('validation');
-    const ubuf = device.createBuffer({ size: 112, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
-    const pbuf = device.createBuffer({ size: count * 16, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST });
-    device.queue.writeBuffer(pbuf, 0, data);
-
-    const simLayout = device.createBindGroupLayout({ entries: [
-      { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'uniform' } },
-      { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
-    ] });
-    const drawLayout = device.createBindGroupLayout({ entries: [
-      { binding: 0, visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT, buffer: { type: 'uniform' } },
-      { binding: 1, visibility: GPUShaderStage.VERTEX, buffer: { type: 'read-only-storage' } },
-    ] });
-    const simPipe = device.createComputePipeline({
-      layout: device.createPipelineLayout({ bindGroupLayouts: [simLayout] }),
-      compute: { module: simModule, entryPoint: 'sim' },
-    });
-    const drawPipelineLayout = device.createPipelineLayout({ bindGroupLayouts: [drawLayout] });
-    const makeDraw = (blend) => device.createRenderPipeline({
-      layout: drawPipelineLayout,
-      vertex: { module: drawModule, entryPoint: 'vs' },
-      fragment: { module: drawModule, entryPoint: 'fs', targets: [{ format, blend }] },
+    const ubuf = device.createBuffer({ size: 144, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    const layout = device.createBindGroupLayout({ entries: [{ binding: 0, visibility: GPUShaderStage.FRAGMENT, buffer: { type: 'uniform' } }] });
+    const pipeline = device.createRenderPipeline({
+      layout: device.createPipelineLayout({ bindGroupLayouts: [layout] }),
+      vertex: { module, entryPoint: 'vs' },
+      fragment: { module, entryPoint: 'fs', targets: [{ format }] },
       primitive: { topology: 'triangle-list' },
     });
-    // dark: 金粉が光として重なる加算合成 / light: 墨のように重なる通常合成
-    const addPipe = makeDraw({
-      color: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },
-      alpha: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },
-    });
-    const overPipe = makeDraw({
-      color: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' },
-      alpha: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' },
-    });
-    const entries = [{ binding: 0, resource: { buffer: ubuf } }, { binding: 1, resource: { buffer: pbuf } }];
-    const simGroup = device.createBindGroup({ layout: simLayout, entries });
-    const drawGroup = device.createBindGroup({ layout: drawLayout, entries });
+    const group = device.createBindGroup({ layout, entries: [{ binding: 0, resource: { buffer: ubuf } }] });
     const err = await device.popErrorScope();
     if (err) throw new Error(err.message);
-
-    const U = new Float32Array(28);
-    const groups = Math.ceil(count / 256);
+    const U = new Float32Array(36);
     return {
       kind: 'webgpu',
-      count,
-      frame(p, steps) {
+      frame(S) {
         fit(canvas);
-        const ca = hexToRgb(T.pa), cb = hexToRgb(T.pb), bg = hexToRgb(T.bg);
-        U[0] = canvas.width; U[1] = canvas.height;
-        U[2] = p.mouse[0]; U[3] = p.mouse[1];
-        U[4] = p.rings.c0[0]; U[5] = p.rings.c0[1];
-        U[6] = p.rings.c1[0]; U[7] = p.rings.c1[1];
-        U[8] = p.rings.R; U[9] = p.time; U[10] = p.dt; U[11] = p.mouseOn;
-        U[12] = p.aspect; U[13] = 1.25 * DPR(); U[14] = p.intro; U[15] = p.spin;
-        U[16] = ca[0]; U[17] = ca[1]; U[18] = ca[2]; U[19] = T.dark ? 0.4 : 0.6;
-        U[20] = cb[0]; U[21] = cb[1]; U[22] = cb[2]; U[23] = 1;
-        U[24] = p.mouseVel[0]; U[25] = p.mouseVel[1];
-        U[26] = T.dark ? 1 : 0; U[27] = T.dark ? 0.93 : 0.8;
+        U.set([canvas.width, canvas.height, S.aspect, DPR(),
+          S.m[0], S.m[1], S.R, S.Rz,
+          S.c0[0], S.c0[1], S.c1[0], S.c1[1],
+          S.q[0], S.q[1], S.km, S.Rm,
+          S.s, S.n, S.time, S.reveal,
+          S.head0, S.head1, S.drawn, S.arcLen,
+          ...RGB.bg, 1, ...RGB.gold, 1, ...RGB.hi, 1]);
         device.queue.writeBuffer(ubuf, 0, U);
-
         const enc = device.createCommandEncoder();
-        if (steps > 0) {
-          const cp = enc.beginComputePass();
-          cp.setPipeline(simPipe);
-          cp.setBindGroup(0, simGroup);
-          for (let s = 0; s < steps; s++) cp.dispatchWorkgroups(groups);
-          cp.end();
-        }
-        const rp = enc.beginRenderPass({ colorAttachments: [{
+        const pass = enc.beginRenderPass({ colorAttachments: [{
           view: ctx.getCurrentTexture().createView(),
-          clearValue: { r: bg[0], g: bg[1], b: bg[2], a: 1 },
+          clearValue: { r: RGB.bg[0], g: RGB.bg[1], b: RGB.bg[2], a: 1 },
           loadOp: 'clear',
           storeOp: 'store',
         }] });
-        rp.setPipeline(T.dark ? addPipe : overPipe);
-        rp.setBindGroup(0, drawGroup);
-        rp.draw(6, count);
-        rp.end();
+        pass.setPipeline(pipeline);
+        pass.setBindGroup(0, group);
+        pass.draw(3);
+        pass.end();
         device.queue.submit([enc.finish()]);
       },
-      destroy() {
-        destroyed = true;
-        try { ctx.unconfigure(); } catch (e) { /* already gone */ }
-        device.destroy();
-      },
+      destroy() { destroyed = true; try { ctx.unconfigure(); } catch (e) { /* already gone */ } device.destroy(); },
     };
   }
 
-  /* ================= hero: Canvas 2D renderer ================= */
-  function createCanvas2D(canvas, count, data) {
+  /* Canvas 2D fallback: the sand is computed once per layout; only the compass, arcs and reveal animate */
+  function createCanvas2D(canvas) {
     const ctx = canvas.getContext('2d', { alpha: false });
-    const seeds = new Float32Array(count * 4);
-    for (let i = 0; i < count; i++) {
-      const h1 = Math.random(), h2 = Math.random(), h3 = Math.random();
-      seeds[i * 4] = h1; seeds[i * 4 + 1] = h2; seeds[i * 4 + 2] = h3;
-      seeds[i * 4 + 3] = (h1 + h2 + Math.random()) / 3 - 0.5;
-    }
-    const pot = (x, y, t) =>
-      Math.sin(x * 1.9 + t * 0.21) * Math.cos(y * 2.3 - t * 0.17) +
-      0.5 * Math.sin(x * 4.1 - y * 3.3 + t * 0.37) +
-      0.25 * Math.cos(x * 8.3 + y * 7.1 - t * 0.53);
+    let sandImg = null, sandKey = '';
 
-    function step(p) {
-      const { dt, time: t, intro, rings, mouse, mouseVel, mouseOn, spin, aspect } = p;
-      const k = 1 - Math.exp(-dt * 3.5);
-      const e = 0.02;
-      for (let i = 0; i < count; i++) {
-        const o = i * 4;
-        let x = data[o], y = data[o + 1], vx = data[o + 2], vy = data[o + 3];
-        const h1 = seeds[o], h2 = seeds[o + 1], h3 = seeds[o + 2], g = seeds[o + 3];
-        const free = h3 < 0.07;
-        const qx = x * 1.2, qy = y * 1.2;
-        const ddx = pot(qx + e, qy, t) - pot(qx - e, qy, t);
-        const ddy = pot(qx, qy + e, t) - pot(qx, qy - e, t);
-        let dx = (ddy / (2 * e)) * 0.045;
-        let dy = (-ddx / (2 * e)) * 0.045;
-        if (free) {
-          dx += 0.012; dy += 0.004;
-        } else {
-          const ring = i & 1;
-          const c = ring ? rings.c1 : rings.c0;
-          const rp = rings.R * (1 + g * (h2 > 0.88 ? 1.6 : 0.42));
-          const ex = x - c[0], ey = y - c[1];
-          const r = Math.max(Math.hypot(ex, ey), 1e-4);
-          const ux = ex / r, uy = ey / r;
-          const sg = ring ? -1 : 1;
-          const sp = spin * (0.6 + h1 * 0.8);
-          const pull = (r - rp) * 1.8 * intro;
-          dx += -uy * sg * sp - ux * pull;
-          dy += ux * sg * sp - uy * pull;
+    function bakeSand(S, Wc, Hc) {
+      const key = [Wc, Hc, S.aspect.toFixed(4), S.Rz.toFixed(4)].join(':');
+      if (key === sandKey) return;
+      sandKey = key;
+      const W = Math.max(1, Math.round(Wc)), H = Math.max(1, Math.round(Hc));
+      const F = new Float32Array(W * H);
+      const zone = new Uint8Array(W * H);
+      const { m, R, Rz, c0, c1, s, n } = S;
+      for (let y = 0; y < H; y++) {
+        const wy = 1 - ((y + 0.5) / H) * 2;
+        for (let x = 0; x < W; x++) {
+          const wx = (((x + 0.5) / W) * 2 - 1) * S.aspect;
+          const i = y * W + x;
+          const du = Math.min(Math.hypot(wx - c0[0], wy - c0[1]) - R, Math.hypot(wx - c1[0], wy - c1[1]) - R);
+          if (du < 0) { F[i] = NaN; continue; }
+          const rm = Math.hypot(wx - m[0], wy - m[1]);
+          if (rm < Rz) { const rc = Rz - rm; F[i] = -n * s * (1 - du / (du + rc)); zone[i] = 1; }
+          else F[i] = (wy - m[1]) * (1 - (Rz * Rz) / (rm * rm));
         }
-        if (mouseOn > 0.001) {
-          const mx = x - mouse[0], my = y - mouse[1];
-          const md2 = mx * mx + my * my;
-          const inf = mouseOn * Math.exp(-md2 / 0.03);
-          const inv = 1 / Math.sqrt(md2 + 1e-4);
-          dx += (mx * inv * 0.7 - my * 3 + mouseVel[0] * 0.5) * inf;
-          dy += (my * inv * 0.7 + mx * 3 + mouseVel[1] * 0.5) * inf;
+      }
+      const img = new ImageData(W, H);
+      const px = img.data;
+      const [br, bg, bb] = RGB.bg, [gr, gg, gb] = RGB.gold;
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const i = y * W + x;
+          let a = 0;
+          const f = F[i];
+          if (f === f) {
+            const g = f / s;
+            const gx = x + 1 < W ? F[i + 1] : F[i - 1];
+            const gy = y + 1 < H ? F[i + W] : F[i - W];
+            let w = 0;
+            if (gx === gx) w = Math.max(w, Math.abs(gx / s - g));
+            if (gy === gy) w = Math.max(w, Math.abs(gy / s - g));
+            w = Math.max(w, 1e-4);
+            const dist = Math.abs(g + 0.5 - Math.floor(g + 0.5) - 0.5);
+            let cov = clamp01(1 - dist / w);
+            cov *= 1 - clamp01((w - 0.35) / 0.35);
+            a = cov * 0.3 * (zone[i] ? 1.3 : 1);
+          }
+          const o = i * 4;
+          px[o] = (br + (gr - br) * a) * 255;
+          px[o + 1] = (bg + (gg - bg) * a) * 255;
+          px[o + 2] = (bb + (gb - bb) * a) * 255;
+          px[o + 3] = 255;
         }
-        vx += (dx - vx) * k; vy += (dy - vy) * k;
-        x += vx * dt; y += vy * dt;
-        if (free) {
-          const lx = aspect + 0.05;
-          if (x > lx) x = -lx; else if (x < -lx) x = lx;
-          if (y > 1.05) y = -1.05; else if (y < -1.05) y = 1.05;
-        }
-        data[o] = x; data[o + 1] = y; data[o + 2] = vx; data[o + 3] = vy;
       }
-    }
-
-    const BUCKETS = 4;
-    function draw(p) {
-      fit(canvas);
-      const W = canvas.width, H = canvas.height, d = DPR();
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = T.bg;
-      ctx.fillRect(0, 0, W, H);
-      ctx.globalCompositeOperation = T.dark ? 'lighter' : 'source-over';
-      const paths = Array.from({ length: BUCKETS * 2 }, () => new Path2D());
-      const sx = W / (2 * p.aspect), sy = H / 2;
-      const glint = T.dark ? 0.93 : 0.8;
-      for (let i = 0; i < count; i++) {
-        const o = i * 4;
-        const px = (data[o] + p.aspect) * sx;
-        const py = (1 - data[o + 1]) * sy;
-        const h1 = seeds[o], h2 = seeds[o + 1];
-        const tw = 0.5 + 0.5 * Math.sin(p.time * (0.8 + h2 * 2.6) + h1 * 6.2831);
-        const b = Math.min(BUCKETS - 1, (tw * tw * BUCKETS) | 0);
-        const size = (1.1 + h1 * h1 * 1.8) * d;
-        paths[b + (h2 > glint ? BUCKETS : 0)].rect(px - size / 2, py - size / 2, size, size);
-      }
-      for (let k = 0; k < BUCKETS * 2; k++) {
-        ctx.globalAlpha = (T.dark ? 0.55 : 0.6) * (0.25 + (0.75 * ((k % BUCKETS) + 0.5)) / BUCKETS);
-        ctx.fillStyle = k < BUCKETS ? T.pa : T.pb;
-        ctx.fill(paths[k]);
-      }
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'source-over';
-      const fade = ctx.createLinearGradient(0, H * 0.7, 0, H);
-      fade.addColorStop(0, T.bg + '00');
-      fade.addColorStop(1, T.bg);
-      ctx.fillStyle = fade;
-      ctx.fillRect(0, H * 0.7, W, H * 0.3);
+      const off = document.createElement('canvas');
+      off.width = W; off.height = H;
+      off.getContext('2d').putImageData(img, 0, 0);
+      sandImg = off;
     }
 
     return {
       kind: 'canvas2d',
-      count,
-      frame(p, steps) { for (let s = 0; s < steps; s++) step(p); draw(p); },
+      frame(S) {
+        fit(canvas);
+        const d = DPR();
+        const Wd = canvas.width, Hd = canvas.height;
+        bakeSand({ ...S, Rz: S.Rz0 }, Wd / d, Hd / d);
+        const toX = (wx) => (wx / S.aspect * 0.5 + 0.5) * Wd;
+        const toY = (wy) => (0.5 - wy * 0.5) * Hd;
+        const k = Hd / 2;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.fillStyle = C.bg;
+        ctx.fillRect(0, 0, Wd, Hd);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(toX(S.m[0]), toY(S.m[1]), Math.max(0, S.reveal) * k, 0, TAU);
+        ctx.clip();
+        ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(sandImg, 0, 0, Wd, Hd);
+        ctx.restore();
+
+        const X0 = toX(S.c0[0]), Y0 = toY(S.c0[1]), X1 = toX(S.c1[0]), Y1 = toY(S.c1[1]), Rp = S.R * k;
+        // faint fill and lens hatching
+        ctx.fillStyle = C.goldDim;
+        ctx.globalAlpha = 0.03 * S.drawn;
+        ctx.beginPath(); ctx.arc(X0, Y0, Rp, 0, TAU); ctx.arc(X1, Y1, Rp, 0, TAU); ctx.fill('nonzero');
+        const hatchA = clamp01(S.drawn * 2 - 1);
+        if (hatchA > 0) {
+          ctx.save();
+          ctx.beginPath(); ctx.arc(X0, Y0, Rp, 0, TAU); ctx.clip();
+          ctx.beginPath(); ctx.arc(X1, Y1, Rp, 0, TAU); ctx.clip();
+          ctx.globalAlpha = 0.32 * hatchA;
+          ctx.strokeStyle = C.goldDim;
+          ctx.lineWidth = d;
+          const step = S.s * 0.5 * k / Math.SQRT2;
+          ctx.beginPath();
+          for (let t = -Rp * 3; t <= Rp * 3; t += step * 2) {
+            ctx.moveTo((X0 + X1) / 2 + t - Rp * 2, Y0 + Rp * 2);
+            ctx.lineTo((X0 + X1) / 2 + t + Rp * 2, Y0 - Rp * 2);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+        // compass outlines
+        ctx.globalAlpha = 0.7;
+        ctx.strokeStyle = C.goldDim;
+        ctx.lineWidth = 1.15 * d;
+        const top = -Math.PI / 2;
+        ctx.beginPath(); ctx.arc(X0, Y0, Rp, top, top - S.drawn * TAU, true); ctx.stroke();
+        ctx.beginPath(); ctx.arc(X1, Y1, Rp, top, top + S.drawn * TAU, false); ctx.stroke();
+        // travelling arcs
+        ctx.strokeStyle = C.goldHi;
+        ctx.lineWidth = 1.3 * d;
+        const segs = 18;
+        for (let i = 0; i < segs; i++) {
+          const a0 = (S.arcLen * i) / segs, a1 = (S.arcLen * (i + 1)) / segs;
+          ctx.globalAlpha = Math.pow(1 - i / segs, 2);
+          ctx.beginPath(); ctx.arc(X0, Y0, Rp, -S.head0 + a0, -S.head0 + a1); ctx.stroke();
+          ctx.beginPath(); ctx.arc(X1, Y1, Rp, -S.head1 - a1, -S.head1 - a0); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      },
       destroy() {},
     };
   }
 
-  /* ================= hero controller ================= */
   const Hero = (() => {
     const section = document.getElementById('top');
     let canvas = document.getElementById('heroCanvas');
     const statusEl = document.getElementById('gpuStatus');
     const fpsEl = document.getElementById('fps');
-    const S = { aspect: 1, rings: null, mouse: [9, 9], mouseVel: [0, 0], mouseOn: 0, lastMove: 0, visible: true };
-    let renderer = null, raf = 0, last = 0, simTime = 0, frames = 0, fpsT = 0, token = 0;
+    const S = { aspect: 1, m: [0, 0], R: 0.3, Rz0: 0.6, Rz: 0.6, c0: [0, 0], c1: [0, 0], s: 0.03, n: 6, q: [9, 9], km: 0, Rm: 0.1, time: 0, reveal: 0, head0: 0, head1: 0, drawn: 0, arcLen: 1.3, maxReach: 3 };
+    const pointer = { x: 9, y: 9, last: 0 };
+    let renderer = null, raf = 0, last = 0, t = 0, frames = 0, fpsT = 0, token = 0;
     let gpuState = navigator.gpu ? 'unknown' : 'unsupported';
 
     function freshCanvas() {
@@ -1385,45 +1084,43 @@ fn fs(i: VOut) -> @location(0) vec4f {
       const r = section.getBoundingClientRect();
       const a = r.width / Math.max(1, r.height);
       S.aspect = a;
-      let cx, cy, R;
-      if (a > 1.15) { R = Math.min(0.58, a * 0.34); cx = a * 0.47; cy = 0.02; }
-      else { R = Math.min(0.36, a * 0.6); cx = 0; cy = 0.5; }
-      // 現行 Hero と同じく、半径の 0.42 倍ずつ左右にずらした2つの円
-      S.rings = { c0: [cx - 0.42 * R, cy], c1: [cx + 0.42 * R, cy], R };
+      S.s = 26 / Math.max(1, r.height);          // 13 CSS px between raked lines
+      if (a > 1.1) { S.R = 0.27; S.m = [a * 0.43, -0.02]; }
+      else { S.R = Math.min(0.16, a * 0.3); S.m = [0, 0.42]; }
+      const off = 0.42 * S.R;                    // 旧 Hero と同じ、半径の 0.42 倍のずれ
+      S.c0 = [S.m[0] - off, S.m[1]];
+      S.c1 = [S.m[0] + off, S.m[1]];
+      S.Rz0 = off + S.R + S.n * S.s;
+      S.Rm = S.s * 3.2;
+      S.maxReach = Math.hypot(a + Math.abs(S.m[0]), 1 + Math.abs(S.m[1])) + 0.2;
     }
-    function initData(n) {
-      const d = new Float32Array(n * 4);
-      for (let i = 0; i < n; i++) {
-        d[i * 4] = (Math.random() * 2 - 1) * S.aspect;
-        d[i * 4 + 1] = Math.random() * 2 - 1;
-      }
-      return d;
+    function update(dt) {
+      const drawP = easeInOut(clamp01(t / 1.5));
+      const revealP = easeOut(clamp01((t - 0.7) / 2.4));
+      const spin = Math.max(0, t - 1.5) * (TAU / 16);
+      S.time = t;
+      S.drawn = drawP;
+      S.reveal = S.R * 0.9 + revealP * S.maxReach;
+      S.head0 = Math.PI / 2 + TAU * drawP + spin;
+      S.head1 = Math.PI / 2 - TAU * drawP - spin;
+      S.Rz = S.Rz0 * (1 + 0.012 * Math.sin((t * TAU) / 9));
+      const recent = pointer.last && performance.now() - pointer.last < 1500;
+      S.km += ((recent ? 1 : 0) - S.km) * (1 - Math.exp(-dt * (recent ? 4 : 0.8)));
+      const follow = 1 - Math.exp(-dt * 6);
+      S.q[0] += (pointer.x - S.q[0]) * follow;
+      S.q[1] += (pointer.y - S.q[1]) * follow;
     }
-    function params(dt) {
-      const t = Math.min(1, simTime / 2.6);
-      const e = t * t * (3 - 2 * t);
-      return {
-        dt, time: simTime, intro: 0.08 + 0.92 * e, aspect: S.aspect, rings: S.rings,
-        mouse: S.mouse, mouseVel: S.mouseVel, mouseOn: S.mouseOn, spin: 0.075,
-      };
-    }
-    const canRun = () => renderer && S.visible && !document.hidden && !reduced;
+    const canRun = () => renderer && section.dataset.visible !== '0' && !document.hidden && !reduced;
     function frame(now) {
       raf = 0;
       if (!canRun()) return;
-      const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
+      const dt = Math.min(1 / 20, Math.max(1 / 240, (now - last) / 1000));
       last = now;
-      simTime += dt;
-      const target = S.lastMove && now - S.lastMove < 1400 ? 1 : 0;
-      S.mouseOn += (target - S.mouseOn) * (1 - Math.exp(-dt * 5));
-      const decay = Math.exp(-dt * 4);
-      S.mouseVel[0] *= decay; S.mouseVel[1] *= decay;
-      renderer.frame(params(dt), 1);
+      t += dt;
+      update(dt);
+      renderer.frame(S);
       frames++;
-      if (now - fpsT > 500) {
-        fpsEl.textContent = Math.round((frames * 1000) / (now - fpsT)) + ' fps';
-        frames = 0; fpsT = now;
-      }
+      if (now - fpsT > 500) { fpsEl.textContent = Math.round((frames * 1000) / (now - fpsT)) + ' fps'; frames = 0; fpsT = now; }
       raf = requestAnimationFrame(frame);
     }
     function resume() {
@@ -1432,12 +1129,12 @@ fn fs(i: VOut) -> @location(0) vec4f {
       raf = requestAnimationFrame(frame);
     }
     function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
-    function settle() {
-      simTime = 6;
-      renderer.frame({ ...params(1 / 45), intro: 1, mouseOn: 0 }, 240);
+    function still() {
+      t = 6; S.km = 0;
+      update(0);
+      renderer.frame(S);
       fpsEl.textContent = '静止表示';
     }
-    function redrawStill() { if (renderer && !raf) renderer.frame(params(0), 0); }
 
     async function setMode(want) {
       const my = ++token;
@@ -1445,14 +1142,10 @@ fn fs(i: VOut) -> @location(0) vec4f {
       if (renderer) { renderer.destroy(); renderer = null; }
       let c = freshCanvas();
       layout();
-      const narrow = innerWidth < 720;
       let r = null;
       if (want === 'webgpu' && gpuState !== 'unsupported') {
-        const n = narrow ? 16384 : 65536;
         try {
-          r = await createGPU(c, n, initData(n), () => {
-            if (renderer === r) { gpuState = 'failed'; setMode('canvas2d'); }
-          });
+          r = await createGPU(c, () => { if (renderer === r) { gpuState = 'failed'; setMode('canvas2d'); } });
           gpuState = 'ok';
         } catch (err) {
           console.warn('[hero] WebGPU を使えないため Canvas 2D で描画します:', err && err.message);
@@ -1461,376 +1154,360 @@ fn fs(i: VOut) -> @location(0) vec4f {
         }
       }
       if (my !== token) { if (r) r.destroy(); return; }
-      if (!r) {
-        const n = narrow ? 1800 : 4000;
-        r = createCanvas2D(c, n, initData(n));
-      }
+      if (!r) r = createCanvas2D(c);
       renderer = r;
-      simTime = 0;
-      statusEl.textContent = (r.kind === 'webgpu' ? 'WebGPU' : 'Canvas 2D') + ' · ' + r.count.toLocaleString('en-US') + ' 粒';
-      fpsEl.textContent = '— fps';
+      t = 0;
+      statusEl.textContent = r.kind === 'webgpu' ? 'WebGPU · fragment shader' : 'Canvas 2D';
+      fpsEl.textContent = '';
       syncModeButtons(r.kind, gpuState);
-      if (reduced) settle(); else resume();
+      if (reduced) still(); else resume();
     }
 
     section.addEventListener('pointermove', (e) => {
       if (e.pointerType === 'touch') return;
       const r = section.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width * 2 - 1) * S.aspect;
-      const y = -((e.clientY - r.top) / r.height * 2 - 1);
-      const now = performance.now();
-      if (S.lastMove && now - S.lastMove < 100) {
-        const dt = Math.max(0.008, (now - S.lastMove) / 1000);
-        S.mouseVel[0] += ((x - S.mouse[0]) / dt - S.mouseVel[0]) * 0.35;
-        S.mouseVel[1] += ((y - S.mouse[1]) / dt - S.mouseVel[1]) * 0.35;
-        const m = Math.hypot(S.mouseVel[0], S.mouseVel[1]);
-        if (m > 2.5) { S.mouseVel[0] *= 2.5 / m; S.mouseVel[1] *= 2.5 / m; }
-      }
-      S.mouse[0] = x; S.mouse[1] = y;
-      S.lastMove = now;
+      pointer.x = ((e.clientX - r.left) / r.width * 2 - 1) * S.aspect;
+      pointer.y = -((e.clientY - r.top) / r.height * 2 - 1);
+      if (!pointer.last || performance.now() - pointer.last > 1500) { S.q[0] = pointer.x; S.q[1] = pointer.y; }
+      pointer.last = performance.now();
     });
-    section.addEventListener('pointerleave', () => { S.lastMove = 0; });
+    section.addEventListener('pointerleave', () => { pointer.last = 0; });
     new ResizeObserver(() => {
       layout();
       if (!renderer) return;
-      if (reduced) settle(); else redrawStill();
+      if (reduced) still(); else if (!raf) { update(0); renderer.frame(S); }
     }).observe(section);
-    onVisible(section, (v) => { S.visible = v; if (v) resume(); else stop(); });
+    onVisible(section, (v) => { section.dataset.visible = v ? '1' : '0'; if (v) resume(); else stop(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else resume(); });
-    reducedListeners.push(() => { if (!renderer) return; if (reduced) { stop(); settle(); } else { fpsEl.textContent = '— fps'; resume(); } });
-    themeListeners.push(redrawStill);
+    reducedListeners.push(() => { if (!renderer) return; if (reduced) { stop(); still(); } else { fpsEl.textContent = ''; resume(); } });
 
-    return { setMode, get gpuState() { return gpuState; } };
+    return { setMode };
   })();
 
-  /* ================= activity timeline ================= */
-  const WORKS = [
-    { title: 'Skill Quest Ai', kind: 'personal', created: '2026-01-02' },
-    { title: 'Zedi', kind: 'personal', created: '2025-12-31' },
-    { title: 'Typeflow', kind: 'personal', created: '2025-12-11' },
-    { title: '香典帳アプリ', kind: 'personal', created: '2025-01-10' },
-    { title: 'Robbozle Game', kind: 'personal', created: '2026-01-04' },
-    { title: '菓子製造会社向け流通管理システム', kind: 'professional', created: '2026-01-02' },
-    { title: 'Printing Erp', kind: 'professional', created: '2025-05-15' },
-    { title: 'ポートフォリオサイト', kind: 'personal', created: '2025-11-24' },
-    { title: 'Career Gems', kind: 'personal', created: '2025-12-21' },
-    { title: 'Kaki Map Hero', kind: 'personal', created: '2025-12-21' },
-    { title: 'Ofunato Mokumoku', kind: 'personal', created: '2024-09-11' },
-    { title: 'Paper OCR Tool', kind: 'personal', created: '2025-11-02' },
-  ].map((w) => ({ ...w, t: Date.parse(w.created + 'T00:00:00Z') })).sort((a, b) => a.t - b.t);
-  const EVENTS = [
-    { date: '2020-12-01', label: 'フリーランス開始' },
-    { date: '2024-09-01', label: 'DX推進支援' },
-    { date: '2025-07-01', label: 'アーシャルデザイン参画' },
-  ];
-  const ym = (t) => { const d = new Date(t); return d.getUTCFullYear() + '.' + String(d.getUTCMonth() + 1).padStart(2, '0'); };
-  const kindLabel = (k) => (k === 'personal' ? '個人開発' : '実務');
-
-  (function Timeline() {
-    const c = document.getElementById('timeline');
+  /* ================= about: shippo round window ================= */
+  (function Shippo() {
+    const c = document.getElementById('shippo');
     const ctx = c.getContext('2d');
-    const list = document.getElementById('timelineList');
-    WORKS.forEach((w) => {
-      const li = document.createElement('li');
-      li.textContent = `${ym(w.t)} ${w.title}（${kindLabel(w.kind)}）`;
-      list.appendChild(li);
-    });
-    const start = Date.UTC(2020, 11, 1);
-    let dots = [], hover = -1;
-
-    function draw() {
+    let raf = 0, visible = false, last = 0, hover = null;
+    const t0 = performance.now();
+    function draw(now) {
       fit(c);
       const d = DPR();
-      const W = c.width / d, H = c.height / d;
+      const W = c.width / d;
       ctx.setTransform(d, 0, 0, d, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      const end = Date.now();
-      const padL = 1, padR = 44;
-      const X = (t) => padL + ((t - start) / (end - start)) * (W - padL - padR);
-      const base = H - 34;
-      const monthPx = (W - padL - padR) / ((end - start) / (30.44 * 864e5));
-
+      ctx.clearRect(0, 0, W, W);
+      const cx = W / 2, cy = W / 2, Rw = W * 0.46;
+      const r = Rw / 4.2;
+      const rot = reduced ? 0.3 : 0.3 + ((now - t0) / 1000) * (TAU / 240);
+      let hx = 1e9, hy = 1e9;
+      if (hover) {
+        const dx = hover.x - cx, dy = hover.y - cy;
+        hx = dx * Math.cos(-rot) - dy * Math.sin(-rot);
+        hy = dx * Math.sin(-rot) + dy * Math.cos(-rot);
+      }
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, Rw, 0, TAU); ctx.clip();
+      ctx.translate(cx, cy);
+      ctx.rotate(rot);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = T.line;
-      ctx.beginPath(); ctx.moveTo(X(start), base + 0.5); ctx.lineTo(X(end), base + 0.5); ctx.stroke();
-
-      ctx.font = `400 11px ${MONO}`;
-      ctx.textBaseline = 'alphabetic';
-      for (let y = 2020, m = 11; ; ) {
-        const t = Date.UTC(y, m, 1);
-        if (t > end) break;
-        const xx = Math.round(X(t)) + 0.5;
-        const isYear = m === 0;
-        if (isYear || monthPx >= 4) {
-          ctx.strokeStyle = isYear ? T.muted : T.line;
-          ctx.beginPath(); ctx.moveTo(xx, base); ctx.lineTo(xx, base + (isYear ? 9 : 4)); ctx.stroke();
-        }
-        if (isYear) { ctx.fillStyle = T.muted; ctx.fillText(String(y), xx + 4, base + 23); }
-        if (++m > 11) { m = 0; y++; }
-      }
-
-      ctx.font = `400 11px ${BODY}`;
-      const rowY = [14, 32];
-      const rowEnd = [-Infinity, -Infinity];
-      EVENTS.forEach((ev) => {
-        const xx = Math.round(X(Date.parse(ev.date + 'T00:00:00Z'))) + 0.5;
-        const tw = ctx.measureText(ev.label).width;
-        let lx = xx + 6;
-        if (lx + tw > W) lx = xx - 6 - tw;
-        const row = rowEnd[0] < lx - 10 ? 0 : 1;
-        rowEnd[row] = lx + tw;
-        ctx.strokeStyle = T.muted;
-        ctx.globalAlpha = 0.55;
-        ctx.setLineDash([2, 3]);
-        ctx.beginPath(); ctx.moveTo(xx, rowY[row] - 10); ctx.lineTo(xx, base); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = T.muted;
-        ctx.fillText(ev.label, lx, rowY[row]);
-      });
-
-      const r = W < 520 ? 3.5 : 4.5;
-      const gap = 2 * r + 2.5;
-      dots = [];
-      WORKS.forEach((w) => {
-        const x = X(w.t);
-        let lv = 0;
-        while (dots.some((o) => o.lv === lv && Math.abs(o.x - x) < gap)) lv++;
-        dots.push({ ...w, x, lv, y: base - 10 - lv * gap });
-      });
-      dots.forEach((o, i) => {
-        ctx.beginPath();
-        ctx.arc(o.x, o.y, i === hover ? r + 1.5 : r, 0, Math.PI * 2);
-        if (o.kind === 'personal') { ctx.fillStyle = T.gold; ctx.fill(); }
-        else { ctx.lineWidth = 1.5; ctx.strokeStyle = T.fg; ctx.stroke(); ctx.lineWidth = 1; }
-      });
-
-      const xn = X(end);
-      ctx.fillStyle = T.gold;
-      ctx.beginPath(); ctx.arc(xn, base + 0.5, 2.5, 0, Math.PI * 2); ctx.fill();
-      ctx.font = `400 11px ${BODY}`;
-      ctx.fillText('現在', xn + 7, base + 4.5);
-
-      if (hover >= 0) {
-        const o = dots[hover];
-        const line2 = `${ym(o.t)} · ${kindLabel(o.kind)}`;
-        ctx.font = `500 12.5px ${BODY}`;
-        const w1 = ctx.measureText(o.title).width;
-        ctx.font = `400 11px ${MONO}`;
-        const w2 = ctx.measureText(line2).width;
-        const bw = Math.max(w1, w2) + 22, bh = 46;
-        const bx = Math.min(Math.max(2, o.x - bw / 2), W - bw - 2);
-        let by = o.y - r - 10 - bh;
-        if (by < 2) by = o.y + r + 10;
-        ctx.fillStyle = T.raise;
-        ctx.strokeStyle = T.line;
-        ctx.beginPath();
-        if (ctx.roundRect) ctx.roundRect(bx + 0.5, by + 0.5, bw, bh, 6); else ctx.rect(bx + 0.5, by + 0.5, bw, bh);
-        ctx.fill(); ctx.stroke();
-        ctx.fillStyle = T.fg;
-        ctx.font = `500 12.5px ${BODY}`;
-        ctx.fillText(o.title, bx + 11, by + 19);
-        ctx.fillStyle = T.muted;
-        ctx.font = `400 11px ${MONO}`;
-        ctx.fillText(line2, bx + 11, by + 36);
-      }
-    }
-
-    c.addEventListener('pointermove', (e) => {
-      const rect = c.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      let best = -1, bd = 14 * 14;
-      dots.forEach((o, i) => { const dd = (o.x - x) ** 2 + (o.y - y) ** 2; if (dd < bd) { bd = dd; best = i; } });
-      if (best !== hover) { hover = best; c.style.cursor = best >= 0 ? 'pointer' : 'default'; draw(); }
-    });
-    c.addEventListener('pointerleave', () => { if (hover !== -1) { hover = -1; draw(); } });
-    new ResizeObserver(draw).observe(c);
-    themeListeners.push(draw);
-    document.fonts && document.fonts.ready.then(draw);
-    draw();
-  })();
-
-  /* ================= works preview dissolve ================= */
-  (function WorksPreview() {
-    const c = document.getElementById('workPreview');
-    const ctx = c.getContext('2d');
-    const rows = [...document.querySelectorAll('.work')];
-    const titleEl = document.getElementById('previewTitle');
-    const metaEl = document.getElementById('previewMeta');
-    const imgs = rows.map((a) => { const im = new Image(); im.decoding = 'async'; im.src = a.dataset.img; im.onload = () => draw(); return im; });
-    let cur = 0, from = 0, prog = 1, anim = 0, t0 = 0;
-    let grid = null;
-
-    function blocks(W, H) {
-      const bs = W < 500 ? 10 : 14;
-      const cols = Math.ceil(W / bs), rowsN = Math.ceil(H / bs);
-      if (grid && grid.cols === cols && grid.rows === rowsN) return grid;
-      const th = new Float32Array(cols * rowsN);
-      for (let y = 0; y < rowsN; y++) for (let x = 0; x < cols; x++) th[y * cols + x] = 0.62 * Math.random() + 0.38 * (x / cols);
-      grid = { cols, rows: rowsN, bs, th };
-      return grid;
-    }
-    function paint(im, W, H) {
-      if (im.complete && im.naturalWidth) ctx.drawImage(im, 0, 0, W, H);
-      else { ctx.fillStyle = T.raise; ctx.fillRect(0, 0, W, H); }
-    }
-    function draw() {
-      fit(c);
-      const d = DPR();
-      const W = c.width / d, H = c.height / d;
-      ctx.setTransform(d, 0, 0, d, 0, 0);
-      if (prog >= 1) { paint(imgs[cur], W, H); return; }
-      paint(imgs[from], W, H);
-      const g = blocks(W, H);
-      const e = 1 - Math.pow(1 - prog, 3);
-      const p = e * 1.1;
-      const shown = new Path2D(), edge = new Path2D();
-      for (let y = 0; y < g.rows; y++) {
-        for (let x = 0; x < g.cols; x++) {
-          const t = g.th[y * g.cols + x];
-          if (t < p - 0.08) shown.rect(x * g.bs, y * g.bs, g.bs, g.bs);
-          else if (t < p) edge.rect(x * g.bs, y * g.bs, g.bs, g.bs);
+      const N = Math.ceil(Rw / r) + 2;
+      for (let i = -N; i <= N; i++) {
+        for (let j = -N; j <= N; j++) {
+          if ((i + j) & 1) continue;
+          const x = i * r, y = j * r;
+          const dc = Math.hypot(x, y);
+          if (dc > Rw + r) continue;
+          const hl = Math.exp(-((x - hx) ** 2 + (y - hy) ** 2) / (2 * (1.5 * r) ** 2));
+          ctx.globalAlpha = 0.34 + 0.6 * hl - 0.18 * (dc / Rw);
+          ctx.strokeStyle = hl > 0.3 ? C.gold : C.goldDim;
+          ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke();
         }
       }
-      ctx.save(); ctx.clip(shown); paint(imgs[cur], W, H); ctx.restore();
-      ctx.globalAlpha = 0.72; ctx.fillStyle = T.gold; ctx.fill(edge); ctx.globalAlpha = 1;
+      ctx.restore();
+      ctx.globalAlpha = 0.9;
+      ctx.strokeStyle = C.goldDim;
+      ctx.beginPath(); ctx.arc(cx, cy, Rw, 0, TAU); ctx.stroke();
+      ctx.globalAlpha = 0.35;
+      ctx.beginPath(); ctx.arc(cx, cy, Rw + 7, 0, TAU); ctx.stroke();
+      ctx.globalAlpha = 1;
     }
-    function tick(now) {
-      prog = Math.min(1, (now - t0) / 560);
-      draw();
-      anim = prog < 1 ? requestAnimationFrame(tick) : 0;
+    function loop(now) {
+      raf = 0;
+      if (!visible || reduced || document.hidden) return;
+      if (now - last > 32) { draw(now); last = now; }
+      raf = requestAnimationFrame(loop);
     }
-    function show(i) {
-      if (i === cur) return;
-      rows.forEach((r, k) => r.classList.toggle('is-active', k === i));
-      titleEl.textContent = rows[i].querySelector('.work-title').textContent;
-      metaEl.textContent = rows[i].dataset.kind + ' · ' + rows[i].dataset.date;
-      if (reduced) { cur = from = i; prog = 1; draw(); return; }
-      from = prog < 0.5 ? from : cur;
-      cur = i;
-      prog = 0;
-      t0 = performance.now();
-      if (!anim) anim = requestAnimationFrame(tick);
-    }
-    rows.forEach((r, i) => {
-      r.addEventListener('pointerenter', () => show(i));
-      r.addEventListener('focus', () => show(i));
-    });
-    new ResizeObserver(() => { grid = null; draw(); }).observe(c);
-    themeListeners.push(draw);
-    draw();
-  })();
-
-  /* ================= dithered portrait ================= */
-  (function Portrait() {
-    const c = document.getElementById('portrait');
-    const ctx = c.getContext('2d');
-    const img = new Image();
-    img.decoding = 'async';
-    img.src = '../../../public/images/profile.webp';
-    const B8 = [0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26, 12, 44, 4, 36, 14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22, 3, 35, 11, 43, 1, 33, 9, 41, 51, 19, 59, 27, 49, 17, 57, 25, 15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23, 61, 29, 53, 21];
-    let cache = null, lens = null, pending = 0;
-
-    function build(W, H) {
-      const cell = W < 460 ? 2.6 : 3.2;
-      const cols = Math.floor(W / cell), rowsN = Math.floor(H / cell);
-      const off = document.createElement('canvas');
-      off.width = cols; off.height = rowsN;
-      const o = off.getContext('2d', { willReadFrequently: true });
-      o.imageSmoothingQuality = 'high';
-      o.drawImage(img, 0, 0, cols, rowsN);
-      const px = o.getImageData(0, 0, cols, rowsN).data;
-      const pine = new Path2D(), body = new Path2D();
-      const dot = cell * 0.74;
-      for (let y = 0; y < rowsN; y++) {
-        for (let x = 0; x < cols; x++) {
-          const i = (y * cols + x) * 4;
-          if (px[i + 3] < 110) continue;
-          const r = px[i], g = px[i + 1], b = px[i + 2];
-          const L = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-          const v = T.dark ? Math.min(1, Math.pow(L, 0.85) * 1.12) : Math.min(1, (1 - L) * 1.25);
-          const th = (B8[(y & 7) * 8 + (x & 7)] + 0.5) / 64;
-          if (v <= th) continue;
-          const isPine = g > r + 6 && g >= b - 4;
-          (isPine ? pine : body).rect(x * cell, y * cell, dot, dot);
-        }
-      }
-      cache = { W, H, pine, body, dark: T.dark };
-    }
-    function draw() {
-      pending = 0;
-      fit(c);
-      const d = DPR();
-      const W = c.width / d, H = c.height / d;
-      ctx.setTransform(d, 0, 0, d, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      if (!img.complete || !img.naturalWidth) return;
-      if (!cache || cache.W !== W || cache.H !== H || cache.dark !== T.dark) build(W, H);
-      ctx.fillStyle = T.gold; ctx.fill(cache.pine);
-      ctx.fillStyle = T.fg; ctx.fill(cache.body);
-      if (lens) {
-        const R = Math.min(78, W * 0.16);
-        ctx.save();
-        ctx.beginPath(); ctx.arc(lens.x, lens.y, R, 0, Math.PI * 2);
-        ctx.fillStyle = T.bg; ctx.fill();
-        ctx.clip();
-        ctx.drawImage(img, 0, 0, W, H);
-        ctx.restore();
-        ctx.strokeStyle = T.gold; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.arc(lens.x, lens.y, R, 0, Math.PI * 2); ctx.stroke();
-      }
-    }
-    const queue = () => { if (!pending) pending = requestAnimationFrame(draw); };
+    const start = () => { if (!raf && visible && !reduced && !document.hidden) raf = requestAnimationFrame(loop); };
     c.addEventListener('pointermove', (e) => {
       if (e.pointerType === 'touch') return;
       const r = c.getBoundingClientRect();
-      lens = { x: e.clientX - r.left, y: e.clientY - r.top };
-      queue();
+      hover = { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (reduced) draw(performance.now());
     });
-    c.addEventListener('pointerleave', () => { lens = null; queue(); });
-    img.onload = draw;
-    new ResizeObserver(() => { cache = null; draw(); }).observe(c);
-    themeListeners.push(() => { cache = null; draw(); });
+    c.addEventListener('pointerleave', () => { hover = null; if (reduced) draw(performance.now()); });
+    onVisible(c, (v) => { visible = v; start(); });
+    document.addEventListener('visibilitychange', start);
+    reducedListeners.push(() => { draw(performance.now()); start(); });
+    new ResizeObserver(() => draw(performance.now())).observe(c);
+    draw(performance.now());
   })();
 
-  /* ================= seigaiha ================= */
+  /* ================= works: ring navigator ================= */
+  const WORKS = [
+    { slug: 'ofunato-mokumoku', title: 'Ofunato Mokumoku', kind: 'personal', date: '2024-09-11', img: 'ofunato-mokumoku', site: 'https://ofunato-mokumoku.pages.dev/', gh: 'https://github.com/otomatty/ofunato-mokumoku', tech: ['TypeScript', 'CSS', 'HTML'], desc: '菅井が主催していた大船渡もくもく会の公式サイト' },
+    { slug: 'kouden', title: '香典帳アプリ', kind: 'personal', date: '2025-01-10', img: 'kouden-thumbnail', site: 'https://kouden-app.com', gh: 'https://github.com/otomatty/kouden', tech: ['TypeScript', 'PLpgSQL', 'MDX', 'JavaScript', 'CSS'], desc: '香典帳を簡単に管理することができるアプリです。' },
+    { slug: 'printing-erp', title: 'Printing Erp', kind: 'professional', date: '2025-05-15', img: 'printing-erp', site: 'https://printing-erp-system.vercel.app', gh: 'https://github.com/otomatty/printing-erp', tech: ['TypeScript', 'MDX', 'CSS', 'Go', 'Shell'], desc: '印刷会社向けのERPシステムのプロトタイプです。' },
+    { slug: 'paper-ocr-tool', title: 'Paper OCR Tool', kind: 'personal', date: '2025-11-02', img: 'paper-ocr-tool', site: 'https://paper-ocr-tool.pages.dev/', gh: 'https://github.com/otomatty/paper-ocr-tool', tech: ['HTML', 'TypeScript', 'CSS', 'JavaScript'], desc: '簡単・効率的に紙を文字起こししてさまざまなシステムに貼り付けるためのアプリです。' },
+    { slug: 'saedgewell', title: 'ポートフォリオサイト', kind: 'personal', date: '2025-11-24', img: 'saedgewell', site: 'https://saedgewell.com', gh: 'https://github.com/otomatty/saedgewell-v2', tech: ['TypeScript', 'MDX', 'PLpgSQL', 'Go', 'CSS'], desc: '菅井 瑛正のポートフォリオサイト' },
+    { slug: 'typeflow', title: 'Typeflow', kind: 'personal', date: '2025-12-11', img: 'typeflow', site: 'https://type-flow.app', gh: 'https://github.com/otomatty/typeflow', tech: ['TypeScript', 'CSS', 'JavaScript', 'Shell', 'HTML'], desc: '効率的にタイピングが上手くなるためのタイピング練習アプリです。' },
+    { slug: 'kaki-map-hero', title: 'Kaki Map Hero', kind: 'personal', date: '2025-12-21', img: 'kaki-map-hero-thumbnail', site: 'https://kaki-map-hero.lovable.app', gh: 'https://github.com/otomatty/kaki-map-hero', tech: ['TypeScript', 'CSS', 'HTML', 'JavaScript', 'Lovable'], desc: 'Snanoハッカソンで開発した柿取りマッチングアプリ' },
+    { slug: 'career-gems', title: 'Career Gems', kind: 'personal', date: '2025-12-21', img: 'career-gems-thumbnail', site: 'https://gemini-gems-notes.lovable.app', gh: 'https://github.com/otomatty/career-gems', tech: ['TypeScript', 'CSS', 'HTML', 'JavaScript', 'Lovable'], desc: 'SES企業のエンジニアのスキル管理ツールのプロトタイプです。' },
+    { slug: 'zedi', title: 'Zedi', kind: 'personal', date: '2025-12-31', img: 'zedi-thumbnail', site: 'https://zedi-note.app', gh: 'https://github.com/otomatty/zedi', tech: ['TypeScript', 'CSS', 'HTML', 'JavaScript'], desc: 'AI時代のメモアプリ。気になることをリンクにし、新たな知識をAIを活用して身につけていくことができます。' },
+    { slug: 'fresh-inventory', title: '菓子製造会社向け流通管理システム', kind: 'professional', date: '2026-01-02', img: 'fresh-inventory', site: 'https://sweet-stock-guard.lovable.app', gh: 'https://github.com/otomatty/fresh-inventory', tech: ['TypeScript', 'CSS', 'HTML', 'JavaScript', 'Lovable'], desc: '菓子製造会社向け流通管理システムのプロトタイプです。' },
+    { slug: 'skill-quest-ai', title: 'Skill Quest Ai', kind: 'personal', date: '2026-01-02', img: 'skill-quest-ai-thumbnail', site: 'https://growthquest-hub.lovable.app', gh: 'https://github.com/otomatty/skill-quest-ai', tech: ['TypeScript', 'CSS', 'HTML', 'JavaScript', 'Lovable'], desc: 'SES企業に所属するエンジニアのためのLXP（Learning Experience Platform）のプロトタイプです。' },
+    { slug: 'robbozle-game', title: 'Robbozle Game', kind: 'personal', date: '2026-01-04', img: 'robbozle-game', site: 'https://code-blossom-bot.lovable.app', gh: 'https://github.com/otomatty/logic-lab', tech: ['TypeScript', 'CSS', 'JavaScript'], desc: 'RobbozleをWebアプリとして再現したものです。' },
+  ];
+  const kindLabel = (k) => (k === 'personal' ? '個人開発' : '実務');
+  const ym = (date) => date.slice(0, 7).replace('-', '.');
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  (function Works() {
+    const ring = document.getElementById('ring');
+    const cv = document.getElementById('ringCanvas');
+    const ctx = cv.getContext('2d');
+    const nodesBox = document.getElementById('ringNodes');
+    const $ = (id) => document.getElementById(id);
+    const N = WORKS.length;
+    const angleOf = (k) => -Math.PI / 2 + (TAU * k) / N;
+    let active = 10, filter = 'all', hover = -1;
+    let hand = angleOf(active), handFrom = hand, handTo = hand, handT0 = 0, raf = 0;
+    let geo = { size: 0, cx: 0, cy: 0, Rr: 0 };
+
+    const matches = (k) => filter === 'all' || WORKS[k].kind === filter;
+    const btns = WORKS.map((w, k) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'node';
+      b.setAttribute('aria-label', `No.${pad2(k + 1)} ${w.title}（${kindLabel(w.kind)}・${ym(w.date)}）`);
+      b.addEventListener('click', () => select(k));
+      b.addEventListener('pointerenter', () => { hover = k; draw(); });
+      b.addEventListener('pointerleave', () => { hover = -1; draw(); });
+      nodesBox.appendChild(b);
+      return b;
+    });
+    nodesBox.addEventListener('keydown', (e) => {
+      const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!dir) return;
+      e.preventDefault();
+      select(stepFrom(active, dir), true);
+    });
+
+    function stepFrom(k, dir) {
+      for (let i = 1; i <= N; i++) { const j = (k + dir * i + N * 2) % N; if (matches(j)) return j; }
+      return k;
+    }
+    function measure() {
+      const size = ring.clientWidth;
+      geo = { size, cx: size / 2, cy: size / 2, Rr: size * (size < 400 ? 0.36 : 0.39) };
+      btns.forEach((b, k) => {
+        const a = angleOf(k);
+        b.style.left = geo.cx + Math.cos(a) * geo.Rr + 'px';
+        b.style.top = geo.cy + Math.sin(a) * geo.Rr + 'px';
+      });
+    }
+    function draw() {
+      fit(cv);
+      const d = DPR();
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      const { size, cx, cy, Rr } = geo;
+      ctx.clearRect(0, 0, size, size);
+      ctx.lineWidth = 1;
+      // ensō: an open circle whose gap marks where time begins
+      const gapMid = -Math.PI / 2 - Math.PI / N;
+      const gapHalf = (Math.PI / N) * 0.42;
+      ctx.strokeStyle = C.goldDim;
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath(); ctx.arc(cx, cy, Rr, gapMid + gapHalf, gapMid - gapHalf + TAU); ctx.stroke();
+      // inner dial
+      const Ri = Rr * 0.64;
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath(); ctx.arc(cx, cy, Ri, 0, TAU); ctx.stroke();
+      for (let k = 0; k < N; k++) {
+        const a = angleOf(k);
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * (Ri - 4), cy + Math.sin(a) * (Ri - 4));
+        ctx.lineTo(cx + Math.cos(a) * Ri, cy + Math.sin(a) * Ri);
+        ctx.stroke();
+      }
+      // year labels at the first work of each year
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = C.muted;
+      ctx.font = `400 11px ${FONT}`;
+      ctx.textBaseline = 'middle';
+      let prevYear = '';
+      WORKS.forEach((w, k) => {
+        const yr = w.date.slice(0, 4);
+        if (yr === prevYear) return;
+        prevYear = yr;
+        const a = angleOf(k);
+        const ca = Math.cos(a), sa = Math.sin(a);
+        const side = Math.abs(ca) >= 0.3;
+        const lr = Rr + (side ? (size < 400 ? 14 : 22) : 22);
+        const tw = ctx.measureText(yr).width;
+        let lx = cx + ca * lr;
+        const ly = cy + sa * lr + (side ? 0 : sa < 0 ? -2 : 2);
+        if (!side) { ctx.textAlign = 'center'; }
+        else if (ca > 0) { ctx.textAlign = 'left'; lx = Math.min(lx, size - 2 - tw); }
+        else { ctx.textAlign = 'right'; lx = Math.max(lx, 2 + tw); }
+        ctx.fillText(yr, lx, ly);
+      });
+      // hand
+      ctx.strokeStyle = C.gold;
+      ctx.globalAlpha = 0.9;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(hand) * Ri, cy + Math.sin(hand) * Ri);
+      ctx.lineTo(cx + Math.cos(hand) * (Rr - 13), cy + Math.sin(hand) * (Rr - 13));
+      ctx.stroke();
+      ctx.fillStyle = C.gold;
+      ctx.beginPath(); ctx.arc(cx + Math.cos(hand) * Ri, cy + Math.sin(hand) * Ri, 2, 0, TAU); ctx.fill();
+      // nodes
+      WORKS.forEach((w, k) => {
+        const a = angleOf(k);
+        const x = cx + Math.cos(a) * Rr, y = cy + Math.sin(a) * Rr;
+        const on = matches(k);
+        ctx.globalAlpha = on ? 1 : 0.22;
+        if (k === active || k === hover) {
+          ctx.strokeStyle = C.gold;
+          ctx.globalAlpha = k === active ? 1 : 0.5;
+          ctx.beginPath(); ctx.arc(x, y, k === active ? 11 : 9, 0, TAU); ctx.stroke();
+          ctx.globalAlpha = on ? 1 : 0.22;
+        }
+        const nr = k === active ? 5 : 4.2;
+        ctx.beginPath(); ctx.arc(x, y, nr, 0, TAU);
+        if (w.kind === 'personal') { ctx.fillStyle = C.gold; ctx.fill(); }
+        else { ctx.fillStyle = C.bg; ctx.fill(); ctx.strokeStyle = C.fg; ctx.lineWidth = 1.3; ctx.stroke(); ctx.lineWidth = 1; }
+      });
+      ctx.globalAlpha = 1;
+    }
+    function tick(now) {
+      const p = clamp01((now - handT0) / 650);
+      hand = handFrom + (handTo - handFrom) * easeInOut(p);
+      draw();
+      raf = p < 1 ? requestAnimationFrame(tick) : 0;
+    }
+
+    const base = $('spotBase'), topImg = $('spotTop');
+    let imgToken = 0;
+    async function swapImage(src, alt) {
+      const my = ++imgToken;
+      topImg.getAnimations().forEach((a) => a.cancel());
+      if (reduced || !topImg.animate) { base.src = src; base.alt = alt; return; }
+      topImg.src = src;
+      try { await topImg.decode(); } catch (e) { /* show it anyway */ }
+      if (my !== imgToken) return;
+      const anim = topImg.animate(
+        [{ clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)' }],
+        { duration: 720, easing: 'cubic-bezier(.65, .05, .25, 1)', fill: 'forwards' }
+      );
+      try { await anim.finished; } catch (e) { return; }
+      if (my !== imgToken) return;
+      base.src = src; base.alt = alt;
+      try { await base.decode(); } catch (e) { /* ignore */ }
+      if (my === imgToken) anim.cancel();
+    }
+    function renderSpot(k) {
+      const w = WORKS[k];
+      $('ringNo').textContent = pad2(k + 1);
+      $('ringDate').textContent = ym(w.date);
+      $('spotNo').textContent = 'No.' + pad2(k + 1);
+      const kindEl = $('spotKind');
+      kindEl.className = 'kind kind-' + w.kind;
+      kindEl.lastChild.textContent = kindLabel(w.kind);
+      $('spotDate').textContent = ym(w.date);
+      $('spotTitle').textContent = w.title;
+      $('spotDesc').textContent = w.desc;
+      $('spotTech').textContent = w.tech.join(' · ');
+      $('spotDetail').href = 'https://saedgewell.com/works/' + w.slug;
+      $('spotSite').href = w.site;
+      $('spotGh').href = w.gh;
+      $('spotCount').textContent = `${pad2(k + 1)} / ${N}`;
+      swapImage(`../../../public/images/works/${w.img}.webp`, `${w.title} の画面`);
+    }
+    function syncButtons() {
+      btns.forEach((b, k) => {
+        b.setAttribute('aria-pressed', String(k === active));
+        b.tabIndex = k === active ? 0 : -1;
+        b.disabled = !matches(k);
+      });
+    }
+    function select(k, focus) {
+      if (!matches(k)) return;
+      if (k !== active) {
+        active = k;
+        handFrom = hand;
+        let delta = angleOf(k) - hand;
+        delta = ((((delta + Math.PI) % TAU) + TAU) % TAU) - Math.PI;
+        handTo = hand + delta;
+        renderSpot(k);
+        if (reduced) { hand = handTo; draw(); }
+        else { handT0 = performance.now(); if (!raf) raf = requestAnimationFrame(tick); }
+      }
+      syncButtons();
+      if (focus) btns[k].focus();
+    }
+    $('prevWork').addEventListener('click', () => select(stepFrom(active, -1)));
+    $('nextWork').addEventListener('click', () => select(stepFrom(active, 1)));
+    document.querySelectorAll('[data-filter]').forEach((chip) => chip.addEventListener('click', () => {
+      filter = chip.dataset.filter;
+      document.querySelectorAll('[data-filter]').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      if (!matches(active)) select(stepFrom(active, 1));
+      syncButtons();
+      draw();
+    }));
+    new ResizeObserver(() => { measure(); draw(); }).observe(ring);
+    document.fonts && document.fonts.ready.then(draw);
+    measure();
+    syncButtons();
+    draw();
+  })();
+
+  /* ================= contact: seigaiha ================= */
   (function Seigaiha() {
     const c = document.getElementById('seigaiha');
     const ctx = c.getContext('2d');
     const sec = document.getElementById('contact');
     let raf = 0, visible = false, last = 0;
     let wave = { x: null, y: null, t0: performance.now() };
-
+    const SPEED = 110;
     function draw(now) {
       fit(c);
       const d = DPR();
       const W = c.width / d, H = c.height / d;
       ctx.setTransform(d, 0, 0, d, 0, 0);
-      ctx.fillStyle = T.bg;
+      ctx.fillStyle = C.bg;
       ctx.fillRect(0, 0, W, H);
       const R = W < 640 ? 24 : 34;
       const ox = wave.x ?? W * 0.84, oy = wave.y ?? H * 0.55;
-      const speed = 120;
       const span = Math.hypot(W, H) + 360;
-      const elapsed = ((now - wave.t0) / 1000) * speed;
+      const elapsed = ((now - wave.t0) / 1000) * SPEED;
       const front = reduced ? -1e5 : (wave.x === null ? elapsed % span : elapsed) - 160;
       ctx.lineWidth = 1;
-      ctx.strokeStyle = T.gold;
       for (let row = -1; row * R * 0.5 <= H + R; row++) {
         const y = row * R * 0.5;
         const off = row & 1 ? R : 0;
         for (let x = -2 * R + off; x <= W + 2 * R; x += 2 * R) {
           ctx.globalAlpha = 1;
-          ctx.fillStyle = T.bg;
-          ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = C.bg;
+          ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.fill();
           const dist = Math.hypot(x - ox, y - oy);
           const hl = Math.exp(-((dist - front) ** 2) / (2 * 70 * 70));
-          ctx.globalAlpha = (T.dark ? 0.2 : 0.26) + 0.62 * hl;
+          ctx.globalAlpha = 0.24 + 0.6 * hl;
+          ctx.strokeStyle = hl > 0.35 ? C.gold : C.goldDim;
           ctx.beginPath();
           for (let k = 0; k < 4; k++) {
             const rr = R * (1 - k * 0.22);
             ctx.moveTo(x + rr, y);
-            ctx.arc(x, y, rr, 0, Math.PI * 2);
+            ctx.arc(x, y, rr, 0, TAU);
           }
           ctx.stroke();
         }
@@ -1848,12 +1525,11 @@ fn fs(i: VOut) -> @location(0) vec4f {
     sec.addEventListener('click', (e) => {
       if (e.target.closest('a, button')) return;
       const r = c.getBoundingClientRect();
-      wave = { x: e.clientX - r.left, y: e.clientY - r.top, t0: performance.now() - (160 / 120) * 1000 };
+      wave = { x: e.clientX - r.left, y: e.clientY - r.top, t0: performance.now() - (160 / SPEED) * 1000 };
     });
     onVisible(sec, (v) => { visible = v; start(); });
     document.addEventListener('visibilitychange', start);
     reducedListeners.push(() => { draw(performance.now()); start(); });
-    themeListeners.push(() => draw(performance.now()));
     new ResizeObserver(() => draw(performance.now())).observe(c);
     draw(performance.now());
   })();
@@ -1866,15 +1542,15 @@ fn fs(i: VOut) -> @location(0) vec4f {
 
   const copyBtn = document.getElementById('copyEmail');
   copyBtn.addEventListener('click', () => {
-    const text = document.getElementById('email').textContent;
+    const el = document.getElementById('email');
     const done = () => { copyBtn.textContent = 'コピーしました'; setTimeout(() => { copyBtn.textContent = 'コピー'; }, 1800); };
     const fallback = () => {
       const sel = getSelection(); const range = document.createRange();
-      range.selectNodeContents(document.getElementById('email'));
+      range.selectNodeContents(el);
       sel.removeAllRanges(); sel.addRange(range);
       copyBtn.textContent = '選択しました';
     };
-    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+    try { navigator.clipboard.writeText(el.textContent).then(done, fallback); } catch (e) { fallback(); }
   });
 
   const modeButtons = [...document.querySelectorAll('[data-mode]')];
@@ -1890,17 +1566,6 @@ fn fs(i: VOut) -> @location(0) vec4f {
   modeButtons.forEach((b) => b.addEventListener('click', () => {
     if (b.getAttribute('aria-pressed') !== 'true') Hero.setMode(b.dataset.mode);
   }));
-
-  const themeButtons = [...document.querySelectorAll('[data-theme-set]')];
-  function syncThemeButtons() {
-    const cur = root.getAttribute('data-theme') || 'auto';
-    themeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === cur)));
-  }
-  themeButtons.forEach((b) => b.addEventListener('click', () => {
-    const v = b.dataset.themeSet;
-    if (v === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', v);
-  }));
-  syncThemeButtons();
 
   const noteToggle = document.getElementById('noteToggle');
   noteToggle.addEventListener('click', () => {
