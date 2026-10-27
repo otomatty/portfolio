@@ -1,0 +1,1916 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saedgewell Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 1200px editorial column, left-aligned type over one full-bleed GPU field; sections divided by hairlines instead of cards. */
+:root {
+  color-scheme: dark;
+  --mode: dark;
+  --bg: #0D1811;
+  --bg-raise: #142219;
+  --fg: #F1F0E4;
+  --fg-muted: #A0A996;
+  --line: #243629;
+  --gold: #D8B45E;
+  --btn-bg: #D8B45E;
+  --btn-fg: #0D1811;
+  --p-a: #D8B45E;
+  --p-b: #F6EDD2;
+  --note: #7AA2FF;
+  --note-fg: #0D1811;
+  --shadow: rgb(0 0 0 / 0.35);
+
+  --font-display: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --container: 1200px;
+  --header-h: 64px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --mode: light;
+    --bg: #F6F6EC;
+    --bg-raise: #ECEDE1;
+    --fg: #11211A;
+    --fg-muted: #535E51;
+    --line: #D8DACB;
+    --gold: #7E6312;
+    --btn-bg: #11211A;
+    --btn-fg: #F6F6EC;
+    --p-a: #1D3A29;
+    --p-b: #9A7A1C;
+    --note: #2F5FD0;
+    --note-fg: #FFFFFF;
+    --shadow: rgb(17 33 26 / 0.14);
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --mode: light;
+  --bg: #F6F6EC;
+  --bg-raise: #ECEDE1;
+  --fg: #11211A;
+  --fg-muted: #535E51;
+  --line: #D8DACB;
+  --gold: #7E6312;
+  --btn-bg: #11211A;
+  --btn-fg: #F6F6EC;
+  --p-a: #1D3A29;
+  --p-b: #9A7A1C;
+  --note: #2F5FD0;
+  --note-fg: #FFFFFF;
+  --shadow: rgb(17 33 26 / 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding-bottom: 112px;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 60;
+  background: var(--bg);
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+img { max-width: 100%; height: auto; display: block; }
+main > section[id], .notes { scroll-margin-top: var(--header-h); }
+canvas { display: block; max-width: 100%; }
+h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) {
+  .wrap {
+    padding-left: max(40px, env(safe-area-inset-left, 0px));
+    padding-right: max(40px, env(safe-area-inset-right, 0px));
+  }
+}
+.nb { display: inline-block; }
+h1, h2, h3, .hero-lead, .sec-lead, .contact-text, .notes-lead { line-break: strict; word-break: auto-phrase; }
+@media (max-width: 859px) { .br-wide { display: none; } }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.mono { font-family: var(--font-mono); }
+
+/* ---------- labels & buttons ---------- */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.label::before {
+  content: "";
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 26px;
+  font: 500 15px/1 var(--font-body);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: transform .2s ease, background-color .2s ease, color .2s ease;
+}
+.btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-text { padding: 0 4px; color: var(--fg); }
+.btn-text .arrow { transition: transform .2s ease; }
+.btn-text:hover .arrow { transform: translateX(4px); }
+.btn-text:hover { color: var(--gold); }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.site-header.scrolled {
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--line);
+}
+.site-header .wrap {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 15px/1 var(--font-mono);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 9px -5px 0 -2px var(--gold), 5px 7px 0 -2.5px var(--gold);
+  margin-right: 10px;
+}
+.nav { display: flex; align-items: center; gap: clamp(14px, 2.6vw, 32px); font-size: 14px; }
+.nav a { text-decoration: none; color: var(--fg-muted); transition: color .2s ease; }
+.nav a:hover { color: var(--fg); }
+.nav .nav-cta {
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 16px;
+}
+.nav .nav-cta:hover { border-color: var(--gold); }
+@media (max-width: 420px) { .nav { font-size: 13px; } .nav .nav-cta { padding: 6px 12px; } }
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  margin-top: calc(var(--header-h) * -1);
+  min-height: clamp(620px, 88vh, 860px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 34%, transparent 58%);
+}
+.hero-inner {
+  align-self: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  gap: 28px;
+  padding-top: calc(var(--header-h) + 56px);
+  padding-bottom: 56px;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.15rem, 5.2vw, 4.35rem);
+  line-height: 1.28;
+  letter-spacing: 0.03em;
+  text-wrap: balance;
+}
+.hero-title .accent { color: var(--gold); }
+.hero-lead {
+  max-width: 34em;
+  color: var(--fg-muted);
+  font-size: clamp(0.94rem, 1.15vw, 1.04rem);
+  line-height: 2;
+}
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-top: 6px; }
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  padding-block: 14px 26px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+.hero-meta .readout { display: inline-flex; gap: 18px; }
+.hero-meta .readout span + span::before { content: "/"; margin-right: 18px; color: var(--line); }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-inner > * { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-inner > :nth-child(2) { animation-delay: .08s; }
+  .hero-inner > :nth-child(3) { animation-delay: .16s; }
+  .hero-inner > :nth-child(4) { animation-delay: .24s; }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .hero { min-height: clamp(640px, 92vh, 820px); }
+  .hero::after { background: linear-gradient(0deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 46%, transparent 72%); }
+  .hero-inner { align-self: end; padding-bottom: 36px; gap: 22px; }
+}
+
+/* ---------- sections ---------- */
+.sec {
+  position: relative;
+  border-top: 1px solid var(--line);
+  padding-block: clamp(72px, 10vw, 128px);
+}
+.sec-head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 20px 56px;
+  align-items: end;
+}
+.sec-head .label { grid-column: 1 / -1; }
+.sec-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3.1vw, 2.55rem);
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  text-wrap: balance;
+}
+.sec-lead { color: var(--fg-muted); max-width: 36em; }
+@media (max-width: 860px) { .sec-head { grid-template-columns: minmax(0, 1fr); } }
+
+/* metrics */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--line);
+}
+.metric {
+  display: grid;
+  gap: 6px;
+  padding: 24px 0 0 24px;
+  border-left: 1px solid var(--line);
+}
+.metric:first-child { border-left: 0; padding-left: 0; }
+.metric dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+}
+.metric .value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.metric .num { font-size: clamp(2.6rem, 7vw, 5.4rem); letter-spacing: -0.01em; }
+.metric .unit { font-size: clamp(0.95rem, 1.6vw, 1.25rem); color: var(--fg-muted); }
+.metric .meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); letter-spacing: 0.04em; }
+@media (max-width: 520px) {
+  .metric { padding-left: 14px; }
+  .metric .meta { font-size: 10.5px; }
+}
+
+.timeline { margin-top: clamp(40px, 5vw, 64px); }
+.timeline canvas { width: 100%; height: 156px; }
+.timeline figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--fg-muted);
+}
+.key { display: inline-flex; align-items: center; gap: 8px; }
+.key i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.key .fill { background: var(--gold); }
+.key .ring { border: 1.5px solid var(--fg); }
+.key .dash { width: 1px; height: 12px; border-radius: 0; border-left: 1px dashed var(--fg-muted); }
+
+/* works */
+.works-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 40px; }
+.works-head > div { display: grid; gap: 20px; }
+.works-count { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted); letter-spacing: 0.06em; }
+.works-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  gap: 56px;
+  margin-top: clamp(40px, 5vw, 64px);
+  align-items: start;
+}
+.work-list { border-top: 1px solid var(--line); }
+.work-list li { border-bottom: 1px solid var(--line); }
+.work {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 16px;
+  padding: 22px 0;
+  text-decoration: none;
+}
+.work-thumb { display: none; }
+.work-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+}
+.work-meta i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.work-meta .fill { background: var(--gold); }
+.work-meta .ring { border: 1.5px solid var(--fg); }
+.work-title {
+  grid-column: 1;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  transition: color .2s ease;
+}
+.work-arrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+  transition: transform .25s ease, color .2s ease;
+}
+.work-desc { grid-column: 1 / -1; color: var(--fg-muted); font-size: 14px; line-height: 1.8; }
+.work-tech { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); letter-spacing: 0.03em; padding-top: 4px; }
+.work.is-active .work-title, .work:hover .work-title { color: var(--gold); }
+.work.is-active .work-arrow, .work:hover .work-arrow { color: var(--gold); transform: translate(3px, -3px); }
+.work-preview { position: sticky; top: calc(var(--header-h) + 32px); }
+.work-preview canvas {
+  width: 100%;
+  aspect-ratio: 1120 / 619;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--bg-raise);
+}
+.work-preview figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 860px) {
+  .works-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .work-preview { display: none; }
+  .work-thumb {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    aspect-ratio: 1120 / 619;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    margin-bottom: 12px;
+    grid-row: 1;
+  }
+  .work-arrow { grid-row: 2 / span 2; }
+}
+
+/* profile */
+.profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+.portrait canvas { width: 100%; aspect-ratio: 900 / 675; cursor: crosshair; }
+.portrait figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); }
+.profile-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; justify-items: start; }
+.name {
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+.name-en {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.bio { color: var(--fg-muted); max-width: 34em; }
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--fg);
+}
+@media (max-width: 860px) { .profile-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* contact */
+.contact { overflow: hidden; isolation: isolate; padding-block: clamp(96px, 13vw, 168px); }
+.contact canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  -webkit-mask-image: linear-gradient(270deg, #000 0%, rgb(0 0 0 / 0.75) 30%, transparent 72%);
+  mask-image: linear-gradient(270deg, #000 0%, rgb(0 0 0 / 0.75) 30%, transparent 72%);
+}
+.contact-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; justify-items: start; }
+.contact-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.3rem, 6vw, 4.6rem);
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+}
+.contact-text { color: var(--fg-muted); max-width: 40em; }
+.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-top: 8px; }
+.email { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.email span { font-family: var(--font-mono); font-size: 14px; user-select: all; overflow-wrap: anywhere; }
+.btn-mini {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg-muted);
+  font: 500 12px/1 var(--font-mono);
+  border-radius: 999px;
+  padding: 0 14px;
+  min-height: 34px;
+  cursor: pointer;
+}
+.btn-mini:hover { color: var(--fg); border-color: var(--gold); }
+@media (max-width: 860px) {
+  .contact canvas {
+    -webkit-mask-image: linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0.6) 30%, transparent 62%);
+    mask-image: linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0.6) 30%, transparent 62%);
+  }
+}
+
+/* footer */
+.site-footer { border-top: 1px solid var(--line); }
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 32px;
+  padding-block: 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { color: var(--fg); }
+
+/* ---------- mockup annotation layer ---------- */
+.pin {
+  position: absolute;
+  z-index: 5;
+  top: 24px;
+  right: max(16px, env(safe-area-inset-right, 0px), calc((100% - var(--container)) / 2 + 40px));
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 11.5px/1.3 var(--font-mono);
+  text-decoration: none;
+  color: var(--fg);
+}
+.pin b {
+  flex: none;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--note);
+  color: var(--note-fg);
+  font-weight: 500;
+}
+.pin span {
+  background: var(--bg-raise);
+  border: 1px solid var(--note);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.hero .pin { top: calc(var(--header-h) + 18px); }
+.notes-off .pin { display: none; }
+@media (max-width: 560px) { .pin span { display: none; } }
+
+.mockbar {
+  position: fixed;
+  z-index: 70;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  padding: 7px 8px 7px 14px;
+  background: color-mix(in srgb, var(--bg-raise) 90%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 34px var(--shadow);
+  font: 500 12px/1 var(--font-mono);
+  color: var(--fg-muted);
+}
+.mockbar .tag { color: var(--note); letter-spacing: 0.12em; text-transform: uppercase; }
+.mockbar .group { display: inline-flex; align-items: center; gap: 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg button, .toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--fg-muted);
+  font: inherit;
+  min-height: 36px;
+  padding: 0 11px;
+  cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.seg button:disabled { cursor: not-allowed; opacity: 0.55; }
+.toggle { border: 1px solid var(--line); border-radius: 10px; }
+.toggle[aria-pressed="true"] { border-color: var(--note); color: var(--note); }
+@media (max-width: 640px) {
+  .mockbar .group-label, .mockbar .tag { display: none; }
+  .mockbar { padding: 6px; gap: 6px; font-size: 11px; flex-wrap: nowrap; }
+  .seg button, .toggle { padding: 0 8px; min-height: 34px; }
+}
+
+/* ---------- notes ---------- */
+.notes { background: var(--bg-raise); border-top: 1px solid var(--line); }
+.notes .wrap { padding-block: clamp(64px, 9vw, 112px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.notes .label { color: var(--note); }
+.notes-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.notes-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 2.8vw, 2.2rem); line-height: 1.4; }
+.notes-lead { max-width: 44em; color: var(--fg-muted); }
+.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px; align-items: start; }
+.compare figure img { border: 1px solid var(--line); border-radius: 3px; }
+.compare figcaption { margin-top: 8px; font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-muted); }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.7; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-mono); font-weight: 500; font-size: 11.5px; letter-spacing: 0.06em; color: var(--fg-muted); }
+td:first-child { white-space: nowrap; font-weight: 500; }
+td.muted { color: var(--fg-muted); }
+.note-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 28px 40px; counter-reset: note; }
+.note-list li { display: grid; gap: 8px; align-content: start; scroll-margin-top: 96px; }
+.note-list h3 { display: flex; align-items: center; gap: 10px; font-size: 15.5px; font-weight: 700; line-height: 1.5; }
+.note-list h3 b {
+  flex: none;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--note); color: var(--note-fg);
+  font: 500 11.5px/1 var(--font-mono);
+}
+.note-list p { color: var(--fg-muted); font-size: 14px; }
+.note-list .hint { font-family: var(--font-mono); font-size: 12px; color: var(--note); }
+.steps { display: grid; gap: 10px; counter-reset: step; max-width: 52em; }
+.steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; font-size: 14px; color: var(--fg-muted); }
+.steps li::before { counter-increment: step; content: counter(step); font-family: var(--font-mono); color: var(--note); }
+.steps code, .note-list code, td code { font-family: var(--font-mono); font-size: 0.92em; color: var(--fg); }
+.notes h3.sub { font-size: 15.5px; font-weight: 700; margin-bottom: 12px; }
+@media (max-width: 860px) { .compare { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <a class="logo" href="https://saedgewell.com/" target="_blank" rel="noopener"><span class="logo-mark" aria-hidden="true"></span>Saedgewell</a>
+    <nav class="nav" aria-label="メイン">
+      <a href="#works">Works</a>
+      <a href="#profile">About</a>
+      <a class="nav-cta" href="#contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top" aria-labelledby="heroTitle">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">AI-Driven Development Engineer</p>
+      <h1 class="hero-title" id="heroTitle"><span class="nb">AI駆動開発を、</span><br><span class="nb"><span class="accent">チームの当たり前</span>に。</span></h1>
+      <p class="hero-lead">AI-DLCの導入・定着支援から、UI/UX設計を含むフルスタック開発まで。<br class="br-wide">AIを“安定して動かす”ことにこだわるエンジニアです。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#works">実績を見る</a>
+        <a class="btn btn-text" href="#profile">プロフィール <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="wrap hero-meta">
+      <span class="readout"><span id="gpuStatus">初期化中</span><span id="fps">— fps</span></span>
+      <span>菅井 瑛正 / Akimasa Sugai</span>
+    </div>
+    <a class="pin" href="#note-1"><b>1</b><span>WebGPU 金粉フィールド</span></a>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="aboutTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label">About</p>
+        <h2 class="sec-title" id="aboutTitle"><span class="nb">UI/UXから</span><span class="nb">インフラまで、</span><br><span class="nb">AIを軸に</span><span class="nb">手がける。</span></h2>
+        <p class="sec-lead">フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。</p>
+      </div>
+      <dl class="metrics">
+        <div class="metric">
+          <dt>開発経験</dt>
+          <dd class="value"><span class="num">5</span><span class="unit">年</span></dd>
+          <dd class="meta">2020.12 – 現在</dd>
+        </div>
+        <div class="metric">
+          <dt>実績</dt>
+          <dd class="value"><span class="num">12</span><span class="unit">件</span></dd>
+          <dd class="meta">実務 2 / 個人開発 10</dd>
+        </div>
+        <div class="metric">
+          <dt>個人開発</dt>
+          <dd class="value"><span class="num">10</span><span class="unit">個</span></dd>
+          <dd class="meta">2024.09 – 現在</dd>
+        </div>
+      </dl>
+      <figure class="timeline">
+        <canvas id="timeline" role="img" aria-label="2020年12月から現在までの実績12件を作成日順に並べた年表"></canvas>
+        <figcaption>
+          <span class="key"><i class="fill"></i>個人開発</span>
+          <span class="key"><i class="ring"></i>実務</span>
+          <span class="key"><i class="dash"></i>経歴の節目</span>
+        </figcaption>
+        <ol class="sr-only" id="timelineList"></ol>
+      </figure>
+    </div>
+    <a class="pin" href="#note-2"><b>2</b><span>Canvas 2D 活動年表</span></a>
+  </section>
+
+  <section class="sec" id="works" aria-labelledby="worksTitle">
+    <div class="wrap">
+      <div class="works-head">
+        <div>
+          <p class="label">Works</p>
+          <h2 class="sec-title" id="worksTitle">注目の実績</h2>
+        </div>
+        <p class="works-count">6 / 12件を表示</p>
+      </div>
+      <div class="works-grid">
+        <ul class="work-list" id="workList">
+          <li><a class="work is-active" href="https://saedgewell.com/works/skill-quest-ai" target="_blank" rel="noopener" data-img="../../../public/images/works/skill-quest-ai-thumbnail.webp" data-kind="個人開発" data-date="2026.01">
+            <img class="work-thumb" src="../../../public/images/works/skill-quest-ai-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="fill"></i>個人開発 · 2026.01</span>
+            <span class="work-title">Skill Quest Ai</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">SES企業に所属するエンジニアのためのLXP（Learning Experience Platform）のプロトタイプです。</span>
+            <span class="work-tech">TypeScript · CSS · HTML · Lovable</span>
+          </a></li>
+          <li><a class="work" href="https://saedgewell.com/works/zedi" target="_blank" rel="noopener" data-img="../../../public/images/works/zedi-thumbnail.webp" data-kind="個人開発" data-date="2025.12">
+            <img class="work-thumb" src="../../../public/images/works/zedi-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.12</span>
+            <span class="work-title">Zedi</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">AI時代のメモアプリ。気になることをリンクにし、新たな知識をAIを活用して身につけていくことができます。</span>
+            <span class="work-tech">TypeScript · CSS · HTML</span>
+          </a></li>
+          <li><a class="work" href="https://saedgewell.com/works/typeflow" target="_blank" rel="noopener" data-img="../../../public/images/works/typeflow.webp" data-kind="個人開発" data-date="2025.12">
+            <img class="work-thumb" src="../../../public/images/works/typeflow.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.12</span>
+            <span class="work-title">Typeflow</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">効率的にタイピングが上手くなるためのタイピング練習アプリです。</span>
+            <span class="work-tech">TypeScript · CSS · Shell</span>
+          </a></li>
+          <li><a class="work" href="https://saedgewell.com/works/kouden" target="_blank" rel="noopener" data-img="../../../public/images/works/kouden-thumbnail.webp" data-kind="個人開発" data-date="2025.01">
+            <img class="work-thumb" src="../../../public/images/works/kouden-thumbnail.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="fill"></i>個人開発 · 2025.01</span>
+            <span class="work-title">香典帳アプリ</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">香典帳を簡単に管理することができるアプリです。</span>
+            <span class="work-tech">TypeScript · PLpgSQL · MDX</span>
+          </a></li>
+          <li><a class="work" href="https://saedgewell.com/works/fresh-inventory" target="_blank" rel="noopener" data-img="../../../public/images/works/fresh-inventory.webp" data-kind="実務" data-date="2026.01">
+            <img class="work-thumb" src="../../../public/images/works/fresh-inventory.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="ring"></i>実務 · 2026.01</span>
+            <span class="work-title">菓子製造会社向け流通管理システム</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">菓子製造会社向け流通管理システムのプロトタイプです。</span>
+            <span class="work-tech">TypeScript · HTML · Lovable</span>
+          </a></li>
+          <li><a class="work" href="https://saedgewell.com/works/printing-erp" target="_blank" rel="noopener" data-img="../../../public/images/works/printing-erp.webp" data-kind="実務" data-date="2025.05">
+            <img class="work-thumb" src="../../../public/images/works/printing-erp.webp" alt="" width="1120" height="619" loading="lazy">
+            <span class="work-meta"><i class="ring"></i>実務 · 2025.05</span>
+            <span class="work-title">Printing Erp</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="work-desc">印刷会社向けのERPシステムのプロトタイプです。</span>
+            <span class="work-tech">TypeScript · Go · MDX</span>
+          </a></li>
+        </ul>
+        <figure class="work-preview" aria-hidden="true">
+          <canvas id="workPreview"></canvas>
+          <figcaption><span id="previewTitle">Skill Quest Ai</span><span id="previewMeta">個人開発 · 2026.01</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <a class="pin" href="#note-3"><b>3</b><span>Canvas 2D ディゾルブ</span></a>
+  </section>
+
+  <section class="sec" id="profile" aria-labelledby="profileTitle">
+    <div class="wrap profile-grid">
+      <figure class="portrait">
+        <canvas id="portrait" role="img" aria-label="松の手入れをする菅井 瑛正"></canvas>
+        <figcaption>カーソルを重ねた円の中だけ写真が見えます</figcaption>
+      </figure>
+      <div class="profile-body">
+        <p class="label">Profile</p>
+        <h2 class="name" id="profileTitle">菅井 瑛正<span class="name-en">Akimasa Sugai</span></h2>
+        <p class="bio">TypeScript/React を中心としたフロントエンドから、Rust/Go/Python によるバックエンド、AWS/GCP 等のクラウドインフラまで幅広い技術領域をカバーするエンジニアです。OSSをカスタマイズして高品質なアプリケーションを構築するノウハウや、企業DX推進・チーム育成の経験を活かし、技術と組織の両面から課題解決に取り組んでいます。</p>
+        <ul class="stack" aria-label="主な技術">
+          <li>TypeScript</li><li>React</li><li>Next.js</li><li>Astro</li><li>Hono</li><li>Tauri</li><li>Supabase</li><li>Rust</li><li>Go</li><li>Python</li><li>AWS</li><li>GCP</li>
+        </ul>
+        <a class="btn btn-text" href="https://saedgewell.com/about" target="_blank" rel="noopener">詳細プロフィール <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <a class="pin" href="#note-4"><b>4</b><span>Canvas 2D 網点ポートレート</span></a>
+  </section>
+
+  <section class="sec contact" id="contact" aria-labelledby="contactTitle">
+    <canvas id="seigaiha" aria-hidden="true"></canvas>
+    <div class="wrap contact-inner">
+      <p class="label">Contact</p>
+      <h2 class="contact-title" id="contactTitle">お問い合わせ</h2>
+      <p class="contact-text">プロダクト開発や技術に関するご質問・ご相談など、お気軽にお問い合わせください。</p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="https://saedgewell.com/contact" target="_blank" rel="noopener">お問い合わせフォーム</a>
+        <div class="email">
+          <span id="email">akimasa.sugai@saedgewell.com</span>
+          <button type="button" class="btn-mini" id="copyEmail">コピー</button>
+        </div>
+      </div>
+    </div>
+    <a class="pin" href="#note-5"><b>5</b><span>Canvas 2D 青海波</span></a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Saedgewell</span>
+    <nav aria-label="フッター">
+      <a href="https://github.com/otomatty" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://saedgewell.com/privacy-policy" target="_blank" rel="noopener">プライバシーポリシー</a>
+      <a href="https://saedgewell.com/terms" target="_blank" rel="noopener">利用規約</a>
+    </nav>
+  </div>
+</footer>
+
+<section class="notes" id="notes" aria-labelledby="notesTitle">
+  <div class="wrap">
+    <div class="notes-head">
+      <p class="label">Mockup notes</p>
+      <h2 class="notes-title" id="notesTitle">このモックアップについて</h2>
+      <p class="notes-lead">コンセプトは「蒔絵（まきえ）」です。漆の深い緑に金粉を蒔くように、現行サイトの配色（深緑・クリーム・金）と和柄のモチーフはそのまま引き継ぎ、装飾を GPU で描く金粉に集約します。大きな動きは Hero の一か所だけに置き、ほかのセクションは Canvas 2D による控えめな表現に留めます。</p>
+    </div>
+
+    <div class="compare">
+      <figure>
+        <img src="./current.webp" alt="現行サイトのトップページ。中央揃えの見出しと、破線の円が2つ重なった背景" width="1200" height="750" loading="lazy">
+        <figcaption>現行のトップページ</figcaption>
+      </figure>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>箇所</th><th>現行</th><th>提案</th></tr></thead>
+          <tbody>
+            <tr><td>Hero</td><td class="muted">SVG と CSS で回る2つの円、中央揃えの見出し</td><td>2つの円を WebGPU の金粉の軌道として描き直す。見出しは左揃え</td></tr>
+            <tr><td>アクセント色</td><td class="muted">紫からピンクへのグラデーション文字</td><td>金の単色に絞る</td></tr>
+            <tr><td>背景パターン</td><td class="muted">magicui の7種（FlickeringGrid・Shippo・Seigaiha・Dot・Grid・Ripple・Particles）</td><td>WebGPU 1つと Canvas 2D 3つに統合</td></tr>
+            <tr><td>自己紹介</td><td class="muted">Bento グリッド</td><td>3つの数字と活動年表</td></tr>
+            <tr><td>注目の実績</td><td class="muted">黒背景の全画面ビュー</td><td>一覧とプレビュー</td></tr>
+            <tr><td>書体</td><td class="muted">Inter・Noto Sans JP</td><td>見出しは Shippori Mincho、本文は Noto Sans JP、数字とラベルは Geist Mono</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <ol class="note-list">
+      <li id="note-1">
+        <h3><b>1</b>Hero：WebGPU の金粉フィールド</h3>
+        <p>compute shader で 65,536 粒（スマートフォンは 16,384 粒）の位置を毎フレーム更新し、インスタンス描画で点を打ちます。現行 Hero の「重なる2つの円」を粒子の軌道として引き継ぎ、カーソルの周りでは金粉が渦を巻きます。読み込み直後は画面全体に散った粒が約2.5秒で円に集まります。</p>
+        <p>WebGPU に対応していないブラウザでは同じ動きを Canvas 2D の 4,000 粒で描き、OS の「視差効果を減らす」設定では静止した1フレームだけを表示します。</p>
+        <p class="hint">下のツールバーで WebGPU と Canvas 2D を切り替えて比べられます。</p>
+      </li>
+      <li id="note-2">
+        <h3><b>2</b>数字と活動年表：Canvas 2D</h3>
+        <p>Bento グリッドを、3つの数字と1本の年表に置き換えます。年表は <code>works.ts</code> の <code>created_at</code> と経歴の節目から描き、塗りの点が個人開発、輪の点が実務です。点にカーソルを合わせると作品名が出ます。同じ内容をリストとしても出力し、検索エンジンとスクリーンリーダーに渡します。</p>
+      </li>
+      <li id="note-3">
+        <h3><b>3</b>Works：一覧とプレビュー</h3>
+        <p>作品を一覧で並べ、行にカーソルを合わせると右のプレビューが金のブロックを伴って切り替わります（Canvas 2D のクリップ描画、約0.5秒）。スマートフォンではプレビューを使わず、各行にサムネイルを表示します。</p>
+      </li>
+      <li id="note-4">
+        <h3><b>4</b>Profile：網点のポートレート</h3>
+        <p>プロフィール写真を 8×8 の組織的ディザで網点にし、松の葉を金、人物を地の反対色で描き分けます。カーソルを重ねた円の中だけ元の写真が見えます。</p>
+      </li>
+      <li id="note-5">
+        <h3><b>5</b>Contact：青海波</h3>
+        <p>現行の <code>SeigaihaPattern</code> を Canvas 2D で描き直し、光の輪がゆっくり通り過ぎます。空いている所をクリックすると、そこから波紋が広がります。画面外では描画を止めます。</p>
+      </li>
+    </ol>
+
+    <div>
+      <h3 class="sub">描画方式とフォールバック</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>要素</th><th>描画</th><th>非対応のとき</th><th>止めるとき</th></tr></thead>
+          <tbody>
+            <tr><td>Hero 金粉</td><td>WebGPU（compute shader とインスタンス描画）</td><td class="muted">Canvas 2D 4,000 粒</td><td class="muted">画面外、タブ非表示。reduced-motion では静止1フレーム</td></tr>
+            <tr><td>活動年表</td><td>Canvas 2D</td><td class="muted">同じ内容の <code>&lt;ol&gt;</code> を SSR で出力</td><td class="muted">ホバーとリサイズのときだけ再描画</td></tr>
+            <tr><td>Works プレビュー</td><td>Canvas 2D（ブロック単位のクリップ）</td><td class="muted"><code>&lt;img&gt;</code> をそのまま表示</td><td class="muted">切り替え中の約0.5秒だけ描画</td></tr>
+            <tr><td>ポートレート</td><td>Canvas 2D（8×8 ディザ）</td><td class="muted"><code>&lt;img&gt;</code></td><td class="muted">ホバー中だけ再描画</td></tr>
+            <tr><td>青海波</td><td>Canvas 2D</td><td class="muted">CSS 背景の静止画</td><td class="muted">画面外、reduced-motion</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="sub">実装の進め方</h3>
+      <ol class="steps">
+        <li><span><code>src/lib/canvas/</code> に共通の描画ループをまとめる（requestAnimationFrame、DPR 上限 2、画面外とタブ非表示での停止、reduced-motion、テーマ色の取得）</span></li>
+        <li><span>Hero を <code>HeroField.tsx</code> として <code>client:idle</code> の island にし、WebGPU → Canvas 2D → 静止画の順にフォールバックさせる</span></li>
+        <li><span>デザイントークンを整理し、アクセントを金に一本化する。見出し用の明朝はサブセット化して自前でホストする</span></li>
+        <li><span>年表・Works・Profile・Contact を順に置き換え、使わなくなった magicui コンポーネントを削除する</span></li>
+        <li><span>既存の Lighthouse CI（<code>.lighthouserc.json</code>）で LCP と TBT が悪化していないことを確かめる</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<div class="mockbar" role="toolbar" aria-label="モックアップの表示設定">
+  <span class="tag">Mockup</span>
+  <span class="group"><span class="group-label">描画</span>
+    <span class="seg">
+      <button type="button" id="modeGpu" data-mode="webgpu" aria-pressed="false">WebGPU</button>
+      <button type="button" id="mode2d" data-mode="canvas2d" aria-pressed="false">Canvas 2D</button>
+    </span>
+  </span>
+  <span class="group"><span class="group-label">テーマ</span>
+    <span class="seg">
+      <button type="button" id="themeAuto" data-theme-set="auto" aria-pressed="true">自動</button>
+      <button type="button" id="themeLight" data-theme-set="light" aria-pressed="false">ライト</button>
+      <button type="button" id="themeDark" data-theme-set="dark" aria-pressed="false">ダーク</button>
+    </span>
+  </span>
+  <button type="button" class="toggle" id="noteToggle" aria-pressed="true">注釈</button>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ================= shared ================= */
+  const root = document.documentElement;
+  if (!root.lang) root.lang = 'ja';
+  const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = reduceMQ.matches;
+  const DPR = () => Math.min(window.devicePixelRatio || 1, 2);
+  const MONO = '"Geist Mono", ui-monospace, Menlo, monospace';
+  const BODY = '"Noto Sans JP", "Hiragino Sans", system-ui, sans-serif';
+
+  function hexToRgb(hex) {
+    let h = hex.trim().replace('#', '');
+    if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+    const n = parseInt(h, 16);
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  function readTokens() {
+    const cs = getComputedStyle(root);
+    const g = (n) => cs.getPropertyValue(n).trim();
+    return {
+      dark: g('--mode') === 'dark',
+      bg: g('--bg'), raise: g('--bg-raise'), fg: g('--fg'), muted: g('--fg-muted'),
+      line: g('--line'), gold: g('--gold'), pa: g('--p-a'), pb: g('--p-b'),
+    };
+  }
+  let T = readTokens();
+  const themeListeners = [];
+  function refreshTheme() {
+    T = readTokens();
+    themeListeners.forEach((fn) => fn());
+    syncThemeButtons();
+  }
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', refreshTheme);
+  new MutationObserver(refreshTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+  function fit(canvas) {
+    const r = canvas.getBoundingClientRect();
+    const d = DPR();
+    const w = Math.max(1, Math.round(r.width * d));
+    const h = Math.max(1, Math.round(r.height * d));
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; return true; }
+    return false;
+  }
+  function onVisible(el, cb) {
+    new IntersectionObserver((entries) => entries.forEach((e) => cb(e.isIntersecting)), { rootMargin: '80px' }).observe(el);
+  }
+  const reducedListeners = [];
+  reduceMQ.addEventListener('change', () => { reduced = reduceMQ.matches; reducedListeners.forEach((fn) => fn()); });
+
+  /* ================= hero: WGSL ================= */
+  const WGSL_COMMON = /* wgsl */`
+struct Params {
+  res: vec2f,
+  mouse: vec2f,
+  c0: vec2f,
+  c1: vec2f,
+  radius: f32,
+  time: f32,
+  dt: f32,
+  mouseOn: f32,
+  aspect: f32,
+  pointSize: f32,
+  intro: f32,
+  spin: f32,
+  colorA: vec4f,
+  colorB: vec4f,
+  mouseVel: vec2f,
+  dark: f32,
+  glint: f32,
+};
+@group(0) @binding(0) var<uniform> P: Params;
+
+fn hash(n: u32) -> f32 {
+  var x = n * 747796405u + 2891336453u;
+  x = ((x >> ((x >> 28u) + 4u)) ^ x) * 277803737u;
+  x = (x >> 22u) ^ x;
+  return f32(x) * (1.0 / 4294967296.0);
+}
+`;
+
+  const WGSL_SIM = WGSL_COMMON + /* wgsl */`
+@group(0) @binding(1) var<storage, read_write> parts: array<vec4f>;
+
+fn potential(p: vec2f, t: f32) -> f32 {
+  return sin(p.x * 1.9 + t * 0.21) * cos(p.y * 2.3 - t * 0.17)
+       + 0.5 * sin(p.x * 4.1 - p.y * 3.3 + t * 0.37)
+       + 0.25 * cos(p.x * 8.3 + p.y * 7.1 - t * 0.53);
+}
+
+fn curl(p: vec2f, t: f32) -> vec2f {
+  let e = 0.02;
+  let dx = potential(p + vec2f(e, 0.0), t) - potential(p - vec2f(e, 0.0), t);
+  let dy = potential(p + vec2f(0.0, e), t) - potential(p - vec2f(0.0, e), t);
+  return vec2f(dy, -dx) / (2.0 * e);
+}
+
+@compute @workgroup_size(256)
+fn sim(@builtin(global_invocation_id) gid: vec3u) {
+  let i = gid.x;
+  if (i >= arrayLength(&parts)) { return; }
+  let d = parts[i];
+  var p = d.xy;
+  var v = d.zw;
+  let h1 = hash(i * 4u + 1u);
+  let h2 = hash(i * 4u + 2u);
+  let h3 = hash(i * 4u + 3u);
+  let isFree = h3 < 0.07;
+
+  var desired = curl(p * 1.2, P.time) * 0.045;
+  if (isFree) {
+    desired += vec2f(0.012, 0.004);
+  } else {
+    let ring = i & 1u;
+    let c = select(P.c0, P.c1, ring == 1u);
+    let g = (h1 + h2 + hash(i * 4u + 4u)) / 3.0 - 0.5;
+    let spread = select(0.42, 1.6, h2 > 0.88);
+    let rp = P.radius * (1.0 + g * spread);
+    let dv = p - c;
+    let r = max(length(dv), 1e-4);
+    let dir = dv / r;
+    let sgn = select(1.0, -1.0, ring == 1u);
+    let tang = vec2f(-dir.y, dir.x) * sgn;
+    desired += tang * P.spin * (0.6 + h1 * 0.8) - dir * (r - rp) * 1.8 * P.intro;
+  }
+
+  let m = p - P.mouse;
+  let md2 = dot(m, m);
+  let infl = P.mouseOn * exp(-md2 / 0.03);
+  desired += (m * inverseSqrt(md2 + 1e-4) * 0.7 + vec2f(-m.y, m.x) * 3.0 + P.mouseVel * 0.5) * infl;
+
+  let k = 1.0 - exp(-P.dt * 3.5);
+  v = mix(v, desired, k);
+  p += v * P.dt;
+
+  if (isFree) {
+    let lim = vec2f(P.aspect + 0.05, 1.05);
+    if (p.x > lim.x) { p.x = -lim.x; } else if (p.x < -lim.x) { p.x = lim.x; }
+    if (p.y > lim.y) { p.y = -lim.y; } else if (p.y < -lim.y) { p.y = lim.y; }
+  }
+  parts[i] = vec4f(p, v);
+}
+`;
+
+  const WGSL_DRAW = WGSL_COMMON + /* wgsl */`
+@group(0) @binding(1) var<storage, read> parts: array<vec4f>;
+
+struct VOut {
+  @builtin(position) pos: vec4f,
+  @location(0) uv: vec2f,
+  @location(1) alpha: f32,
+  @location(2) glint: f32,
+  @location(3) fade: f32,
+};
+
+@vertex
+fn vs(@builtin(vertex_index) vi: u32, @builtin(instance_index) ii: u32) -> VOut {
+  var corners = array<vec2f, 6>(
+    vec2f(-1.0, -1.0), vec2f(1.0, -1.0), vec2f(-1.0, 1.0),
+    vec2f(-1.0, 1.0), vec2f(1.0, -1.0), vec2f(1.0, 1.0)
+  );
+  let q = corners[vi];
+  let d = parts[ii];
+  let h1 = hash(ii * 7u + 11u);
+  let h2 = hash(ii * 13u + 5u);
+  let size = P.pointSize * (0.55 + h1 * h1 * 1.6);
+  let center = vec2f(d.x / P.aspect, d.y);
+  var o: VOut;
+  o.pos = vec4f(center + q * size * 2.0 / P.res, 0.0, 1.0);
+  o.uv = q;
+  let tw = 0.5 + 0.5 * sin(P.time * (0.8 + h2 * 2.6) + h1 * 6.2831);
+  o.alpha = (0.25 + 0.75 * tw * tw) * (0.7 + min(length(d.zw) * 3.0, 0.8));
+  o.glint = select(0.0, 1.0, h2 > P.glint);
+  o.fade = smoothstep(-1.0, -0.42, center.y);
+  return o;
+}
+
+@fragment
+fn fs(i: VOut) -> @location(0) vec4f {
+  let r2 = dot(i.uv, i.uv);
+  if (r2 > 1.0) { discard; }
+  let f = 1.0 - r2;
+  let a = clamp(f * f * i.alpha * i.fade * P.colorA.a, 0.0, 1.0);
+  let c = mix(P.colorA.rgb, P.colorB.rgb, i.glint);
+  return vec4f(c * a, a);
+}
+`;
+
+  /* ================= hero: WebGPU renderer ================= */
+  async function createGPU(canvas, count, data, onLost) {
+    if (!navigator.gpu) throw new Error('navigator.gpu がありません');
+    const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) throw new Error('GPU アダプタを取得できません');
+    const device = await adapter.requestDevice();
+    let destroyed = false;
+    device.lost.then((info) => { if (!destroyed) { console.warn('[hero] GPU device lost:', info.message); onLost(); } });
+    device.addEventListener('uncapturederror', (e) => console.error('[hero] WebGPU error:', e.error.message));
+
+    const ctx = canvas.getContext('webgpu');
+    if (!ctx) throw new Error('webgpu コンテキストを作れません');
+    const format = navigator.gpu.getPreferredCanvasFormat();
+    ctx.configure({ device, format, alphaMode: 'opaque' });
+
+    const simModule = device.createShaderModule({ code: WGSL_SIM });
+    const drawModule = device.createShaderModule({ code: WGSL_DRAW });
+    for (const mod of [simModule, drawModule]) {
+      const info = await mod.getCompilationInfo();
+      const errors = info.messages.filter((m) => m.type === 'error');
+      if (errors.length) throw new Error('WGSL: ' + errors.map((m) => `${m.lineNum}:${m.linePos} ${m.message}`).join(' / '));
+    }
+
+    device.pushErrorScope('validation');
+    const ubuf = device.createBuffer({ size: 112, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    const pbuf = device.createBuffer({ size: count * 16, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST });
+    device.queue.writeBuffer(pbuf, 0, data);
+
+    const simLayout = device.createBindGroupLayout({ entries: [
+      { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'uniform' } },
+      { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+    ] });
+    const drawLayout = device.createBindGroupLayout({ entries: [
+      { binding: 0, visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT, buffer: { type: 'uniform' } },
+      { binding: 1, visibility: GPUShaderStage.VERTEX, buffer: { type: 'read-only-storage' } },
+    ] });
+    const simPipe = device.createComputePipeline({
+      layout: device.createPipelineLayout({ bindGroupLayouts: [simLayout] }),
+      compute: { module: simModule, entryPoint: 'sim' },
+    });
+    const drawPipelineLayout = device.createPipelineLayout({ bindGroupLayouts: [drawLayout] });
+    const makeDraw = (blend) => device.createRenderPipeline({
+      layout: drawPipelineLayout,
+      vertex: { module: drawModule, entryPoint: 'vs' },
+      fragment: { module: drawModule, entryPoint: 'fs', targets: [{ format, blend }] },
+      primitive: { topology: 'triangle-list' },
+    });
+    // dark: 金粉が光として重なる加算合成 / light: 墨のように重なる通常合成
+    const addPipe = makeDraw({
+      color: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },
+      alpha: { srcFactor: 'one', dstFactor: 'one', operation: 'add' },
+    });
+    const overPipe = makeDraw({
+      color: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' },
+      alpha: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' },
+    });
+    const entries = [{ binding: 0, resource: { buffer: ubuf } }, { binding: 1, resource: { buffer: pbuf } }];
+    const simGroup = device.createBindGroup({ layout: simLayout, entries });
+    const drawGroup = device.createBindGroup({ layout: drawLayout, entries });
+    const err = await device.popErrorScope();
+    if (err) throw new Error(err.message);
+
+    const U = new Float32Array(28);
+    const groups = Math.ceil(count / 256);
+    return {
+      kind: 'webgpu',
+      count,
+      frame(p, steps) {
+        fit(canvas);
+        const ca = hexToRgb(T.pa), cb = hexToRgb(T.pb), bg = hexToRgb(T.bg);
+        U[0] = canvas.width; U[1] = canvas.height;
+        U[2] = p.mouse[0]; U[3] = p.mouse[1];
+        U[4] = p.rings.c0[0]; U[5] = p.rings.c0[1];
+        U[6] = p.rings.c1[0]; U[7] = p.rings.c1[1];
+        U[8] = p.rings.R; U[9] = p.time; U[10] = p.dt; U[11] = p.mouseOn;
+        U[12] = p.aspect; U[13] = 1.25 * DPR(); U[14] = p.intro; U[15] = p.spin;
+        U[16] = ca[0]; U[17] = ca[1]; U[18] = ca[2]; U[19] = T.dark ? 0.4 : 0.6;
+        U[20] = cb[0]; U[21] = cb[1]; U[22] = cb[2]; U[23] = 1;
+        U[24] = p.mouseVel[0]; U[25] = p.mouseVel[1];
+        U[26] = T.dark ? 1 : 0; U[27] = T.dark ? 0.93 : 0.8;
+        device.queue.writeBuffer(ubuf, 0, U);
+
+        const enc = device.createCommandEncoder();
+        if (steps > 0) {
+          const cp = enc.beginComputePass();
+          cp.setPipeline(simPipe);
+          cp.setBindGroup(0, simGroup);
+          for (let s = 0; s < steps; s++) cp.dispatchWorkgroups(groups);
+          cp.end();
+        }
+        const rp = enc.beginRenderPass({ colorAttachments: [{
+          view: ctx.getCurrentTexture().createView(),
+          clearValue: { r: bg[0], g: bg[1], b: bg[2], a: 1 },
+          loadOp: 'clear',
+          storeOp: 'store',
+        }] });
+        rp.setPipeline(T.dark ? addPipe : overPipe);
+        rp.setBindGroup(0, drawGroup);
+        rp.draw(6, count);
+        rp.end();
+        device.queue.submit([enc.finish()]);
+      },
+      destroy() {
+        destroyed = true;
+        try { ctx.unconfigure(); } catch (e) { /* already gone */ }
+        device.destroy();
+      },
+    };
+  }
+
+  /* ================= hero: Canvas 2D renderer ================= */
+  function createCanvas2D(canvas, count, data) {
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const seeds = new Float32Array(count * 4);
+    for (let i = 0; i < count; i++) {
+      const h1 = Math.random(), h2 = Math.random(), h3 = Math.random();
+      seeds[i * 4] = h1; seeds[i * 4 + 1] = h2; seeds[i * 4 + 2] = h3;
+      seeds[i * 4 + 3] = (h1 + h2 + Math.random()) / 3 - 0.5;
+    }
+    const pot = (x, y, t) =>
+      Math.sin(x * 1.9 + t * 0.21) * Math.cos(y * 2.3 - t * 0.17) +
+      0.5 * Math.sin(x * 4.1 - y * 3.3 + t * 0.37) +
+      0.25 * Math.cos(x * 8.3 + y * 7.1 - t * 0.53);
+
+    function step(p) {
+      const { dt, time: t, intro, rings, mouse, mouseVel, mouseOn, spin, aspect } = p;
+      const k = 1 - Math.exp(-dt * 3.5);
+      const e = 0.02;
+      for (let i = 0; i < count; i++) {
+        const o = i * 4;
+        let x = data[o], y = data[o + 1], vx = data[o + 2], vy = data[o + 3];
+        const h1 = seeds[o], h2 = seeds[o + 1], h3 = seeds[o + 2], g = seeds[o + 3];
+        const free = h3 < 0.07;
+        const qx = x * 1.2, qy = y * 1.2;
+        const ddx = pot(qx + e, qy, t) - pot(qx - e, qy, t);
+        const ddy = pot(qx, qy + e, t) - pot(qx, qy - e, t);
+        let dx = (ddy / (2 * e)) * 0.045;
+        let dy = (-ddx / (2 * e)) * 0.045;
+        if (free) {
+          dx += 0.012; dy += 0.004;
+        } else {
+          const ring = i & 1;
+          const c = ring ? rings.c1 : rings.c0;
+          const rp = rings.R * (1 + g * (h2 > 0.88 ? 1.6 : 0.42));
+          const ex = x - c[0], ey = y - c[1];
+          const r = Math.max(Math.hypot(ex, ey), 1e-4);
+          const ux = ex / r, uy = ey / r;
+          const sg = ring ? -1 : 1;
+          const sp = spin * (0.6 + h1 * 0.8);
+          const pull = (r - rp) * 1.8 * intro;
+          dx += -uy * sg * sp - ux * pull;
+          dy += ux * sg * sp - uy * pull;
+        }
+        if (mouseOn > 0.001) {
+          const mx = x - mouse[0], my = y - mouse[1];
+          const md2 = mx * mx + my * my;
+          const inf = mouseOn * Math.exp(-md2 / 0.03);
+          const inv = 1 / Math.sqrt(md2 + 1e-4);
+          dx += (mx * inv * 0.7 - my * 3 + mouseVel[0] * 0.5) * inf;
+          dy += (my * inv * 0.7 + mx * 3 + mouseVel[1] * 0.5) * inf;
+        }
+        vx += (dx - vx) * k; vy += (dy - vy) * k;
+        x += vx * dt; y += vy * dt;
+        if (free) {
+          const lx = aspect + 0.05;
+          if (x > lx) x = -lx; else if (x < -lx) x = lx;
+          if (y > 1.05) y = -1.05; else if (y < -1.05) y = 1.05;
+        }
+        data[o] = x; data[o + 1] = y; data[o + 2] = vx; data[o + 3] = vy;
+      }
+    }
+
+    const BUCKETS = 4;
+    function draw(p) {
+      fit(canvas);
+      const W = canvas.width, H = canvas.height, d = DPR();
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = T.bg;
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = T.dark ? 'lighter' : 'source-over';
+      const paths = Array.from({ length: BUCKETS * 2 }, () => new Path2D());
+      const sx = W / (2 * p.aspect), sy = H / 2;
+      const glint = T.dark ? 0.93 : 0.8;
+      for (let i = 0; i < count; i++) {
+        const o = i * 4;
+        const px = (data[o] + p.aspect) * sx;
+        const py = (1 - data[o + 1]) * sy;
+        const h1 = seeds[o], h2 = seeds[o + 1];
+        const tw = 0.5 + 0.5 * Math.sin(p.time * (0.8 + h2 * 2.6) + h1 * 6.2831);
+        const b = Math.min(BUCKETS - 1, (tw * tw * BUCKETS) | 0);
+        const size = (1.1 + h1 * h1 * 1.8) * d;
+        paths[b + (h2 > glint ? BUCKETS : 0)].rect(px - size / 2, py - size / 2, size, size);
+      }
+      for (let k = 0; k < BUCKETS * 2; k++) {
+        ctx.globalAlpha = (T.dark ? 0.55 : 0.6) * (0.25 + (0.75 * ((k % BUCKETS) + 0.5)) / BUCKETS);
+        ctx.fillStyle = k < BUCKETS ? T.pa : T.pb;
+        ctx.fill(paths[k]);
+      }
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
+      const fade = ctx.createLinearGradient(0, H * 0.7, 0, H);
+      fade.addColorStop(0, T.bg + '00');
+      fade.addColorStop(1, T.bg);
+      ctx.fillStyle = fade;
+      ctx.fillRect(0, H * 0.7, W, H * 0.3);
+    }
+
+    return {
+      kind: 'canvas2d',
+      count,
+      frame(p, steps) { for (let s = 0; s < steps; s++) step(p); draw(p); },
+      destroy() {},
+    };
+  }
+
+  /* ================= hero controller ================= */
+  const Hero = (() => {
+    const section = document.getElementById('top');
+    let canvas = document.getElementById('heroCanvas');
+    const statusEl = document.getElementById('gpuStatus');
+    const fpsEl = document.getElementById('fps');
+    const S = { aspect: 1, rings: null, mouse: [9, 9], mouseVel: [0, 0], mouseOn: 0, lastMove: 0, visible: true };
+    let renderer = null, raf = 0, last = 0, simTime = 0, frames = 0, fpsT = 0, token = 0;
+    let gpuState = navigator.gpu ? 'unknown' : 'unsupported';
+
+    function freshCanvas() {
+      const c = document.createElement('canvas');
+      c.className = 'hero-canvas';
+      c.id = 'heroCanvas';
+      c.setAttribute('aria-hidden', 'true');
+      canvas.replaceWith(c);
+      canvas = c;
+      return c;
+    }
+    function layout() {
+      const r = section.getBoundingClientRect();
+      const a = r.width / Math.max(1, r.height);
+      S.aspect = a;
+      let cx, cy, R;
+      if (a > 1.15) { R = Math.min(0.58, a * 0.34); cx = a * 0.47; cy = 0.02; }
+      else { R = Math.min(0.36, a * 0.6); cx = 0; cy = 0.5; }
+      // 現行 Hero と同じく、半径の 0.42 倍ずつ左右にずらした2つの円
+      S.rings = { c0: [cx - 0.42 * R, cy], c1: [cx + 0.42 * R, cy], R };
+    }
+    function initData(n) {
+      const d = new Float32Array(n * 4);
+      for (let i = 0; i < n; i++) {
+        d[i * 4] = (Math.random() * 2 - 1) * S.aspect;
+        d[i * 4 + 1] = Math.random() * 2 - 1;
+      }
+      return d;
+    }
+    function params(dt) {
+      const t = Math.min(1, simTime / 2.6);
+      const e = t * t * (3 - 2 * t);
+      return {
+        dt, time: simTime, intro: 0.08 + 0.92 * e, aspect: S.aspect, rings: S.rings,
+        mouse: S.mouse, mouseVel: S.mouseVel, mouseOn: S.mouseOn, spin: 0.075,
+      };
+    }
+    const canRun = () => renderer && S.visible && !document.hidden && !reduced;
+    function frame(now) {
+      raf = 0;
+      if (!canRun()) return;
+      const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
+      last = now;
+      simTime += dt;
+      const target = S.lastMove && now - S.lastMove < 1400 ? 1 : 0;
+      S.mouseOn += (target - S.mouseOn) * (1 - Math.exp(-dt * 5));
+      const decay = Math.exp(-dt * 4);
+      S.mouseVel[0] *= decay; S.mouseVel[1] *= decay;
+      renderer.frame(params(dt), 1);
+      frames++;
+      if (now - fpsT > 500) {
+        fpsEl.textContent = Math.round((frames * 1000) / (now - fpsT)) + ' fps';
+        frames = 0; fpsT = now;
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    function resume() {
+      if (raf || !canRun()) return;
+      last = performance.now(); fpsT = last; frames = 0;
+      raf = requestAnimationFrame(frame);
+    }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+    function settle() {
+      simTime = 6;
+      renderer.frame({ ...params(1 / 45), intro: 1, mouseOn: 0 }, 240);
+      fpsEl.textContent = '静止表示';
+    }
+    function redrawStill() { if (renderer && !raf) renderer.frame(params(0), 0); }
+
+    async function setMode(want) {
+      const my = ++token;
+      stop();
+      if (renderer) { renderer.destroy(); renderer = null; }
+      let c = freshCanvas();
+      layout();
+      const narrow = innerWidth < 720;
+      let r = null;
+      if (want === 'webgpu' && gpuState !== 'unsupported') {
+        const n = narrow ? 16384 : 65536;
+        try {
+          r = await createGPU(c, n, initData(n), () => {
+            if (renderer === r) { gpuState = 'failed'; setMode('canvas2d'); }
+          });
+          gpuState = 'ok';
+        } catch (err) {
+          console.warn('[hero] WebGPU を使えないため Canvas 2D で描画します:', err && err.message);
+          gpuState = 'failed';
+          c = freshCanvas();
+        }
+      }
+      if (my !== token) { if (r) r.destroy(); return; }
+      if (!r) {
+        const n = narrow ? 1800 : 4000;
+        r = createCanvas2D(c, n, initData(n));
+      }
+      renderer = r;
+      simTime = 0;
+      statusEl.textContent = (r.kind === 'webgpu' ? 'WebGPU' : 'Canvas 2D') + ' · ' + r.count.toLocaleString('en-US') + ' 粒';
+      fpsEl.textContent = '— fps';
+      syncModeButtons(r.kind, gpuState);
+      if (reduced) settle(); else resume();
+    }
+
+    section.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = section.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width * 2 - 1) * S.aspect;
+      const y = -((e.clientY - r.top) / r.height * 2 - 1);
+      const now = performance.now();
+      if (S.lastMove && now - S.lastMove < 100) {
+        const dt = Math.max(0.008, (now - S.lastMove) / 1000);
+        S.mouseVel[0] += ((x - S.mouse[0]) / dt - S.mouseVel[0]) * 0.35;
+        S.mouseVel[1] += ((y - S.mouse[1]) / dt - S.mouseVel[1]) * 0.35;
+        const m = Math.hypot(S.mouseVel[0], S.mouseVel[1]);
+        if (m > 2.5) { S.mouseVel[0] *= 2.5 / m; S.mouseVel[1] *= 2.5 / m; }
+      }
+      S.mouse[0] = x; S.mouse[1] = y;
+      S.lastMove = now;
+    });
+    section.addEventListener('pointerleave', () => { S.lastMove = 0; });
+    new ResizeObserver(() => {
+      layout();
+      if (!renderer) return;
+      if (reduced) settle(); else redrawStill();
+    }).observe(section);
+    onVisible(section, (v) => { S.visible = v; if (v) resume(); else stop(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else resume(); });
+    reducedListeners.push(() => { if (!renderer) return; if (reduced) { stop(); settle(); } else { fpsEl.textContent = '— fps'; resume(); } });
+    themeListeners.push(redrawStill);
+
+    return { setMode, get gpuState() { return gpuState; } };
+  })();
+
+  /* ================= activity timeline ================= */
+  const WORKS = [
+    { title: 'Skill Quest Ai', kind: 'personal', created: '2026-01-02' },
+    { title: 'Zedi', kind: 'personal', created: '2025-12-31' },
+    { title: 'Typeflow', kind: 'personal', created: '2025-12-11' },
+    { title: '香典帳アプリ', kind: 'personal', created: '2025-01-10' },
+    { title: 'Robbozle Game', kind: 'personal', created: '2026-01-04' },
+    { title: '菓子製造会社向け流通管理システム', kind: 'professional', created: '2026-01-02' },
+    { title: 'Printing Erp', kind: 'professional', created: '2025-05-15' },
+    { title: 'ポートフォリオサイト', kind: 'personal', created: '2025-11-24' },
+    { title: 'Career Gems', kind: 'personal', created: '2025-12-21' },
+    { title: 'Kaki Map Hero', kind: 'personal', created: '2025-12-21' },
+    { title: 'Ofunato Mokumoku', kind: 'personal', created: '2024-09-11' },
+    { title: 'Paper OCR Tool', kind: 'personal', created: '2025-11-02' },
+  ].map((w) => ({ ...w, t: Date.parse(w.created + 'T00:00:00Z') })).sort((a, b) => a.t - b.t);
+  const EVENTS = [
+    { date: '2020-12-01', label: 'フリーランス開始' },
+    { date: '2024-09-01', label: 'DX推進支援' },
+    { date: '2025-07-01', label: 'アーシャルデザイン参画' },
+  ];
+  const ym = (t) => { const d = new Date(t); return d.getUTCFullYear() + '.' + String(d.getUTCMonth() + 1).padStart(2, '0'); };
+  const kindLabel = (k) => (k === 'personal' ? '個人開発' : '実務');
+
+  (function Timeline() {
+    const c = document.getElementById('timeline');
+    const ctx = c.getContext('2d');
+    const list = document.getElementById('timelineList');
+    WORKS.forEach((w) => {
+      const li = document.createElement('li');
+      li.textContent = `${ym(w.t)} ${w.title}（${kindLabel(w.kind)}）`;
+      list.appendChild(li);
+    });
+    const start = Date.UTC(2020, 11, 1);
+    let dots = [], hover = -1;
+
+    function draw() {
+      fit(c);
+      const d = DPR();
+      const W = c.width / d, H = c.height / d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      const end = Date.now();
+      const padL = 1, padR = 44;
+      const X = (t) => padL + ((t - start) / (end - start)) * (W - padL - padR);
+      const base = H - 34;
+      const monthPx = (W - padL - padR) / ((end - start) / (30.44 * 864e5));
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = T.line;
+      ctx.beginPath(); ctx.moveTo(X(start), base + 0.5); ctx.lineTo(X(end), base + 0.5); ctx.stroke();
+
+      ctx.font = `400 11px ${MONO}`;
+      ctx.textBaseline = 'alphabetic';
+      for (let y = 2020, m = 11; ; ) {
+        const t = Date.UTC(y, m, 1);
+        if (t > end) break;
+        const xx = Math.round(X(t)) + 0.5;
+        const isYear = m === 0;
+        if (isYear || monthPx >= 4) {
+          ctx.strokeStyle = isYear ? T.muted : T.line;
+          ctx.beginPath(); ctx.moveTo(xx, base); ctx.lineTo(xx, base + (isYear ? 9 : 4)); ctx.stroke();
+        }
+        if (isYear) { ctx.fillStyle = T.muted; ctx.fillText(String(y), xx + 4, base + 23); }
+        if (++m > 11) { m = 0; y++; }
+      }
+
+      ctx.font = `400 11px ${BODY}`;
+      const rowY = [14, 32];
+      const rowEnd = [-Infinity, -Infinity];
+      EVENTS.forEach((ev) => {
+        const xx = Math.round(X(Date.parse(ev.date + 'T00:00:00Z'))) + 0.5;
+        const tw = ctx.measureText(ev.label).width;
+        let lx = xx + 6;
+        if (lx + tw > W) lx = xx - 6 - tw;
+        const row = rowEnd[0] < lx - 10 ? 0 : 1;
+        rowEnd[row] = lx + tw;
+        ctx.strokeStyle = T.muted;
+        ctx.globalAlpha = 0.55;
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(xx, rowY[row] - 10); ctx.lineTo(xx, base); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = T.muted;
+        ctx.fillText(ev.label, lx, rowY[row]);
+      });
+
+      const r = W < 520 ? 3.5 : 4.5;
+      const gap = 2 * r + 2.5;
+      dots = [];
+      WORKS.forEach((w) => {
+        const x = X(w.t);
+        let lv = 0;
+        while (dots.some((o) => o.lv === lv && Math.abs(o.x - x) < gap)) lv++;
+        dots.push({ ...w, x, lv, y: base - 10 - lv * gap });
+      });
+      dots.forEach((o, i) => {
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, i === hover ? r + 1.5 : r, 0, Math.PI * 2);
+        if (o.kind === 'personal') { ctx.fillStyle = T.gold; ctx.fill(); }
+        else { ctx.lineWidth = 1.5; ctx.strokeStyle = T.fg; ctx.stroke(); ctx.lineWidth = 1; }
+      });
+
+      const xn = X(end);
+      ctx.fillStyle = T.gold;
+      ctx.beginPath(); ctx.arc(xn, base + 0.5, 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `400 11px ${BODY}`;
+      ctx.fillText('現在', xn + 7, base + 4.5);
+
+      if (hover >= 0) {
+        const o = dots[hover];
+        const line2 = `${ym(o.t)} · ${kindLabel(o.kind)}`;
+        ctx.font = `500 12.5px ${BODY}`;
+        const w1 = ctx.measureText(o.title).width;
+        ctx.font = `400 11px ${MONO}`;
+        const w2 = ctx.measureText(line2).width;
+        const bw = Math.max(w1, w2) + 22, bh = 46;
+        const bx = Math.min(Math.max(2, o.x - bw / 2), W - bw - 2);
+        let by = o.y - r - 10 - bh;
+        if (by < 2) by = o.y + r + 10;
+        ctx.fillStyle = T.raise;
+        ctx.strokeStyle = T.line;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(bx + 0.5, by + 0.5, bw, bh, 6); else ctx.rect(bx + 0.5, by + 0.5, bw, bh);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = T.fg;
+        ctx.font = `500 12.5px ${BODY}`;
+        ctx.fillText(o.title, bx + 11, by + 19);
+        ctx.fillStyle = T.muted;
+        ctx.font = `400 11px ${MONO}`;
+        ctx.fillText(line2, bx + 11, by + 36);
+      }
+    }
+
+    c.addEventListener('pointermove', (e) => {
+      const rect = c.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      let best = -1, bd = 14 * 14;
+      dots.forEach((o, i) => { const dd = (o.x - x) ** 2 + (o.y - y) ** 2; if (dd < bd) { bd = dd; best = i; } });
+      if (best !== hover) { hover = best; c.style.cursor = best >= 0 ? 'pointer' : 'default'; draw(); }
+    });
+    c.addEventListener('pointerleave', () => { if (hover !== -1) { hover = -1; draw(); } });
+    new ResizeObserver(draw).observe(c);
+    themeListeners.push(draw);
+    document.fonts && document.fonts.ready.then(draw);
+    draw();
+  })();
+
+  /* ================= works preview dissolve ================= */
+  (function WorksPreview() {
+    const c = document.getElementById('workPreview');
+    const ctx = c.getContext('2d');
+    const rows = [...document.querySelectorAll('.work')];
+    const titleEl = document.getElementById('previewTitle');
+    const metaEl = document.getElementById('previewMeta');
+    const imgs = rows.map((a) => { const im = new Image(); im.decoding = 'async'; im.src = a.dataset.img; im.onload = () => draw(); return im; });
+    let cur = 0, from = 0, prog = 1, anim = 0, t0 = 0;
+    let grid = null;
+
+    function blocks(W, H) {
+      const bs = W < 500 ? 10 : 14;
+      const cols = Math.ceil(W / bs), rowsN = Math.ceil(H / bs);
+      if (grid && grid.cols === cols && grid.rows === rowsN) return grid;
+      const th = new Float32Array(cols * rowsN);
+      for (let y = 0; y < rowsN; y++) for (let x = 0; x < cols; x++) th[y * cols + x] = 0.62 * Math.random() + 0.38 * (x / cols);
+      grid = { cols, rows: rowsN, bs, th };
+      return grid;
+    }
+    function paint(im, W, H) {
+      if (im.complete && im.naturalWidth) ctx.drawImage(im, 0, 0, W, H);
+      else { ctx.fillStyle = T.raise; ctx.fillRect(0, 0, W, H); }
+    }
+    function draw() {
+      fit(c);
+      const d = DPR();
+      const W = c.width / d, H = c.height / d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      if (prog >= 1) { paint(imgs[cur], W, H); return; }
+      paint(imgs[from], W, H);
+      const g = blocks(W, H);
+      const e = 1 - Math.pow(1 - prog, 3);
+      const p = e * 1.1;
+      const shown = new Path2D(), edge = new Path2D();
+      for (let y = 0; y < g.rows; y++) {
+        for (let x = 0; x < g.cols; x++) {
+          const t = g.th[y * g.cols + x];
+          if (t < p - 0.08) shown.rect(x * g.bs, y * g.bs, g.bs, g.bs);
+          else if (t < p) edge.rect(x * g.bs, y * g.bs, g.bs, g.bs);
+        }
+      }
+      ctx.save(); ctx.clip(shown); paint(imgs[cur], W, H); ctx.restore();
+      ctx.globalAlpha = 0.72; ctx.fillStyle = T.gold; ctx.fill(edge); ctx.globalAlpha = 1;
+    }
+    function tick(now) {
+      prog = Math.min(1, (now - t0) / 560);
+      draw();
+      anim = prog < 1 ? requestAnimationFrame(tick) : 0;
+    }
+    function show(i) {
+      if (i === cur) return;
+      rows.forEach((r, k) => r.classList.toggle('is-active', k === i));
+      titleEl.textContent = rows[i].querySelector('.work-title').textContent;
+      metaEl.textContent = rows[i].dataset.kind + ' · ' + rows[i].dataset.date;
+      if (reduced) { cur = from = i; prog = 1; draw(); return; }
+      from = prog < 0.5 ? from : cur;
+      cur = i;
+      prog = 0;
+      t0 = performance.now();
+      if (!anim) anim = requestAnimationFrame(tick);
+    }
+    rows.forEach((r, i) => {
+      r.addEventListener('pointerenter', () => show(i));
+      r.addEventListener('focus', () => show(i));
+    });
+    new ResizeObserver(() => { grid = null; draw(); }).observe(c);
+    themeListeners.push(draw);
+    draw();
+  })();
+
+  /* ================= dithered portrait ================= */
+  (function Portrait() {
+    const c = document.getElementById('portrait');
+    const ctx = c.getContext('2d');
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = '../../../public/images/profile.webp';
+    const B8 = [0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26, 12, 44, 4, 36, 14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22, 3, 35, 11, 43, 1, 33, 9, 41, 51, 19, 59, 27, 49, 17, 57, 25, 15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23, 61, 29, 53, 21];
+    let cache = null, lens = null, pending = 0;
+
+    function build(W, H) {
+      const cell = W < 460 ? 2.6 : 3.2;
+      const cols = Math.floor(W / cell), rowsN = Math.floor(H / cell);
+      const off = document.createElement('canvas');
+      off.width = cols; off.height = rowsN;
+      const o = off.getContext('2d', { willReadFrequently: true });
+      o.imageSmoothingQuality = 'high';
+      o.drawImage(img, 0, 0, cols, rowsN);
+      const px = o.getImageData(0, 0, cols, rowsN).data;
+      const pine = new Path2D(), body = new Path2D();
+      const dot = cell * 0.74;
+      for (let y = 0; y < rowsN; y++) {
+        for (let x = 0; x < cols; x++) {
+          const i = (y * cols + x) * 4;
+          if (px[i + 3] < 110) continue;
+          const r = px[i], g = px[i + 1], b = px[i + 2];
+          const L = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+          const v = T.dark ? Math.min(1, Math.pow(L, 0.85) * 1.12) : Math.min(1, (1 - L) * 1.25);
+          const th = (B8[(y & 7) * 8 + (x & 7)] + 0.5) / 64;
+          if (v <= th) continue;
+          const isPine = g > r + 6 && g >= b - 4;
+          (isPine ? pine : body).rect(x * cell, y * cell, dot, dot);
+        }
+      }
+      cache = { W, H, pine, body, dark: T.dark };
+    }
+    function draw() {
+      pending = 0;
+      fit(c);
+      const d = DPR();
+      const W = c.width / d, H = c.height / d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      if (!img.complete || !img.naturalWidth) return;
+      if (!cache || cache.W !== W || cache.H !== H || cache.dark !== T.dark) build(W, H);
+      ctx.fillStyle = T.gold; ctx.fill(cache.pine);
+      ctx.fillStyle = T.fg; ctx.fill(cache.body);
+      if (lens) {
+        const R = Math.min(78, W * 0.16);
+        ctx.save();
+        ctx.beginPath(); ctx.arc(lens.x, lens.y, R, 0, Math.PI * 2);
+        ctx.fillStyle = T.bg; ctx.fill();
+        ctx.clip();
+        ctx.drawImage(img, 0, 0, W, H);
+        ctx.restore();
+        ctx.strokeStyle = T.gold; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(lens.x, lens.y, R, 0, Math.PI * 2); ctx.stroke();
+      }
+    }
+    const queue = () => { if (!pending) pending = requestAnimationFrame(draw); };
+    c.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = c.getBoundingClientRect();
+      lens = { x: e.clientX - r.left, y: e.clientY - r.top };
+      queue();
+    });
+    c.addEventListener('pointerleave', () => { lens = null; queue(); });
+    img.onload = draw;
+    new ResizeObserver(() => { cache = null; draw(); }).observe(c);
+    themeListeners.push(() => { cache = null; draw(); });
+  })();
+
+  /* ================= seigaiha ================= */
+  (function Seigaiha() {
+    const c = document.getElementById('seigaiha');
+    const ctx = c.getContext('2d');
+    const sec = document.getElementById('contact');
+    let raf = 0, visible = false, last = 0;
+    let wave = { x: null, y: null, t0: performance.now() };
+
+    function draw(now) {
+      fit(c);
+      const d = DPR();
+      const W = c.width / d, H = c.height / d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      ctx.fillStyle = T.bg;
+      ctx.fillRect(0, 0, W, H);
+      const R = W < 640 ? 24 : 34;
+      const ox = wave.x ?? W * 0.84, oy = wave.y ?? H * 0.55;
+      const speed = 120;
+      const span = Math.hypot(W, H) + 360;
+      const elapsed = ((now - wave.t0) / 1000) * speed;
+      const front = reduced ? -1e5 : (wave.x === null ? elapsed % span : elapsed) - 160;
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = T.gold;
+      for (let row = -1; row * R * 0.5 <= H + R; row++) {
+        const y = row * R * 0.5;
+        const off = row & 1 ? R : 0;
+        for (let x = -2 * R + off; x <= W + 2 * R; x += 2 * R) {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = T.bg;
+          ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+          const dist = Math.hypot(x - ox, y - oy);
+          const hl = Math.exp(-((dist - front) ** 2) / (2 * 70 * 70));
+          ctx.globalAlpha = (T.dark ? 0.2 : 0.26) + 0.62 * hl;
+          ctx.beginPath();
+          for (let k = 0; k < 4; k++) {
+            const rr = R * (1 - k * 0.22);
+            ctx.moveTo(x + rr, y);
+            ctx.arc(x, y, rr, 0, Math.PI * 2);
+          }
+          ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+      if (wave.x !== null && elapsed - 160 > span) wave = { x: null, y: null, t0: now };
+    }
+    function loop(now) {
+      raf = 0;
+      if (!visible || reduced || document.hidden) return;
+      if (now - last > 32) { draw(now); last = now; }
+      raf = requestAnimationFrame(loop);
+    }
+    const start = () => { if (!raf && visible && !reduced && !document.hidden) raf = requestAnimationFrame(loop); };
+    sec.addEventListener('click', (e) => {
+      if (e.target.closest('a, button')) return;
+      const r = c.getBoundingClientRect();
+      wave = { x: e.clientX - r.left, y: e.clientY - r.top, t0: performance.now() - (160 / 120) * 1000 };
+    });
+    onVisible(sec, (v) => { visible = v; start(); });
+    document.addEventListener('visibilitychange', start);
+    reducedListeners.push(() => { draw(performance.now()); start(); });
+    themeListeners.push(() => draw(performance.now()));
+    new ResizeObserver(() => draw(performance.now())).observe(c);
+    draw(performance.now());
+  })();
+
+  /* ================= page chrome & mockup toolbar ================= */
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 24);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const copyBtn = document.getElementById('copyEmail');
+  copyBtn.addEventListener('click', () => {
+    const text = document.getElementById('email').textContent;
+    const done = () => { copyBtn.textContent = 'コピーしました'; setTimeout(() => { copyBtn.textContent = 'コピー'; }, 1800); };
+    const fallback = () => {
+      const sel = getSelection(); const range = document.createRange();
+      range.selectNodeContents(document.getElementById('email'));
+      sel.removeAllRanges(); sel.addRange(range);
+      copyBtn.textContent = '選択しました';
+    };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+
+  const modeButtons = [...document.querySelectorAll('[data-mode]')];
+  function syncModeButtons(kind, gpuState) {
+    modeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === kind)));
+    const g = document.getElementById('modeGpu');
+    if (gpuState === 'unsupported' || gpuState === 'failed') {
+      g.disabled = true;
+      g.textContent = 'WebGPU 非対応';
+      g.title = gpuState === 'unsupported' ? 'このブラウザは WebGPU に対応していません' : 'WebGPU を初期化できませんでした';
+    }
+  }
+  modeButtons.forEach((b) => b.addEventListener('click', () => {
+    if (b.getAttribute('aria-pressed') !== 'true') Hero.setMode(b.dataset.mode);
+  }));
+
+  const themeButtons = [...document.querySelectorAll('[data-theme-set]')];
+  function syncThemeButtons() {
+    const cur = root.getAttribute('data-theme') || 'auto';
+    themeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === cur)));
+  }
+  themeButtons.forEach((b) => b.addEventListener('click', () => {
+    const v = b.dataset.themeSet;
+    if (v === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', v);
+  }));
+  syncThemeButtons();
+
+  const noteToggle = document.getElementById('noteToggle');
+  noteToggle.addEventListener('click', () => {
+    const on = noteToggle.getAttribute('aria-pressed') !== 'true';
+    noteToggle.setAttribute('aria-pressed', String(on));
+    document.body.classList.toggle('notes-off', !on);
+  });
+
+  Hero.setMode(navigator.gpu ? 'webgpu' : 'canvas2d');
+})();
+</script>
+</body>
+</html>
