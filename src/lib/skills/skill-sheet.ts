@@ -34,7 +34,7 @@ export type SkillSheetProjectView = Omit<SkillSheetProject, 'period' | 'category
 };
 
 /**
- * 案件一覧（新しい順を想定したデータ順をそのまま返す）。
+ * 案件一覧（開始月の新しい順。同じ月はデータの順）。
  * 期間・区分・目指したこと・成果の数値・NDA 配慮は、紐づく実績から引く。
  */
 export const getSkillSheetProjects = (): SkillSheetProjectView[] =>
@@ -52,7 +52,7 @@ export const getSkillSheetProjects = (): SkillSheetProjectView[] =>
       impacts: work.impacts ?? [],
       masked: work.masked ?? false,
     };
-  });
+  }).sort((a, b) => b.period.start.localeCompare(a.period.start));
 
 export type SkillProficiencyView = {
   skillId: string;

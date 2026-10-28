@@ -752,10 +752,14 @@ export const formatWorkNumber = (value: number | undefined): string =>
 
 const formatMonth = (value: string) => value.replace('-', '.');
 
+/** 今月（YYYY-MM）。静的サイトなので、ビルドした時点の月になる */
+const currentMonth = () => new Date().toISOString().slice(0, 7);
+
 /**
- * 期間の表示（例: 2026.07 – 2026.10、2026.09 –、2026.10）
+ * 期間の表示（例: 2026.07 – 2026.10、2026.09 –、2026.10、2026.12 開始予定）
  */
 export const formatWorkPeriod = (period: Work['period']): string => {
+  if (period.start > currentMonth()) return `${formatMonth(period.start)} 開始予定`;
   if (!period.end) return `${formatMonth(period.start)} –`;
   if (period.end === period.start) return formatMonth(period.start);
   return `${formatMonth(period.start)} – ${formatMonth(period.end)}`;
@@ -770,3 +774,18 @@ export const hasMeasuredImpact = (work: Work): boolean =>
 
 /** 値と単位をつないだ表示（例: 1分、≈0円/月） */
 export const formatImpactValue = (impact: Impact): string => `${impact.value}${impact.unit ?? ''}`;
+
+/** 比較元も含めた1行の表示（例: 5分 → 1分） */
+export const formatImpactText = (impact: Impact): string =>
+  `${impact.before ? `${impact.before} → ` : ''}${formatImpactValue(impact)}`;
+
+/**
+ * 実績の数値を slug と impacts の位置で引く。トップや経歴の代表的な数値はこれで参照する
+ */
+export const getImpactOf = (slug: string, index: number): Impact => {
+  const impact = getWorkBySlug(slug)?.impacts?.[index];
+  if (!impact) {
+    throw new Error(`実績 ${slug} に impacts[${index}] がありません`);
+  }
+  return impact;
+};

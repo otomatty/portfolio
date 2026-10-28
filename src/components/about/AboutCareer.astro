@@ -2,8 +2,8 @@
 import MoreLink from '@/components/common/MoreLink.astro';
 import Section from '@/components/common/Section.astro';
 import Timeline, { type TimelineEntry, type TimelineRow } from '@/components/common/Timeline.astro';
-import { careerEntries, type CareerGroup } from '@/data/profile';
-import { formatWorkPeriod, getHeadlineImpact, getWorkBySlug } from '@/data/works';
+import { careerEntries, type CareerEntry, type CareerGroup, type CareerHighlight } from '@/data/profile';
+import { formatImpactText, formatWorkPeriod, getHeadlineImpact, getImpactOf, getWorkBySlug } from '@/data/works';
 
 interface Props {
   /** 経歴ページでは仕事ごとの行と成果まで載せ、About では要約と代表的な成果だけにする */
@@ -28,12 +28,23 @@ const rowsOf = (group: CareerGroup): TimelineRow[] => [
   ...(group.rows ?? []),
 ];
 
+const countOf = (group: CareerGroup) => (group.works?.length ?? 0) + (group.rows?.length ?? 0);
+
+/** 要約が無い経歴は、まとまりごとの件数から作る（例: 客先案件 3 件・社内ツール 4 件） */
+const summaryOf = (entry: CareerEntry) =>
+  entry.summary ??
+  entry.groups.map((group) => `${group.label ? `${group.label} ` : ''}${countOf(group)} 件`).join('・');
+
+/** 代表的な成果の1行。実績の数値は実績データから引く */
+const highlightText = (item: CareerHighlight) =>
+  typeof item === 'string' ? item : `${item.label} ${formatImpactText(getImpactOf(item.slug, item.index))}`;
+
 const entries: TimelineEntry[] = careerEntries.map((entry) => ({
   period: entry.period,
   kicker: entry.company,
   title: entry.title,
-  description: detailed ? entry.description : entry.summary,
-  highlights: detailed ? undefined : entry.highlights,
+  description: detailed ? entry.description : summaryOf(entry),
+  highlights: detailed ? undefined : entry.highlights.map(highlightText),
   groups: detailed ? entry.groups.map((group) => ({ label: group.label, rows: rowsOf(group) })) : undefined,
   highlight: entry.current,
 }));

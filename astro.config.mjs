@@ -16,11 +16,11 @@ export default defineConfig({
   adapter: cloudflare({ imageService: 'compile' }),
   session: false,
   // Legacy per-category works pages are consolidated into `/works`.
-  // Preserve old URLs by redirecting to the unified list with a kind filter.
+  // Preserve old URLs by redirecting to the unified list with a category filter.
   redirects: {
-    '/works/company': '/works?kind=professional',
-    '/works/freelance': '/works?kind=professional',
-    '/works/personal': '/works?kind=personal',
+    '/works/company': '/works?category=client',
+    '/works/freelance': '/works?category=contract',
+    '/works/personal': '/works?category=personal',
   },
   // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
   // prefetched, on `hover`. `prefetchAll` is pinned to false so prefetching

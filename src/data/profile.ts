@@ -20,16 +20,19 @@ export type CareerGroup = {
   rows?: CareerRow[];
 };
 
+/** 代表的な成果。実績の数値は slug と impacts の位置で参照し、実績に紐づかないものだけ文で書く */
+export type CareerHighlight = string | { label: string; slug: string; index: number };
+
 export type CareerEntry = {
   id: number;
   period: string;
   title: string;
   company?: string;
   description: string;
-  /** About の経歴で題名の下に置く1行の要約 */
-  summary: string;
+  /** About の経歴で題名の下に置く1行の要約。省くと、まとまりごとの件数から作る */
+  summary?: string;
   /** About の経歴で添える代表的な成果 */
-  highlights: string[];
+  highlights: CareerHighlight[];
   groups: CareerGroup[];
   /** 在籍中 */
   current?: boolean;
@@ -77,8 +80,11 @@ export const careerEntries: CareerEntry[] = [
     company: '株式会社アーシャルデザイン',
     description:
       'SES として大手企業の開発現場に参画。AI 駆動開発の組織導入、AI エージェント機能の実装、大規模プロジェクトの CI/CD 設計を担当。社内ではチームリーダーとして育成と社内ツールの内製を担う。',
-    summary: '客先案件 3 件・社内ツール 4 件・人材育成',
-    highlights: ['ベロシティ 最大 2 倍', '計画の半分の期間で達成', 'インフラ費 ≈0円/月'],
+    highlights: [
+      { label: 'ベロシティ', slug: 'telecom-ai-dlc', index: 1 },
+      { label: '開発期間', slug: 'automotive-adas-tool', index: 0 },
+      { label: 'インフラ費', slug: 'agora', index: 0 },
+    ],
     groups: [
       { label: '客先案件', works: ['telecom-ai-dlc', 'sd-llm-sales-analysis', 'automotive-adas-tool'] },
       { label: '社内ツール', works: ['agora', 'tb-palette', 'tb-force', 'falcon-auto-review'] },
@@ -100,8 +106,12 @@ export const careerEntries: CareerEntry[] = [
     company: 'フリーランス',
     description:
       'クライアント折衝から設計・実装・保守運用まで 1 人で完結する案件を中心に、7 業界で業務システムを開発。プロトタイプで合意を取り、要件を早く固める進め方を得意とする。2024 年度は 12 案件以上を受注。',
-    summary: '7 業界の業務システム・Web アプリ',
-    highlights: ['作業時間 95% 以上削減', '注文時間 5分 → 1分', '1 週間で 35 ページ公開'],
+    summary: '業務システム・Web アプリの受託開発',
+    highlights: [
+      { label: '作業時間', slug: 'cram-school-system', index: 1 },
+      { label: '注文時間', slug: 'fresh-inventory', index: 0 },
+      { label: '35 ページ公開まで', slug: 'printing-erp', index: 0 },
+    ],
     groups: [
       {
         works: [

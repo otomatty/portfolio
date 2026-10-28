@@ -1,5 +1,5 @@
 import type { Impact, ImpactKind } from '@/types/works';
-import { getWorkBySlug, getWorksByCategory } from './works';
+import { getImpactOf, getWorksByCategory } from './works';
 
 /**
  * 代表的な数値。実績の数値を参照し（slug と impacts の位置）、見出しと補足だけを差し替える。
@@ -26,10 +26,7 @@ const resolve = (source: HighlightSource): Highlight => {
     const { impact } = source;
     return { label: source.label, value: impact.value, unit: impact.unit, meta: source.meta, kind: impact.kind };
   }
-  const impact = getWorkBySlug(source.slug)?.impacts?.[source.index];
-  if (!impact) {
-    throw new Error(`実績 ${source.slug} に impacts[${source.index}] がありません`);
-  }
+  const impact = getImpactOf(source.slug, source.index);
   return {
     label: source.label,
     value: impact.value,

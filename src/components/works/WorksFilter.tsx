@@ -23,12 +23,18 @@ const filters: Array<{ value: CategoryFilter; label: string }> = [
 const isCategoryFilter = (value: string | null): value is CategoryFilter =>
   value !== null && filters.some((filter) => filter.value === value);
 
-/** URL の ?category= を読む。以前の ?kind=personal も個人開発として受け取る */
+/** 以前の ?kind= の値。実務は、会社の仕事を引き継いだ客先案件として受け取る */
+const legacyKinds = new Map<string, CategoryFilter>([
+  ['professional', 'client'],
+  ['personal', 'personal'],
+]);
+
+/** URL の ?category= を読む。以前の ?kind= も受け取る */
 const readCategoryParam = (): CategoryFilter | null => {
   const params = new URLSearchParams(window.location.search);
   const category = params.get('category');
   if (isCategoryFilter(category)) return category;
-  return params.get('kind') === 'personal' ? 'personal' : null;
+  return legacyKinds.get(params.get('kind') ?? '') ?? null;
 };
 
 export const WorksFilter = ({ works, numbers = {} }: WorksFilterProps) => {

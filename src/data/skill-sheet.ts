@@ -103,7 +103,7 @@ export type SkillProficiency = {
 };
 
 /**
- * 案件一覧（新しい順）
+ * 案件一覧。表示は開始月の新しい順に並べ替える
  */
 export const skillSheetProjects: SkillSheetProject[] = [
   {
