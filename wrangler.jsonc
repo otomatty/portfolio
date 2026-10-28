@@ -17,8 +17,9 @@
 		{ "pattern": "saedgewell.com", "custom_domain": true }
 	],
 	"workers_dev": false,
-	// Keep per-version preview URLs (used by Workers Builds for non-production
-	// branches) even though the production workers.dev route is disabled.
+	// Keep workers.dev Preview URLs (Worker Previews created by Workers Builds
+	// for non-production branches) even though the production workers.dev
+	// route is disabled.
 	"preview_urls": true,
 	"observability": {
 		"enabled": true

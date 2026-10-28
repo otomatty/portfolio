@@ -55,9 +55,9 @@ Cloudflare Workers（静的アセットのみ）で配信しています。設�
 - **自動デプロイ**: Workers Builds（Cloudflare ダッシュボードの Git 連携）を使います。
   - Build command: `bun run build`
   - Deploy command: `bunx wrangler deploy`（本番ブランチ `main`）
-  - Non-production branch deploy command: `bunx wrangler versions upload`（PR ごとのプレビュー URL）
+  - Preview command: `bunx wrangler preview`（ブランチごとの Worker Preview と Preview URL。`wrangler versions upload` は本番のリソースを使う Version URL になるため使わない）
 - **独自ドメイン**: `saedgewell.com` を Custom Domain として割り当てています（`workers_dev: false`）。
-- **ビルド時の環境変数**: `GITHUB_USERNAME` / `GITHUB_TOKEN` はビルド時に読み込むため、Workers Builds の「Build variables」に設定します。
+- **ビルド時の環境変数**: `GITHUB_USERNAME` / `GITHUB_TOKEN` はビルド時に読み込むため、Workers Builds の「Build variables and secrets」に設定します。`GITHUB_TOKEN` はトークンなので secret として登録します。
 - **404**: `not_found_handling: "404-page"` により `404.html` を返します。
 
 ## ディレクトリ構成
