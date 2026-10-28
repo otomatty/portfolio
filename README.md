@@ -48,6 +48,18 @@ GITHUB_TOKEN=your_github_token
 | `bun run preview` | 本番ビルドのローカルプレビュー（workerd 上で実行。`bunx astro preview stop` で停止） |
 | `bun run deploy`  | ビルドして Cloudflare Workers へデプロイ（`wrangler deploy`、要 Cloudflare ログイン） |
 
+## デプロイ
+
+Cloudflare Workers（静的アセットのみ）で配信しています。設定は `wrangler.jsonc` にまとめています。
+
+- **自動デプロイ**: Workers Builds（Cloudflare ダッシュボードの Git 連携）を使います。
+  - Build command: `bun run build`
+  - Deploy command: `bunx wrangler deploy`（本番ブランチ `main`）
+  - Preview command: `bunx wrangler preview`（ブランチごとの Worker Preview と Preview URL。`wrangler versions upload` は本番のリソースを使う Version URL になるため使わない）
+- **独自ドメイン**: `saedgewell.com` を Custom Domain として割り当てています（`workers_dev: false`）。
+- **ビルド時の環境変数**: `GITHUB_USERNAME` / `GITHUB_TOKEN` はビルド時に読み込むため、Workers Builds の「Build variables and secrets」に設定します。`GITHUB_TOKEN` はトークンなので secret として登録します。
+- **404**: `not_found_handling: "404-page"` により `404.html` を返します。
+
 ## ディレクトリ構成
 
 ```text
