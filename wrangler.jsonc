@@ -6,8 +6,20 @@
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		// Serve the prerendered 404.html for unknown paths (Pages did this implicitly).
+		"not_found_handling": "404-page"
 	},
+	// Production is served only on the custom domain. Cloudflare creates the
+	// DNS record and certificate on deploy; the domain must not still be
+	// attached to a Pages project.
+	"routes": [
+		{ "pattern": "saedgewell.com", "custom_domain": true }
+	],
+	"workers_dev": false,
+	// Keep per-version preview URLs (used by Workers Builds for non-production
+	// branches) even though the production workers.dev route is disabled.
+	"preview_urls": true,
 	"observability": {
 		"enabled": true
 	}
