@@ -1,0 +1,35 @@
+---
+/**
+ * 取り組んでいること。3 つの軸を漢数字で並べ、それぞれに代表的な数値を添える。
+ */
+import Section from '@/components/common/Section.astro';
+import { KindMark } from '@/components/works';
+import { kanjiNumerals } from '@/data/about';
+import { getAboutFocus } from '@/data/highlights';
+
+const areas = getAboutFocus();
+---
+
+<Section id="focus-title" label="Focus" title="取り組んでいること">
+  <ul class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-12 md:grid-cols-3">
+    {areas.map((area, i) => (
+      <li class="grid content-start gap-3 border-t pt-6">
+        <span class="text-[14px] font-light tracking-[0.12em] text-gold" aria-hidden="true">{kanjiNumerals[i]}</span>
+        <h3 class="text-[17px] font-normal leading-relaxed tracking-[0.08em]">{area.title}</h3>
+        <p class="text-flow text-[14px] text-muted-foreground">{area.description}</p>
+        <dl class="mt-2 grid grid-cols-2 gap-6">
+          {area.highlights.map((item) => (
+            <div class="grid content-start gap-1">
+              <dt class="order-2 text-[12px] tracking-[0.06em] text-muted-foreground">{item.label}</dt>
+              <dd class="order-1 leading-none tabular-nums">
+                <span class="text-[2.2rem] font-extralight">{item.value}</span>
+                {item.unit && <span class="ml-1 text-[13px] text-muted-foreground">{item.unit}</span>}
+              </dd>
+              <dd class="order-3"><KindMark kind={item.kind} /></dd>
+            </div>
+          ))}
+        </dl>
+      </li>
+    ))}
+  </ul>
+</Section>

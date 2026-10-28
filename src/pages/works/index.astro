@@ -2,25 +2,25 @@
 import PageLayout from '@/layouts/PageLayout.astro';
 import PageHero from '@/components/common/PageHero.astro';
 import { WorksFilter } from '@/components/works';
-import { getAllWorks, getAllTechnologies, getWorkNumbers } from '@/data/works';
+import { getAllWorks, getWorkNumbers, sortByCategory } from '@/data/works';
 
-const works = getAllWorks();
-const technologies = getAllTechnologies();
+// 仕事の実績を先に見せるため、区分の順（新しい順）に並べる
+const works = sortByCategory(getAllWorks());
 const numbers = getWorkNumbers();
 ---
 
 <PageLayout
   title="実績一覧 | Saedgewell"
-  description="これまでの実績をご紹介します。"
+  description="客先案件・社内ツール・人材育成・受託・個人開発の実績を、目指したことと成果の数値とともにご紹介します。"
 >
   <PageHero
     label="Works"
     title="実績一覧"
-    description="企業案件、フリーランス案件、個人開発など、これまでに手がけた主要なプロジェクトをご紹介します。各プロジェクトの詳細、使用技術、課題解決のプロセスなどをご覧いただけます。"
+    description="客先案件・社内ツール・人材育成・受託・個人開発の実績です。それぞれ「何を目指したか」と「どれだけ変わったか」を載せ、数値には実測・試算・目標の別を付けています。"
     figure="apollonian"
   />
 
   <div class="container mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-    <WorksFilter works={works} technologies={technologies} numbers={numbers} client:load />
+    <WorksFilter works={works} numbers={numbers} client:load />
   </div>
 </PageLayout>

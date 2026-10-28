@@ -5,6 +5,7 @@ import PageHero from '@/components/common/PageHero.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
 import ProfileSection from '@/components/home/ProfileSection.astro';
 import AboutCareer from '@/components/about/AboutCareer.astro';
+import AboutFocus from '@/components/about/AboutFocus.astro';
 import AboutValues from '@/components/about/AboutValues.astro';
 import AboutStack from '@/components/about/AboutStack.astro';
 import AboutCredentials from '@/components/about/AboutCredentials.astro';
@@ -35,7 +36,7 @@ if (githubUsername && githubToken) {
 
 <PageLayout
   title="About Me | Saedgewell"
-  description="AI駆動開発の導入支援とAIを活用した開発を軸に、UI/UXからインフラまで幅広く手がけるエンジニアです。"
+  description={profile.headline}
 >
   <PageHero label="About" title="プロフィール" description={profile.headline} figure="seed">
     <PillLink href="/contact" label="お問い合わせ" />
@@ -51,6 +52,7 @@ if (githubUsername && githubToken) {
   </PageHero>
 
   <ProfileSection cta={{ label: 'エンジニアへの道のり', href: '/about/story' }} />
+  <AboutFocus />
   <AboutCareer />
   <AboutValues />
   <AboutStack />

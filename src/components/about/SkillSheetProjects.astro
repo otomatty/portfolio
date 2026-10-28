@@ -1,8 +1,10 @@
 ---
 /**
- * スキルシートの案件一覧。左に期間と規模、右に役割・担当工程・成果・使用技術を置く。
+ * スキルシートの案件一覧。左に期間と規模、右に目指したこと・担当工程・成果の数値・使用技術を置く。
  */
+import { ImpactValue, KindMark } from '@/components/works';
 import { projectPhases } from '@/data/skill-sheet';
+import { WORK_CATEGORY_LABELS } from '@/data/works';
 import { formatPeriod, getSkillSheetProjects } from '@/lib/skills/skill-sheet';
 import { cn } from '@/lib/utils';
 
@@ -22,25 +24,24 @@ const projects = getSkillSheetProjects();
     <li class="grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-5 border-t py-10 md:grid-cols-[11rem_minmax(0,1fr)]">
       <div class="grid content-start gap-2 text-[12.5px] tracking-[0.06em] text-muted-foreground tabular-nums">
         <p>{formatPeriod(project.period)}</p>
-        {(project.teamSize || project.scale) && <p>{project.teamSize ? `${project.teamSize}名` : project.scale}</p>}
+        {project.scale && <p>{project.scale}</p>}
         <p class="flex flex-wrap gap-2 pt-1">
-          {project.isCurrent && <span class="rounded-full border border-gold px-2.5 py-0.5 text-[11px] text-gold">現職</span>}
+          <span class="rounded-full border border-gold px-2.5 py-0.5 text-[11px] text-gold">{WORK_CATEGORY_LABELS[project.category]}</span>
           {project.masked && <span class="rounded-full border border-foreground/15 px-2.5 py-0.5 text-[11px]">NDA配慮</span>}
         </p>
       </div>
 
       <div class="grid justify-items-start gap-5">
         <div class="grid gap-2">
-          <p class="text-[12px] tracking-[0.14em] text-gold">{project.industry}</p>
-          <h3 class="text-[clamp(1.15rem,1.8vw,1.4rem)] font-light leading-normal tracking-[0.08em]">{project.role}</h3>
+          <p class="text-[12px] tracking-[0.14em] text-gold">{project.industry} · {project.role}</p>
+          <h3 class="text-[clamp(1.15rem,1.8vw,1.4rem)] font-light leading-normal tracking-[0.08em]">{project.title}</h3>
         </div>
         <p class="text-flow max-w-[44em] text-muted-foreground">
-          {project.summary}
-          {project.workSlug && (
-            <a href={`/works/${project.workSlug}`} class="ml-2 whitespace-nowrap text-gold transition-colors hover:text-gold-hi">
-              実績を見る →
-            </a>
-          )}
+          <span class="mr-2 text-[11.5px] tracking-[0.14em] text-gold">目指したこと</span>
+          {project.goal}
+          <a href={`/works/${project.workSlug}`} class="ml-2 whitespace-nowrap text-gold transition-colors hover:text-gold-hi">
+            実績を見る →
+          </a>
         </p>
 
         <div class="grid w-full max-w-[44em] gap-3 border-t pt-5">
@@ -62,11 +63,22 @@ const projects = getSkillSheetProjects();
           </ul>
         </div>
 
-        {project.achievements && project.achievements.length > 0 && (
+        {project.impacts.length > 0 && (
           <div class="grid w-full max-w-[44em] gap-3 border-t pt-5">
             <p class="text-[11.5px] tracking-[0.14em] text-gold">成果</p>
-            <ul class="ring-list text-[14px]">
-              {project.achievements.map((achievement) => <li>{achievement}</li>)}
+            <ul class="border-t text-[14px]">
+              {project.impacts.map((impact) => (
+                <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b py-2.5">
+                  <span>
+                    {impact.label}
+                    {impact.note && <span class="text-muted-foreground">（{impact.note}）</span>}
+                  </span>
+                  <span class="inline-flex items-center gap-3">
+                    <ImpactValue impact={impact} size="sm" />
+                    <KindMark kind={impact.kind} />
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
         )}

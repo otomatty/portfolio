@@ -5,13 +5,10 @@ import PageHero from '@/components/common/PageHero.astro';
 import Section from '@/components/common/Section.astro';
 import AboutCareer from '@/components/about/AboutCareer.astro';
 import AboutCredentials from '@/components/about/AboutCredentials.astro';
-import { getCareerHighlights } from '@/data/profile';
+import { ImpactLegend } from '@/components/works';
+import { getCareerHighlights } from '@/data/highlights';
 
-const highlights = getCareerHighlights().map((item) => ({
-  label: item.label,
-  value: item.value,
-  meta: item.description,
-}));
+const highlights = getCareerHighlights();
 ---
 
 <PageLayout
@@ -21,12 +18,15 @@ const highlights = getCareerHighlights().map((item) => ({
   <PageHero
     label="About / Career"
     title="経歴詳細"
-    description="エンジニアとしての経歴と実績についてご紹介します。"
+    description="所属ごとに、担当した仕事と、それで何がどれだけ変わったかをまとめています。"
     figure="nested"
   />
 
-  <Section id="highlights-title" label="Highlights" title="キャリアハイライト" description="これまでの主な実績です。">
-    <MetricRow items={highlights} />
+  <Section id="highlights-title" label="Highlights" title="キャリアハイライト" description="実測した数値から、代表的なものを選んでいます。">
+    <div class="grid gap-6">
+      <MetricRow items={highlights} />
+      <ImpactLegend />
+    </div>
   </Section>
   <AboutCareer detailed title="職歴・経歴" />
   <AboutCredentials />

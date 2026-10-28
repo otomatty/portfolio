@@ -2,7 +2,21 @@
 /**
  * 年表。左に期間、右に内容を置き、1px の縦線に沿って各項目の頭に小さな円を打つ。
  * highlight の項目は円を金で塗る。
+ * groups は「左に題名と補足、右に成果」の行をまとまりごとに並べる。
  */
+import { ImpactValue, KindMark } from '@/components/works';
+import type { Impact } from '@/types/works';
+
+export interface TimelineRow {
+  title: string;
+  href?: string;
+  meta?: string;
+  /** 右に置く数値 */
+  impact?: Impact;
+  /** 数値にならない成果の文 */
+  result?: string;
+}
+
 export interface TimelineEntry {
   period: string;
   /** 題名の上に置く小さな文字（会社名など） */
@@ -14,6 +28,9 @@ export interface TimelineEntry {
   /** 題名つきの子項目（案件など）。href があればリンクにする */
   subitems?: { title: string; href?: string; description: string; note?: string }[];
   subitemsLabel?: string;
+  /** 題名の下に並べる代表的な成果 */
+  highlights?: string[];
+  groups?: { label?: string; rows: TimelineRow[] }[];
   highlight?: boolean;
 }
 
@@ -32,6 +49,42 @@ const { entries } = Astro.props;
         {entry.kicker && <p class="timeline-kicker">{entry.kicker}</p>}
         <h3 class="timeline-title">{entry.title}</h3>
         {entry.description && <p class="text-flow max-w-[42em] text-muted-foreground">{entry.description}</p>}
+        {entry.highlights && entry.highlights.length > 0 && (
+          <ul class="flex flex-wrap gap-x-6 gap-y-1 text-[13.5px] tracking-[0.04em]">
+            {entry.highlights.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+        {entry.groups?.map((group) => (
+          <div class="timeline-group">
+            {group.label && <p class="timeline-label">{group.label}</p>}
+            <ul>
+              {group.rows.map((row) => {
+                const Tag = row.href ? 'a' : 'div';
+                return (
+                  <li>
+                    <Tag href={row.href} class:list={['timeline-row', { 'is-link': row.href }]}>
+                      <span class="grid gap-0.5">
+                        <span class="row-title">{row.title}</span>
+                        {row.meta && <span class="text-[12.5px] leading-relaxed text-muted-foreground">{row.meta}</span>}
+                      </span>
+                      {row.impact ? (
+                        <span class="row-result">
+                          <ImpactValue impact={row.impact} size="sm" />
+                          <span class="flex flex-wrap items-center justify-end gap-x-2 text-[11.5px] text-muted-foreground">
+                            {row.impact.label}
+                            <KindMark kind={row.impact.kind} />
+                          </span>
+                        </span>
+                      ) : (
+                        row.result && <span class="row-result text-[13px]">{row.result}</span>
+                      )}
+                    </Tag>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
         {entry.points && entry.points.length > 0 && (
           <div class="timeline-block">
             {entry.pointsLabel && <p class="timeline-label">{entry.pointsLabel}</p>}
@@ -130,6 +183,52 @@ const { entries } = Astro.props;
     margin-top: 0.5rem;
     padding-top: 1.25rem;
     border-top: 1px solid hsl(var(--border));
+  }
+
+  .timeline-group {
+    display: grid;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 52em;
+    margin-top: 0.75rem;
+  }
+
+  .timeline-group ul {
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .timeline-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem 1.5rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid hsl(var(--border));
+    font-size: 14.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .timeline-row.is-link:hover .row-title {
+    color: var(--gold);
+  }
+
+  .row-title {
+    transition: color 0.2s;
+  }
+
+  .row-result {
+    display: grid;
+    align-content: start;
+    gap: 0.15rem;
+  }
+
+  @media (min-width: 640px) {
+    .timeline-row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 16rem);
+    }
+    .row-result {
+      justify-items: end;
+      text-align: right;
+    }
   }
 
   .timeline-label {

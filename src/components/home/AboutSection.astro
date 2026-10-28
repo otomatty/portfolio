@@ -1,76 +1,53 @@
 ---
+import MetricRow from '@/components/common/MetricRow.astro';
 import SectionLabel from '@/components/common/SectionLabel.astro';
+import { ImpactLegend } from '@/components/works';
 import { homepageCopy } from '@/data/homepage';
-import { profile } from '@/data/profile';
-import type { Metric } from '@/types/metrics';
-import type { Work } from '@/types/works';
+import type { Highlight } from '@/data/highlights';
 
 interface Props {
-  metrics: Metric[];
-  works: Work[];
+  highlights: Highlight[];
 }
 
-const { metrics, works } = Astro.props;
+const { highlights } = Astro.props;
 const { about } = homepageCopy;
-const valueOf = (type: Metric['type']) => metrics.find((m) => m.type === type)?.value ?? 0;
-const yearMonth = (iso: string) => iso.slice(0, 7).replace('-', '.');
-const professional = works.filter((w) => w.kind === 'professional').length;
-const personal = works.filter((w) => w.kind === 'personal');
-const firstPersonal = personal.map((w) => w.created_at).sort()[0];
-
-const items = [
-  {
-    ...about.metrics.developmentExperience,
-    value: valueOf('development_experience'),
-    meta: `${yearMonth(profile.freelanceStartDate)} – ${about.untilNow}`,
-  },
-  {
-    ...about.metrics.projectCount,
-    value: valueOf('project_count'),
-    meta: `実務 ${professional} / 個人開発 ${personal.length}`,
-  },
-  {
-    ...about.metrics.personalProjectCount,
-    value: valueOf('personal_project_count'),
-    meta: firstPersonal ? `${yearMonth(firstPersonal)} – ${about.untilNow}` : '',
-  },
-];
 ---
 
 <section id="about" class="relative scroll-mt-16 border-b py-20 md:py-36" aria-labelledby="about-title">
-  <div class="container mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 md:grid-cols-[1.25fr_1fr] md:gap-20 lg:px-8">
-    <div class="grid justify-items-start gap-7">
-      <SectionLabel text={about.label} />
-      <h2 id="about-title" class="section-title">
-        {
-          about.title.map((line, i) => (
-            <>
-              {i > 0 && <br />}
-              {line.map((phrase) => <span class="inline-block">{phrase}</span>)}
-            </>
-          ))
-        }
-      </h2>
-      <p class="max-w-[34em] text-muted-foreground">{profile.bioShort}</p>
-      <dl class="metrics">
-        {
-          items.map((item) => (
-            <div class="metric">
-              <dt>{item.title}</dt>
-              <dd class="value">
-                <span class="num">{item.value}</span>
-                <span class="unit">{item.unit}</span>
-              </dd>
-              <dd class="meta">{item.meta}</dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-    <div class="order-first md:order-none">
-      <div class="mx-auto aspect-square w-full max-w-[300px] md:max-w-[440px]" data-parallax="0.12">
-        <canvas class="block h-full w-full" data-shippo aria-hidden="true"></canvas>
+  <div class="container mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 md:gap-16 lg:px-8">
+    <div class="grid items-center gap-12 md:grid-cols-[1.25fr_1fr] md:gap-20">
+      <div class="grid justify-items-start gap-7">
+        <SectionLabel text={about.label} />
+        <h2 id="about-title" class="section-title">
+          {
+            about.title.map((line, i) => (
+              <>
+                {i > 0 && <br />}
+                {line.map((phrase) => <span class="inline-block">{phrase}</span>)}
+              </>
+            ))
+          }
+        </h2>
+        <p class="max-w-[34em] text-muted-foreground">{about.lead}</p>
       </div>
+      <div class="order-first md:order-none">
+        <div class="mx-auto aspect-square w-full max-w-[300px] md:max-w-[400px]" data-parallax="0.12">
+          <canvas class="block h-full w-full" data-shippo aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="grid gap-6">
+      <MetricRow
+        items={highlights.map((item) => ({
+          label: item.label,
+          value: item.value,
+          unit: item.unit,
+          meta: item.meta,
+          kind: item.kind,
+          href: item.href,
+        }))}
+      />
+      <ImpactLegend />
     </div>
   </div>
 </section>
@@ -87,61 +64,5 @@ const items = [
     font-size: clamp(1.7rem, 3vw, 2.45rem);
     line-height: 1.6;
     letter-spacing: 0.08em;
-  }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 100%;
-    margin-top: 1.25rem;
-    border-top: 1px solid hsl(var(--border));
-  }
-
-  .metric {
-    display: grid;
-    gap: 4px;
-    padding: 22px 0 0 22px;
-    border-left: 1px solid hsl(var(--border));
-  }
-
-  .metric:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
-
-  .metric dt {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    color: hsl(var(--muted-foreground));
-  }
-
-  .value {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .num {
-    font-weight: 200;
-    font-size: clamp(2.6rem, 5.6vw, 4.4rem);
-  }
-
-  .unit {
-    font-size: 13px;
-    color: hsl(var(--muted-foreground));
-  }
-
-  .meta {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: hsl(var(--muted-foreground));
-  }
-
-  @media (max-width: 520px) {
-    .metric {
-      padding-left: 14px;
-    }
   }
 </style>

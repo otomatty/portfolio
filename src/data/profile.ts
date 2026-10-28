@@ -1,14 +1,23 @@
-import { calculateExperienceMonths } from '@/lib/dateUtils';
-
-export type CareerEntryType = 'work' | 'freelance' | 'education';
-export type CareerIconKey = 'building' | 'code' | 'graduation' | 'rocket';
 export type CertificationIconKey = 'award' | 'trophy';
 
-export type CareerProject = {
+/** 経歴の行。実績に紐づかないもの（講師の仕事など）に使う */
+export type CareerRow = {
   title: string;
-  description: string;
-  slug?: string;
-  technologies?: string[];
+  /** 題名の下に置く補足（期間など） */
+  meta?: string;
+  /** 右に置く成果 */
+  result?: string;
+  href?: string;
+};
+
+/**
+ * 経歴の中のまとまり（客先案件・社内ツールなど）。
+ * works は実績の slug で、題名・期間・要約・見出しの数値を実績から引く。
+ */
+export type CareerGroup = {
+  label?: string;
+  works?: string[];
+  rows?: CareerRow[];
 };
 
 export type CareerEntry = {
@@ -17,10 +26,13 @@ export type CareerEntry = {
   title: string;
   company?: string;
   description: string;
-  iconKey: CareerIconKey;
-  type: CareerEntryType;
-  projects?: CareerProject[];
-  achievements?: string[];
+  /** About の経歴で題名の下に置く1行の要約 */
+  summary: string;
+  /** About の経歴で添える代表的な成果 */
+  highlights: string[];
+  groups: CareerGroup[];
+  /** 在籍中 */
+  current?: boolean;
 };
 
 export type CertificationItem = {
@@ -36,14 +48,6 @@ export type CertificationGroup = {
   items: CertificationItem[];
 };
 
-export type CareerHighlight = {
-  key: 'experience' | 'projects' | 'teaching' | 'awards';
-  value: string;
-  label: string;
-  description: string;
-  iconKey: 'briefcase' | 'code' | 'users' | 'award';
-};
-
 export const profile = {
   name: {
     ja: '菅井 瑛正',
@@ -52,11 +56,9 @@ export const profile = {
   email: 'akimasa.sugai@saedgewell.com',
   role: 'AI-Driven Development Engineer',
   headline:
-    'AI駆動開発の導入支援とAIを活用した開発を軸に、UI/UXからインフラまで幅広く手がけるエンジニアです。',
-  bioShort:
-    'フロントエンドからバックエンド、インフラまで幅広い技術スタックを活用し、ビジネスの成長に貢献するソリューションを提供しています。',
+    'AI 駆動開発の定着、業務ツールの内製、人材の育成。3 つの軸で、チームの生産性とコストを数字で変えるエンジニアです。',
   bioLong:
-    'TypeScript/React を中心としたフロントエンドから、Rust/Go/Python によるバックエンド、AWS/GCP 等のクラウドインフラまで幅広い技術領域をカバーするエンジニアです。OSSをカスタマイズして高品質なアプリケーションを構築するノウハウや、企業DX推進・チーム育成の経験を活かし、技術と組織の両面から課題解決に取り組んでいます。',
+    'システムエンジニア・AI 駆動開発リード。2020 年にフリーランスとして開発を始め、2025 年からアーシャルデザインで客先の開発支援に携わっています。直近では大手通信事業会社の 2 チームに AI-DLC を本番導入しました。社内ではチームリーダーとして育成を担い、仮想オフィスや要員管理などの社内ツールを Cloudflare でほぼ 0 円で動かしています。講師として 8 年間で延べ 300 名以上を指導した経験から、技術を噛み砕いて伝えることを得意としています。',
   images: {
     profile: '/images/profile.webp',
     avatar: '/images/akimasapf.webp',
@@ -71,106 +73,68 @@ export const careerEntries: CareerEntry[] = [
   {
     id: 1,
     period: '2025年7月 - 現在',
-    title: 'Web アプリケーション開発エンジニア',
+    title: 'システムエンジニア・AI 駆動開発リード',
     company: '株式会社アーシャルデザイン',
     description:
-      'Web アプリケーション開発エンジニアとして参画。モダンな技術スタックを活用した開発に従事。',
-    iconKey: 'building',
-    type: 'work',
-    achievements: [
-      'フロントエンド・バックエンド両面での開発',
-      'AI 駆動開発手法の導入推進',
+      'SES として大手企業の開発現場に参画。AI 駆動開発の組織導入、AI エージェント機能の実装、大規模プロジェクトの CI/CD 設計を担当。社内ではチームリーダーとして育成と社内ツールの内製を担う。',
+    summary: '客先案件 3 件・社内ツール 4 件・人材育成',
+    highlights: ['ベロシティ 最大 2 倍', '計画の半分の期間で達成', 'インフラ費 ≈0円/月'],
+    groups: [
+      { label: '客先案件', works: ['telecom-ai-dlc', 'sd-llm-sales-analysis', 'automotive-adas-tool'] },
+      { label: '社内ツール', works: ['agora', 'tb-palette', 'tb-force', 'falcon-auto-review'] },
+      {
+        label: '人材育成',
+        works: ['internal-oss', 'development-lab'],
+        rows: [
+          { title: 'チームリーダー', meta: 'メンバーとの月 1 回の面談、目標設定のレビュー' },
+          { title: '研修教材の作成・レビュー', meta: 'Claude Code の研修資料、FALCON v4（JavaScript / TypeScript）' },
+        ],
+      },
     ],
+    current: true,
   },
   {
     id: 2,
-    period: '2020年12月 - 現在',
-    title: '受託開発・個人開発',
+    period: '2020年12月 - 2025年6月',
+    title: '受託開発（要件定義〜保守運用）',
     company: 'フリーランス',
     description:
-      'TypeScript と Next.js を主軸としたモダンな Web 技術を活用し、業務システムや Web アプリの開発を担当。フリーランス専業1年目(2024年度)で12案件以上を受注。',
-    iconKey: 'code',
-    type: 'freelance',
-    projects: [
+      'クライアント折衝から設計・実装・保守運用まで 1 人で完結する案件を中心に、7 業界で業務システムを開発。プロトタイプで合意を取り、要件を早く固める進め方を得意とする。2024 年度は 12 案件以上を受注。',
+    summary: '7 業界の業務システム・Web アプリ',
+    highlights: ['作業時間 95% 以上削減', '注文時間 5分 → 1分', '1 週間で 35 ページ公開'],
+    groups: [
       {
-        title: '印刷会社向け ERP 開発',
-        description:
-          'AI 駆動開発により要件定義から 1 週間で 35 ページ + CMS 機能を実装',
-        slug: 'printing-erp',
-        technologies: ['Next.js', 'TypeScript', 'Supabase'],
+        works: [
+          'printing-erp',
+          'farm-shift',
+          'kouden',
+          'construction-progress',
+          'fresh-inventory',
+          'materials-hp-prototype',
+          'lms-planning',
+          'cram-school-system',
+          'website-production',
+        ],
       },
-      {
-        title: '香典帳アプリ開発',
-        description:
-          '葬儀会社 2 社とギフトショップとの共同開発。満足度調査で 93% が「とても使いやすかった」と評価',
-        slug: 'kouden',
-        technologies: ['React Native', 'Supabase'],
-      },
-      {
-        title: '建設会社業務システム開発',
-        description:
-          '案件進捗・請求管理・勤怠管理システムの構築。Excel からの脱却と業務効率化を実現',
-      },
-      {
-        title: '菓子製造会社流通管理システム保守',
-        description:
-          '20 箇所の拠点間流通システムの改善。注文時間を 5 分から 1 分に短縮',
-        slug: 'fresh-inventory',
-        technologies: ['PHP', 'MySQL'],
-      },
-      {
-        title: '学習塾 CMS・勤務記録システム開発',
-        description: '勤怠管理の業務時間を月 20 時間から 1 時間未満に削減',
-      },
-    ],
-    achievements: [
-      '多様な業界の業務システム開発経験',
-      'クライアントの業務効率を大幅に改善',
-      'AI 駆動開発による高速デリバリー',
     ],
   },
   {
     id: 3,
-    period: '2024年9月 - 2025年2月',
-    title: 'DX 推進支援事業 ファシリテーター',
-    company: '地元企業向け',
-    description:
-      '地元企業向けの DX 推進支援事業にファシリテーターとして参画。企業の業務改善を支援。',
-    iconKey: 'rocket',
-    type: 'work',
-    achievements: [
-      '企業内業務時間最大 70% 短縮',
-      '受講満足度 4.8/5',
-      '複数企業への DX 導入支援',
-    ],
-  },
-  {
-    id: 4,
-    period: '2020年11月 - 2024年4月',
-    title: '塾講師・プログラミング講師',
-    company: '学習塾',
-    description:
-      '延べ 300 名以上の指導実績。小学生から高校生まで幅広い年齢層を対象に指導。',
-    iconKey: 'graduation',
-    type: 'education',
-    achievements: [
-      '小学生ロボット相撲全国大会で指導チームが 1-3 位入賞',
-      '延べ 100 名以上の受験生を指導',
-      '志望校合格率 80% 以上',
-    ],
-  },
-  {
-    id: 5,
-    period: '2016年8月 - 2020年3月',
-    title: '家庭教師',
-    company: '個人',
-    description:
-      '小学生から高校生まで個別指導。生徒一人ひとりに合わせた指導を実施。',
-    iconKey: 'graduation',
-    type: 'education',
-    achievements: [
-      '受験生の 70% 以上が第 1 志望校合格',
-      '学習習慣の定着を重視した指導',
+    period: '2016年8月 - 2025年2月',
+    title: '講師・ファシリテーター',
+    company: '学習塾・プログラミング教室・家庭教師',
+    description: '小学生から高校生、地元企業の社員まで、8 年間で延べ 300 名以上を指導。',
+    summary: '8 年間で延べ 300 名以上を指導',
+    highlights: ['ロボット相撲 全国 1〜3 位', '「また来たい」95%', '業務時間 最大 70% 短縮'],
+    groups: [
+      {
+        rows: [
+          { title: '地元企業向け DX 推進支援 ファシリテーター', meta: '2024.09 – 2025.02', result: '業務時間 最大 70% 短縮・受講満足度 4.8/5' },
+          { title: '子ども向けプログラミング教室', meta: '2024.08 – 2025.02', result: '全国大会で 4 チーム中 3 チームが 1〜3 位・参加者の 95% が「また来たい」' },
+          { title: '学習塾 講師', meta: '2020.11 – 2024.04', result: '延べ 100 名以上・志望校合格率 80% 以上' },
+          { title: '家庭教師', meta: '2016.08 – 2020.03', result: '担当受験生の 70% 以上が第 1 志望合格' },
+        ],
+      },
     ],
   },
 ];
@@ -234,41 +198,5 @@ export const certificationGroups: CertificationGroup[] = [
         description: '延べ100名以上を担当し、志望校合格率80%以上を達成',
       },
     ],
-  },
-];
-
-export const getDevelopmentExperienceYears = () => {
-  const months = calculateExperienceMonths(profile.freelanceStartDate);
-  return Math.max(1, Math.floor(months / 12));
-};
-
-export const getCareerHighlights = (): CareerHighlight[] => [
-  {
-    key: 'experience',
-    value: `${getDevelopmentExperienceYears()}年+`,
-    label: '開発経験',
-    description: 'Web アプリケーション開発',
-    iconKey: 'briefcase',
-  },
-  {
-    key: 'projects',
-    value: '20+',
-    label: 'プロジェクト',
-    description: '業務システム・Web サービス',
-    iconKey: 'code',
-  },
-  {
-    key: 'teaching',
-    value: '300+',
-    label: '指導実績',
-    description: 'プログラミング講師として',
-    iconKey: 'users',
-  },
-  {
-    key: 'awards',
-    value: '全国入賞',
-    label: 'ロボット大会',
-    description: '指導チームが 1-3 位',
-    iconKey: 'award',
   },
 ];

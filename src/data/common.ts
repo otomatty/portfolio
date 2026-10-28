@@ -22,7 +22,8 @@ export const commonCopy = {
         title: 'Works',
         items: {
           all: 'すべて',
-          professional: '実務',
+          client: '客先案件',
+          internal: '社内ツール',
           personal: '個人開発',
         },
       },
