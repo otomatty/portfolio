@@ -1,5 +1,6 @@
 import {
   Briefcase,
+  Building2,
   Code2,
   GraduationCap,
   Heart,
@@ -70,14 +71,20 @@ export const navigationItems: NavigationItem[] = [
         icon: Sparkles,
       },
       {
-        title: '実務',
-        href: '/works?kind=professional',
-        description: '企業案件・フリーランスとして携わったプロジェクト',
+        title: '客先案件',
+        href: '/works?category=client',
+        description: '客先の開発現場で、目指したことと成果の数値',
         icon: Briefcase,
       },
       {
+        title: '社内ツール',
+        href: '/works?category=internal',
+        description: '社内向けに内製し、Cloudflare で動かすツール',
+        icon: Building2,
+      },
+      {
         title: '個人開発',
-        href: '/works?kind=personal',
+        href: '/works?category=personal',
         description: '個人で開発したプロジェクト',
         icon: Rocket,
       },

@@ -1,23 +1,24 @@
 ---
 import SectionLabel from '@/components/common/SectionLabel.astro';
+import { ImpactBlock, KindMark, ImpactValue, WorkFigure } from '@/components/works';
 import { homepageCopy } from '@/data/homepage';
-import { WORK_KIND_LABELS, formatWorkNumber } from '@/data/works';
+import { WORK_CATEGORY_LABELS, formatWorkNumber, formatWorkPeriod, getHeadlineImpact } from '@/data/works';
 import type { Work } from '@/types/works';
 
 /**
- * 実績の「展示室」。代表作を1画面に1件ずつ見せ、残りは最後に一覧で並べる。
+ * 実績の「展示室」。代表作を1画面に1件ずつ見せ、目指したことと成果の数値を添える。
+ * 残りは最後に、見出しの数値つきで一覧に並べる。
  * 背面の年号・画像・文字の動く量を変えて奥行きを出す（data-parallax）。
  */
 interface Props {
   featured: Work[];
   others: Work[];
-  /** 作成日順の通し番号（slug → No.） */
+  /** 開始月順の通し番号（slug → No.） */
   numbers: Record<string, number>;
 }
 
 const { featured, others, numbers } = Astro.props;
 const { works: copy } = homepageCopy;
-const yearMonth = (iso: string) => iso.slice(0, 7).replace('-', '.');
 const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
 ---
 
@@ -53,31 +54,54 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
           featured.map((work, i) => (
             <article class:list={['scene', { reverse: i % 2 === 1 }]} id={`work-${work.slug}`} data-gallery-scene={i}>
               <span class="scene-year" data-parallax="0.24" aria-hidden="true">
-                {work.created_at.slice(0, 4)}
+                {work.period.start.slice(0, 4)}
               </span>
               <figure class="scene-figure">
-                <div class="scene-image" data-parallax="0.08">
-                  <img
-                    src={work.thumbnail}
-                    alt={`${work.title} の画面`}
-                    width="3360"
-                    height="1856"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
+                {work.thumbnail ? (
+                  <div class="scene-image" data-parallax="0.08">
+                    <img
+                      src={work.thumbnail}
+                      alt={`${work.title} の画面`}
+                      width="3360"
+                      height="1856"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ) : (
+                  <WorkFigure work={work} />
+                )}
               </figure>
               <div class="scene-caption">
                 <p class="work-meta">
                   <span>{no(work)}</span>
-                  <span class:list={['kind', `kind-${work.kind}`]}>
-                    <i />
-                    {WORK_KIND_LABELS[work.kind]}
-                  </span>
-                  <span>{yearMonth(work.created_at)}</span>
+                  <span class="text-gold">{WORK_CATEGORY_LABELS[work.category]}</span>
+                  <span>{formatWorkPeriod(work.period)}</span>
+                  {work.industry && <span>{work.industry}</span>}
                 </p>
-                <h3 class="scene-title">{work.title}</h3>
-                <p class="max-w-[34em] text-sm text-muted-foreground">{work.description}</p>
+                <h3 class="scene-title">
+                  {work.title}
+                  {work.subtitle && <span class="scene-subtitle">{work.subtitle}</span>}
+                </h3>
+                <p class="max-w-[34em] text-sm leading-relaxed text-muted-foreground">
+                  {work.goal ? (
+                    <>
+                      <span class="mr-2 text-[11.5px] tracking-[0.14em] text-gold">{copy.goal}</span>
+                      {work.goal}
+                    </>
+                  ) : (
+                    work.description
+                  )}
+                </p>
+                {work.impacts && work.impacts.length > 0 && (
+                  <ul class="scene-impacts">
+                    {work.impacts.slice(0, 2).map((impact) => (
+                      <li>
+                        <ImpactBlock impact={impact} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <p class="text-xs tracking-[0.08em] text-muted-foreground">{work.technologies.join(' · ')}</p>
                 <p class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] tracking-[0.06em]">
                   <a href={`/works/${work.slug}`} class="py-1.5 transition-colors hover:text-gold">
@@ -98,20 +122,28 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
           <h3 id="works-others-title" class="others-title">{copy.others}</h3>
           <ol>
             {
-              others.map((work) => (
-                <li>
-                  <a href={`/works/${work.slug}`} class="other-row">
-                    <span class="other-no">{no(work)}</span>
-                    <span class="other-title">{work.title}</span>
-                    <span class:list={['other-kind', 'kind', `kind-${work.kind}`]}>
-                      <i />
-                      {WORK_KIND_LABELS[work.kind]}
-                    </span>
-                    <span class="other-date">{yearMonth(work.created_at)}</span>
-                    <span class="other-arrow" aria-hidden="true">→</span>
-                  </a>
-                </li>
-              ))
+              others.map((work) => {
+                const headline = getHeadlineImpact(work);
+                return (
+                  <li>
+                    <a href={`/works/${work.slug}`} class="other-row">
+                      <span class="other-no">{no(work)}</span>
+                      <span class="other-title">{work.title}</span>
+                      <span class="other-kind">{WORK_CATEGORY_LABELS[work.category]}</span>
+                      {headline ? (
+                        <span class="other-impact">
+                          <ImpactValue impact={headline} size="sm" />
+                          <span class="other-impact-label">{headline.label}</span>
+                          <KindMark kind={headline.kind} />
+                        </span>
+                      ) : (
+                        <span class="other-impact" />
+                      )}
+                      <span class="other-arrow" aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                );
+              })
             }
           </ol>
           <a href="/works" class="group mt-8 inline-flex items-center gap-3 text-[14.5px] tracking-[0.08em] transition-colors hover:text-gold">
@@ -213,7 +245,8 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
     align-items: center;
     gap: clamp(28px, 4vw, 56px);
     min-height: min(80vh, 760px);
-    padding-block: clamp(48px, 8vh, 96px);
+    /* 上は背面の年号の高さだけ空け、説明の文字と重ならないようにする */
+    padding-block: calc(clamp(5rem, 13vw, 12rem) * 0.9 + clamp(8px, 3vh, 32px)) clamp(48px, 8vh, 96px);
   }
 
   .scene.reverse {
@@ -293,25 +326,21 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
     font-variant-numeric: tabular-nums;
   }
 
-  .kind {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .scene-subtitle {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.55em;
+    letter-spacing: 0.06em;
+    color: hsl(var(--muted-foreground));
   }
 
-  .kind i {
-    flex: none;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  .kind-personal i {
-    background: var(--gold);
-  }
-
-  .kind-professional i {
-    border: 1px solid hsl(var(--foreground));
+  .scene-impacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 32px;
+    width: 100%;
+    padding-top: 16px;
+    border-top: 1px solid hsl(var(--border));
   }
 
   .others {
@@ -328,7 +357,7 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
 
   .other-row {
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr) auto 64px 16px;
+    grid-template-columns: 64px minmax(0, 1fr) auto minmax(0, 15rem) 16px;
     align-items: baseline;
     gap: 16px;
     padding-block: 14px;
@@ -340,8 +369,7 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
     border-top: 1px solid hsl(var(--border));
   }
 
-  .other-no,
-  .other-date {
+  .other-no {
     font-size: 12px;
     letter-spacing: 0.1em;
     color: hsl(var(--muted-foreground));
@@ -349,6 +377,18 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
   }
 
   .other-kind {
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .other-impact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+  }
+
+  .other-impact-label {
     font-size: 12px;
     color: hsl(var(--muted-foreground));
   }
@@ -373,7 +413,7 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
     .scene.reverse {
       grid-template-columns: minmax(0, 1fr);
       min-height: 0;
-      padding-block: 40px;
+      padding-block: 88px 40px;
     }
     .scene.reverse .scene-figure {
       order: 0;
@@ -385,9 +425,12 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
     .other-row {
       grid-template-columns: 52px minmax(0, 1fr) 16px;
     }
-    .other-kind,
-    .other-date {
+    .other-kind {
       display: none;
+    }
+    .other-impact {
+      grid-column: 2;
+      grid-row: 2;
     }
   }
 </style>

@@ -1,86 +1,88 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Work, WorkKind } from '@/types/works';
+import type { Work, WorkCategory } from '@/types/works';
+import { WORK_CATEGORIES, WORK_CATEGORY_LABELS, hasMeasuredImpact } from '@/data/works';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { ImpactLegend } from './Impact';
 import { WorkCard } from './WorkCard';
 
-type KindFilter = 'all' | WorkKind;
+type CategoryFilter = 'all' | WorkCategory;
 
 interface WorksFilterProps {
   works: Work[];
-  technologies: string[];
-  /** 作成日順の通し番号（slug → No.） */
+  /** 開始月順の通し番号（slug → No.） */
   numbers?: Record<string, number>;
-  initialKind?: KindFilter;
 }
 
-const kinds: Array<{ value: KindFilter; label: string }> = [
+const filters: Array<{ value: CategoryFilter; label: string }> = [
   { value: 'all', label: 'すべて' },
-  { value: 'professional', label: '実務' },
-  { value: 'personal', label: '個人開発' },
+  ...WORK_CATEGORIES.map((category) => ({ value: category, label: WORK_CATEGORY_LABELS[category] })),
 ];
 
-const isKindFilter = (value: string | null): value is KindFilter =>
-  value === 'all' || value === 'professional' || value === 'personal';
+const isCategoryFilter = (value: string | null): value is CategoryFilter =>
+  value !== null && filters.some((filter) => filter.value === value);
 
-export const WorksFilter = ({
-  works,
-  technologies = [],
-  numbers = {},
-  initialKind = 'all',
-}: WorksFilterProps) => {
+/** 以前の ?kind= の値。実務は、会社の仕事を引き継いだ客先案件として受け取る */
+const legacyKinds = new Map<string, CategoryFilter>([
+  ['professional', 'client'],
+  ['personal', 'personal'],
+]);
+
+/** URL の ?category= を読む。以前の ?kind= も受け取る */
+const readCategoryParam = (): CategoryFilter | null => {
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get('category');
+  if (isCategoryFilter(category)) return category;
+  return legacyKinds.get(params.get('kind') ?? '') ?? null;
+};
+
+export const WorksFilter = ({ works, numbers = {} }: WorksFilterProps) => {
   // 動きを減らす設定では、絞り込み時の並び替えと出入りのアニメーションを止める
   const reduceMotion = useReducedMotion() ?? false;
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedKind, setSelectedKind] = useState<KindFilter>(initialKind);
-  const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
+  const [onlyMeasured, setOnlyMeasured] = useState(false);
 
-  // Allow deep-linking / redirects via `?kind=professional|personal`.
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const kindParam = new URLSearchParams(window.location.search).get('kind');
-    if (isKindFilter(kindParam)) {
-      setSelectedKind(kindParam);
-    }
+    const category = readCategoryParam();
+    if (category) setSelectedCategory(category);
   }, []);
 
   const filteredWorks = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
     return works.filter((work) => {
-      const matchesSearch =
-        normalizedQuery.length === 0 ||
-        work.title.toLowerCase().includes(normalizedQuery) ||
-        work.description.toLowerCase().includes(normalizedQuery);
+      const searchable = [work.title, work.subtitle, work.description, work.goal, ...work.technologies]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      const matchesSearch = normalizedQuery.length === 0 || searchable.includes(normalizedQuery);
+      const matchesCategory = selectedCategory === 'all' || work.category === selectedCategory;
+      const matchesMeasured = !onlyMeasured || hasMeasuredImpact(work);
 
-      const matchesKind =
-        selectedKind === 'all' || work.kind === selectedKind;
-
-      const matchesTech =
-        !selectedTech || work.technologies.includes(selectedTech);
-
-      return matchesSearch && matchesKind && matchesTech;
+      return matchesSearch && matchesCategory && matchesMeasured;
     });
-  }, [works, searchQuery, selectedKind, selectedTech]);
+  }, [works, searchQuery, selectedCategory, onlyMeasured]);
 
-  const countOf = (kind: KindFilter) =>
-    kind === 'all' ? works.length : works.filter((work) => work.kind === kind).length;
+  const countOf = (category: CategoryFilter) =>
+    category === 'all' ? works.length : works.filter((work) => work.category === category).length;
 
   return (
     <div className="grid gap-14">
       <div className="grid gap-8">
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <Tabs
-            value={selectedKind}
-            onValueChange={(value) => setSelectedKind(value as KindFilter)}
+            value={selectedCategory}
+            onValueChange={(value) => setSelectedCategory(value as CategoryFilter)}
+            className="max-w-full"
           >
-            <TabsList>
-              {kinds.map((kind) => (
-                <TabsTrigger key={kind.value} value={kind.value} className="flex-none">
-                  {kind.label}
+            <TabsList className="max-w-full flex-wrap justify-start gap-x-6 gap-y-1">
+              {filters.map((filter) => (
+                <TabsTrigger key={filter.value} value={filter.value} className="flex-none">
+                  {filter.label}
                   <span className="text-[11px] text-muted-foreground tabular-nums">
-                    {countOf(kind.value)}
+                    {countOf(filter.value)}
                   </span>
                 </TabsTrigger>
               ))}
@@ -88,7 +90,7 @@ export const WorksFilter = ({
           </Tabs>
           <Input
             type="search"
-            placeholder="名前や説明で探す"
+            placeholder="名前・目指したこと・技術で探す"
             aria-label="実績を検索"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
@@ -96,25 +98,18 @@ export const WorksFilter = ({
           />
         </div>
 
-        {technologies.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="使用技術で絞り込む">
-            {technologies.map((tech) => (
-              <button
-                key={tech}
-                type="button"
-                aria-pressed={selectedTech === tech}
-                onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
-                className={
-                  selectedTech === tech
-                    ? 'rounded-full border border-gold px-3 py-1 text-xs tracking-[0.04em] text-gold transition-colors'
-                    : 'rounded-full border border-foreground/15 px-3 py-1 text-xs tracking-[0.04em] text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground'
-                }
-              >
-                {tech}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4">
+          <label className="inline-flex min-h-11 cursor-pointer items-center gap-3 text-[13px] tracking-[0.04em] text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={onlyMeasured}
+              onChange={(event) => setOnlyMeasured(event.target.checked)}
+              className="size-4 accent-[var(--gold)]"
+            />
+            実測の数値がある実績だけ
+          </label>
+          <ImpactLegend />
+        </div>
 
         <p className="text-xs tracking-[0.14em] text-muted-foreground tabular-nums" aria-live="polite">
           {filteredWorks.length}件
@@ -148,7 +143,7 @@ export const WorksFilter = ({
           className="py-12 text-center"
         >
           <p className="text-muted-foreground">
-            条件に一致するプロジェクトが見つかりませんでした。
+            条件に一致する実績が見つかりませんでした。
           </p>
         </motion.div>
       )}

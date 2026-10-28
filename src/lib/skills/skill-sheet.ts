@@ -6,9 +6,13 @@ import {
   type ProficiencyLevel,
   type SkillSheetProject,
 } from '@/data/skill-sheet';
+import { getWorkBySlug } from '@/data/works';
 import { calculateExperiencePeriod } from '@/lib/dateUtils';
+import type { Impact, WorkCategory } from '@/types/works';
+type Period = { start: string; end?: string };
+
 /** 期間（YYYY-MM）を表示用文字列に整形 */
-export const formatPeriod = (period: SkillSheetProject['period']): string => {
+export const formatPeriod = (period: Period): string => {
   const format = (value: string) => {
     const [year, month] = value.split('-');
     if (!month) return year;
@@ -19,11 +23,36 @@ export const formatPeriod = (period: SkillSheetProject['period']): string => {
   return `${start} - ${end}`;
 };
 
-export type SkillSheetProjectView = SkillSheetProject;
+/** 実績から引いた情報を合わせた案件 */
+export type SkillSheetProjectView = Omit<SkillSheetProject, 'period' | 'category'> & {
+  period: Period;
+  category: WorkCategory;
+  title: string;
+  goal: string;
+  impacts: Impact[];
+  masked: boolean;
+};
 
-/** 案件一覧（新しい順を想定したデータ順をそのまま返す） */
+/**
+ * 案件一覧（開始月の新しい順。同じ月はデータの順）。
+ * 期間・区分・目指したこと・成果の数値・NDA 配慮は、紐づく実績から引く。
+ */
 export const getSkillSheetProjects = (): SkillSheetProjectView[] =>
-  skillSheetProjects;
+  skillSheetProjects.map((project) => {
+    const work = getWorkBySlug(project.workSlug);
+    if (!work) {
+      throw new Error(`スキルシートの案件 ${project.id} が参照する実績 ${project.workSlug} がありません`);
+    }
+    return {
+      ...project,
+      period: project.period ?? work.period,
+      category: project.category ?? work.category,
+      title: work.subtitle ? `${work.title} — ${work.subtitle}` : work.title,
+      goal: work.goal ?? work.description,
+      impacts: work.impacts ?? [],
+      masked: work.masked ?? false,
+    };
+  }).sort((a, b) => b.period.start.localeCompare(a.period.start));
 
 export type SkillProficiencyView = {
   skillId: string;

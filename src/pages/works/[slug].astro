@@ -3,7 +3,16 @@ import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import PillLink from '@/components/common/PillLink.astro';
 import SectionLabel from '@/components/common/SectionLabel.astro';
-import { WORK_KIND_LABELS, formatWorkNumber, getAllWorks, getWorkNumbers } from '@/data/works';
+import { ImpactBlock, ImpactCaption, ImpactValue } from '@/components/works';
+import { kanjiNumerals } from '@/data/about';
+import {
+  WORK_CATEGORY_LABELS,
+  formatImpactValue,
+  formatWorkNumber,
+  formatWorkPeriod,
+  getAllWorks,
+  getWorkNumbers,
+} from '@/data/works';
 import type { Work } from '@/types/works';
 
 export function getStaticPaths() {
@@ -18,20 +27,33 @@ const { work } = Astro.props as { work: Work };
 const siteUrl = 'https://saedgewell.com';
 const FALLBACK_THUMBNAIL = '/images/works/default-thumbnail.webp';
 
-const categoryLabels: Record<Work['category'], string> = {
-  company: '会社案件',
-  freelance: 'フリーランス',
-  personal: '個人開発',
-};
-
-const formatDate = (value?: string) => (value ? value.slice(0, 10).replaceAll('-', '.') : '-');
-const formatSchemaDate = (value?: string) =>
-  value ? value.slice(0, 10) : undefined;
-const pageTitle = work ? `${work.title} | Saedgewell` : 'Work | Saedgewell';
-const pageDescription = work?.description ?? '実績の詳細をご紹介します。';
-const pageImage = work?.thumbnail || FALLBACK_THUMBNAIL;
+const pageTitle = `${work.title} | Saedgewell`;
+const pageDescription = work.goal ?? work.description;
+const pageImage = work.thumbnail || FALLBACK_THUMBNAIL;
 const pageUrl = new URL(`/works/${work.slug}`, siteUrl).toString();
 const workLinks = [work.website_url, work.github_url].filter(Boolean);
+
+const meta = [
+  { label: '期間', value: formatWorkPeriod(work.period) },
+  { label: '体制', value: work.team },
+  { label: '役割', value: work.role },
+  { label: '分野', value: work.industry },
+].filter((item): item is { label: string; value: string } => Boolean(item.value));
+
+const impacts = work.impacts ?? [];
+// 前後を比べられる数値だけを「数値」の節に並べる
+const comparisons = impacts.filter((impact) => impact.before);
+
+// ある節にだけ漢数字を振る
+const sections = [
+  work.goal || work.challenges?.length ? 'goal' : null,
+  work.approach?.length ? 'approach' : null,
+  comparisons.length ? 'numbers' : null,
+  'basis',
+].filter((id): id is string => id !== null);
+const numeral = (id: string) => kanjiNumerals[sections.indexOf(id)];
+
+const barWidth = (bars: [number, number], i: 0 | 1) => `${(bars[i] / Math.max(...bars)) * 100}%`;
 
 // 通し番号の前後の実績へつなぐ
 const numbers = getWorkNumbers();
@@ -49,8 +71,7 @@ const pageJsonLd = {
   description: pageDescription,
   url: pageUrl,
   image: new URL(pageImage, siteUrl).toString(),
-  datePublished: formatSchemaDate(work.created_at),
-  dateModified: formatSchemaDate(work.updated_at),
+  dateCreated: work.period.start,
   author: {
     '@type': 'Person',
     name: '菅井瑛正',
@@ -69,14 +90,22 @@ const pageJsonLd = {
 >
   <article>
     <header class="detail-head border-b">
-      <span class="detail-year" data-parallax="0.24" aria-hidden="true">{work.created_at.slice(0, 4)}</span>
+      <span class="detail-year" data-parallax="0.24" aria-hidden="true">{work.period.start.slice(0, 4)}</span>
       <div class="container relative mx-auto grid max-w-6xl justify-items-start gap-6 px-4 pt-12 pb-16 sm:px-6 md:pt-16 md:pb-24 lg:px-8">
         <a href="/works" class="group inline-flex items-center gap-2 text-[13px] tracking-[0.08em] text-muted-foreground transition-colors hover:text-gold">
           <span class="transition-transform group-hover:-translate-x-1" aria-hidden="true">←</span>
           実績一覧
         </a>
-        <SectionLabel text={`${formatWorkNumber(number)} · ${WORK_KIND_LABELS[work.kind]}`} />
-        <h1 class="heading-thin text-[clamp(2rem,4.4vw,3.4rem)]">{work.title}</h1>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <SectionLabel text={`${formatWorkNumber(number)} · ${WORK_CATEGORY_LABELS[work.category]}`} />
+          {work.masked && (
+            <span class="rounded-full border border-foreground/25 px-2.5 py-0.5 text-[11px] tracking-[0.08em] text-muted-foreground">NDA 配慮</span>
+          )}
+        </div>
+        <h1 class="heading-thin text-[clamp(2rem,4.4vw,3.4rem)]">
+          {work.title}
+          {work.subtitle && <span class="mt-2 block text-[clamp(1rem,1.8vw,1.3rem)] text-muted-foreground">{work.subtitle}</span>}
+        </h1>
         <p class="text-flow max-w-[40em] text-muted-foreground">{work.description}</p>
         {(work.website_url || work.github_url) && (
           <div class="flex flex-wrap items-center gap-x-8 gap-y-3 pt-1">
@@ -96,47 +125,165 @@ const pageJsonLd = {
       </div>
     </header>
 
-    <div class="container mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      <figure class="detail-figure">
-        <div class="detail-image" data-parallax="-0.05">
-          <Image
-            src={work.thumbnail || FALLBACK_THUMBNAIL}
-            alt={`${work.title} の画面`}
-            width={1600}
-            height={884}
-            sizes="(min-width: 1152px) 1104px, 100vw"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </div>
-      </figure>
-
+    <div class="container mx-auto max-w-6xl px-4 pt-10 sm:px-6 md:pt-14 lg:px-8">
       <dl class="detail-meta">
-        <div>
-          <dt>区分</dt>
-          <dd>{categoryLabels[work.category]}</dd>
-        </div>
-        <div>
-          <dt>公開</dt>
-          <dd>{formatDate(work.created_at)}</dd>
-        </div>
-        <div>
-          <dt>更新</dt>
-          <dd>{formatDate(work.updated_at)}</dd>
-        </div>
-        {work.technologies.length > 0 && (
-          <div class="detail-tech">
-            <dt>技術</dt>
-            <dd>
-              <ul class="flex flex-wrap gap-x-5 gap-y-1">
-                {work.technologies.map((tech) => <li>{tech}</li>)}
-              </ul>
-            </dd>
+        {meta.map((item) => (
+          <div>
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
           </div>
-        )}
+        ))}
       </dl>
     </div>
+
+    {work.thumbnail && (
+      <div class="container mx-auto max-w-6xl px-4 pt-14 sm:px-6 md:pt-20 lg:px-8">
+        <figure class="detail-figure">
+          <div class="detail-image" data-parallax="-0.05">
+            <Image
+              src={work.thumbnail}
+              alt={`${work.title} の画面`}
+              width={1600}
+              height={884}
+              sizes="(min-width: 1152px) 1104px, 100vw"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+        </figure>
+      </div>
+    )}
+
+    {impacts.length > 0 && (
+      <section class="detail-section border-b" aria-labelledby="impacts-title">
+        <div class="container mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:px-8">
+          <h2 id="impacts-title" class="text-[12px] font-normal tracking-[0.24em] text-gold">成果</h2>
+          <ul class="impact-grid">
+            {impacts.map((impact) => (
+              <li>
+                <ImpactBlock impact={impact} size="lg" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {sections.includes('goal') && (
+      <section class="detail-section border-b" aria-labelledby="goal-title">
+        <div class="detail-grid container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div class="detail-heading">
+            <span aria-hidden="true">{numeral('goal')}</span>
+            <h2 id="goal-title">目指したこと</h2>
+          </div>
+          <div class="grid gap-8">
+            {work.goal && <p class="text-[clamp(1rem,1.6vw,1.15rem)] font-light leading-[1.95] tracking-[0.04em]">{work.goal}</p>}
+            {work.challenges && work.challenges.length > 0 && (
+              <div class="grid gap-3">
+                <p class="text-[11.5px] tracking-[0.14em] text-gold">始めたときの課題</p>
+                <ul class="border-t">
+                  {work.challenges.map((challenge) => (
+                    <li class="border-b py-3.5 text-[14.5px] text-muted-foreground">{challenge}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {sections.includes('approach') && (
+      <section class="detail-section border-b" aria-labelledby="approach-title">
+        <div class="detail-grid container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div class="detail-heading">
+            <span aria-hidden="true">{numeral('approach')}</span>
+            <h2 id="approach-title">打ち手</h2>
+          </div>
+          <ol class="border-t">
+            {work.approach?.map((step, i) => (
+              <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 border-b py-4">
+                <span class="text-gold" aria-hidden="true">{kanjiNumerals[i]}</span>
+                <div class="grid gap-1">
+                  <p class="text-[15px] leading-relaxed">{step.title}</p>
+                  {step.detail && <p class="text-[13.5px] text-muted-foreground">{step.detail}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    {sections.includes('numbers') && (
+      <section class="detail-section border-b" aria-labelledby="numbers-title">
+        <div class="detail-grid container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div class="detail-heading">
+            <span aria-hidden="true">{numeral('numbers')}</span>
+            <h2 id="numbers-title">数値</h2>
+            <p>前と後を同じ物差しで比べています。</p>
+          </div>
+          <ul class="grid gap-10">
+            {comparisons.map((impact) => (
+              <li class="grid gap-3">
+                <ImpactCaption impact={impact} className="text-[14px] text-foreground" />
+                {impact.bars ? (
+                  <div class="grid gap-2 text-[12.5px] text-muted-foreground tabular-nums">
+                    <div class="bar-row">
+                      <span>前</span>
+                      <span class="bar"><span class="bar-fill is-before" style={{ width: barWidth(impact.bars, 0) }}></span></span>
+                      <span class="text-right">{impact.before}</span>
+                    </div>
+                    <div class="bar-row">
+                      <span>後</span>
+                      <span class="bar"><span class="bar-fill" style={{ width: barWidth(impact.bars, 1) }}></span></span>
+                      <span class="text-right text-foreground">{formatImpactValue(impact)}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <ImpactValue impact={impact} />
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <section class="detail-section" aria-labelledby="basis-title">
+      <div class="detail-grid container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="detail-heading">
+          <span aria-hidden="true">{numeral('basis')}</span>
+          <h2 id="basis-title">{work.basis?.length ? '根拠と技術' : '技術'}</h2>
+        </div>
+        <div class="grid gap-8">
+          {work.basis && work.basis.length > 0 && (
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[28rem] border-collapse text-[14px]">
+                <thead>
+                  <tr>
+                    <th scope="col" class="basis-th">数値</th>
+                    <th scope="col" class="basis-th">測り方</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {work.basis.map((item) => (
+                    <tr>
+                      <td class="border-b py-3 pr-4 align-top whitespace-nowrap">{item.label}</td>
+                      <td class="border-b py-3 text-muted-foreground">{item.method}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <ul class="flex flex-wrap gap-x-5 gap-y-1.5 text-[14px] tracking-[0.04em]">
+            {work.technologies.map((tech) => <li>{tech}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
 
     {(prev || next) && (
       <nav class="border-t" aria-label="前後の実績">
@@ -165,7 +312,7 @@ const pageJsonLd = {
     overflow: hidden;
   }
 
-  /* 背面に作成年を輪郭だけの大きな数字で置き、本文より遅れて動かす */
+  /* 背面に開始年を輪郭だけの大きな数字で置き、本文より遅れて動かす */
   .detail-year {
     position: absolute;
     right: max(16px, calc((100vw - 72rem) / 2));
@@ -179,6 +326,37 @@ const pageJsonLd = {
     pointer-events: none;
     user-select: none;
     will-change: transform;
+  }
+
+  .detail-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    width: 100%;
+    border-block: 1px solid hsl(var(--border));
+  }
+
+  .detail-meta > div {
+    display: grid;
+    align-content: start;
+    gap: 0.4rem;
+    padding: 1.1rem 1.25rem 1.1rem 0;
+  }
+
+  .detail-meta > div + div {
+    padding-left: 1.25rem;
+    border-left: 1px solid hsl(var(--border));
+  }
+
+  .detail-meta dt {
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .detail-meta dd {
+    font-size: 14.5px;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
   }
 
   .detail-figure {
@@ -199,34 +377,82 @@ const pageJsonLd = {
     height: auto;
   }
 
-  .detail-meta {
+  .detail-section {
+    padding-block: clamp(4rem, 8vw, 6rem);
+  }
+
+  .impact-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    border-top: 1px solid hsl(var(--border));
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 2.5rem 2rem;
   }
 
-  .detail-meta > div {
+  .impact-grid > li {
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--gold);
+  }
+
+  .detail-grid {
     display: grid;
-    gap: 0.5rem;
-    padding-block: 1.4rem;
-    border-bottom: 1px solid hsl(var(--border));
+    gap: 2rem;
   }
 
-  .detail-meta .detail-tech {
-    grid-column: 1 / -1;
+  .detail-heading {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: 0.75rem;
   }
 
-  .detail-meta dt {
-    font-size: 11.5px;
-    letter-spacing: 0.2em;
+  .detail-heading > span {
+    font-weight: 200;
+    font-size: 2.4rem;
+    line-height: 1;
     color: var(--gold);
   }
 
-  .detail-meta dd {
-    font-size: 14.5px;
-    letter-spacing: 0.06em;
-    font-variant-numeric: tabular-nums;
+  .detail-heading h2 {
+    font-weight: 300;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .detail-heading p {
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) 7rem;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bar {
+    display: block;
+    height: 6px;
+    background: hsl(var(--border));
+  }
+
+  .bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--gold);
+  }
+
+  .bar-fill.is-before {
+    background: var(--gold-dim);
+  }
+
+  .basis-th {
+    padding: 0.6rem 1rem 0.6rem 0;
+    border-bottom: 1px solid hsl(var(--border));
+    text-align: left;
+    font-weight: 400;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
   }
 
   .pager {
@@ -261,23 +487,17 @@ const pageJsonLd = {
   }
 
   @media (min-width: 768px) {
-    .detail-meta {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 2.2fr);
-    }
-    .detail-meta .detail-tech {
-      grid-column: auto;
-    }
-    .detail-meta > div + div {
-      padding-left: 1.5rem;
-      border-left: 1px solid hsl(var(--border));
+    .detail-grid {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: 4rem;
     }
   }
 
-  @media (max-width: 767px) {
-    .detail-meta > div:nth-child(2),
-    .detail-meta > div:nth-child(3) {
-      padding-left: 1rem;
-      border-left: 1px solid hsl(var(--border));
+  @media (max-width: 639px) {
+    .detail-meta > div + div {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid hsl(var(--border));
     }
   }
 </style>

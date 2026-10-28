@@ -1,12 +1,18 @@
 ---
 /**
  * 数字で見せる指標の列。細い縦線で区切り、数字は細く大きく置く。
+ * kind があれば数値の種類（実測・試算・目標）の印を添え、href があれば実績へのリンクを置く。
  */
+import { KindMark } from '@/components/works';
+import type { ImpactKind } from '@/types/works';
+
 export interface Metric {
   label: string;
   value: string;
   unit?: string;
   meta?: string;
+  kind?: ImpactKind;
+  href?: string;
 }
 
 interface Props {
@@ -25,6 +31,16 @@ const { items } = Astro.props;
         {item.unit && <span class="unit">{item.unit}</span>}
       </dd>
       {item.meta && <dd class="meta">{item.meta}</dd>}
+      {(item.kind || item.href) && (
+        <dd class="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {item.kind && <KindMark kind={item.kind} />}
+          {item.href && (
+            <a href={item.href} class="text-[11.5px] tracking-[0.12em] text-muted-foreground transition-colors hover:text-gold">
+              実績を見る →
+            </a>
+          )}
+        </dd>
+      )}
     </div>
   ))}
 </dl>

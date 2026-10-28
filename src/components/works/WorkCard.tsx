@@ -1,59 +1,74 @@
 import type { Work } from '@/types/works';
-import { WORK_KIND_LABELS, formatWorkNumber } from '@/data/works';
-import { cn } from '@/lib/utils';
+import { WORK_CATEGORY_LABELS, formatWorkNumber, formatWorkPeriod } from '@/data/works';
+import { ImpactBlock, ImpactValue, KindMark, WorkFigure } from './Impact';
 
 interface WorkCardProps {
   work: Work;
-  /** 作成日順の通し番号 */
+  /** 開始月順の通し番号 */
   number?: number;
 }
 
-const FALLBACK_THUMBNAIL = '/images/works/default-thumbnail.webp';
-
-const yearMonth = (iso: string) => iso.slice(0, 7).replace('-', '.');
-
 /**
- * 実績一覧の1件。カードの枠は置かず、カラーの画面・通し番号・題名を縦に並べる。
- * 画面と題名は詳細ページへのリンク、サイトとソースコードは別のリンクにする。
+ * 実績一覧の1件。カードの枠は置かず、画面・通し番号・題名・目指したこと・数値を縦に並べる。
+ * 画面が無い実績は、成果の数値を図にして置く。
  */
 export const WorkCard = ({ work, number }: WorkCardProps) => {
+  const [headline, second] = work.impacts ?? [];
+
   return (
     <article className="group grid gap-4">
       <a href={`/works/${work.slug}`} className="grid gap-5">
         <div className="relative aspect-[3360/1856] overflow-hidden border border-border bg-card">
-          <img
-            src={work.thumbnail || FALLBACK_THUMBNAIL}
-            alt={`${work.title} の画面`}
-            width={1200}
-            height={663}
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            loading="lazy"
-            decoding="async"
-          />
+          {work.thumbnail ? (
+            <img
+              src={work.thumbnail}
+              alt={`${work.title} の画面`}
+              width={1200}
+              height={663}
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <WorkFigure work={work} />
+          )}
         </div>
         <p className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-[11.5px] tracking-[0.14em] text-muted-foreground tabular-nums">
-          <span className="text-gold">{formatWorkNumber(number)}</span>
-          <span className="inline-flex items-center gap-2">
-            <i
-              className={cn(
-                'inline-block size-2 rounded-full',
-                work.kind === 'personal' ? 'bg-gold' : 'border border-foreground'
-              )}
-              aria-hidden="true"
-            />
-            {WORK_KIND_LABELS[work.kind]}
-          </span>
-          <span>{yearMonth(work.created_at)}</span>
+          <span>{formatWorkNumber(number)}</span>
+          <span className="text-gold">{WORK_CATEGORY_LABELS[work.category]}</span>
+          <span>{formatWorkPeriod(work.period)}</span>
         </p>
         <div className="grid gap-2.5">
           <h3 className="text-[1.3rem] font-light leading-snug tracking-[0.08em] transition-colors group-hover:text-gold">
             {work.title}
+            {work.subtitle && <span className="mt-1 block text-[13.5px] tracking-[0.06em] text-muted-foreground">{work.subtitle}</span>}
           </h3>
-          <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-            {work.description}
+          <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+            {work.goal ? (
+              <>
+                <span className="mr-2 text-[11.5px] tracking-[0.14em] text-gold">目指したこと</span>
+                {work.goal}
+              </>
+            ) : (
+              work.description
+            )}
           </p>
         </div>
       </a>
+      {headline && (
+        <div className="grid gap-2 border-t border-border pt-4">
+          <ImpactBlock impact={headline} />
+          {second && (
+            <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12.5px] text-muted-foreground">
+              <span>{second.label}</span>
+              <span className="text-foreground">
+                <ImpactValue impact={second} size="sm" />
+              </span>
+              <KindMark kind={second.kind} />
+            </p>
+          )}
+        </div>
+      )}
       <p className="text-xs tracking-[0.08em] text-muted-foreground">
         {work.technologies.join(' · ')}
       </p>
