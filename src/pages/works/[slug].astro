@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import PillLink from '@/components/common/PillLink.astro';
 import SectionLabel from '@/components/common/SectionLabel.astro';
-import { ImpactBlock, ImpactCaption, ImpactValue } from '@/components/works';
+import { ImpactBlock, ImpactCaption, ImpactValue, TechBadges } from '@/components/works';
 import ArchitectureComparison from '@/components/works/ArchitectureComparison.astro';
 import ScreenshotGallery from '@/components/works/ScreenshotGallery.astro';
 import { kanjiNumerals } from '@/data/about';
@@ -350,9 +350,7 @@ const pageJsonLd = {
               </table>
             </div>
           )}
-          <ul class="flex flex-wrap gap-x-5 gap-y-1.5 text-[14px] tracking-[0.04em]">
-            {work.technologies.map((tech) => <li>{tech}</li>)}
-          </ul>
+          <TechBadges technologies={work.technologies} size="md" className="gap-2" />
         </div>
       </div>
     </section>

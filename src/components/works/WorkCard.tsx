@@ -1,6 +1,7 @@
 import type { Work } from '@/types/works';
 import { WORK_CATEGORY_LABELS, formatWorkNumber, formatWorkPeriod } from '@/data/works';
 import { ImpactBlock, ImpactValue, KindMark, WorkFigure } from './Impact';
+import { TechBadges } from './TechBadges';
 
 interface WorkCardProps {
   work: Work;
@@ -69,9 +70,7 @@ export const WorkCard = ({ work, number }: WorkCardProps) => {
           )}
         </div>
       )}
-      <p className="text-xs tracking-[0.08em] text-muted-foreground">
-        {work.technologies.join(' · ')}
-      </p>
+      <TechBadges technologies={work.technologies} />
       {(work.website_url || work.github_url) && (
         <p className="flex flex-wrap gap-x-6 gap-y-1 text-[13px] tracking-[0.06em]">
           {work.website_url && (
