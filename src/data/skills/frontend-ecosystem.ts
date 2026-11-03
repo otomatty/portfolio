@@ -38,7 +38,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'アプリ全体の状態管理基盤',
       },
     ],
@@ -93,7 +93,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: '各種入力フォームの実装',
       },
     ],
@@ -122,7 +122,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'フォームバリデーションとAPI型定義',
       },
     ],
@@ -158,7 +158,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'UIアニメーションの実装',
       },
     ],
@@ -222,7 +222,7 @@ export const frontendEcosystemSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'コンポーネントカタログの整備',
       },
     ],

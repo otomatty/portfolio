@@ -87,13 +87,8 @@ export const frontendStylingSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'サービスサイト・管理画面のスタイリング',
-      },
-      {
-        name: 'Skill Quest AI',
-        url: 'https://github.com/otomatty/skill-quest-ai',
-        description: 'LXPプロトタイプのUI実装',
       },
     ],
     learning: ['Tailwind CSS v4', '@layer 活用'],
@@ -171,13 +166,8 @@ export const frontendStylingSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'サービス全体のUIコンポーネント基盤',
-      },
-      {
-        name: 'Skill Quest AI',
-        url: 'https://github.com/otomatty/skill-quest-ai',
-        description: 'LXPプロトタイプのUIコンポーネント',
       },
     ],
     learning: ['新規コンポーネントの追加対応'],

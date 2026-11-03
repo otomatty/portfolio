@@ -37,7 +37,7 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Saedgewell Portfolio',
-        url: 'https://github.com/otomatty/saedgewell',
+        url: 'https://github.com/otomatty/portfolio',
         description: 'ポートフォリオサイトのマークアップとスタイリング',
       },
     ],
@@ -75,7 +75,7 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'クライアントサイドロジックの実装',
       },
     ],
@@ -116,7 +116,7 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: '業務アプリの型設計とUI実装でTypeScriptを活用',
       },
       {
@@ -132,9 +132,9 @@ export const frontendCoreSkills: SkillRecord[] = [
     ],
     links: [
       {
-        type: 'repository',
-        name: 'GitHub: Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        type: 'project',
+        name: '香典帳アプリ',
+        url: 'https://kouden.app',
       },
     ],
     learning: ['高度な型テクニック', '型テストの導入', 'Zod連携強化'],
@@ -171,17 +171,12 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Saedgewell Portfolio',
-        url: 'https://github.com/otomatty/saedgewell',
+        url: 'https://github.com/otomatty/portfolio',
         description: 'ポートフォリオサイトのUI実装と構成整理',
       },
       {
-        name: 'Skill Quest AI',
-        url: 'https://github.com/otomatty/skill-quest-ai',
-        description: 'LXPプロトタイプのUI設計と画面構成',
-      },
-      {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: '業務アプリのUI改善とコンポーネント整理',
       },
     ],
@@ -189,7 +184,7 @@ export const frontendCoreSkills: SkillRecord[] = [
       {
         type: 'repository',
         name: 'GitHub: Saedgewell Portfolio',
-        url: 'https://github.com/otomatty/saedgewell',
+        url: 'https://github.com/otomatty/portfolio',
       },
     ],
     learning: ['React Server Components', 'Remix', 'アクセシビリティ改善'],
@@ -228,7 +223,7 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Kouden',
-        url: 'https://github.com/otomatty/kouden',
+        url: 'https://kouden.app',
         description: 'サービスサイト/管理画面の構成整理とUI実装',
       },
       {
@@ -280,7 +275,7 @@ export const frontendCoreSkills: SkillRecord[] = [
     projects: [
       {
         name: 'Saedgewell Portfolio',
-        url: 'https://github.com/otomatty/saedgewell',
+        url: 'https://github.com/otomatty/portfolio',
         description: 'ポートフォリオサイトの構築',
       },
     ],
