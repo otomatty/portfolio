@@ -1,6 +1,6 @@
 ---
 import SectionLabel from '@/components/common/SectionLabel.astro';
-import { ImpactBlock, KindMark, ImpactValue, WorkFigure } from '@/components/works';
+import { ImpactBlock, KindMark, ImpactValue, TechBadges, WorkFigure } from '@/components/works';
 import { homepageCopy } from '@/data/homepage';
 import { WORK_CATEGORY_LABELS, formatWorkNumber, formatWorkPeriod, getHeadlineImpact } from '@/data/works';
 import type { Work } from '@/types/works';
@@ -102,7 +102,7 @@ const no = (work: Work) => formatWorkNumber(numbers[work.slug]);
                     ))}
                   </ul>
                 )}
-                <p class="text-xs tracking-[0.08em] text-muted-foreground">{work.technologies.join(' · ')}</p>
+                <TechBadges technologies={work.technologies} />
                 <p class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] tracking-[0.06em]">
                   <a href={`/works/${work.slug}`} class="py-1.5 transition-colors hover:text-gold">
                     {copy.viewDetail} →
