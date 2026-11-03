@@ -4,6 +4,8 @@ import PageLayout from '@/layouts/PageLayout.astro';
 import PillLink from '@/components/common/PillLink.astro';
 import SectionLabel from '@/components/common/SectionLabel.astro';
 import { ImpactBlock, ImpactCaption, ImpactValue } from '@/components/works';
+import ArchitectureComparison from '@/components/works/ArchitectureComparison.astro';
+import ScreenshotGallery from '@/components/works/ScreenshotGallery.astro';
 import { kanjiNumerals } from '@/data/about';
 import {
   WORK_CATEGORY_LABELS,
@@ -38,16 +40,25 @@ const meta = [
   { label: '体制', value: work.team },
   { label: '役割', value: work.role },
   { label: '分野', value: work.industry },
+  { label: '参考にしたサービス', value: work.cloneOf },
 ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 
 const impacts = work.impacts ?? [];
 // 前後を比べられる数値だけを「数値」の節に並べる
 const comparisons = impacts.filter((impact) => impact.before);
 
+// 先頭の画像（thumbnail）以外の画面を「画面」の節に並べる
+const heroCaption = work.screenshots?.find((shot) => shot.src === work.thumbnail)?.caption;
+const gallery = (work.screenshots ?? []).filter((shot) => shot.src !== work.thumbnail);
+
 // ある節にだけ漢数字を振る
 const sections = [
-  work.goal || work.challenges?.length ? 'goal' : null,
+  work.goal || work.challenges?.length || work.features?.length ? 'goal' : null,
+  gallery.length ? 'screens' : null,
   work.approach?.length ? 'approach' : null,
+  work.highlights?.length ? 'highlights' : null,
+  work.techFeatures?.length ? 'tech' : null,
+  work.architecture ? 'architecture' : null,
   comparisons.length ? 'numbers' : null,
   'basis',
 ].filter((id): id is string => id !== null);
@@ -152,6 +163,7 @@ const pageJsonLd = {
             />
           </div>
         </figure>
+        {heroCaption && <p class="mt-3 text-[13px] text-muted-foreground">{heroCaption}</p>}
       </div>
     )}
 
@@ -189,7 +201,30 @@ const pageJsonLd = {
                 </ul>
               </div>
             )}
+            {work.features && work.features.length > 0 && (
+              <div class="grid gap-3">
+                <p class="text-[11.5px] tracking-[0.14em] text-gold">主な機能</p>
+                <ul class="border-t">
+                  {work.features.map((feature) => (
+                    <li class="border-b py-3.5 text-[14.5px] text-muted-foreground">{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+        </div>
+      </section>
+    )}
+
+    {sections.includes('screens') && (
+      <section class="detail-section border-b" aria-labelledby="screens-title">
+        <div class="container mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:px-8">
+          <div class="detail-heading">
+            <span aria-hidden="true">{numeral('screens')}</span>
+            <h2 id="screens-title">画面</h2>
+            <p>画像を押すと大きく表示します。</p>
+          </div>
+          <ScreenshotGallery screenshots={gallery} title={work.title} />
         </div>
       </section>
     )}
@@ -212,6 +247,43 @@ const pageJsonLd = {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+    )}
+
+    {[
+      { id: 'highlights', title: '工夫した点', items: work.highlights },
+      { id: 'tech', title: '技術的な特徴', items: work.techFeatures },
+    ].map((block) =>
+      sections.includes(block.id) && (
+        <section class="detail-section border-b" aria-labelledby={`${block.id}-title`}>
+          <div class="detail-grid container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div class="detail-heading">
+              <span aria-hidden="true">{numeral(block.id)}</span>
+              <h2 id={`${block.id}-title`}>{block.title}</h2>
+            </div>
+            <ul class="border-t">
+              {block.items?.map((item) => (
+                <li class="grid gap-1 border-b py-4">
+                  <p class="text-[15px] leading-relaxed">{item.title}</p>
+                  {item.detail && <p class="text-[13.5px] leading-relaxed text-muted-foreground">{item.detail}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    )}
+
+    {work.architecture && (
+      <section class="detail-section border-b" aria-labelledby="architecture-title">
+        <div class="container mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:px-8">
+          <div class="detail-heading">
+            <span aria-hidden="true">{numeral('architecture')}</span>
+            <h2 id="architecture-title">構成 — Cloudflare と AWS</h2>
+            <p>実際に Cloudflare で動かしている構成と、同じ機能を AWS で作る場合を並べています。</p>
+          </div>
+          <ArchitectureComparison architecture={work.architecture} />
         </div>
       </section>
     )}
