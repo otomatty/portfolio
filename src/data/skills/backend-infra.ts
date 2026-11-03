@@ -50,13 +50,6 @@ export const backendInfraSkills: SkillRecord[] = [
     scope: ['REST API設計', 'ミドルウェア構成', 'ルーティング', 'エラーハンドリング'],
     strengths: ['豊富なエコシステム活用', 'ミドルウェアパターンの理解'],
     useCases: ['REST APIサーバー構築', 'プロトタイプ開発'],
-    projects: [
-      {
-        name: 'estimate-agent',
-        url: 'https://github.com/otomatty/estimate-agent',
-        description: 'Mastraを使用した見積もりエージェント',
-      },
-    ],
     learning: ['エラーハンドリング最適化', 'セキュリティベストプラクティス'],
     interests: ['Fastify', 'NestJS'],
   },
@@ -382,23 +375,6 @@ export const backendInfraSkills: SkillRecord[] = [
       '個人開発でのCLIツール作成',
       'Leptosを使用したWebアプリプロトタイプ',
     ],
-    projects: [
-      {
-        name: 'development-tools',
-        url: 'https://github.com/otomatty/development-tools',
-        description: '開発体験をより面白くするツール',
-      },
-      {
-        name: 'gh-activitylog-server',
-        url: 'https://github.com/otomatty/gh-activitylog-server',
-        description: 'GitHubの活動履歴を取得・整形してJSONを返すサーバー',
-      },
-      {
-        name: 'lightning-mock',
-        url: 'https://github.com/otomatty/lightning-mock',
-        description: '高速モックサーバー',
-      },
-    ],
     learning: ['Leptosフルスタック開発', 'Axumによるバックエンド', 'Tauriデスクトップアプリ'],
     interests: ['Rust製プロダクション環境構築', 'WebAssembly活用'],
   },
@@ -427,18 +403,6 @@ export const backendInfraSkills: SkillRecord[] = [
       '個人開発でのMCPサーバー構築',
       'CLIツール作成',
     ],
-    projects: [
-      {
-        name: 'review-mcp-server',
-        url: 'https://github.com/otomatty/review-mcp-server',
-        description: 'MCPサーバー実装',
-      },
-      {
-        name: 'robbozle-game',
-        url: 'https://github.com/otomatty/robbozle-game',
-        description: 'Goを使用したゲーム開発',
-      },
-    ],
     learning: ['並行処理パターン', 'エラーハンドリング', 'テスト手法'],
     interests: ['マイクロサービス', 'gRPC', 'Kubernetes連携'],
   },
@@ -454,13 +418,6 @@ export const backendInfraSkills: SkillRecord[] = [
     scope: ['REST API開発', 'スクリプト作成', 'データ処理'],
     strengths: ['FastAPIでの型安全なAPI設計', 'シンプルな構文での迅速な開発'],
     useCases: ['個人開発でのAPIサーバー構築', '自動化スクリプト'],
-    projects: [
-      {
-        name: 'algo-trade',
-        url: 'https://github.com/otomatty/algo-trade',
-        description: 'アルゴリズム取引システム',
-      },
-    ],
     learning: ['FastAPI応用', '非同期処理'],
     interests: ['AI/ML連携', 'データ分析'],
   },

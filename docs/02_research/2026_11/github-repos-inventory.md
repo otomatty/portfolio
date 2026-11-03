@@ -93,7 +93,7 @@
 
 ## 5. 残っている課題
 
-- スキルのデータ（`src/data/skills/*.ts`）に、削除・非公開のリポジトリへのリンクが残っている: `saedgewell`、`kouden`（非公開）、`skill-quest-ai`、`estimate-agent`、`development-tools`、`gh-activitylog-server`、`lightning-mock`、`review-mcp-server`、`robbozle-game`、`algo-trade`
+- スキルのデータ（`src/data/skills/*.ts`）の、削除・非公開・閲覧できないリポジトリへのリンクは直した。香典帳は公開サイト（https://kouden.app ）へ、旧ポートフォリオは今のリポジトリ（`otomatty/portfolio`）へ差し替え、削除されたリポジトリの項目は消した
 - 外した実績の画像（`public/images/works/` の skill-quest-ai・career-gems・kaki-map-hero・paper-ocr-tool・robbozle-game・saedgewell・ofunato-mokumoku の旧サムネイル）は残している。再掲載しないと決めたら消す
 
 ## 6. 大船渡もくもく会の公開サイトの対応
