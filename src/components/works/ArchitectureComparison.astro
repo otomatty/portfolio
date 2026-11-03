@@ -1,0 +1,353 @@
+---
+import { CLOUD_SERVICES } from '@/data/cloud-services';
+import type { ArchitectureComparison, ArchitectureDiagram, CloudServiceId } from '@/types/works';
+
+interface Props {
+  architecture: ArchitectureComparison;
+}
+
+const { architecture } = Astro.props;
+
+/**
+ * 図に出てくる順の、利用者や外部サービスを除いたサービス。
+ * API Gateway の HTTP と WebSocket のように同じアイコンのものは 1 つと数える
+ */
+const servicesOf = (diagram: ArchitectureDiagram): CloudServiceId[] => {
+  const byIcon = new Map<string, CloudServiceId>();
+  for (const tier of diagram.tiers) {
+    for (const { service } of tier.nodes) {
+      const { icon, vendor } = CLOUD_SERVICES[service];
+      if (vendor !== 'external' && !byIcon.has(icon)) byIcon.set(icon, service);
+    }
+  }
+  return [...byIcon.values()];
+};
+
+const panels = [
+  { key: 'cloudflare', label: 'Cloudflare', heading: '実際に動かしている構成', diagram: architecture.cloudflare },
+  { key: 'aws', label: 'AWS', heading: '同じものを AWS で作る場合', diagram: architecture.aws },
+].map((panel) => ({ ...panel, services: servicesOf(panel.diagram) }));
+---
+
+<div class="arch">
+  <dl class="arch-count" aria-label="使うサービスの数">
+    {panels.map((panel) => (
+      <div class={`arch-count-row is-${panel.key}`}>
+        <dt>{panel.label}</dt>
+        <dd>
+          <span class="arch-count-icons">
+            {panel.services.map((id) => (
+              <img src={CLOUD_SERVICES[id].icon} alt={CLOUD_SERVICES[id].name} title={CLOUD_SERVICES[id].name} width="28" height="28" loading="lazy" decoding="async" />
+            ))}
+          </span>
+          <span class="arch-count-num"><span>{panel.services.length}</span> サービス</span>
+        </dd>
+      </div>
+    ))}
+  </dl>
+
+  {panels.map((panel) => (
+    <figure class={`arch-panel is-${panel.key}`}>
+      <figcaption class="arch-head">
+        <span class="arch-vendor">{panel.label}</span>
+        <span>{panel.heading}</span>
+      </figcaption>
+      <ol class="arch-flow">
+        {panel.diagram.tiers.map((tier) => (
+          <li class="arch-tier">
+            <p class="arch-tier-label">
+              {tier.label}
+              {tier.zone && <span>{tier.zone}</span>}
+            </p>
+            <ul class="arch-nodes">
+              {tier.nodes.map((node) => {
+                const service = CLOUD_SERVICES[node.service];
+                return (
+                  <li class={`arch-node is-${service.vendor}`}>
+                    <img src={service.icon} alt="" width="34" height="34" loading="lazy" decoding="async" />
+                    <span class="arch-node-text">
+                      <span class="arch-node-name">{node.name ?? service.name}</span>
+                      <span class="arch-node-role">{node.role}</span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        ))}
+      </ol>
+      {panel.diagram.note && <p class="arch-note">{panel.diagram.note}</p>}
+    </figure>
+  ))}
+
+  <div class="overflow-x-auto">
+    <table class="arch-diff">
+      <thead>
+        <tr>
+          <th scope="col">観点</th>
+          <th scope="col">Cloudflare</th>
+          <th scope="col">AWS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {architecture.differences.map((row) => (
+          <tr>
+            <th scope="row">{row.aspect}</th>
+            <td>{row.cloudflare}</td>
+            <td>{row.aws}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="arch-credit">
+    アイコン: <a href="https://aws.amazon.com/architecture/icons/" target="_blank" rel="noopener noreferrer">AWS Architecture Icons</a>、
+    <a href="https://github.com/cloudflare/cloudflare-docs" target="_blank" rel="noopener noreferrer">Cloudflare Docs</a>（CC BY 4.0、色を変更）
+  </p>
+</div>
+
+<style>
+  .arch {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .arch-count {
+    display: grid;
+    gap: 0.9rem;
+    padding-block: 1.25rem;
+    border-block: 1px solid hsl(var(--border));
+  }
+
+  .arch-count-row {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .arch-count-row dt {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-count-row.is-cloudflare dt {
+    color: var(--gold);
+  }
+
+  .arch-count-row dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+  }
+
+  .arch-count-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .arch-count-icons img {
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+  }
+
+  .arch-count-num {
+    font-size: 12.5px;
+    color: hsl(var(--muted-foreground));
+    white-space: nowrap;
+  }
+
+  .arch-count-num > span {
+    margin-right: 0.15em;
+    font-weight: 200;
+    font-size: 1.6rem;
+    color: hsl(var(--foreground));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .arch-panel {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: 1px solid var(--gold-dim);
+    background: color-mix(in srgb, hsl(var(--card)) 70%, transparent);
+  }
+
+  /* AWS は「作る場合」の想定なので破線で囲む */
+  .arch-panel.is-aws {
+    border: 1px dashed hsl(var(--muted-foreground) / 0.45);
+    background: transparent;
+  }
+
+  .arch-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.9rem;
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-vendor {
+    font-weight: 300;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    color: hsl(var(--foreground));
+  }
+
+  .is-cloudflare .arch-vendor {
+    color: var(--gold);
+  }
+
+  .arch-flow {
+    display: grid;
+    gap: 2.2rem;
+  }
+
+  .arch-tier {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+  }
+
+  /* 段と段のあいだに流れの矢印を置く（狭い画面では下向き） */
+  .arch-tier + .arch-tier::before {
+    content: '↓';
+    position: absolute;
+    top: -1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    line-height: 1;
+    color: var(--gold-dim);
+  }
+
+  .arch-tier-label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.6rem;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-tier-label > span {
+    padding: 0 0.45rem;
+    border: 1px solid hsl(var(--border));
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .arch-nodes {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .arch-node {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+  }
+
+  .arch-node img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+  }
+
+  .arch-node-text {
+    display: grid;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .arch-node-name {
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    overflow-wrap: anywhere;
+  }
+
+  .arch-node-role {
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-note {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-diff {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .arch-diff th,
+  .arch-diff td {
+    padding: 0.75rem 1rem 0.75rem 0;
+    border-bottom: 1px solid hsl(var(--border));
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .arch-diff thead th {
+    font-weight: 400;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+
+  .arch-diff tbody th {
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .arch-diff td {
+    width: 42%;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-credit {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .arch-credit a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (min-width: 900px) {
+    .arch-flow {
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
+      gap: 2.25rem;
+    }
+
+    .arch-tier + .arch-tier::before {
+      content: '→';
+      top: 2.45rem;
+      left: -1.6rem;
+      transform: none;
+    }
+  }
+</style>

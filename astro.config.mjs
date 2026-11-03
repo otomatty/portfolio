@@ -21,6 +21,8 @@ export default defineConfig({
     '/works/company': '/works?category=client',
     '/works/freelance': '/works?category=contract',
     '/works/personal': '/works?category=personal',
+    // AIDLC Guide was renamed to Andon for AI-DLC (repository otomatty/andon-for-aidlc).
+    '/works/aidlc-guide': '/works/andon-for-aidlc',
   },
   // Opt-in link prefetching: only `<a data-astro-prefetch>` links are
   // prefetched, on `hover`. `prefetchAll` is pinned to false so prefetching

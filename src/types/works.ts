@@ -45,6 +45,94 @@ export interface WorkBasis {
   method: string;
 }
 
+/** 画面の画像 1 枚 */
+export interface WorkScreenshot {
+  /** public からのパス（例: /images/works/kaiwa-1.webp） */
+  src: string;
+  /** 何の画面か（例: チャンネルの会話とスレッド） */
+  caption: string;
+}
+
+/**
+ * 構成図に置くサービス。アイコンと名前は src/data/cloud-services.ts に置く
+ */
+export type CloudServiceId =
+  | 'browser'
+  | 'google'
+  | 'llm'
+  | 'cloudflare-workers'
+  | 'cloudflare-static-assets'
+  | 'cloudflare-d1'
+  | 'cloudflare-r2'
+  | 'cloudflare-durable-objects'
+  | 'cloudflare-kv'
+  | 'cloudflare-queues'
+  | 'cloudflare-cron'
+  | 'cloudflare-browser-rendering'
+  | 'cloudflare-email'
+  | 'cloudflare-workers-ai'
+  | 'cloudflare-images'
+  | 'cloudflare-pages'
+  | 'aws-cloudfront'
+  | 'aws-s3'
+  | 'aws-api-gateway'
+  | 'aws-api-gateway-websocket'
+  | 'aws-lambda'
+  | 'aws-aurora'
+  | 'aws-dynamodb'
+  | 'aws-elasticache'
+  | 'aws-sqs'
+  | 'aws-ses'
+  | 'aws-eventbridge'
+  | 'aws-step-functions'
+  | 'aws-cognito'
+  | 'aws-appsync'
+  | 'aws-fargate'
+  | 'aws-secrets-manager'
+  | 'aws-bedrock'
+  | 'aws-opensearch';
+
+/** 構成図の箱 1 つ */
+export interface ArchitectureNode {
+  service: CloudServiceId;
+  /** そのアプリでの役割（例: 会話のリアルタイム配信） */
+  role: string;
+  /** サービス名を差し替えるとき（既定は cloud-services.ts の名前） */
+  name?: string;
+}
+
+/** 構成図の段。左から右へ流れる */
+export interface ArchitectureTier {
+  /** 段の名前（例: 配信・API、リアルタイム、データ） */
+  label: string;
+  /** 段が動く場所（例: エッジ、東京リージョン） */
+  zone?: string;
+  nodes: ArchitectureNode[];
+}
+
+/** 1 つの環境の構成図 */
+export interface ArchitectureDiagram {
+  tiers: ArchitectureTier[];
+  /** 図の下に添える 1 行 */
+  note?: string;
+}
+
+/** 観点ごとの違い */
+export interface ArchitectureDifference {
+  aspect: string;
+  cloudflare: string;
+  aws: string;
+}
+
+/**
+ * 実際に動かしている Cloudflare の構成と、同じものを AWS で作る場合の比較
+ */
+export interface ArchitectureComparison {
+  cloudflare: ArchitectureDiagram;
+  aws: ArchitectureDiagram;
+  differences: ArchitectureDifference[];
+}
+
 /**
  * 実績1件。一覧・詳細・トップの展示室で共通に使う。
  */
@@ -69,6 +157,10 @@ export interface Work {
   masked?: boolean;
   /** 画面の画像。無いときは成果の数値を図にして見せる */
   thumbnail?: string;
+  /** 詳細ページに並べる画面。thumbnail と同じ画像はページの先頭に置く */
+  screenshots?: WorkScreenshot[];
+  /** 参考にした既存のサービス（例: Slack）。クローンとして作ったものだけ */
+  cloneOf?: string;
   technologies: string[];
   github_url: string | null;
   website_url: string | null;
@@ -80,6 +172,14 @@ export interface Work {
   challenges?: string[];
   /** 打ち手 */
   approach?: WorkApproach[];
+  /** 主な機能 */
+  features?: string[];
+  /** 工夫した点 */
+  highlights?: WorkApproach[];
+  /** 技術的な特徴 */
+  techFeatures?: WorkApproach[];
+  /** Cloudflare と AWS の構成の比較 */
+  architecture?: ArchitectureComparison;
   /** 数値成果。先頭がカードや一覧の見出しになる */
   impacts?: Impact[];
   /** 数値の測り方 */

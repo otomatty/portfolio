@@ -1,0 +1,141 @@
+---
+import type { WorkScreenshot } from '@/types/works';
+
+interface Props {
+  screenshots: WorkScreenshot[];
+  title: string;
+}
+
+const { screenshots, title } = Astro.props;
+---
+
+<div class="gallery" data-gallery>
+  <ul class="gallery-grid">
+    {screenshots.map((shot) => (
+      <li>
+        <figure class="grid gap-2.5">
+          <button type="button" class="gallery-thumb" data-src={shot.src} data-caption={shot.caption} aria-label={`${shot.caption}の画面を拡大する`}>
+            <img
+              src={shot.src}
+              alt={`${title}: ${shot.caption}`}
+              width="1920"
+              height="1060"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+          <figcaption class="text-[13px] leading-relaxed text-muted-foreground">{shot.caption}</figcaption>
+        </figure>
+      </li>
+    ))}
+  </ul>
+
+  <dialog class="gallery-dialog" aria-label={`${title} の画面`}>
+    <form method="dialog" class="gallery-close-form">
+      <button type="submit" class="gallery-close" aria-label="閉じる">閉じる ×</button>
+    </form>
+    <figure class="grid gap-3">
+      <img src="" alt="" class="gallery-full" />
+      <figcaption class="gallery-full-caption text-[13px] text-muted-foreground"></figcaption>
+    </figure>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const dialog = gallery.querySelector('dialog');
+    const full = gallery.querySelector<HTMLImageElement>('.gallery-full');
+    const caption = gallery.querySelector('.gallery-full-caption');
+    if (!dialog || !full || !caption) return;
+
+    gallery.querySelectorAll<HTMLButtonElement>('.gallery-thumb').forEach((button) => {
+      button.addEventListener('click', () => {
+        full.src = button.dataset.src ?? '';
+        full.alt = button.dataset.caption ?? '';
+        caption.textContent = button.dataset.caption ?? '';
+        dialog.showModal();
+      });
+    });
+
+    // 画像の外側（背景）を押したら閉じる
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+</script>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    gap: 2rem 1.5rem;
+  }
+
+  .gallery-thumb {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    cursor: zoom-in;
+  }
+
+  .gallery-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s ease-out;
+  }
+
+  .gallery-thumb:hover img {
+    transform: scale(1.02);
+  }
+
+  .gallery-thumb:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .gallery-dialog {
+    width: min(96vw, 1400px);
+    max-width: none;
+    max-height: 94vh;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .gallery-dialog::backdrop {
+    background: rgb(0 0 0 / 0.72);
+  }
+
+  .gallery-close-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.6rem;
+  }
+
+  .gallery-close {
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .gallery-close:hover {
+    color: var(--gold);
+  }
+
+  .gallery-full {
+    display: block;
+    width: 100%;
+    max-height: calc(94vh - 6rem);
+    object-fit: contain;
+  }
+
+  @media (min-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
